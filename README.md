@@ -1,3 +1,4 @@
 # Pacman-IS2022
 
-test change
+# Project Description:
+PacMan game created with Java.
