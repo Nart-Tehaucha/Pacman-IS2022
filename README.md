@@ -2,3 +2,4 @@
 
 # Project Description:
 PacMan game created with Java.
+Kim Segal
