@@ -3,6 +3,9 @@ package controllers;
 import modules.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+// Data about the map and the positions of the objects.
+// Used to design the layout of the map.
 public class MapData {
 
     private int x;

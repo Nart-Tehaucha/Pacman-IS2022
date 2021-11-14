@@ -2,6 +2,7 @@ package modules;
 
 import java.awt.*;
 
+// Defines message types (update, collision test, reset), and sets an action for every one of them.
 public class Messages {
 
     public static final int UPDATE = AWTEvent.RESERVED_ID_MAX + 1;

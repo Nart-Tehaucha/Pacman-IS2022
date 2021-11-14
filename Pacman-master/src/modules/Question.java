@@ -1,6 +1,8 @@
 package modules;
 
 import java.util.HashMap;
+
+// Class for Questions.
 public class Question {
 	public int id;
 	public String teamName;

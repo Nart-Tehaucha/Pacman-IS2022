@@ -1,10 +1,11 @@
 package modules;
 import java.awt.*;
 
+// Class for handling passage tunnels
 public class TeleportTunnel {
 
-    private Point from;
-    private Point to;
+    private Point from; // Entrance of tunnel
+    private Point to; // Exit of tunnel
     private moveType reqMove;
 
     public Point getTo() {

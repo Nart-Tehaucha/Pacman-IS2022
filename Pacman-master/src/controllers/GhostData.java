@@ -1,6 +1,8 @@
 package controllers;
 
 import modules.*;
+
+// Saves data about the ghosts: Position and Type
 public class GhostData {
     private int x;
     private int y;

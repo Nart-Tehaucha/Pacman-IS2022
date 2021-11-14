@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+// Generic class for Ghost. Handles ghost position, status, and movement.
 public abstract class Ghost {
     //Anim Vars
     public Timer animTimer;
@@ -54,23 +54,26 @@ public abstract class Ghost {
     public Point pixelPosition;
     public Point logicalPosition;
 
+    // Sprite of the ghost for every direction (up, down, left, right)
     Image[] ghostR;
     Image[] ghostL;
     Image[] ghostU;
     Image[] ghostD;
 
-    Image[] ghostW;
-    Image[] ghostWW;
+    Image[] ghostW; // Sprite for "weak" ghost, after player eats bomb
+    Image[] ghostWW; // Sprite for "weak" ghost, after player eats bomb
     Image ghostEye;
 
     int ghostNormalDelay;
     int ghostWeakDelay = 30;
     int ghostDeadDelay = 5;
 
+    // Calculates the ghost's path to the base
     BFSFinder baseReturner;
 
     protected PacBoard parentBoard;
 
+    // Constructor
     public Ghost (int x, int y,PacBoard pb,int ghostDelay) {
 
         logicalPosition = new Point(x,y);
@@ -115,7 +118,8 @@ public abstract class Ghost {
         };
         animTimer = new Timer(100,animAL);
         animTimer.start();
-
+        
+        // Handles the movement of the Ghosts around the map.
         moveAL = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
 
@@ -240,6 +244,8 @@ public abstract class Ghost {
         activeMove = getMoveAI();
 
     }
+    
+    // ---END OF CONSTRUCTOR---
 
     //load Images from Resource
     public abstract void loadImages();
@@ -272,7 +278,8 @@ public abstract class Ghost {
 
         return possibleMoves;
     }
-
+    
+    // Gets the sprite of the ghost according to it's direction (up, down, left, right)
     public Image getGhostImage(){
         if(!isDead) {
             if (!isWeak) {
@@ -299,7 +306,7 @@ public abstract class Ghost {
         }
     }
 
-
+    // Makes ghost "weak" (after player eats bomb)
     public void weaken(){
         isWeak = true;
         moveTimer.setDelay(ghostWeakDelay);
@@ -307,17 +314,17 @@ public abstract class Ghost {
         isWhite = false;
         unWeakenTimer1.start();
     }
-
+    // Makes ghost normal.
     public void unweaken(){
         isWeak = false;
         moveTimer.setDelay(ghostNormalDelay);
     }
-
+    // Kills ghost
     public void die(){
         isDead = true;
         moveTimer.setDelay(ghostDeadDelay);
     }
-
+    // Respwans ghost
     public void undie(){
         //Shift Left Or Right
         int r = ThreadLocalRandom.current().nextInt(3);

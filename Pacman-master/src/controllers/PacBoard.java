@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
 
 
@@ -26,10 +27,10 @@ public class PacBoard extends JPanel{
     public Image vicImage;
 
     public Pacman pacman;
-    public ArrayList<Food> foods;
-    public ArrayList<PowerUpFood> pufoods;
+    public ArrayList<Food> foods; // Regular foods (pac points)
+    public ArrayList<PowerUpFood> pufoods; // Power Up foods (bombs, special fruit)
     public ArrayList<Ghost> ghosts;
-    public ArrayList<TeleportTunnel> teleports;
+    public ArrayList<TeleportTunnel> teleports; // Teleports = Passages
 
     public boolean isCustom = false;
     public boolean isGameOver = false;
@@ -53,6 +54,7 @@ public class PacBoard extends JPanel{
     public MapData md_backup;
     public PacWindow windowParent;
 
+    // Constructor
     public PacBoard(JLabel scoreboard, MapData md, PacWindow pw){
         this.scoreboard = scoreboard;
         this.setDoubleBuffered(true);
@@ -71,10 +73,10 @@ public class PacBoard extends JPanel{
         pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
 
-        foods = new ArrayList<>();
-        pufoods = new ArrayList<>();
+        foods = new ArrayList<>(); // Regular foods (pac points)
+        pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
         ghosts = new ArrayList<>();
-        teleports = new ArrayList<>();
+        teleports = new ArrayList<>(); // Teleports = Passages
 
         //TODO : read food from mapData (Map 1)
 
@@ -108,10 +110,12 @@ public class PacBoard extends JPanel{
 
         teleports = md.getTeleports();
 
+        // Set layout of the map (size, background color)
         setLayout(null);
         setSize(20*m_x,20*m_y);
         setBackground(Color.black);
 
+        // Load images for all segments of the map
         mapSegments = new Image[28];
         mapSegments[0] = null;
         for(int ms=1;ms<28;ms++){
@@ -134,6 +138,7 @@ public class PacBoard extends JPanel{
         }catch(Exception e){}
 
 
+        // Draw the board
         redrawAL = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //Draw Board
@@ -143,12 +148,15 @@ public class PacBoard extends JPanel{
         redrawTimer = new Timer(16,redrawAL);
         redrawTimer .start();
 
+        // Start playing sounds
         //SoundPlayer.play("pacman_start.wav");
         siren = new LoopPlayer("siren.wav");
         pac6 = new LoopPlayer("pac6.wav");
         siren.start();
     }
 
+    
+    // Checks if the player colided with another object (wall, ghost, food)
     public void collisionTest(){
         Rectangle pr = new Rectangle(pacman.pixelPosition.x+13,pacman.pixelPosition.y+13,2,2);
         Ghost ghostToRemove = null;
@@ -188,6 +196,7 @@ public class PacBoard extends JPanel{
         }
     }
 
+    // Updates the state of the map (checks if food has been eaten, if a ghost died, if player passed through a passage)
     public void update(){
 
         Food foodToEat = null;
@@ -282,6 +291,7 @@ public class PacBoard extends JPanel{
     }
 
 
+    // Draws all objects on the map
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -375,7 +385,7 @@ public class PacBoard extends JPanel{
 
     }
 
-
+    // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
     public void processEvent(AWTEvent ae){
 
@@ -393,6 +403,8 @@ public class PacBoard extends JPanel{
         }
     }
 
+    
+    // Restarts the game.
     public void restart(){
 
         siren.stop();

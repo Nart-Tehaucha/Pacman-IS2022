@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+//Class for the Pink Ghost. Inherits from Ghost.
 public class PinkGhost extends Ghost {
 
     public PinkGhost(int x, int y,PacBoard pb){

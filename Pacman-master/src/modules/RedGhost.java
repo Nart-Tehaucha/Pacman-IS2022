@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+//Class for the Red Ghost. Inherits from Ghost.
 public class RedGhost extends Ghost {
 
     BFSFinder bfs;

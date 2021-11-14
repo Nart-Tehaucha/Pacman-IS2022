@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+// Class for the Cyan Ghost. Inherits from Ghost.
 public class CyanGhost extends Ghost {
 
     public CyanGhost(int x, int y,PacBoard pb){
