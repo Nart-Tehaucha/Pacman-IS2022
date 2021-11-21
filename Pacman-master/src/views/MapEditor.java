@@ -1,7 +1,7 @@
-package controllers;
+package views;
 
 import modules.*;
-import views.*;
+import controllers.*;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -11,8 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ThreadLocalRandom;
 
+// Window for editing a map, or creating new custom maps.
 public class MapEditor extends JFrame {
 
+	// Constructor
     public MapEditor(){
         setSize(650,400);
         setLocationRelativeTo(null);
@@ -89,7 +91,7 @@ public class MapEditor extends JFrame {
         setVisible(true);
     }
 
-    //Resolve Map
+    //Create a map from an input of text
     public static MapData compileMap(String input){
         int mx = input.indexOf('\n');
         int my = StringHelper.countLines(input);

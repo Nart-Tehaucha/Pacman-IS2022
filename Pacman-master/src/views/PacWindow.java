@@ -10,11 +10,15 @@ import java.awt.*;
 import java.util.Map;
 import java.util.Scanner;
 
+// Main window of the game screen.
 public class PacWindow extends JFrame {
 
+	// Default Constructor. Initializes the game screen.
     public PacWindow(){
-        setTitle("AKP Pacman v1.0");
+        setTitle("IS 2022 PacMan Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // Setup the game window and scoreboard
         setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
@@ -24,6 +28,7 @@ public class PacWindow extends JFrame {
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
 
+        // Load the default map layout
         MapData map1 = getMapFromResource("../resources/maps/map1_c.txt");
         adjustMap(map1);
 
@@ -43,7 +48,7 @@ public class PacWindow extends JFrame {
         map1.getPufoodPositions().add(new PowerUpFood(21,27,0));
         map1.setGhostBasePosition(new Point(12,14));*/
 
-
+        // Create a new game object.
         PacBoard pb = new PacBoard(scoreboard,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
@@ -53,10 +58,12 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
     }
-
+    // Second constructor, gets MapData as an argument
     public PacWindow(MapData md){
-        setTitle("AKP Pacman v1.0");
+        setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // Setup the game window and scoreboard
         setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
@@ -67,6 +74,8 @@ public class PacWindow extends JFrame {
         scoreboard.setForeground(new Color(255, 243, 36));
 
         //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
+        
+        // Load the custom map layout
         adjustMap(md);
         PacBoard pb = new PacBoard(scoreboard,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
@@ -77,7 +86,7 @@ public class PacWindow extends JFrame {
         setVisible(true);
     }
 
-
+    // Compiles a map from reading a text file, returns it as an int 2D array
     public int[][] loadMap(int mx,int my,String relPath){
         try {
             Scanner scn = new Scanner(this.getClass().getResourceAsStream(relPath));
@@ -95,6 +104,7 @@ public class PacWindow extends JFrame {
         return null;
     }
 
+    // Compiles a map from reading a text file, returns it as a MapData object
     public MapData getMapFromResource(String relPath){
         String mapStr = "";
         try {

@@ -3,6 +3,10 @@ package modules;
 import controllers.*;
 import views.*;
 import java.util.LinkedList;
+
+// Class for handling all the information in the system.
+// Saves history of all games
+// Saves all questions
 public class SysData {
 	public LinkedList<PacBoard> games;
 	public LinkedList<Question> questions;

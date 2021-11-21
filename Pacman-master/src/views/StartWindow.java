@@ -9,14 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+// Starting screen of the application.
 public class StartWindow extends JFrame {
 
+	// Constructor, initializes the start screen.
     public StartWindow(){
+    	// Setup the screen
         setSize(600,300);
         getContentPane().setBackground(Color.black);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        // Load Game logo
         ImageIcon logo = new ImageIcon();
         try {
             logo = new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/pacman_logo.png")));
@@ -32,6 +36,7 @@ public class StartWindow extends JFrame {
             e.printStackTrace();
         }
 
+        // Add elements to the screen (buttons)
         setLayout(new BorderLayout());
         getContentPane().add(new JLabel(logo),BorderLayout.NORTH);
 
@@ -45,6 +50,7 @@ public class StartWindow extends JFrame {
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         customButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Action listener for button presses
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,10 +72,7 @@ public class StartWindow extends JFrame {
         buttonsC.add(customButton);
 
         getContentPane().add(buttonsC);
-
-        System.out.print('\n');
-        System.out.println("PacMan v1.0   Developed By : Armin Kazemi");
-        System.out.println("-----------------------------------------");
+        
         setVisible(true);
     }
 }

@@ -1,6 +1,7 @@
 package modules;
 import java.awt.*;
 
+// Class for power up foods (bombs, special fruit)
 public class PowerUpFood {
 
     public Point position;

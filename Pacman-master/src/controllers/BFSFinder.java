@@ -5,7 +5,8 @@ import views.*;
 import java.awt.*;
 import java.util.*;
 
-//Finds Path Between two Maze Points Using Breadth-Frist Search (BFS)
+//Finds Path Between two Maze Points Using Breadth-First Search (BFS)
+//This is used to calculate how the ghosts navigate the maze
 public class BFSFinder {
 
     int[][] map;

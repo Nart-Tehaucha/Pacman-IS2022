@@ -11,8 +11,9 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// Class for handling the Pacman. 
 public class Pacman implements KeyListener{
-	static final int GAMESPEED = 2;
+	static final int GAMESPEED = 2; // Static variable that decides the movement speed of Pacman.
     //Move Vars
     public Timer moveTimer;
     public ActionListener moveAL;
@@ -32,7 +33,7 @@ public class Pacman implements KeyListener{
 
     public PacBoard parentBoard;
 
-
+    // Constructor
     public Pacman (int x, int y,PacBoard pb) {
 
         logicalPosition = new Point(x,y);
@@ -45,6 +46,7 @@ public class Pacman implements KeyListener{
         activeMove = moveType.NONE;
         todoMove = moveType.NONE;
 
+        // Load Pacman's sprites
         try {
             pac[0] = ImageIO.read(this.getClass().getResource("../resources/images/pac/pac0.png"));
             pac[1] = ImageIO.read(this.getClass().getResource("../resources/images/pac/pac1.png"));
@@ -67,7 +69,7 @@ public class Pacman implements KeyListener{
         animTimer = new Timer(40 / GAMESPEED,animAL);
         animTimer.start();
 
-
+        // Handles the movement of the Pacman around the map.
         moveAL = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
 
@@ -171,7 +173,7 @@ public class Pacman implements KeyListener{
         moveTimer.start();
 
     }
-
+    // Check if a move is possible
     public boolean isPossibleMove(moveType move){
         if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
             switch(move){
