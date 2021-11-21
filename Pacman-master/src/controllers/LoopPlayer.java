@@ -1,16 +1,17 @@
 package controllers;
+//hi delete it plss dddd
+//ok ok
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-/**
- * Created by Armin on 4/23/2016.
- */
+// This class loops sounds or stops sounds from looping.
 public class LoopPlayer {
 
     Clip clip;
     AudioInputStream inputStream;
 
+    // Loads the sound that will be played
     public LoopPlayer(String soundname){
         try {
             clip = AudioSystem.getClip();
@@ -22,6 +23,7 @@ public class LoopPlayer {
         }
     }
 
+    // Loops the sound
     public void start(){
         try {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -29,7 +31,7 @@ public class LoopPlayer {
             System.err.println(e.getMessage());
         }
     }
-
+    // Stops looping the sound
     public void stop(){
         try {
             clip.stop();
