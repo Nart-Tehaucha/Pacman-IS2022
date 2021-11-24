@@ -34,6 +34,8 @@ public class PacWindow extends JFrame {
 
         map1.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
         map1.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
+        map1.getTeleports().add(new TeleportTunnel(13,1,13,27,moveType.UP));
+        map1.getTeleports().add(new TeleportTunnel(13,27,13,1,moveType.DOWN));
         map1.setGhostBasePosition(new Point(12,14));
         
         map1.getGhostsData().add(new GhostData(12,17,ghostType.RED));
