@@ -16,7 +16,7 @@ public class FansyButton extends JLabel implements MouseListener {
         super(str);
         Font customFont;
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("../resources/fonts/crackman.ttf")).deriveFont(30f);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/resources/fonts/crackman.ttf")).deriveFont(30f);
             this.setFont(customFont);
         } catch (FontFormatException e) {
             e.printStackTrace();

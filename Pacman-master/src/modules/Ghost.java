@@ -90,22 +90,22 @@ public abstract class Ghost {
         //load weak Image
         ghostW = new Image[2];
         try {
-            ghostW[0] = ImageIO.read(this.getClass().getResource("../resources/images/ghost/blue/1.png"));
-            ghostW[1] = ImageIO.read(this.getClass().getResource("../resources/images/ghost/blue/3.png"));
+            ghostW[0] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/blue/1.png"));
+            ghostW[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/blue/3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         ghostWW = new Image[2];
         try {
-            ghostWW[0] = ImageIO.read(this.getClass().getResource("../resources/images/ghost/white/1.png"));
-            ghostWW[1] = ImageIO.read(this.getClass().getResource("../resources/images/ghost/white/3.png"));
+            ghostWW[0] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/white/1.png"));
+            ghostWW[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/white/3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            ghostEye = ImageIO.read(this.getClass().getResource("../resources/images/eye.png"));
+            ghostEye = ImageIO.read(this.getClass().getResource("/resources/images/eye.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
