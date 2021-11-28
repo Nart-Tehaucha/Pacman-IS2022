@@ -210,8 +210,12 @@ public class PacBoard extends JPanel{
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
+            
+            if(score >= 50) {
+            	System.out.println("succs");
+            }
 
-            if(foods.size() == 0){
+            if(foods.size() == 0 || score >= 50){
                 siren.stop();
                 pac6.stop();
                 SoundPlayer.play("pacman_intermission.wav");
@@ -220,6 +224,7 @@ public class PacBoard extends JPanel{
                 for(Ghost g : ghosts){
                     g.moveTimer.stop();
                 }
+                restart();
             }
         }
 
