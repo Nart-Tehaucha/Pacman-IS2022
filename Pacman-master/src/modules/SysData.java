@@ -18,13 +18,13 @@ import org.json.simple.parser.ParseException;
 import modules.Answer;
 import modules.Question;
 
-public class Sysdata {
+public class SysData {
 
-	private static Sysdata instance;
+	private static SysData instance;
 
-	public static Sysdata getInstance() {
+	public static SysData getInstance() {
 		if (instance == null)
-			instance = new Sysdata();
+			instance = new SysData();
 		return instance;
 	}
 
@@ -37,7 +37,7 @@ public class Sysdata {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		// questionID
 		int k = 1;
-		Object obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
+		Object obj = new JSONParser().parse(new FileReader("./Pacman-master/src/questionsJSON.json"));
 		JSONObject jo = (JSONObject) obj;
 		JSONArray arr = (JSONArray) jo.get("questions");
 
@@ -86,7 +86,8 @@ public class Sysdata {
 			for (Answer a : q.getAnswers()) {
 				list.add(a.getContent());
 			}
-			JSONArray answersarr = new JSONArray(list);
+			JSONArray answersarr = new JSONArray();
+			answersarr.add(list);
 
 			m.put("answers", answersarr);
 			m.put("correct_ans", "" + q.getCorrect_ans());

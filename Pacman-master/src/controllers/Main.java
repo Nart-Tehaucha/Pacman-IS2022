@@ -1,15 +1,16 @@
 package controllers;
 
+import modules.SysData;
+
 public class Main {
 	
 
 	
 	// Main class, opens the main screen
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //new StartWindow();
-    	System.out.println("tt");
-    	JFXLauncher.main(args);
-    	System.out.println("ss");
+    	//JFXLauncher.main(args);
+    	System.out.println(new SysData().readQuestionsJSON().toString());
     }
 
 
