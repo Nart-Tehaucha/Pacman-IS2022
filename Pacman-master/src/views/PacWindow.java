@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 // Main window of the game screen.
 public class PacWindow extends JFrame {
-
+	private PacBoard pb;
 	// Default Constructor. Initializes the game screen.
     public PacWindow(){
         setTitle("IS 2022 PacMan Game"); // Title of the game
@@ -52,7 +52,7 @@ public class PacWindow extends JFrame {
 //        map1.getPufoodPositions().add(new PowerUpFood(21,27,0));
 
         // Create a new game object.
-        PacBoard pb = new PacBoard(scoreboard,map1,this);
+        pb = new PacBoard(scoreboard,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
@@ -61,6 +61,7 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
     }
+    
     // Second constructor, gets MapData as an argument
     public PacWindow(MapData md){
         setTitle("IS 2022 PacMan Game"); // Title
@@ -266,5 +267,8 @@ public class PacWindow extends JFrame {
         System.out.println("Map Adjust OK !");
     }
 
+    public PacBoard getPacBoard() {
+    	return this.pb;
+    }
 
 }

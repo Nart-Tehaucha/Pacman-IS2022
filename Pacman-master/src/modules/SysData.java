@@ -76,6 +76,7 @@ public class SysData {
 		JSONObject jo = new JSONObject();
 		JSONArray ja = new JSONArray();
 
+		System.out.println(arrlistq.toString());
 		for (Question q : arrlistq) {
 
 			@SuppressWarnings("rawtypes")

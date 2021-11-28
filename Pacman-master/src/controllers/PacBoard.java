@@ -413,8 +413,9 @@ public class PacBoard extends JPanel{
     public void restart(){
 
         siren.stop();
-
-        new PacWindow();
+        
+        MapData map2 = MapEditor.compileMap("/resources/maps/map2_c.txt");
+        new PacWindow(map2);
         windowParent.dispose();
 
         /*
