@@ -93,6 +93,7 @@ public class MapEditor extends JFrame {
 
     //Create a map from an input of text
     public static MapData compileMap(String input){
+    	System.out.println(input);
         int mx = input.indexOf('\n');
         int my = StringHelper.countLines(input);
         System.out.println("Making Map "+mx+"x"+my);

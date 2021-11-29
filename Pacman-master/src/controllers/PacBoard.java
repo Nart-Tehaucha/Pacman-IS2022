@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
@@ -212,7 +213,6 @@ public class PacBoard extends JPanel{
             scoreboard.setText("    Score : "+score);
             
             if(score >= 50) {
-            	System.out.println("succs");
             }
 
             if(foods.size() == 0 || score >= 50){
@@ -414,7 +414,26 @@ public class PacBoard extends JPanel{
 
         siren.stop();
         
-        MapData map2 = MapEditor.compileMap("/resources/maps/map2_c.txt");
+        
+        String mapStr = "";
+        try {
+            Scanner scn = new Scanner(this.getClass().getResourceAsStream("/resources/maps/map2_c.txt"));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while(scn.hasNextLine()){
+                line = scn.nextLine();
+                sb.append(line).append('\n');
+            }
+            mapStr = sb.toString();
+        }catch(Exception e){
+            System.err.println("Error Reading Map File !");
+        }
+        if("".equals(mapStr)){
+            System.err.println("Map is Empty !");
+        }
+        
+        
+        MapData map2 = MapEditor.compileMap(mapStr);
         new PacWindow(map2);
         windowParent.dispose();
 
