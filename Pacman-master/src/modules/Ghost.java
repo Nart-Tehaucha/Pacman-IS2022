@@ -37,6 +37,7 @@ public abstract class Ghost {
 
     protected boolean isWeak = false;
     protected boolean isDead = false;
+    protected boolean disappear = false;
 
     public boolean isWeak() {
         return isWeak;
@@ -313,6 +314,14 @@ public abstract class Ghost {
         unweakBlinks = 0;
         isWhite = false;
         unWeakenTimer1.start();
+    }
+    public void ghostDisappear(){
+        disappear = true;
+//        moveTimer.setDelay(ghostWeakDelay);
+//        unweakBlinks = 0;
+//        isWhite = false;
+//        unWeakenTimer1.start();
+        this.die();
     }
     // Makes ghost normal.
     public void unweaken(){

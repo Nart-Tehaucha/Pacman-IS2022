@@ -151,7 +151,8 @@ public class PacBoard extends JPanel{
 
         // Start playing sounds
         //SoundPlayer.play("pacman_start.wav");
-        siren = new LoopPlayer("siren.wav");
+        siren = new LoopPlayer("");
+        //siren = new LoopPlayer("siren.wav");
         pac6 = new LoopPlayer("pac6.wav");
         siren.start();
     }
@@ -243,8 +244,18 @@ public class PacBoard extends JPanel{
                     siren.stop();
                     mustReactivateSiren = true;
                     pac6.start();
+                    pacman.setStrong(true);
                     for (Ghost g : ghosts) {
-                        g.weaken();
+                    	for(int i=-3 ;i<=3;i++) {
+                    	if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+                    	   pacman.logicalPosition.y == g.logicalPosition.y
+                    	   ||
+                    	   pacman.logicalPosition.x == g.logicalPosition.x&&
+                    	   pacman.logicalPosition.y == g.logicalPosition.y+i) {
+                    	
+                        g.ghostDisappear();
+                    	}
+                    	}
                     }
                     scoreToAdd = 0;
                     break;
@@ -286,7 +297,6 @@ public class PacBoard extends JPanel{
             pac6.stop();
             if(mustReactivateSiren){
                 mustReactivateSiren = false;
-                siren.start();
             }
 
         }

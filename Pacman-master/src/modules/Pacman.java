@@ -20,11 +20,20 @@ public class Pacman implements KeyListener{
     public moveType activeMove;
     public moveType todoMove;
     boolean isStuck = true;
+    public boolean isStrong() {
+		return isStrong;
+	}
+	public void setStrong(boolean isStrong) {
+		this.isStrong = isStrong;
+	}
+
+	boolean isStrong = false;
 
     //Animation Vars
     public Timer animTimer;
     public ActionListener animAL;
     public Image[] pac;
+    public Image[] pacStrong;
     public int activeImage = 0;
     public int addFactor = 1;
 
@@ -42,6 +51,7 @@ public class Pacman implements KeyListener{
         parentBoard = pb;
 
         pac = new Image[5];
+        pacStrong = new Image[5];
 
         activeMove = moveType.NONE;
         todoMove = moveType.NONE;
@@ -53,6 +63,19 @@ public class Pacman implements KeyListener{
             pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
             pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
             pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
+        }catch(IOException e){
+            System.err.println("Cannot Read Images !");
+        }
+        try {
+            pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong0.png"));
+            pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong1.png"));
+            pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
+            pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
+            pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
+//            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
+//            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
+//            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
+//            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
         }
@@ -192,7 +215,12 @@ public class Pacman implements KeyListener{
     }
 
     public Image getPacmanImage(){
+    	if(!isStrong) {
         return pac[activeImage];
+    	}
+    	else {
+    		 return pacStrong[activeImage];
+    	}
     }
 
     @Override
