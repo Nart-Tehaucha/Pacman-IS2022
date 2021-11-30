@@ -1,5 +1,5 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXX
-X___O__X====X_X====X__O___X
+XO_____X====X_X====X_____OX
 X_XXXX_X====X_X====X_XXXX_X
 X_XXXX_X====X_X====X_XXXX_X
 X_XXXX_XXXXXX_XXXXXX_XXXX_X
@@ -25,5 +25,5 @@ X_________________________X
 X_XXXX_XXXXXX_XXXXXX_XXXX_X
 X_XXXX_X====X_X====X_XXXX_X
 X_XXXX_X====X_X====X_XXXX_X
-X___O__X====X_X====X__O___X
+XO_____X====X_X====X_____OX
 XXXXXXXXXXXXXXXXXXXXXXXXXXX
