@@ -68,6 +68,11 @@
 	<version>18-ea+7</version>
 	</dependency>
 	
+	<dependency>
+		<groupId>org.openjfx</groupId>
+		<artifactId>javafx-swing</artifactId>
+		<version>18-ea+7</version>
+	</dependency>
 	
 	
 	<dependency>

@@ -157,7 +157,12 @@ public class MapEditor extends JFrame {
         //Print map array
         /*for(int ii=0;ii<my;ii++){
             for(int jj=0;jj<mx;jj++){
-                System.out.print(map[jj][ii] + " ");
+            	if(map[jj][ii] < 10) {
+            		System.out.print(map[jj][ii] + "  ");	
+            	}
+            	else {
+            		System.out.print(map[jj][ii] + " ");
+            	}
             }
             System.out.print('\n');
         }*/

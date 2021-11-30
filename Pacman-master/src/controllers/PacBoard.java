@@ -56,7 +56,7 @@ public class PacBoard extends JPanel{
     public PacWindow windowParent;
 
     // Constructor
-    public PacBoard(JLabel scoreboard, MapData md, PacWindow pw){
+    public PacBoard(JLabel scoreboard, JLabel lblLevel, MapData md, PacWindow pw){
         this.scoreboard = scoreboard;
         this.setDoubleBuffered(true);
         md_backup = md;
@@ -158,7 +158,7 @@ public class PacBoard extends JPanel{
     }
 
     
-    // Checks if the player colided with another object (wall, ghost, food)
+    // Checks if the player colided with a ghost
     public void collisionTest(){
         Rectangle pr = new Rectangle(pacman.pixelPosition.x+13,pacman.pixelPosition.y+13,2,2);
         Ghost ghostToRemove = null;
@@ -176,7 +176,6 @@ public class PacBoard extends JPanel{
                         g.moveTimer.stop();
                         isGameOver = true;
                         scoreboard.setText("    Press R to try again !");
-                        //scoreboard.setForeground(Color.red);
                         break;
                     } else {
                         //Eat Ghost
@@ -212,9 +211,6 @@ public class PacBoard extends JPanel{
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
-            
-            if(score >= 50) {
-            }
 
             if(foods.size() == 0 || score >= 50){
                 siren.stop();
@@ -247,14 +243,10 @@ public class PacBoard extends JPanel{
                     pacman.setStrong(true);
                     for (Ghost g : ghosts) {
                     	for(int i=-3 ;i<=3;i++) {
-                    	if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
-                    	   pacman.logicalPosition.y == g.logicalPosition.y
-                    	   ||
-                    	   pacman.logicalPosition.x == g.logicalPosition.x&&
-                    	   pacman.logicalPosition.y == g.logicalPosition.y+i) {
-                    	
-                        g.ghostDisappear();
-                    	}
+	                    	if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+	                    	   pacman.logicalPosition.y == g.logicalPosition.y+i) {
+	                    		g.ghostDisappear();
+	                    	}
                     	}
                     }
                     scoreToAdd = 0;
@@ -377,7 +369,6 @@ public class PacBoard extends JPanel{
         }
 
         if(drawScore) {
-            //System.out.println("must draw score !");
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
             Integer s = scoreToAdd*100;
@@ -442,7 +433,11 @@ public class PacBoard extends JPanel{
             System.err.println("Map is Empty !");
         }
         
-        
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         MapData map2 = MapEditor.compileMap(mapStr);
         new PacWindow(map2);
         windowParent.dispose();

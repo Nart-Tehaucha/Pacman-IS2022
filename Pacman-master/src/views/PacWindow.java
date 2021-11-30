@@ -19,14 +19,21 @@ public class PacWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
         setSize(794,884);
         setLocationRelativeTo(null);
 
+        
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
+        
+        JLabel level = new JLabel("    Level : 1");
+        level.setForeground(new Color(255, 243, 36));
 
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
@@ -36,29 +43,20 @@ public class PacWindow extends JFrame {
         map1.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
         map1.getTeleports().add(new TeleportTunnel(13,1,13,27,moveType.UP));
         map1.getTeleports().add(new TeleportTunnel(13,27,13,1,moveType.DOWN));
-        map1.setGhostBasePosition(new Point(12,14));
-        
-        map1.getGhostsData().add(new GhostData(12,17,ghostType.RED));
-        map1.getGhostsData().add(new GhostData(17,14,ghostType.CYAN));
-        map1.getGhostsData().add(new GhostData(17,10,ghostType.PINK));
-//        map1.getGhostsData().add(new GhostData(5,27,ghostType.CYAN));
-//        map1.getGhostsData().add(new GhostData(3,5,ghostType.PINK));
-//        map1.getGhostsData().add(new GhostData(20,5,ghostType.CYAN));
-//        map1.getPufoodPositions().add(new PowerUpFood(12,14,0));
-//        map1.getPufoodPositions().add(new PowerUpFood(25,27,3));
-//        map1.getPufoodPositions().add(new PowerUpFood(24,27,2));
-//        map1.getPufoodPositions().add(new PowerUpFood(23,27,1));
-//        map1.getPufoodPositions().add(new PowerUpFood(22,27,4));
-//        map1.getPufoodPositions().add(new PowerUpFood(21,27,0));
 
         // Create a new game object.
-        pb = new PacBoard(scoreboard,map1,this);
+        pb = new PacBoard(scoreboard,level,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
-        this.getContentPane().add(scoreboard,BorderLayout.SOUTH);
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        bottomBar.add(scoreboard);
+        bottomBar.add(level);
         this.getContentPane().add(pb);
+        
+        //ImageIcon icon = new ImageIcon("/resources/images/pacman_logo.png");
+        //setIconImage(icon.getImage());
         setVisible(true);
     }
     
@@ -68,24 +66,32 @@ public class PacWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
         setSize(794,884);
         setLocationRelativeTo(null);
 
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
+        
+        JLabel level = new JLabel("    Level : 1");
+        level.setForeground(new Color(255, 243, 36));
 
         //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
         
         // Load the custom map layout
         adjustMap(md);
-        PacBoard pb = new PacBoard(scoreboard,md,this);
+        PacBoard pb = new PacBoard(scoreboard,level,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
-        this.getContentPane().add(scoreboard,BorderLayout.SOUTH);
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        bottomBar.add(scoreboard);
+        bottomBar.add(level);
         this.getContentPane().add(pb);
         setVisible(true);
     }
@@ -129,7 +135,12 @@ public class PacWindow extends JFrame {
         return MapEditor.compileMap(mapStr);
     }
 
-    //Dynamically Generate Map Segments
+    //Classifies all the walls on the map and gives each one a number representing it's type
+    // For example:
+    // Horizontal wall = 20
+    // Vertical wall = 24
+    // Corner walls = 10, 11, 12, 13 (depending on which corner)
+    // This is done for the purpose of loading a different image for each type of wall.
     public void adjustMap(MapData mapd){
         int[][] map = mapd.getMap();
         int mx=mapd.getX();
@@ -261,9 +272,24 @@ public class PacWindow extends JFrame {
                     //System.out.println("MAP SEGMENT : " + mustSet);
                     map[x][y] = mustSet;
                 }
-                mapd.setMap(map);
+                
             }
         }
+        mapd.setMap(map);
+        
+        //Print map array
+        /*for(int ii=0;ii<my;ii++){
+            for(int jj=0;jj<mx;jj++){
+            	if(map[jj][ii] < 10) {
+            		System.out.print(map[jj][ii] + "  ");	
+            	}
+            	else {
+            		System.out.print(map[jj][ii] + " ");
+            	}
+            }
+            System.out.print('\n');
+        }*/
+        
         System.out.println("Map Adjust OK !");
     }
 
