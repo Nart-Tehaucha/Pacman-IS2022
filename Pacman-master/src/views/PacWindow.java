@@ -38,11 +38,11 @@ public class PacWindow extends JFrame {
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
         adjustMap(map1);
-
-        map1.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
-        map1.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
-        map1.getTeleports().add(new TeleportTunnel(13,1,13,27,moveType.UP));
-        map1.getTeleports().add(new TeleportTunnel(13,27,13,1,moveType.DOWN));
+//
+//        map1.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
+//        map1.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
+//        map1.getTeleports().add(new TeleportTunnel(13,1,13,27,moveType.UP));
+//        map1.getTeleports().add(new TeleportTunnel(13,27,13,1,moveType.DOWN));
 
         // Create a new game object.
         pb = new PacBoard(scoreboard,level,map1,this);
@@ -57,6 +57,65 @@ public class PacWindow extends JFrame {
         
         //ImageIcon icon = new ImageIcon("/resources/images/pacman_logo.png");
         //setIconImage(icon.getImage());
+        setVisible(true);
+    }
+    
+    // Second constructor, gets MapData as an argument
+    public PacWindow(int level){
+        setTitle("IS 2022 PacMan Game"); // Title
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // Setup the game window and lbScore
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setBackground(Color.black);
+
+        setSize(794,884);
+        setLocationRelativeTo(null);
+
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
+        JLabel lbScore = new JLabel("    Score : 0");
+        lbScore.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLevel = new JLabel();
+        lbLevel.setForeground(new Color(255, 243, 36));
+        MapData map;
+        switch(level) {
+        case 1: 
+        	map = getMapFromResource("/resources/maps/map1_c.txt");
+        	lbLevel.setText("    Level : 1");
+        	break;
+        case 2: 
+        	map = getMapFromResource("/resources/maps/map2_c.txt");
+        	map.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
+            map.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
+        	lbLevel.setText("    Level : 2");
+        	break;
+        case 3: 
+        	map = getMapFromResource("/resources/maps/map3_c.txt");
+        	lbLevel.setText("    Level : 3");
+        	break;
+        case 4: 
+        	map = getMapFromResource("/resources/maps/map4_c.txt");
+        	lbLevel.setText("    Level : 4");
+        	break;
+        default:
+        	map = getMapFromResource("/resources/maps/map1_c.txt");
+        	lbLevel.setText("    Level : 1");
+        }
+        
+        adjustMap(map);
+        
+        // Load the custom map layout
+        PacBoard pb = new PacBoard(lbScore,lbLevel,map,this);
+        pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
+        addKeyListener(pb.pacman);
+
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        bottomBar.add(lbScore);
+        bottomBar.add(lbLevel);
+        this.getContentPane().add(pb);
         setVisible(true);
     }
     

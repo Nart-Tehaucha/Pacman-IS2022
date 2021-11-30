@@ -39,6 +39,7 @@ public class PacBoard extends JPanel{
     public boolean drawScore = false;
     public boolean clearScore = false;
     public int scoreToAdd = 0;
+    public int pacLives = 3;
 
     public int score;
     public JLabel scoreboard;
@@ -150,9 +151,8 @@ public class PacBoard extends JPanel{
         redrawTimer .start();
 
         // Start playing sounds
-        //SoundPlayer.play("pacman_start.wav");
-        siren = new LoopPlayer("");
-        //siren = new LoopPlayer("siren.wav");
+        SoundPlayer.play("pacman_start.wav");
+        siren = new LoopPlayer("siren.wav");
         pac6 = new LoopPlayer("pac6.wav");
         siren.start();
     }
@@ -168,14 +168,21 @@ public class PacBoard extends JPanel{
             if(pr.intersects(gr)){
                 if(!g.isDead()) {
                     if (!g.isWeak()) {
-                        //Game Over
-                        siren.stop();
-                        SoundPlayer.play("pacman_lose.wav");
-                        pacman.moveTimer.stop();
-                        pacman.animTimer.stop();
-                        g.moveTimer.stop();
-                        isGameOver = true;
-                        scoreboard.setText("    Press R to try again !");
+                    	if(pacLives > 0) {
+                    		pacLives--;
+                    		g.die();
+                    	}
+                    	else {
+                    		//Game Over
+                            siren.stop();
+                            SoundPlayer.play("pacman_lose.wav");
+                            pacman.moveTimer.stop();
+                            pacman.animTimer.stop();
+                            g.moveTimer.stop();
+                            isGameOver = true;
+                            scoreboard.setText("    Press R to try again !");	
+                    	}
+                        
                         break;
                     } else {
                         //Eat Ghost
@@ -199,7 +206,6 @@ public class PacBoard extends JPanel{
 
     // Updates the state of the map (checks if food has been eaten, if a ghost died, if player passed through a passage)
     public void update(){
-
         Food foodToEat = null;
         //Check food eat
         for(Food f : foods){
@@ -289,6 +295,7 @@ public class PacBoard extends JPanel{
             pac6.stop();
             if(mustReactivateSiren){
                 mustReactivateSiren = false;
+                siren.start();
             }
 
         }
@@ -411,87 +418,36 @@ public class PacBoard extends JPanel{
 
     
     // Restarts the game.
-    public void restart(){
+    public void nextLevel(){
 
         siren.stop();
+        pac6.stop();
         
-        
-        String mapStr = "";
-        try {
-            Scanner scn = new Scanner(this.getClass().getResourceAsStream("/resources/maps/map2_c.txt"));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while(scn.hasNextLine()){
-                line = scn.nextLine();
-                sb.append(line).append('\n');
-            }
-            mapStr = sb.toString();
-        }catch(Exception e){
-            System.err.println("Error Reading Map File !");
-        }
-        if("".equals(mapStr)){
-            System.err.println("Map is Empty !");
-        }
         
         try {
-            Thread.sleep(3000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        MapData map2 = MapEditor.compileMap(mapStr);
-        new PacWindow(map2);
+
         windowParent.dispose();
 
-        /*
-        removeKeyListener(pacman);
-
-        isGameOver = false;
-
-        pacman = new Pacman(md_backup.getPacmanPosition().x,md_backup.getPacmanPosition().y,this);
-        addKeyListener(pacman);
-
-        foods = new ArrayList<>();
-        pufoods = new ArrayList<>();
-        ghosts = new ArrayList<>();
-        teleports = new ArrayList<>();
-
-        //TODO : read food from mapData (Map 1)
-
-        if(!isCustom) {
-            for (int i = 0; i < m_x; i++) {
-                for (int j = 0; j < m_y; j++) {
-                    if (map[i][j] == 0)
-                        foods.add(new Food(i, j));
-                }
-            }
-        }else{
-            foods = md_backup.getFoodPositions();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-
-
-        pufoods = md_backup.getPufoodPositions();
-
-        ghosts = new ArrayList<>();
-        for(GhostData gd : md_backup.getGhostsData()){
-            switch(gd.getType()) {
-                case RED:
-                    ghosts.add(new RedGhost(gd.getX(), gd.getY(), this));
-                    break;
-                case PINK:
-                    ghosts.add(new PinkGhost(gd.getX(), gd.getY(), this));
-                    break;
-                case CYAN:
-                    ghosts.add(new CyanGhost(gd.getX(), gd.getY(), this));
-                    break;
-            }
-        }
-
-        teleports = md_backup.getTeleports();
-        */
+        
+        new PacWindow(2);
     }
 
-
+    public void restart() {
+    	siren.stop();
+    	pac6.stop();
+    	
+    	new PacWindow(1);
+    	windowParent.dispose();
+    }
 
 
 }
