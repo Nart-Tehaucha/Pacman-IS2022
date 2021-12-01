@@ -20,14 +20,32 @@ public class Pacman implements KeyListener{
     public moveType activeMove;
     public moveType todoMove;
     boolean isStuck = true;
-    public boolean isStrong() {
+    boolean isInLocation = false;
+    public boolean isEnterPressed =false;
+    
+    public boolean isEnterPressed() {
+		return isEnterPressed;
+	}
+	public void setEnterPreesed(boolean isEnterPreesed) {
+		this.isEnterPressed = isEnterPreesed;
+	}
+	public boolean isInLocation() {
+		return isInLocation;
+	}
+	public void setInLocation(boolean isInLocation) {
+		this.isInLocation = isInLocation;
+	}
+	public boolean getIsStrong() {
 		return isStrong;
 	}
 	public void setStrong(boolean isStrong) {
 		this.isStrong = isStrong;
 	}
 
-	boolean isStrong = false;
+	public boolean isStrong = false;
+	public int pacNewColor = 5;
+    public Timer newColor;
+    public ActionListener newColorAL;
 
     //Animation Vars
     public Timer animTimer;
@@ -43,6 +61,7 @@ public class Pacman implements KeyListener{
     public PacBoard parentBoard;
 
     // Constructor
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public Pacman (int x, int y,PacBoard pb) {
 
         logicalPosition = new Point(x,y);
@@ -195,8 +214,26 @@ public class Pacman implements KeyListener{
         };
         moveTimer = new Timer(9,moveAL);
         moveTimer.start();
-
-    }
+//        newColorAL = new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//           	
+//           }
+//
+//        Timer newColor =new Timer(9,newColorAL);
+//       newColor.start(newColor,pacNewColor);
+//    }
+    }      
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public boolean changeColor(){
+    	isStrong =true; 
+    	//newColor.setDelay(pacNewColor);
+        //disappear = true;
+//        moveTimer.setDelay(ghostWeakDelay);
+//        unweakBlinks = 0;
+//        isWhite = false;
+//        unWeakenTimer1.start();
+        return isStrong;
+    }  
     // Check if a move is possible
     public boolean isPossibleMove(moveType move){
         if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
@@ -220,6 +257,7 @@ public class Pacman implements KeyListener{
     	}
     	else {
     		 return pacStrong[activeImage];
+    		// newColor.setDelay();
     	}
     }
 
@@ -252,9 +290,19 @@ public class Pacman implements KeyListener{
             case 82:
                 parentBoard.dispatchEvent(new ActionEvent(this,Messages.RESET,null));
                 break;
+            case KeyEvent.VK_ENTER:            	
+            	System.out.println("enter here");
+            	isEnterPressed =true;
+            	if(isEnterPressed &&isInLocation) {
+                	changeColor();
+            	}
+                	
+            	
+                break;
         }
         //System.out.println(ke.getKeyCode());
     }
+
 
 
 }

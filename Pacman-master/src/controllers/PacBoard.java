@@ -10,9 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
-public class PacBoard extends JPanel{
+public class PacBoard extends JPanel implements KeyListener{
 
 
     public Timer redrawTimer;
@@ -209,6 +210,8 @@ public class PacBoard extends JPanel{
         }
         if(foodToEat!=null) {
             SoundPlayer.play("pacman_eat.wav");
+            //change to pacman's original color 
+            pacman.setStrong(false);
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
@@ -235,43 +238,56 @@ public class PacBoard extends JPanel{
             if(pacman.logicalPosition.x == puf.position.x && pacman.logicalPosition.y == puf.position.y)
                 puFoodToEat = puf;
         }
+        
         if(puFoodToEat!=null) {
-            //SoundPlayer.play("pacman_eat.wav");
-            switch(puFoodToEat.type) {
-                case 0:
-                    //PACMAN 6
-                    pufoods.remove(puFoodToEat);
-                    siren.stop();
-                    mustReactivateSiren = true;
-                    pac6.start();
-                    pacman.setStrong(true);
-                    for (Ghost g : ghosts) {
-                    	for(int i=-3 ;i<=3;i++) {
-                    	if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
-                    	   pacman.logicalPosition.y == g.logicalPosition.y
-                    	   ||
-                    	   pacman.logicalPosition.x == g.logicalPosition.x&&
-                    	   pacman.logicalPosition.y == g.logicalPosition.y+i) {
-                    	
-                        g.ghostDisappear();
-                    	}
-                    	}
-                    }
-                    scoreToAdd = 0;
-                    break;
-                default:
-                    SoundPlayer.play("pacman_eatfruit.wav");
-                    pufoods.remove(puFoodToEat);
-                    scoreToAdd = 1;
-                    drawScore = true;
-            }
-            //score ++;
-            //scoreboard.setText("    Score : "+score);
+        	//SoundPlayer.play("pacman_eat.wav");
+        	switch(puFoodToEat.type) {
+        	case 0:
+        		//PACMAN 6
+        		pufoods.remove(puFoodToEat);
+        		siren.stop();
+        		mustReactivateSiren = true;
+        		pac6.start();
+        		pacman.setStrong(true);
+        		//                    keyPressed();	
+        		pacman.setInLocation(true);
+        		if(pacman.isEnterPressed()) {
+        			for (Ghost g : ghosts) { 
+        				//                    		for(int i=-3 ;i<=3;i++) {
+        				//                    		if((pacman.logicalPosition.x == g.logicalPosition.x+i&&
+        				//                   				pacman.logicalPosition.y == g.logicalPosition.y)|| (pacman.logicalPosition.x
+        				//                   				== g.logicalPosition.x&& pacman.logicalPosition.y == g.logicalPosition.y+i)) {                            
+        				//                    			g.ghostDisappear();
+        				//                    			} }
+        				for(int i=-3 ;i<=3; i++) {
+        					for(int j=-3; j<=3; j++) {
+        						if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+        								pacman.logicalPosition.y == g.logicalPosition.y+j) {
+        							g.ghostDisappear();	
+        						}
+
+        					}
+        				}
+        			} 
+        		}
+
+        		scoreToAdd = 0;
+        		pacman.setInLocation(false);
+        		pacman.setEnterPreesed(false);
+        		break;
+        	default:
+        		SoundPlayer.play("pacman_eatfruit.wav");
+        		pufoods.remove(puFoodToEat);
+        		scoreToAdd = 1;
+        		drawScore = true;
+        	}
+        	//score ++;
+        	//scoreboard.setText("    Score : "+score);
         }
 
         //Check Ghost Undie
         for(Ghost g:ghosts){
-            if(g.isDead() && g.logicalPosition.x == ghostBase.x && g.logicalPosition.y == ghostBase.y){
+            if(g.isDead()&& g.logicalPosition.x == ghostBase.x && g.logicalPosition.y == ghostBase.y ){
                 g.undie();
             }
         }
@@ -495,6 +511,42 @@ public class PacBoard extends JPanel{
         teleports = md_backup.getTeleports();
         */
     }
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			System.out.println("Enter ");
+			pacman.changeColor();                  
+			for (Ghost g : ghosts) {
+				for(int i=-3 ;i<=3;i++) {
+					if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+							pacman.logicalPosition.y == g.logicalPosition.y
+							||
+							pacman.logicalPosition.x == g.logicalPosition.x&&
+							pacman.logicalPosition.y == g.logicalPosition.y+i) {
+
+						g.ghostDisappear();
+					}
+				}  
+			}  
+		}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 
