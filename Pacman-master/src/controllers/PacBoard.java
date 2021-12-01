@@ -237,7 +237,7 @@ public class PacBoard extends JPanel{
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
-            pacman.setStrong(false);
+//            pacman.setStrong(false);
 
             if(foods.size() == 0 || score >= scoreToNextLevel){
                 //siren.stop();
@@ -269,19 +269,19 @@ public class PacBoard extends JPanel{
                     //pac6.start();
                     pacman.setStrong(true);
                     pacman.setInLocation(true);
-                    if(pacman.isEnterPressed()) {
-                    	for (Ghost g : ghosts) {
-                        	for(int i=-3 ;i<=3; i++) {
-                        		for(int j=-3; j<=3; j++) {
-                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
-             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
-             	                    		g.ghostDisappear();	
-                        			}
-    	                    	
-    	                    	}
-                        	}
-                        }
-                    }
+//                    if(pacman.isEnterPressed()) {
+//                    	for (Ghost g : ghosts) {
+//                        	for(int i=-3 ;i<=3; i++) {
+//                        		for(int j=-3; j<=3; j++) {
+//                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+//             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+//             	                    		g.ghostDisappear();	
+//                        			}
+//    	                    	
+//    	                    	}
+//                        	}
+//                        }
+//                    }
                     
                     scoreToAdd = 0;
                     pacman.setEnterPreesed(false);
@@ -295,6 +295,20 @@ public class PacBoard extends JPanel{
             }
             //score ++;
             //scoreboard.setText("    Score : "+score);
+        }
+        if(pacman.getIsStrong() &&pacman.isEnterPressed()) {
+        	for (Ghost g : ghosts) {
+            	for(int i=-3 ;i<=3; i++) {
+            		for(int j=-3; j<=3; j++) {
+            			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+ 	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+ 	                    		g.ghostDisappear();	
+ 	                    		pacman.setStrong(false);
+            			}
+                	
+                	}
+            	}
+            }
         }
 
         //Check Ghost Undie

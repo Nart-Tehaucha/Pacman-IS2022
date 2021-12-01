@@ -242,7 +242,7 @@ public abstract class Ghost {
                 pendingTimer.stop();
             }
         };
-        pendingTimer = new Timer(7000,pendingAL);
+        pendingTimer = new Timer(5000,pendingAL);
 
         baseReturner = new BFSFinder(pb);
         //start AI

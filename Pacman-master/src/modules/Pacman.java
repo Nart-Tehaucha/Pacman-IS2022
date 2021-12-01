@@ -287,7 +287,7 @@ public class Pacman implements KeyListener{
             case KeyEvent.VK_ENTER:            	
             	System.out.println("enter here");
             	isEnterPressed =true;
-            	if(isEnterPressed &&isInLocation) {
+            	if(isEnterPressed) {
                 	changeColor();
             	}
                 	
