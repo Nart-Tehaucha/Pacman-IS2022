@@ -1,4 +1,4 @@
-package modules;
+package models;
 ///// test tal
 import controllers.*;
 import views.*;

@@ -1,4 +1,4 @@
-package modules;
+package models;
 
 import controllers.*;
 import javax.imageio.ImageIO;

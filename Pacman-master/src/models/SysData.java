@@ -1,4 +1,4 @@
-package modules;
+package models;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,8 +15,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import modules.Answer;
-import modules.Question;
+import models.Answer;
+import models.Question;
 
 public class SysData {
 

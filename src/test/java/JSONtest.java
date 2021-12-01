@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import modules.Answer;
-import modules.Question;
-import modules.SysData;
+import controllers.PacBoard;
+import models.Answer;
+import models.Question;
+import models.SysData;
+import views.PacWindow;
 
 public class JSONtest {
 
@@ -44,4 +46,29 @@ public class JSONtest {
 		assertTrue(sd.addQuestionToJSON(questions));
 	}
 
+	// test whether the score is initialized to 0 
+	@Test 
+	public void testScoreInit() { 
+		PacWindow pw = new PacWindow(); 
+		PacBoard pb = pw.getPacBoard();
+		int score = pb.score; 
+		assertEquals(score, 0); 
+		} 
+	
+	@Test
+	public void testNumOfGhost() {
+		PacWindow pw = new PacWindow(); 
+		PacBoard pb = pw.getPacBoard();
+		assertEquals(pb.ghosts.size(), 3); 
+	}
+	
+	@Test
+	public void isScoreIncreased() {
+		PacWindow pw = new PacWindow(); 
+		PacBoard pb = pw.getPacBoard();
+		int scoreBefore = pb.score;
+		pb.addScore();
+		int scoreAfter = pb.score;
+		assertTrue(scoreBefore + 1 == scoreAfter);
+	}
 }

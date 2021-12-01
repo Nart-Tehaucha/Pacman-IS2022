@@ -1,7 +1,8 @@
 package views;
 
-import modules.*;
 import controllers.*;
+import models.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;

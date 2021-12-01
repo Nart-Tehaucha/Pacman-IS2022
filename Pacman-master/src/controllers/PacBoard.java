@@ -1,10 +1,12 @@
 package controllers;
 
-import modules.*;
 import views.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import models.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,19 +69,19 @@ public class PacBoard extends JPanel{
     	
     	switch(level) {
     	case 1:
-    		scoreToNextLevel = 50;
+    		scoreToNextLevel = 51;
     		break;
     	case 2:
-    		scoreToNextLevel = 100;
+    		scoreToNextLevel = 101;
     		break;
     	case 3:
-    		scoreToNextLevel = 150;
+    		scoreToNextLevel = 151;
     		break;
     	case 4:
-    		scoreToNextLevel = 9999;
+    		scoreToNextLevel = 200;
     		break;
     	default:
-    		scoreToNextLevel = 50;
+    		scoreToNextLevel = 51;
     	}
     	
         this.setDoubleBuffered(true);
@@ -189,7 +191,11 @@ public class PacBoard extends JPanel{
                 if(!g.isDead()) {
                     if (!g.isWeak()) {
                     	if(pacLives > 0) {
-                    		pacLives--;
+                    		pacman.moveTimer.stop();
+                            pacman.animTimer.stop();
+                            g.moveTimer.stop();
+                            isGameOver = true;
+                            pacLives--;
                     		restart(level, score, pacLives);
                     	}
                     	else {
@@ -235,21 +241,9 @@ public class PacBoard extends JPanel{
         if(foodToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
-            score ++;
-            scoreboard.setText("    Score : "+score);
-            pacman.setStrong(false);
-
-            if(foods.size() == 0 || score >= scoreToNextLevel){
-                //siren.stop();
-                //pac6.stop();
-                //SoundPlayer.play("pacman_intermission.wav");
-                isWin = true;
-                pacman.moveTimer.stop();
-                for(Ghost g : ghosts){
-                    g.moveTimer.stop();
-                }
-                nextLevel();
-            }
+            this.addScore();
+        	System.out.println(pacman.logicalPosition);
+        	System.out.println(pacman.pixelPosition);
         }
 
         PowerUpFood puFoodToEat = null;
@@ -275,7 +269,12 @@ public class PacBoard extends JPanel{
                         		for(int j=-3; j<=3; j++) {
                         			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
              	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
-             	                    		g.ghostDisappear();	
+             	                    		g.ghostDisappear();
+             	                    		g.logicalPosition.x = 12;
+             	                    		g.logicalPosition.y = 13;
+             	                    		g.pixelPosition.x = 13 * 28;
+             	                    		g.pixelPosition.y = 13 * 28;
+             	                    		
                         			}
     	                    	
     	                    	}
@@ -335,6 +334,24 @@ public class PacBoard extends JPanel{
     }
 
 
+    public void addScore() {
+    	score ++;
+        scoreboard.setText("    Score : "+score);
+        pacman.setStrong(false);
+
+        if(score >= scoreToNextLevel){
+            //siren.stop();
+            //pac6.stop();
+            //SoundPlayer.play("pacman_intermission.wav");
+            isWin = true;
+            pacman.moveTimer.stop();
+            for(Ghost g : ghosts){
+                g.moveTimer.stop();
+            }
+            nextLevel();
+        }
+    }
+    
     // Draws all objects on the map
     @Override
     public void paintComponent(Graphics g){
@@ -428,6 +445,22 @@ public class PacBoard extends JPanel{
 
     }
 
+    
+    public void killGhost(Ghost g) {
+    	
+    	System.out.println("kill");
+    	System.out.println(g);
+//    	
+//    	try {
+//	          Thread.sleep(5000);
+//	      } catch (InterruptedException e) {
+//	          e.printStackTrace();
+//	      }
+    	
+    	
+    	
+    }
+    
     // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
     public void processEvent(AWTEvent ae){
@@ -440,7 +473,7 @@ public class PacBoard extends JPanel{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart(1,0,0);
+                restart(1,0,3);
         }else {
             super.processEvent(ae);
         }

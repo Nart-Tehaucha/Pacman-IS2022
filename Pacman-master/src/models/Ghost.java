@@ -1,4 +1,4 @@
-package modules;
+package models;
 
 import controllers.*;
 import views.*;
@@ -242,7 +242,7 @@ public abstract class Ghost {
                 pendingTimer.stop();
             }
         };
-        pendingTimer = new Timer(7000,pendingAL);
+        pendingTimer = new Timer(5000,pendingAL);
 
         baseReturner = new BFSFinder(pb);
         //start AI
@@ -354,6 +354,7 @@ public abstract class Ghost {
     }
     // Respwans ghost
     public void undie(){
+    	
         //Shift Left Or Right
         int r = ThreadLocalRandom.current().nextInt(3);
         if (r == 0) {
@@ -374,5 +375,6 @@ public abstract class Ghost {
         isWeak = false;
         moveTimer.setDelay(ghostNormalDelay);
     }
+    
 
 }
