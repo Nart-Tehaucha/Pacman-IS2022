@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 // Generic class for Ghost. Handles ghost position, status, and movement.
 public abstract class Ghost {
@@ -34,6 +36,8 @@ public abstract class Ghost {
     public ActionListener unweak2;
     int unweakBlinks;
     boolean isWhite = false;
+    int timeToSleep = 5;
+
 
     protected boolean isWeak = false;
     protected boolean isDead = false;
@@ -212,7 +216,7 @@ public abstract class Ghost {
             }
         };
         unWeakenTimer1 = new Timer(7000,unweak1);
-
+        
         unweak2 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -247,7 +251,7 @@ public abstract class Ghost {
     }
     
     // ---END OF CONSTRUCTOR---
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //load Images from Resource
     public abstract void loadImages();
 
@@ -317,11 +321,25 @@ public abstract class Ghost {
     }
     public void ghostDisappear(){
         disappear = true;
-//        moveTimer.setDelay(ghostWeakDelay);
-//        unweakBlinks = 0;
-//        isWhite = false;
-//        unWeakenTimer1.start();
         this.die();
+
+
+       // this.die();
+//        moveTimer.setDelay(ghostWeakDelay);
+////        unweakBlinks = 0;
+////        isWhite = false;
+//        unWeakenTimer1.start();
+
+//        Timer timer = new Timer();
+//         timer.schedule(, 0, 5000);
+//        try {
+//			Thread.sleep(3000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+
     }
     // Makes ghost normal.
     public void unweaken(){
@@ -331,6 +349,7 @@ public abstract class Ghost {
     // Kills ghost
     public void die(){
         isDead = true;
+        
         moveTimer.setDelay(ghostDeadDelay);
     }
     // Respwans ghost
