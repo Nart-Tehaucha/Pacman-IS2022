@@ -71,7 +71,7 @@ public abstract class Ghost {
 
     int ghostNormalDelay;
     int ghostWeakDelay = 30;
-    int ghostDeadDelay = 5;
+    int ghostDeadDelay = 0;
 
     // Calculates the ghost's path to the base
     BFSFinder baseReturner;
@@ -110,7 +110,7 @@ public abstract class Ghost {
         }
 
         try {
-            ghostEye = ImageIO.read(this.getClass().getResource("/resources/images/eye.png"));
+            ghostEye = ImageIO.read(this.getClass().getResource("/resources/images/invis.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -287,6 +287,9 @@ public abstract class Ghost {
     // Gets the sprite of the ghost according to it's direction (up, down, left, right)
     public Image getGhostImage(){
         if(!isDead) {
+        	if(isPending) {
+        		return ghostEye;
+        	}
             if (!isWeak) {
                 switch (activeMove) {
                     case RIGHT:
