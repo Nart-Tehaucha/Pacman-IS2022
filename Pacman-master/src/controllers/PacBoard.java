@@ -284,6 +284,8 @@ public class PacBoard extends JPanel{
                     }
                     
                     scoreToAdd = 0;
+                    pacman.setEnterPreesed(false);
+                    pacman.setInLocation(false);
                     break;
                 default:
                     //SoundPlayer.play("pacman_eatfruit.wav");
