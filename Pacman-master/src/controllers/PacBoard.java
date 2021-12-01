@@ -244,6 +244,7 @@ public class PacBoard extends JPanel {
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
+            pacman.setStrong(false);
 
             if(foods.size() == 0 || score >= scoreToNextLevel){
                 //siren.stop();
@@ -266,6 +267,7 @@ public class PacBoard extends JPanel {
         }
         
         if(puFoodToEat!=null) {
+<<<<<<< HEAD
 <<<<<<< HEAD
         	//SoundPlayer.play("pacman_eat.wav");
         	switch(puFoodToEat.type) {
@@ -312,6 +314,42 @@ public class PacBoard extends JPanel {
         	//scoreboard.setText("    Score : "+score);
 =======
 >>>>>>> d5548790ee249d9eec568a0502be070a23d0b93a
+=======
+            //SoundPlayer.play("pacman_eat.wav");
+            switch(puFoodToEat.type) {
+                case 0:
+                    //PACMAN 6
+                    pufoods.remove(puFoodToEat);
+                    //siren.stop();
+                    mustReactivateSiren = true;
+                    //pac6.start();
+                    pacman.setStrong(true);
+                    pacman.setInLocation(true);
+                    if(pacman.isEnterPressed()) {
+                    	for (Ghost g : ghosts) {
+                        	for(int i=-3 ;i<=3; i++) {
+                        		for(int j=-3; j<=3; j++) {
+                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+             	                    		g.ghostDisappear();	
+                        			}
+    	                    	
+    	                    	}
+                        	}
+                        }
+                    }
+                    
+                    scoreToAdd = 0;
+                    break;
+                default:
+                    //SoundPlayer.play("pacman_eatfruit.wav");
+                    pufoods.remove(puFoodToEat);
+                    scoreToAdd = 1;
+                    drawScore = true;
+            }
+            //score ++;
+            //scoreboard.setText("    Score : "+score);
+>>>>>>> e505e414565d3ad924caa752bef372da66818b8c
         }
 
         //Check Ghost Undie

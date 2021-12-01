@@ -35,11 +35,20 @@ public class Pacman implements KeyListener{
 	public void setInLocation(boolean isInLocation) {
 		this.isInLocation = isInLocation;
 	}
+<<<<<<< HEAD
 	public boolean getIsStrong() {
+=======
+    
+    
+    public boolean isStrong() {
+>>>>>>> e505e414565d3ad924caa752bef372da66818b8c
 		return isStrong;
 	}
 	public void setStrong(boolean isStrong) {
 		this.isStrong = isStrong;
+	}
+	public boolean getIsStrong() {
+		return isStrong;
 	}
 
 	public boolean isStrong = false;
@@ -214,6 +223,7 @@ public class Pacman implements KeyListener{
         };
         moveTimer = new Timer(9,moveAL);
         moveTimer.start();
+<<<<<<< HEAD
 //        newColorAL = new ActionListener() {
 //            public void actionPerformed(ActionEvent evt) {
 //           	
@@ -224,6 +234,11 @@ public class Pacman implements KeyListener{
 //    }
     }      
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+=======
+
+    }
+    
+>>>>>>> e505e414565d3ad924caa752bef372da66818b8c
     public boolean changeColor(){
     	isStrong =true; 
     	//newColor.setDelay(pacNewColor);
@@ -234,6 +249,10 @@ public class Pacman implements KeyListener{
 //        unWeakenTimer1.start();
         return isStrong;
     }  
+<<<<<<< HEAD
+=======
+    
+>>>>>>> e505e414565d3ad924caa752bef372da66818b8c
     // Check if a move is possible
     public boolean isPossibleMove(moveType move){
         if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
