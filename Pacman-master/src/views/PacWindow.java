@@ -13,6 +13,8 @@ import java.util.Scanner;
 // Main window of the game screen.
 public class PacWindow extends JFrame {
 	private PacBoard pb;
+	// ============================== Constructors =============================
+	
 	// Default Constructor. Initializes the game screen.
     public PacWindow(){
         setTitle("IS 2022 PacMan Game"); // Title of the game
@@ -38,14 +40,9 @@ public class PacWindow extends JFrame {
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
         adjustMap(map1);
-//
-//        map1.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
-//        map1.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
-//        map1.getTeleports().add(new TeleportTunnel(13,1,13,27,moveType.UP));
-//        map1.getTeleports().add(new TeleportTunnel(13,27,13,1,moveType.DOWN));
 
         // Create a new game object.
-        pb = new PacBoard(scoreboard,level,map1,this);
+        pb = new PacBoard(scoreboard,1,0,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
@@ -55,13 +52,11 @@ public class PacWindow extends JFrame {
         bottomBar.add(level);
         this.getContentPane().add(pb);
         
-        //ImageIcon icon = new ImageIcon("/resources/images/pacman_logo.png");
-        //setIconImage(icon.getImage());
         setVisible(true);
     }
     
     // Second constructor, gets MapData as an argument
-    public PacWindow(int level){
+    public PacWindow(int level, int score){
         setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -75,7 +70,7 @@ public class PacWindow extends JFrame {
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
         
-        JLabel lbScore = new JLabel("    Score : 0");
+        JLabel lbScore = new JLabel("    Score : " + score);
         lbScore.setForeground(new Color(255, 243, 36));
         
         JLabel lbLevel = new JLabel();
@@ -85,6 +80,7 @@ public class PacWindow extends JFrame {
         case 1: 
         	map = getMapFromResource("/resources/maps/map1_c.txt");
         	lbLevel.setText("    Level : 1");
+        	lbScore.setText("    Score : 0");
         	break;
         case 2: 
         	map = getMapFromResource("/resources/maps/map2_c.txt");
@@ -103,12 +99,13 @@ public class PacWindow extends JFrame {
         default:
         	map = getMapFromResource("/resources/maps/map1_c.txt");
         	lbLevel.setText("    Level : 1");
+        	lbScore.setText("    Score : 0");
         }
         
         adjustMap(map);
         
         // Load the custom map layout
-        PacBoard pb = new PacBoard(lbScore,lbLevel,map,this);
+        PacBoard pb = new PacBoard(lbScore,level, score,map,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
@@ -144,7 +141,7 @@ public class PacWindow extends JFrame {
         
         // Load the custom map layout
         adjustMap(md);
-        PacBoard pb = new PacBoard(scoreboard,level,md,this);
+        PacBoard pb = new PacBoard(scoreboard,1,0,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
@@ -154,7 +151,9 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
     }
-
+    
+    // ============================== Methods =============================
+    
     // Compiles a map from reading a text file, returns it as an int 2D array
     public int[][] loadMap(int mx,int my,String relPath){
         try {

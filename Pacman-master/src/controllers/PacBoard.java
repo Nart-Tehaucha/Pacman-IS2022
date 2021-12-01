@@ -42,6 +42,8 @@ public class PacBoard extends JPanel{
     public int pacLives = 3;
 
     public int score;
+    public int level;
+    public int scoreToNextLevel;
     public JLabel scoreboard;
 
     public LoopPlayer siren;
@@ -57,8 +59,28 @@ public class PacBoard extends JPanel{
     public PacWindow windowParent;
 
     // Constructor
-    public PacBoard(JLabel scoreboard, JLabel lblLevel, MapData md, PacWindow pw){
-        this.scoreboard = scoreboard;
+    public PacBoard(JLabel scoreboard, int level, int score, MapData md, PacWindow pw){
+        this.level = level;
+        this.score = score;
+    	this.scoreboard = scoreboard;
+    	
+    	switch(level) {
+    	case 1:
+    		scoreToNextLevel = 50;
+    		break;
+    	case 2:
+    		scoreToNextLevel = 100;
+    		break;
+    	case 3:
+    		scoreToNextLevel = 150;
+    		break;
+    	case 4:
+    		scoreToNextLevel = 9999;
+    		break;
+    	default:
+    		scoreToNextLevel = 50;
+    	}
+    	
         this.setDoubleBuffered(true);
         md_backup = md;
         windowParent = pw;
@@ -69,8 +91,6 @@ public class PacBoard extends JPanel{
 
         this.isCustom = md.isCustom();
         this.ghostBase = md.getGhostBasePosition();
-
-        //loadMap();
 
         pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
@@ -109,7 +129,6 @@ public class PacBoard extends JPanel{
                     break;
             }
         }
-        System.out.println(md.getTeleports());
         teleports = md.getTeleports();
 
         // Set layout of the map (size, background color)
@@ -151,10 +170,10 @@ public class PacBoard extends JPanel{
         redrawTimer .start();
 
         // Start playing sounds
-        SoundPlayer.play("pacman_start.wav");
-        siren = new LoopPlayer("siren.wav");
-        pac6 = new LoopPlayer("pac6.wav");
-        siren.start();
+        //SoundPlayer.play("pacman_start.wav");
+        //siren = new LoopPlayer("siren.wav");
+        //pac6 = new LoopPlayer("pac6.wav");
+        //siren.start();
     }
 
     
@@ -174,8 +193,8 @@ public class PacBoard extends JPanel{
                     	}
                     	else {
                     		//Game Over
-                            siren.stop();
-                            SoundPlayer.play("pacman_lose.wav");
+                            //siren.stop();
+                            //SoundPlayer.play("pacman_lose.wav");
                             pacman.moveTimer.stop();
                             pacman.animTimer.stop();
                             g.moveTimer.stop();
@@ -186,7 +205,7 @@ public class PacBoard extends JPanel{
                         break;
                     } else {
                         //Eat Ghost
-                        SoundPlayer.play("pacman_eatghost.wav");
+                        //SoundPlayer.play("pacman_eatghost.wav");
                         //getGraphics().setFont(new Font("Arial",Font.BOLD,20));
                         drawScore = true;
                         scoreToAdd++;
@@ -213,21 +232,21 @@ public class PacBoard extends JPanel{
                 foodToEat = f;
         }
         if(foodToEat!=null) {
-            SoundPlayer.play("pacman_eat.wav");
+            //SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
 
-            if(foods.size() == 0 || score >= 50){
-                siren.stop();
-                pac6.stop();
-                SoundPlayer.play("pacman_intermission.wav");
+            if(foods.size() == 0 || score >= scoreToNextLevel){
+                //siren.stop();
+                //pac6.stop();
+                //SoundPlayer.play("pacman_intermission.wav");
                 isWin = true;
                 pacman.moveTimer.stop();
                 for(Ghost g : ghosts){
                     g.moveTimer.stop();
                 }
-                restart();
+                nextLevel();
             }
         }
 
@@ -243,22 +262,25 @@ public class PacBoard extends JPanel{
                 case 0:
                     //PACMAN 6
                     pufoods.remove(puFoodToEat);
-                    siren.stop();
+                    //siren.stop();
                     mustReactivateSiren = true;
-                    pac6.start();
+                    //pac6.start();
                     pacman.setStrong(true);
                     for (Ghost g : ghosts) {
-                    	for(int i=-3 ;i<=3;i++) {
-	                    	if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
-	                    	   pacman.logicalPosition.y == g.logicalPosition.y+i) {
-	                    		g.ghostDisappear();
+                    	for(int i=-3 ;i<=3; i++) {
+                    		for(int j=-3; j<=3; j++) {
+                    			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+         	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+         	                    		g.ghostDisappear();	
+                    			}
+	                    	
 	                    	}
                     	}
                     }
                     scoreToAdd = 0;
                     break;
                 default:
-                    SoundPlayer.play("pacman_eatfruit.wav");
+                    //SoundPlayer.play("pacman_eatfruit.wav");
                     pufoods.remove(puFoodToEat);
                     scoreToAdd = 1;
                     drawScore = true;
@@ -292,10 +314,10 @@ public class PacBoard extends JPanel{
             }
         }
         if(isSiren){
-            pac6.stop();
+            //pac6.stop();
             if(mustReactivateSiren){
                 mustReactivateSiren = false;
-                siren.start();
+                //siren.start();
             }
 
         }
@@ -378,7 +400,7 @@ public class PacBoard extends JPanel{
         if(drawScore) {
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
-            Integer s = scoreToAdd*100;
+            Integer s = scoreToAdd*20;
             g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
             //drawScore = false;
             score += s;
@@ -420,32 +442,27 @@ public class PacBoard extends JPanel{
     // Restarts the game.
     public void nextLevel(){
 
-        siren.stop();
-        pac6.stop();
+        //siren.stop();
+        //pac6.stop();
         
-        
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         windowParent.dispose();
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         
-        new PacWindow(2);
+        new PacWindow(level+1, score);
     }
 
     public void restart() {
-    	siren.stop();
-    	pac6.stop();
+    	//siren.stop();
+    	//pac6.stop();
     	
-    	new PacWindow(1);
+    	
+    	new PacWindow(1, 0);
     	windowParent.dispose();
     }
 
