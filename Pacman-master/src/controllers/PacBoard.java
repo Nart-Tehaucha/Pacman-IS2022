@@ -39,7 +39,7 @@ public class PacBoard extends JPanel{
     public boolean drawScore = false;
     public boolean clearScore = false;
     public int scoreToAdd = 0;
-    public int pacLives = 3;
+    public int pacLives;
 
     public int score;
     public int level;
@@ -59,9 +59,10 @@ public class PacBoard extends JPanel{
     public PacWindow windowParent;
 
     // Constructor
-    public PacBoard(JLabel scoreboard, int level, int score, MapData md, PacWindow pw){
+    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
         this.level = level;
         this.score = score;
+        this.pacLives = pacLives;
     	this.scoreboard = scoreboard;
     	
     	switch(level) {
@@ -189,7 +190,7 @@ public class PacBoard extends JPanel{
                     if (!g.isWeak()) {
                     	if(pacLives > 0) {
                     		pacLives--;
-                    		g.die();
+                    		restart(level, score, pacLives);
                     	}
                     	else {
                     		//Game Over
@@ -432,7 +433,7 @@ public class PacBoard extends JPanel{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart();
+                restart(1,0,0);
         }else {
             super.processEvent(ae);
         }
@@ -454,16 +455,16 @@ public class PacBoard extends JPanel{
 
         windowParent.dispose();
         
-        new PacWindow(level+1, score);
+        new PacWindow(level+1, score, pacLives);
     }
 
-    public void restart() {
+    public void restart(int level, int score, int pacLives) {
     	//siren.stop();
     	//pac6.stop();
     	
-    	
-    	new PacWindow(1, 0);
     	windowParent.dispose();
+    	new PacWindow(level, score, pacLives);
+    	
     }
 
 

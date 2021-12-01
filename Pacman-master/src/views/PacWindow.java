@@ -36,13 +36,16 @@ public class PacWindow extends JFrame {
         
         JLabel level = new JLabel("    Level : 1");
         level.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : 3");
+        lbLives.setForeground(new Color(255, 243, 36));
 
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
         adjustMap(map1);
 
         // Create a new game object.
-        pb = new PacBoard(scoreboard,1,0,map1,this);
+        pb = new PacBoard(scoreboard,1,0,3,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
@@ -50,13 +53,14 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(scoreboard);
         bottomBar.add(level);
+        bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         
         setVisible(true);
     }
     
     // Second constructor, gets MapData as an argument
-    public PacWindow(int level, int score){
+    public PacWindow(int level, int score, int pacLives){
         setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -75,6 +79,9 @@ public class PacWindow extends JFrame {
         
         JLabel lbLevel = new JLabel();
         lbLevel.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : " + pacLives);
+        lbLives.setForeground(new Color(255, 243, 36));
         MapData map;
         switch(level) {
         case 1: 
@@ -105,18 +112,19 @@ public class PacWindow extends JFrame {
         adjustMap(map);
         
         // Load the custom map layout
-        PacBoard pb = new PacBoard(lbScore,level, score,map,this);
+        PacBoard pb = new PacBoard(lbScore,level, score, pacLives,map,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(lbScore);
         bottomBar.add(lbLevel);
+        bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         setVisible(true);
     }
     
-    // Second constructor, gets MapData as an argument
+    // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){
         setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -136,18 +144,22 @@ public class PacWindow extends JFrame {
         
         JLabel level = new JLabel("    Level : 1");
         level.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : 3");
+        lbLives.setForeground(new Color(255, 243, 36));
 
         //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
         
         // Load the custom map layout
         adjustMap(md);
-        PacBoard pb = new PacBoard(scoreboard,1,0,md,this);
+        PacBoard pb = new PacBoard(scoreboard,1,0,3,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(scoreboard);
         bottomBar.add(level);
+        bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         setVisible(true);
     }
