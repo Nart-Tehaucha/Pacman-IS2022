@@ -1,5 +1,5 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXX
-X___O____O___X___O____O___X
+XO_______O___X___O_______OX
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
@@ -9,13 +9,13 @@ X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X______XX_________XX______X
 XXXXXX_XX_XXX_XXX_XX_XXXXXX
 =====X_XX_XXXOXXX_XX_X=====
-=====X_XX_________XX_X=====
+=====X_XX1_______2XX_X=====
 =====X_XX__XXYXX__XX_X=====
-XXXXXX_XX__X123X__XX_XXXXXX
+XXXXXX_XX__X===X__XX_XXXXXX
 X__________X=B=X__________X
 XXXXXX_XX__X===X__XX_XXXXXX
 =====X_XX__XXXXX__XX_X=====
-=====X_XX_________XX_X=====
+=====X_XX____3____XX_X=====
 =====X_XX_XXXFXXX_XX_X=====
 XXXXXX_XX_XXX_XXX_XX_XXXXXX
 X______XX_________XX______X
@@ -25,5 +25,5 @@ X_________________________X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
-X___O_______X________O____X
+XO___________X___________OX
 XXXXXXXXXXXXXXXXXXXXXXXXXXX

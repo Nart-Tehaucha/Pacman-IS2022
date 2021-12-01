@@ -362,7 +362,9 @@ public class PacBoard extends JPanel{
             for(Ghost g : ghosts){
                 g.moveTimer.stop();
             }
-            nextLevel();
+            if(level != 4) {
+            	nextLevel();
+            }
         }
     }
     
@@ -459,21 +461,6 @@ public class PacBoard extends JPanel{
 
     }
 
-    
-    public void killGhost(Ghost g) {
-    	
-    	System.out.println("kill");
-    	System.out.println(g);
-//    	
-//    	try {
-//	          Thread.sleep(5000);
-//	      } catch (InterruptedException e) {
-//	          e.printStackTrace();
-//	      }
-    	
-    	
-    	
-    }
     
     // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
