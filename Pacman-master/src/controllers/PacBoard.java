@@ -237,6 +237,7 @@ public class PacBoard extends JPanel{
             foods.remove(foodToEat);
             score ++;
             scoreboard.setText("    Score : "+score);
+            pacman.setStrong(false);
 
             if(foods.size() == 0 || score >= scoreToNextLevel){
                 //siren.stop();
@@ -267,17 +268,21 @@ public class PacBoard extends JPanel{
                     mustReactivateSiren = true;
                     //pac6.start();
                     pacman.setStrong(true);
-                    for (Ghost g : ghosts) {
-                    	for(int i=-3 ;i<=3; i++) {
-                    		for(int j=-3; j<=3; j++) {
-                    			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
-         	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
-         	                    		g.ghostDisappear();	
-                    			}
-	                    	
-	                    	}
-                    	}
+                    pacman.setInLocation(true);
+                    if(pacman.isEnterPressed()) {
+                    	for (Ghost g : ghosts) {
+                        	for(int i=-3 ;i<=3; i++) {
+                        		for(int j=-3; j<=3; j++) {
+                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+             	                    		g.ghostDisappear();	
+                        			}
+    	                    	
+    	                    	}
+                        	}
+                        }
                     }
+                    
                     scoreToAdd = 0;
                     break;
                 default:

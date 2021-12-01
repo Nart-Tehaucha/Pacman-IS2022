@@ -20,11 +20,31 @@ public class Pacman implements KeyListener{
     public moveType activeMove;
     public moveType todoMove;
     boolean isStuck = true;
+    boolean isInLocation = false;
+    public boolean isEnterPressed =false;
+    
+    public boolean isEnterPressed() {
+		return isEnterPressed;
+	}
+	public void setEnterPreesed(boolean isEnterPreesed) {
+		this.isEnterPressed = isEnterPreesed;
+	}
+	public boolean isInLocation() {
+		return isInLocation;
+	}
+	public void setInLocation(boolean isInLocation) {
+		this.isInLocation = isInLocation;
+	}
+    
+    
     public boolean isStrong() {
 		return isStrong;
 	}
 	public void setStrong(boolean isStrong) {
 		this.isStrong = isStrong;
+	}
+	public boolean getIsStrong() {
+		return isStrong;
 	}
 
 	boolean isStrong = false;
@@ -197,6 +217,18 @@ public class Pacman implements KeyListener{
         moveTimer.start();
 
     }
+    
+    public boolean changeColor(){
+    	isStrong =true; 
+    	//newColor.setDelay(pacNewColor);
+        //disappear = true;
+//        moveTimer.setDelay(ghostWeakDelay);
+//        unweakBlinks = 0;
+//        isWhite = false;
+//        unWeakenTimer1.start();
+        return isStrong;
+    }  
+    
     // Check if a move is possible
     public boolean isPossibleMove(moveType move){
         if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
@@ -251,6 +283,15 @@ public class Pacman implements KeyListener{
                 break;
             case 82:
                 parentBoard.dispatchEvent(new ActionEvent(this,Messages.RESET,null));
+                break;
+            case KeyEvent.VK_ENTER:            	
+            	System.out.println("enter here");
+            	isEnterPressed =true;
+            	if(isEnterPressed &&isInLocation) {
+                	changeColor();
+            	}
+                	
+            	
                 break;
         }
         //System.out.println(ke.getKeyCode());
