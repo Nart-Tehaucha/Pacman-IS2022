@@ -1,8 +1,4 @@
-<<<<<<< HEAD:Pacman-master/src/model/Pacman.java
-package model;
-=======
 package models;
->>>>>>> ea6a1897000173c7d22a8c43166c097d24125e39:Pacman-master/src/models/Pacman.java
 
 import controllers.*;
 import javax.imageio.ImageIO;
