@@ -1,7 +1,8 @@
 package views;
 
-import modules.*;
 import controllers.*;
+import model.*;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;

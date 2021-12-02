@@ -1,7 +1,8 @@
-package modules;
+package model;
 ///// test tal
 import controllers.*;
 import views.*;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;

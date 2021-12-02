@@ -1,4 +1,4 @@
-package modules;
+package model;
 import java.awt.*;
 
 // Class for power up foods (bombs, special fruit)

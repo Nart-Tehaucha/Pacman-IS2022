@@ -1,7 +1,8 @@
 package views;
 
-import modules.*;
 import controllers.*;
+import model.*;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +28,8 @@ public class PacWindow extends JFrame {
 
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
-
+        
+       
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
         adjustMap(map1);
@@ -73,7 +75,8 @@ public class PacWindow extends JFrame {
 
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
-
+        JLabel lives = new JLabel("    Life : 3");
+        lives.setForeground(new Color(255, 243, 36));
         //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
         
         // Load the custom map layout
@@ -83,6 +86,7 @@ public class PacWindow extends JFrame {
         addKeyListener(pb.pacman);
 
         this.getContentPane().add(scoreboard,BorderLayout.SOUTH);
+        this.getContentPane().add(lives,BorderLayout.SOUTH);
         this.getContentPane().add(pb);
         setVisible(true);
     }

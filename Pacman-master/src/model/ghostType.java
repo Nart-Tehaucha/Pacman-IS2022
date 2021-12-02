@@ -1,4 +1,4 @@
-package modules;
+package model;
 
 // Enum for ghost type
 public enum ghostType{

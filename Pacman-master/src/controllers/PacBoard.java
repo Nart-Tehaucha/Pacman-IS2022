@@ -1,10 +1,11 @@
 package controllers;
 
-import modules.*;
-import views.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import model.*;
+import views.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,8 +40,10 @@ public class PacBoard extends JPanel{
     public boolean clearScore = false;
     public int scoreToAdd = 0;
 
+
     public int score;
     public JLabel scoreboard;
+
 
     public LoopPlayer siren;
     public boolean mustReactivateSiren = false;
@@ -54,12 +57,18 @@ public class PacBoard extends JPanel{
     public MapData md_backup;
     public PacWindow windowParent;
 
-    // Constructor
+    public PacBoard() {
+		super();
+	}
+
+
+	// Constructor
     public PacBoard(JLabel scoreboard, MapData md, PacWindow pw){
         this.scoreboard = scoreboard;
         this.setDoubleBuffered(true);
         md_backup = md;
         windowParent = pw;
+
 
         m_x = md.getX();
         m_y = md.getY();
@@ -171,11 +180,11 @@ public class PacBoard extends JPanel{
                         SoundPlayer.play("pacman_lose.wav");
                         pacman.moveTimer.stop();
                         pacman.animTimer.stop();
-                        g.moveTimer.stop();
-                        isGameOver = true;
+                        g.moveTimer.stop();     
+                    	isGameOver = true;
                         scoreboard.setText("    Press R to try again !");
                         //scoreboard.setForeground(Color.red);
-                        break;
+                        break;   
                     } else {
                         //Eat Ghost
                         SoundPlayer.play("pacman_eatghost.wav");
@@ -226,8 +235,11 @@ public class PacBoard extends JPanel{
         PowerUpFood puFoodToEat = null;
         //Check pu food eat
         for(PowerUpFood puf : pufoods){
-            if(pacman.logicalPosition.x == puf.position.x && pacman.logicalPosition.y == puf.position.y)
+            if(pacman.logicalPosition.x == puf.position.x && pacman.logicalPosition.y == puf.position.y) {
                 puFoodToEat = puf;
+            	//pacman.
+            	
+            }
         }
         if(puFoodToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
@@ -238,9 +250,13 @@ public class PacBoard extends JPanel{
                     siren.stop();
                     mustReactivateSiren = true;
                     pac6.start();
-                    for (Ghost g : ghosts) {
+                   /* for (Ghost g : ghosts) {
                         g.weaken();
                     }
+                    */
+                    for(Ghost g : ghosts) {
+                    	g.weaken();
+                	}
                     scoreToAdd = 0;
                     break;
                 default:
