@@ -1,4 +1,4 @@
-package modules;
+package models;
 import java.awt.*;
 
 // Class for handling passage tunnels

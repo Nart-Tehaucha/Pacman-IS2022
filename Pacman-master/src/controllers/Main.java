@@ -1,6 +1,6 @@
 package controllers;
 
-import modules.SysData;
+import models.SysData;
 import views.StartWindow;
 
 public class Main {

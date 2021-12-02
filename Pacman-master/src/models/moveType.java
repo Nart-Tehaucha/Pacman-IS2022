@@ -1,4 +1,4 @@
-package modules;
+package models;
 
 // Enum for move type.
 public enum moveType{
