@@ -1,10 +1,11 @@
 package controllers;
 
+import views.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import model.*;
-import views.*;
+import models.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,12 +43,10 @@ public class PacBoard extends JPanel{
     public int scoreToAdd = 0;
     public int pacLives;
 
-
     public int score;
     public int level;
     public int scoreToNextLevel;
     public JLabel scoreboard;
-
 
     public LoopPlayer siren;
     public boolean mustReactivateSiren = false;
@@ -61,7 +60,6 @@ public class PacBoard extends JPanel{
     public MapData md_backup;
     public PacWindow windowParent;
 
-
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
         this.level = level;
@@ -71,25 +69,24 @@ public class PacBoard extends JPanel{
     	
     	switch(level) {
     	case 1:
-    		scoreToNextLevel = 50;
+    		scoreToNextLevel = 51;
     		break;
     	case 2:
-    		scoreToNextLevel = 100;
+    		scoreToNextLevel = 101;
     		break;
     	case 3:
-    		scoreToNextLevel = 150;
+    		scoreToNextLevel = 151;
     		break;
     	case 4:
-    		scoreToNextLevel = 9999;
+    		scoreToNextLevel = 200;
     		break;
     	default:
-    		scoreToNextLevel = 50;
+    		scoreToNextLevel = 51;
     	}
     	
         this.setDoubleBuffered(true);
         md_backup = md;
         windowParent = pw;
-
 
         m_x = md.getX();
         m_y = md.getY();
@@ -193,8 +190,12 @@ public class PacBoard extends JPanel{
             if(pr.intersects(gr)){
                 if(!g.isDead()) {
                     if (!g.isWeak()) {
-                    	if(pacLives > 0) {
-                    		pacLives--;
+                    	if(pacLives > 1) {
+                    		pacman.moveTimer.stop();
+                            pacman.animTimer.stop();
+                            g.moveTimer.stop();
+                            isGameOver = true;
+                            pacLives--;
                     		restart(level, score, pacLives);
                     	}
                     	else {
@@ -246,11 +247,8 @@ public class PacBoard extends JPanel{
         PowerUpFood puFoodToEat = null;
         //Check pu food eat
         for(PowerUpFood puf : pufoods){
-            if(pacman.logicalPosition.x == puf.position.x && pacman.logicalPosition.y == puf.position.y) {
+            if(pacman.logicalPosition.x == puf.position.x && pacman.logicalPosition.y == puf.position.y)
                 puFoodToEat = puf;
-            	//pacman.
-            	
-            }
         }
         if(puFoodToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
@@ -276,7 +274,6 @@ public class PacBoard extends JPanel{
 //             	                    		g.pixelPosition.y = 13 * 28;
              	                    		//g.logicalPosition =  this.ghostBase;
              	                    		
-
 //                        			}
 //    	                    	
 //    	                    	}
@@ -297,7 +294,6 @@ public class PacBoard extends JPanel{
             //score ++;
             //scoreboard.setText("    Score : "+score);
         }
-
         
         if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
 	    	for (Ghost g : ghosts) {	
@@ -313,7 +309,6 @@ public class PacBoard extends JPanel{
 	            	}	
 	        	}	
 	        }	
-
         }
 
         //Check Ghost Undie
@@ -354,7 +349,6 @@ public class PacBoard extends JPanel{
     }
 
 
-
     public void addScore() {
     	score ++;
         scoreboard.setText("    Score : "+score);
@@ -374,7 +368,6 @@ public class PacBoard extends JPanel{
         }
     }
     
-
     // Draws all objects on the map
     @Override
     public void paintComponent(Graphics g){
@@ -468,7 +461,7 @@ public class PacBoard extends JPanel{
 
     }
 
-
+    
     // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
     public void processEvent(AWTEvent ae){
@@ -481,7 +474,7 @@ public class PacBoard extends JPanel{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart(1,0,0);
+                restart(1,0,3);
         }else {
             super.processEvent(ae);
         }
@@ -517,4 +510,3 @@ public class PacBoard extends JPanel{
 
 
 }
-

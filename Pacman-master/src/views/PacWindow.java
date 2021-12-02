@@ -35,7 +35,6 @@ public class PacWindow extends JFrame {
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
         
-
         JLabel level = new JLabel("    Level : 1");
         level.setForeground(new Color(255, 243, 36));
         
@@ -157,7 +156,6 @@ public class PacWindow extends JFrame {
         PacBoard pb = new PacBoard(scoreboard,1,0,3,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
-
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(scoreboard);

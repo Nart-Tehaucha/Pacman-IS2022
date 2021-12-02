@@ -1,5 +1,10 @@
 package controllers;
 
+import views.*;
+import java.awt.*;
+import java.util.*;
+
+import models.*;
 
 //Finds Path Between two Maze Points Using Breadth-First Search (BFS)
 //This is used to calculate how the ghosts navigate the maze
