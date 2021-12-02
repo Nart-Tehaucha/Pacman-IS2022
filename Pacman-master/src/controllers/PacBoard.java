@@ -235,21 +235,7 @@ public class PacBoard extends JPanel{
         if(foodToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
-            score ++;
-            scoreboard.setText("    Score : "+score);
-//            pacman.setStrong(false);
-
-            if(foods.size() == 0 || score >= scoreToNextLevel){
-                //siren.stop();
-                //pac6.stop();
-                //SoundPlayer.play("pacman_intermission.wav");
-                isWin = true;
-                pacman.moveTimer.stop();
-                for(Ghost g : ghosts){
-                    g.moveTimer.stop();
-                }
-                nextLevel();
-            }
+            this.addScore();
         }
 
         PowerUpFood puFoodToEat = null;
@@ -275,7 +261,14 @@ public class PacBoard extends JPanel{
 //                        		for(int j=-3; j<=3; j++) {
 //                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
 //             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
-//             	                    		g.ghostDisappear();	
+//             	                    		g.ghostDisappear();
+//             	                    		g.logicalPosition.x = 12;
+//             	                    		g.logicalPosition.y = 13;
+//             	                    		g.pixelPosition.x = 13 * 28;
+//             	                    		g.pixelPosition.y = 13 * 28;
+             	                    		//g.logicalPosition =  this.ghostBase;
+             	                    		
+
 //                        			}
 //    	                    	
 //    	                    	}
@@ -296,19 +289,23 @@ public class PacBoard extends JPanel{
             //score ++;
             //scoreboard.setText("    Score : "+score);
         }
-        if(pacman.getIsStrong() &&pacman.isEnterPressed()) {
-        	for (Ghost g : ghosts) {
-            	for(int i=-3 ;i<=3; i++) {
-            		for(int j=-3; j<=3; j++) {
-            			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
- 	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
- 	                    		g.ghostDisappear();	
- 	                    		pacman.setStrong(false);
-            			}
-                	
-                	}
-            	}
-            }
+
+        
+        if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
+	    	for (Ghost g : ghosts) {	
+	        	for(int i=-3 ;i<=3; i++) {	
+	        		for(int j=-3; j<=3; j++) {	
+	        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&	
+		                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {	
+		                    		g.ghostDisappear();		
+		                    		pacman.setStrong(false);	
+		                    		pacman.setEnterPreesed(false);
+	        			}	
+	            		
+	            	}	
+	        	}	
+	        }	
+
         }
 
         //Check Ghost Undie
@@ -348,6 +345,27 @@ public class PacBoard extends JPanel{
 
     }
 
+
+
+    public void addScore() {
+    	score ++;
+        scoreboard.setText("    Score : "+score);
+
+        if(score >= scoreToNextLevel){
+            //siren.stop();
+            //pac6.stop();
+            //SoundPlayer.play("pacman_intermission.wav");
+            isWin = true;
+            pacman.moveTimer.stop();
+            for(Ghost g : ghosts){
+                g.moveTimer.stop();
+            }
+            if(level != 4) {
+            	nextLevel();
+            }
+        }
+    }
+    
 
     // Draws all objects on the map
     @Override
@@ -441,6 +459,7 @@ public class PacBoard extends JPanel{
 
 
     }
+
 
     // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
