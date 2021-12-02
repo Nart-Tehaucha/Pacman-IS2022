@@ -1,7 +1,7 @@
 package views;
 
 import controllers.*;
-import model.*;
+import models.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

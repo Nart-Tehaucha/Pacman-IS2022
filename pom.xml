@@ -23,6 +23,16 @@
         </configuration>
       </plugin>
       
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+      
+      
       <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -59,9 +69,40 @@
 	</dependency>
 	
 	<dependency>
+		<groupId>org.openjfx</groupId>
+		<artifactId>javafx-swing</artifactId>
+		<version>18-ea+7</version>
+	</dependency>
+	
+	
+	<dependency>
 	<groupId>org.openjfx</groupId>
 	<artifactId>javafx-fxml</artifactId>
 	<version>18-ea+7</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.json/json -->
+<!-- https://mvnrepository.com/artifact/org.json/json -->
+	<dependency>
+		<groupId>com.googlecode.json-simple</groupId>
+		<artifactId>json-simple</artifactId>
+		<version>1.1.1</version>
+	</dependency>
+
+     <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-library -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.7.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.2</version>
+        <scope>test</scope>
+    </dependency>
+
+
+
   </dependencies>
 </project>

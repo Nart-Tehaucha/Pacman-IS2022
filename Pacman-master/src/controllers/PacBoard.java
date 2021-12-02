@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
@@ -39,9 +40,12 @@ public class PacBoard extends JPanel{
     public boolean drawScore = false;
     public boolean clearScore = false;
     public int scoreToAdd = 0;
+    public int pacLives;
 
 
     public int score;
+    public int level;
+    public int scoreToNextLevel;
     public JLabel scoreboard;
 
 
@@ -57,14 +61,31 @@ public class PacBoard extends JPanel{
     public MapData md_backup;
     public PacWindow windowParent;
 
-    public PacBoard() {
-		super();
-	}
 
-
-	// Constructor
-    public PacBoard(JLabel scoreboard, MapData md, PacWindow pw){
-        this.scoreboard = scoreboard;
+    // Constructor
+    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
+        this.level = level;
+        this.score = score;
+        this.pacLives = pacLives;
+    	this.scoreboard = scoreboard;
+    	
+    	switch(level) {
+    	case 1:
+    		scoreToNextLevel = 50;
+    		break;
+    	case 2:
+    		scoreToNextLevel = 100;
+    		break;
+    	case 3:
+    		scoreToNextLevel = 150;
+    		break;
+    	case 4:
+    		scoreToNextLevel = 9999;
+    		break;
+    	default:
+    		scoreToNextLevel = 50;
+    	}
+    	
         this.setDoubleBuffered(true);
         md_backup = md;
         windowParent = pw;
@@ -76,8 +97,6 @@ public class PacBoard extends JPanel{
 
         this.isCustom = md.isCustom();
         this.ghostBase = md.getGhostBasePosition();
-
-        //loadMap();
 
         pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
@@ -116,7 +135,6 @@ public class PacBoard extends JPanel{
                     break;
             }
         }
-        System.out.println(md.getTeleports());
         teleports = md.getTeleports();
 
         // Set layout of the map (size, background color)
@@ -159,13 +177,13 @@ public class PacBoard extends JPanel{
 
         // Start playing sounds
         //SoundPlayer.play("pacman_start.wav");
-        siren = new LoopPlayer("siren.wav");
-        pac6 = new LoopPlayer("pac6.wav");
-        siren.start();
+        //siren = new LoopPlayer("siren.wav");
+        //pac6 = new LoopPlayer("pac6.wav");
+        //siren.start();
     }
 
     
-    // Checks if the player colided with another object (wall, ghost, food)
+    // Checks if the player colided with a ghost
     public void collisionTest(){
         Rectangle pr = new Rectangle(pacman.pixelPosition.x+13,pacman.pixelPosition.y+13,2,2);
         Ghost ghostToRemove = null;
@@ -175,19 +193,25 @@ public class PacBoard extends JPanel{
             if(pr.intersects(gr)){
                 if(!g.isDead()) {
                     if (!g.isWeak()) {
-                        //Game Over
-                        siren.stop();
-                        SoundPlayer.play("pacman_lose.wav");
-                        pacman.moveTimer.stop();
-                        pacman.animTimer.stop();
-                        g.moveTimer.stop();     
-                    	isGameOver = true;
-                        scoreboard.setText("    Press R to try again !");
-                        //scoreboard.setForeground(Color.red);
-                        break;   
+                    	if(pacLives > 0) {
+                    		pacLives--;
+                    		restart(level, score, pacLives);
+                    	}
+                    	else {
+                    		//Game Over
+                            //siren.stop();
+                            //SoundPlayer.play("pacman_lose.wav");
+                            pacman.moveTimer.stop();
+                            pacman.animTimer.stop();
+                            g.moveTimer.stop();
+                            isGameOver = true;
+                            scoreboard.setText("    Press R to try again !");	
+                    	}
+                        
+                        break;
                     } else {
                         //Eat Ghost
-                        SoundPlayer.play("pacman_eatghost.wav");
+                        //SoundPlayer.play("pacman_eatghost.wav");
                         //getGraphics().setFont(new Font("Arial",Font.BOLD,20));
                         drawScore = true;
                         scoreToAdd++;
@@ -207,7 +231,6 @@ public class PacBoard extends JPanel{
 
     // Updates the state of the map (checks if food has been eaten, if a ghost died, if player passed through a passage)
     public void update(){
-
         Food foodToEat = null;
         //Check food eat
         for(Food f : foods){
@@ -215,21 +238,9 @@ public class PacBoard extends JPanel{
                 foodToEat = f;
         }
         if(foodToEat!=null) {
-            SoundPlayer.play("pacman_eat.wav");
+            //SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
-            score ++;
-            scoreboard.setText("    Score : "+score);
-
-            if(foods.size() == 0){
-                siren.stop();
-                pac6.stop();
-                SoundPlayer.play("pacman_intermission.wav");
-                isWin = true;
-                pacman.moveTimer.stop();
-                for(Ghost g : ghosts){
-                    g.moveTimer.stop();
-                }
-            }
+            this.addScore();
         }
 
         PowerUpFood puFoodToEat = null;
@@ -247,26 +258,62 @@ public class PacBoard extends JPanel{
                 case 0:
                     //PACMAN 6
                     pufoods.remove(puFoodToEat);
-                    siren.stop();
+                    //siren.stop();
                     mustReactivateSiren = true;
-                    pac6.start();
-                   /* for (Ghost g : ghosts) {
-                        g.weaken();
-                    }
-                    */
-                    for(Ghost g : ghosts) {
-                    	g.weaken();
-                	}
+                    //pac6.start();
+                    pacman.setStrong(true);
+                    pacman.setInLocation(true);
+//                    if(pacman.isEnterPressed()) {
+//                    	for (Ghost g : ghosts) {
+//                        	for(int i=-3 ;i<=3; i++) {
+//                        		for(int j=-3; j<=3; j++) {
+//                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+//             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+//             	                    		g.ghostDisappear();
+//             	                    		g.logicalPosition.x = 12;
+//             	                    		g.logicalPosition.y = 13;
+//             	                    		g.pixelPosition.x = 13 * 28;
+//             	                    		g.pixelPosition.y = 13 * 28;
+             	                    		//g.logicalPosition =  this.ghostBase;
+             	                    		
+
+//                        			}
+//    	                    	
+//    	                    	}
+//                        	}
+//                        }
+//                    }
+                    
                     scoreToAdd = 0;
+                    pacman.setEnterPreesed(false);
+                    pacman.setInLocation(false);
                     break;
                 default:
-                    SoundPlayer.play("pacman_eatfruit.wav");
+                    //SoundPlayer.play("pacman_eatfruit.wav");
                     pufoods.remove(puFoodToEat);
                     scoreToAdd = 1;
                     drawScore = true;
             }
             //score ++;
             //scoreboard.setText("    Score : "+score);
+        }
+
+        
+        if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
+	    	for (Ghost g : ghosts) {	
+	        	for(int i=-3 ;i<=3; i++) {	
+	        		for(int j=-3; j<=3; j++) {	
+	        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&	
+		                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {	
+		                    		g.ghostDisappear();		
+		                    		pacman.setStrong(false);	
+		                    		pacman.setEnterPreesed(false);
+	        			}	
+	            		
+	            	}	
+	        	}	
+	        }	
+
         }
 
         //Check Ghost Undie
@@ -294,10 +341,10 @@ public class PacBoard extends JPanel{
             }
         }
         if(isSiren){
-            pac6.stop();
+            //pac6.stop();
             if(mustReactivateSiren){
                 mustReactivateSiren = false;
-                siren.start();
+                //siren.start();
             }
 
         }
@@ -306,6 +353,27 @@ public class PacBoard extends JPanel{
 
     }
 
+
+
+    public void addScore() {
+    	score ++;
+        scoreboard.setText("    Score : "+score);
+
+        if(score >= scoreToNextLevel){
+            //siren.stop();
+            //pac6.stop();
+            //SoundPlayer.play("pacman_intermission.wav");
+            isWin = true;
+            pacman.moveTimer.stop();
+            for(Ghost g : ghosts){
+                g.moveTimer.stop();
+            }
+            if(level != 4) {
+            	nextLevel();
+            }
+        }
+    }
+    
 
     // Draws all objects on the map
     @Override
@@ -378,10 +446,9 @@ public class PacBoard extends JPanel{
         }
 
         if(drawScore) {
-            //System.out.println("must draw score !");
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
-            Integer s = scoreToAdd*100;
+            Integer s = scoreToAdd*20;
             g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
             //drawScore = false;
             score += s;
@@ -401,6 +468,7 @@ public class PacBoard extends JPanel{
 
     }
 
+
     // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
     public void processEvent(AWTEvent ae){
@@ -413,7 +481,7 @@ public class PacBoard extends JPanel{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart();
+                restart(1,0,0);
         }else {
             super.processEvent(ae);
         }
@@ -421,63 +489,32 @@ public class PacBoard extends JPanel{
 
     
     // Restarts the game.
-    public void restart(){
+    public void nextLevel(){
 
-        siren.stop();
+        //siren.stop();
+        //pac6.stop();
+        
+//        
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
-        new PacWindow();
         windowParent.dispose();
+        
+        new PacWindow(level+1, score, pacLives);
+    }
 
-        /*
-        removeKeyListener(pacman);
-
-        isGameOver = false;
-
-        pacman = new Pacman(md_backup.getPacmanPosition().x,md_backup.getPacmanPosition().y,this);
-        addKeyListener(pacman);
-
-        foods = new ArrayList<>();
-        pufoods = new ArrayList<>();
-        ghosts = new ArrayList<>();
-        teleports = new ArrayList<>();
-
-        //TODO : read food from mapData (Map 1)
-
-        if(!isCustom) {
-            for (int i = 0; i < m_x; i++) {
-                for (int j = 0; j < m_y; j++) {
-                    if (map[i][j] == 0)
-                        foods.add(new Food(i, j));
-                }
-            }
-        }else{
-            foods = md_backup.getFoodPositions();
-        }
-
-
-
-        pufoods = md_backup.getPufoodPositions();
-
-        ghosts = new ArrayList<>();
-        for(GhostData gd : md_backup.getGhostsData()){
-            switch(gd.getType()) {
-                case RED:
-                    ghosts.add(new RedGhost(gd.getX(), gd.getY(), this));
-                    break;
-                case PINK:
-                    ghosts.add(new PinkGhost(gd.getX(), gd.getY(), this));
-                    break;
-                case CYAN:
-                    ghosts.add(new CyanGhost(gd.getX(), gd.getY(), this));
-                    break;
-            }
-        }
-
-        teleports = md_backup.getTeleports();
-        */
+    public void restart(int level, int score, int pacLives) {
+    	//siren.stop();
+    	//pac6.stop();
+    	
+    	windowParent.dispose();
+    	new PacWindow(level, score, pacLives);
+    	
     }
 
 
-
-
 }
+

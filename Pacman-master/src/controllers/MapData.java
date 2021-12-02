@@ -3,7 +3,8 @@ package controllers;
 import java.awt.*;
 import java.util.ArrayList;
 
-import model.*;
+import models.*;
+
 
 // Data about the map and the positions of the objects.
 // Used to design the layout of the map.

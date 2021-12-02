@@ -1,7 +1,7 @@
 package views;
 
 import controllers.*;
-import model.*;
+import models.*;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -13,84 +13,162 @@ import java.util.Scanner;
 
 // Main window of the game screen.
 public class PacWindow extends JFrame {
-
+	private PacBoard pb;
+	// ============================== Constructors =============================
+	
 	// Default Constructor. Initializes the game screen.
     public PacWindow(){
         setTitle("IS 2022 PacMan Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
         setSize(794,884);
         setLocationRelativeTo(null);
 
+        
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
         
-       
+
+        JLabel level = new JLabel("    Level : 1");
+        level.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : 3");
+        lbLives.setForeground(new Color(255, 243, 36));
+
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
         adjustMap(map1);
 
-        map1.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
-        map1.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
-        map1.setGhostBasePosition(new Point(12,14));
-        
-        map1.getGhostsData().add(new GhostData(12,17,ghostType.RED));
-        map1.getGhostsData().add(new GhostData(17,14,ghostType.CYAN));
-        map1.getGhostsData().add(new GhostData(17,10,ghostType.PINK));
-//        map1.getGhostsData().add(new GhostData(5,27,ghostType.CYAN));
-//        map1.getGhostsData().add(new GhostData(3,5,ghostType.PINK));
-//        map1.getGhostsData().add(new GhostData(20,5,ghostType.CYAN));
-//        map1.getPufoodPositions().add(new PowerUpFood(12,14,0));
-//        map1.getPufoodPositions().add(new PowerUpFood(25,27,3));
-//        map1.getPufoodPositions().add(new PowerUpFood(24,27,2));
-//        map1.getPufoodPositions().add(new PowerUpFood(23,27,1));
-//        map1.getPufoodPositions().add(new PowerUpFood(22,27,4));
-//        map1.getPufoodPositions().add(new PowerUpFood(21,27,0));
-
         // Create a new game object.
-        PacBoard pb = new PacBoard(scoreboard,map1,this);
+        pb = new PacBoard(scoreboard,1,0,3,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
-        this.getContentPane().add(scoreboard,BorderLayout.SOUTH);
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        bottomBar.add(scoreboard);
+        bottomBar.add(level);
+        bottomBar.add(lbLives);
+        this.getContentPane().add(pb);
+        
+        setVisible(true);
+    }
+    
+    // Second constructor, gets MapData as an argument
+    public PacWindow(int level, int score, int pacLives){
+        setTitle("IS 2022 PacMan Game"); // Title
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // Setup the game window and lbScore
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setBackground(Color.black);
+
+        setSize(794,884);
+        setLocationRelativeTo(null);
+
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
+        JLabel lbScore = new JLabel("    Score : " + score);
+        lbScore.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLevel = new JLabel();
+        lbLevel.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : " + pacLives);
+        lbLives.setForeground(new Color(255, 243, 36));
+        MapData map;
+        switch(level) {
+        case 1: 
+        	map = getMapFromResource("/resources/maps/map1_c.txt");
+        	lbLevel.setText("    Level : 1");
+        	lbScore.setText("    Score : 0");
+        	break;
+        case 2: 
+        	map = getMapFromResource("/resources/maps/map2_c.txt");
+        	map.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
+            map.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
+        	lbLevel.setText("    Level : 2");
+        	break;
+        case 3: 
+        	map = getMapFromResource("/resources/maps/map3_c.txt");
+        	lbLevel.setText("    Level : 3");
+        	break;
+        case 4: 
+        	map = getMapFromResource("/resources/maps/map4_c.txt");
+        	lbLevel.setText("    Level : 4");
+        	break;
+        default:
+        	map = getMapFromResource("/resources/maps/map1_c.txt");
+        	lbLevel.setText("    Level : 1");
+        	lbScore.setText("    Score : 0");
+        }
+        
+        adjustMap(map);
+        
+        // Load the custom map layout
+        PacBoard pb = new PacBoard(lbScore,level, score, pacLives,map,this);
+        pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
+        addKeyListener(pb.pacman);
+
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        bottomBar.add(lbScore);
+        bottomBar.add(lbLevel);
+        bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         setVisible(true);
     }
-    // Second constructor, gets MapData as an argument
+    
+    // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){
         setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
         setSize(794,884);
         setLocationRelativeTo(null);
 
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
-        JLabel lives = new JLabel("    Life : 3");
-        lives.setForeground(new Color(255, 243, 36));
+        
+        JLabel level = new JLabel("    Level : 1");
+        level.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : 3");
+        lbLives.setForeground(new Color(255, 243, 36));
+
         //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
         
         // Load the custom map layout
         adjustMap(md);
-        PacBoard pb = new PacBoard(scoreboard,md,this);
+        PacBoard pb = new PacBoard(scoreboard,1,0,3,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
 
-        this.getContentPane().add(scoreboard,BorderLayout.SOUTH);
-        this.getContentPane().add(lives,BorderLayout.SOUTH);
+
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        bottomBar.add(scoreboard);
+        bottomBar.add(level);
+        bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         setVisible(true);
     }
-
+    
+    // ============================== Methods =============================
+    
     // Compiles a map from reading a text file, returns it as an int 2D array
     public int[][] loadMap(int mx,int my,String relPath){
         try {
@@ -130,7 +208,12 @@ public class PacWindow extends JFrame {
         return MapEditor.compileMap(mapStr);
     }
 
-    //Dynamically Generate Map Segments
+    //Classifies all the walls on the map and gives each one a number representing it's type
+    // For example:
+    // Horizontal wall = 20
+    // Vertical wall = 24
+    // Corner walls = 10, 11, 12, 13 (depending on which corner)
+    // This is done for the purpose of loading a different image for each type of wall.
     public void adjustMap(MapData mapd){
         int[][] map = mapd.getMap();
         int mx=mapd.getX();
@@ -262,11 +345,29 @@ public class PacWindow extends JFrame {
                     //System.out.println("MAP SEGMENT : " + mustSet);
                     map[x][y] = mustSet;
                 }
-                mapd.setMap(map);
+                
             }
         }
+        mapd.setMap(map);
+        
+        //Print map array
+        /*for(int ii=0;ii<my;ii++){
+            for(int jj=0;jj<mx;jj++){
+            	if(map[jj][ii] < 10) {
+            		System.out.print(map[jj][ii] + "  ");	
+            	}
+            	else {
+            		System.out.print(map[jj][ii] + " ");
+            	}
+            }
+            System.out.print('\n');
+        }*/
+        
         System.out.println("Map Adjust OK !");
     }
 
+    public PacBoard getPacBoard() {
+    	return this.pb;
+    }
 
 }
