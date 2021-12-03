@@ -1,6 +1,6 @@
 package controllers;
 
-import modules.*;
+import models.*;
 import views.*;
 
 import javax.imageio.ImageIO;
