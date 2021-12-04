@@ -2,6 +2,7 @@ package models;
 
 import controllers.*;
 import views.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -316,11 +317,7 @@ public abstract class Ghost {
 
     // Makes ghost "weak" (after player eats bomb)
     public void weaken(){
-        isWeak = true;
-        moveTimer.setDelay(ghostWeakDelay);
-        unweakBlinks = 0;
-        isWhite = false;
-        unWeakenTimer1.start();
+    	this.die();
     }
     public void ghostDisappear(){
         disappear = true;

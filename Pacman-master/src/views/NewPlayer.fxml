@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="550.0" stylesheets="@styleSheet.css" style="-fx-background-image: url('/Pacman-master/resources/images/background/bg.jpg'); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlayersController">
+   <children>
+      <Label layoutX="62.0" layoutY="95.0" prefHeight="20.0" prefWidth="172.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose your Nickname:">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="62.0" layoutY="145.0" prefHeight="20.0" prefWidth="184.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose your Password:">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Group layoutX="205.0" layoutY="253.0" />
+      <Label layoutX="58.0" layoutY="200.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Re-enter your password:">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nickname" layoutX="264.0" layoutY="93.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <Button fx:id="saveButton" layoutX="371.0" layoutY="453.0" mnemonicParsing="false" onAction="#saveData" prefHeight="43.0" prefWidth="69.0" stylesheets="@styleSheet.css" text="SAVE">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+         <styleClass>
+            <String fx:value="saveHover" />
+            <String fx:value="saveHover" />
+         </styleClass>
+      </Button>
+      <Label layoutX="156.0" layoutY="31.0" prefHeight="26.0" prefWidth="215.0" style="-fx-text-fill: #990000;" styleClass="title" stylesheets="@../../../../../../../eclipse-workspace/Projects/Zoo_Sol_EXC1_BIG/src/View/styleSheet.css" text="New Player In The House!" textFill="#191818">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="71.0" layoutY="273.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Would you like to get notifications to your email?">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="email" layoutX="264.0" layoutY="367.0" styleClass="chocie-box" stylesheets="@../../../../../../../eclipse-workspace/Projects/Zoo_Sol_EXC1_BIG/src/View/styleSheet.css" visible="false" />
+      <Label fx:id="enterEmail" layoutX="63.0" layoutY="371.0" prefHeight="20.0" prefWidth="184.0" styleClass="labelFont" stylesheets="@../../../../../../../eclipse-workspace/Projects/Zoo_Sol_EXC1_BIG/src/View/styleSheet.css" text="Enter your email:" visible="false">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="yes" layoutX="148.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#Notifications" stylesheets="@styleSheet.css" text="Yep">
+         <toggleGroup>
+            <ToggleGroup fx:id="allowNotifications" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="no" layoutX="246.0" layoutY="316.0" mnemonicParsing="false" onAction="#NoNotif" stylesheets="@styleSheet.css" text="No, thanks" toggleGroup="$allowNotifications" />
+      <PasswordField fx:id="password" layoutX="264.0" layoutY="142.0" stylesheets="@styleSheet.css" />
+      <PasswordField fx:id="password2" layoutX="264.0" layoutY="197.0" stylesheets="@styleSheet.css" />
+   </children>
+</AnchorPane>

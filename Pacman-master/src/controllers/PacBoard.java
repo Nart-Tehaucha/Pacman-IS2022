@@ -1,10 +1,10 @@
 package controllers;
 
-import models.*;
-import views.*;
 
+import views.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,19 +67,19 @@ public class PacBoard extends JPanel{
     	
     	switch(level) {
     	case 1:
-    		scoreToNextLevel = 50;
+    		scoreToNextLevel = 51;
     		break;
     	case 2:
-    		scoreToNextLevel = 100;
+    		scoreToNextLevel = 101;
     		break;
     	case 3:
-    		scoreToNextLevel = 150;
+    		scoreToNextLevel = 151;
     		break;
     	case 4:
-    		scoreToNextLevel = 9999;
+    		scoreToNextLevel = 200;
     		break;
     	default:
-    		scoreToNextLevel = 50;
+    		scoreToNextLevel = 51;
     	}
     	
         this.setDoubleBuffered(true);
@@ -188,8 +188,12 @@ public class PacBoard extends JPanel{
             if(pr.intersects(gr)){
                 if(!g.isDead()) {
                     if (!g.isWeak()) {
-                    	if(pacLives > 0) {
-                    		pacLives--;
+                    	if(pacLives > 1) {
+                    		pacman.moveTimer.stop();
+                            pacman.animTimer.stop();
+                            g.moveTimer.stop();
+                            isGameOver = true;
+                            pacLives--;
                     		restart(level, score, pacLives);
                     	}
                     	else {
@@ -268,7 +272,6 @@ public class PacBoard extends JPanel{
 //             	                    		g.pixelPosition.y = 13 * 28;
              	                    		//g.logicalPosition =  this.ghostBase;
              	                    		
-
 //                        			}
 //    	                    	
 //    	                    	}
@@ -289,7 +292,6 @@ public class PacBoard extends JPanel{
             //score ++;
             //scoreboard.setText("    Score : "+score);
         }
-
         
         if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
 	    	for (Ghost g : ghosts) {	
@@ -305,7 +307,6 @@ public class PacBoard extends JPanel{
 	            	}	
 	        	}	
 	        }	
-
         }
 
         //Check Ghost Undie
@@ -346,7 +347,6 @@ public class PacBoard extends JPanel{
     }
 
 
-
     public void addScore() {
     	score ++;
         scoreboard.setText("    Score : "+score);
@@ -366,7 +366,6 @@ public class PacBoard extends JPanel{
         }
     }
     
-
     // Draws all objects on the map
     @Override
     public void paintComponent(Graphics g){
@@ -460,7 +459,7 @@ public class PacBoard extends JPanel{
 
     }
 
-
+    
     // Recieves event, checks what type it is (UPDATE, COLLISION, RESET), and proccesses it accordingly.
     @Override
     public void processEvent(AWTEvent ae){
@@ -473,7 +472,7 @@ public class PacBoard extends JPanel{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart(1,0,0);
+                restart(1,0,3);
         }else {
             super.processEvent(ae);
         }
@@ -509,4 +508,3 @@ public class PacBoard extends JPanel{
 
 
 }
-

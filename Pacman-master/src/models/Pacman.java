@@ -82,6 +82,7 @@ public class Pacman implements KeyListener{
             pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
             pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
             pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
+            
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
         }
@@ -286,10 +287,10 @@ public class Pacman implements KeyListener{
                 break;
             case KeyEvent.VK_ENTER:            	
             	isEnterPressed =true;
-            	if(isEnterPressed) {
-                	changeColor();
-            	}
-                	
+//            	if(isEnterPressed) {
+//                	changeColor();
+//            	}
+//                	
             	
                 break;
         }
