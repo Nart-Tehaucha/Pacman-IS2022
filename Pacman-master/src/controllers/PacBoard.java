@@ -272,7 +272,7 @@ public class PacBoard extends JPanel{
             switch(questionIcontToEat.type) {
                 case 0:
                     //OPEN EASY QUESTION WINDOW
-     
+                	
                 	questionIcons.remove(questionIcontToEat);
                 	index = (int)(Math.random() * md_backup.getFoodPositions().size());
                 	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position; 

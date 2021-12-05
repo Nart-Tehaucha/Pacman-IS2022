@@ -1,4 +1,4 @@
-package controllers;
+/*package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import models.Record;
 
 public class RecordsController {
 		@FXML
@@ -35,6 +34,9 @@ public class RecordsController {
 
 	    @FXML
 	    private TableColumn<Record, String> times;
+	    
+        @FXML
+    	private ImageView goBack;
 
 		public RecordsController(AnchorPane mainPanel, Label weAreTheChampions, TableView<Record> allRecords,
 				Button backToMenu, TableColumn<Record, String> nicknames, TableColumn<Record, Integer> places,
@@ -50,6 +52,11 @@ public class RecordsController {
 			this.scores = scores;
 			this.times = times;
 		}
+		
+	    @FXML
+	    void goToPageBefore(MouseEvent event) {
+	
+	    }
 
 		public AnchorPane getMainPanel() {
 			return MainPanel;
@@ -125,3 +132,4 @@ public class RecordsController {
 	    
 	    
 }
+*/

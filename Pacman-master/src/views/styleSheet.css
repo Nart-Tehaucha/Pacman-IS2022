@@ -19,16 +19,16 @@
 }
 
 #tryAnchor{
-		-fx-background-image: url('./1.png'); 
+		-fx-background-image: url('./bg.jpg'); 
 	-fx-background-size: cover;
 }
 #anchorP{
-	-fx-background-image: url('./1.png'); 
+	-fx-background-image: url('./bg.jpg'); 
 	-fx-background-size: cover;
 }	
 
 #MainPanel{
-	-fx-background-image: url('/Pacman-master/src/resources/images/background/bg.jpg'); 
+	-fx-background-image: url('./bg.jpg');
 	-fx-background-size: cover;
 
 }
@@ -61,7 +61,7 @@
 	-fx-font-style: italic;
 }
 .saveButton{
-	-fx-background-image: url('./1.png');
+	-fx-background-image: url('./yellow.jpg');
 	-fx-font-size: 13px;
 	-fx-font-style: italic;
 	 -fx-font-weight: bold;

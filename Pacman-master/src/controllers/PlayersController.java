@@ -13,11 +13,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
-import views.LoginScreen;
 
 public class PlayersController {
 
@@ -51,6 +51,9 @@ public class PlayersController {
 
     @FXML
     private Label enterEmail;
+    
+    @FXML
+    private ImageView goBack;
 
     @FXML
     void Notifications(MouseEvent event) {
@@ -62,6 +65,13 @@ public class PlayersController {
     void NoNotif(ActionEvent event) {
     	email.setVisible(false);
     	enterEmail.setVisible(false);
+    }
+    
+    @FXML
+    void goToPageBefore(MouseEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
+		LoadScreen(loader);
+		return;
     }
    
 
