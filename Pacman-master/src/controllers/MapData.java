@@ -18,12 +18,14 @@ public class MapData {
     private boolean isCustom;
     private ArrayList<Food> foodPositions;
     private ArrayList<PowerUpFood> pufoodPositions;
+    private ArrayList<QuestionIcon> questionIconsPositions;
     private ArrayList<TeleportTunnel> teleports;
     private ArrayList<GhostData> ghostsData;
 
     public MapData(){
         foodPositions = new ArrayList<>();
         pufoodPositions = new ArrayList<>();
+        questionIconsPositions = new ArrayList<>();
         teleports = new ArrayList<>();
         ghostsData = new ArrayList<>();
     }
@@ -34,6 +36,7 @@ public class MapData {
 
         foodPositions = new ArrayList<>();
         pufoodPositions = new ArrayList<>();
+        questionIconsPositions = new ArrayList<>();
         teleports = new ArrayList<>();
         ghostsData = new ArrayList<>();
     }
@@ -46,6 +49,7 @@ public class MapData {
 
         foodPositions = new ArrayList<>();
         pufoodPositions = new ArrayList<>();
+        questionIconsPositions = new ArrayList<>();
         teleports = new ArrayList<>();
         ghostsData = new ArrayList<>();
     }
@@ -96,6 +100,10 @@ public class MapData {
 
     public ArrayList<PowerUpFood> getPufoodPositions() {
         return pufoodPositions;
+    }
+    
+    public ArrayList<QuestionIcon> getquestionIconsPositions() {
+        return questionIconsPositions;
     }
 
     public ArrayList<TeleportTunnel> getTeleports() {

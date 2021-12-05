@@ -148,6 +148,33 @@ public class MapEditor extends JFrame {
                 map[i][j] = 0;
                 customMap.setGhostBasePosition(new Point(i,j));
             }
+            
+            if(c == 'E'){
+            	System.out.println("this is i: " + i + "this is j:" + j);
+            	map[i][j] = 0;
+            	// customMap.getquestionIconsPositions().add(new QuestionIcon(i,j,0));
+                QuestionIcon qi = new QuestionIcon(i,j,0);
+                //System.out.println(qi);
+                customMap.getquestionIconsPositions().add(qi);
+            }
+            
+            if(c == 'M'){
+            	System.out.println("this is i: " + i + "this is j:" + j);
+            	map[i][j] = 0;
+            	// customMap.getquestionIconsPositions().add(new QuestionIcon(i,j,0));
+                QuestionIcon qi = new QuestionIcon(i,j,1);
+                //System.out.println(qi);
+                customMap.getquestionIconsPositions().add(qi);
+            }
+            
+            if(c == 'H'){
+            	System.out.println("this is i: " + i + "this is j:" + j);
+            	map[i][j] = 0;
+            	// customMap.getquestionIconsPositions().add(new QuestionIcon(i,j,0));
+                QuestionIcon qi = new QuestionIcon(i,j,2);
+                customMap.getquestionIconsPositions().add(qi);
+            }
+            
             i++;
             if(c == '\n'){
                 j++;

@@ -3,7 +3,7 @@ XO_____X====X_X====X_____OX
 X_XXXX_X====X_X====X_XXXX_X
 X_XXXX_X====X_X====X_XXXX_X
 X_XXXX_XXXXXX_XXXXXX_XXXX_X
-XP________________________X
+XP______________H_________X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X______XX_________XX______X
@@ -18,10 +18,10 @@ XXXXXX_XX_XXX_XXX_XX_XXXXXX
 =====X_XX____3____XX_X=====
 =====X_XX_XXXFXXX_XX_X=====
 XXXXXX_XX_XXX_XXX_XX_XXXXXX
-X______XX_________XX______X
+X___E__XX_________XX______X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
-X_________________________X
+X_______________M_________X
 X_XXXX_XXXXXX_XXXXXX_XXXX_X
 X_XXXX_X====X_X====X_XXXX_X
 X_XXXX_X====X_X====X_XXXX_X
