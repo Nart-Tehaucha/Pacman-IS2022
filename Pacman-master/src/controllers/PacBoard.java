@@ -3,7 +3,7 @@ package controllers;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import model.*;
+import models.*;
 import views.*;
 
 import java.awt.*;

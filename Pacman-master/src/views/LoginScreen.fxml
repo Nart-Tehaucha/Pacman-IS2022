@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,39 +10,75 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" style="-fx-background-image: url('1.png'); -fx-background-size: cover;" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginScreen">
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginScreen">
    <children>
-      <Label layoutX="124.0" layoutY="139.0" style="-fx-font-weight: bold;" stylesheets="@styleSheet.css" text="Nickname:" />
+      <Label layoutX="124.0" layoutY="139.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Nickname:" />
       <TextField fx:id="username" layoutX="222.0" layoutY="135.0" promptText="Enter Your Nickname" styleClass="chocie-box" stylesheets="@styleSheet.css" />
-      <Label layoutX="124.0" layoutY="196.0" style="-fx-font-weight: bold;" stylesheets="@styleSheet.css" text="Password:" />
+      <Label layoutX="124.0" layoutY="196.0" style="-fx-font-weight: bold;" styleClass="labelFont" stylesheets="@styleSheet.css" text="Password:" />
       <RadioButton fx:id="showPassword" layoutX="394.0" layoutY="196.0" mnemonicParsing="false" onAction="#showThePassword" prefHeight="20.0" prefWidth="169.0" style="-fx-font-weight: bold;" styleClass="label" stylesheets="" text="Show password" textFill="WHITE" />
-      <Button fx:id="LoginButton" layoutX="420.0" layoutY="329.0" mnemonicParsing="false" onAction="#EnterTheMenu" prefHeight="25.0" prefWidth="83.0" stylesheets="@styleSheet.css" text="ENTER">
+      <Button fx:id="LoginButton" layoutX="464.0" layoutY="413.0" mnemonicParsing="false" onAction="#EnterTheMenu" prefHeight="29.0" prefWidth="103.0" stylesheets="@styleSheet.css" text="ENTER">
          <styleClass>
             <String fx:value="saveButton" />
             <String fx:value="lavenderHover" />
+            <String fx:value="labelFont" />
          </styleClass>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color red="1.0" green="1.0" blue="1.0" />
+               </color>
+            </DropShadow>
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <Text fill="#324e13" layoutX="151.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #339966; -fx-font-style: italic; -fx-font-weight: bold;" text="Pacman IS-21" textAlignment="RIGHT">
+      <Text layoutX="151.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: yellow; -fx-font-style: italic; -fx-font-weight: bold;" text="Pacman IS-21" textAlignment="RIGHT">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
          <effect>
             <Lighting diffuseConstant="1.31" specularConstant="2.0" specularExponent="21.09" surfaceScale="1.4">
                <light>
-                  <Light.Distant color="#70a285" />
+                  <Light.Distant>
+                     <color>
+                        <Color red="1.0" green="0.9085391163825989" blue="0.21604938805103302" />
+                     </color>
+                  </Light.Distant>
                </light>
                <bumpInput>
                   <Reflection />
                </bumpInput>
             </Lighting>
          </effect>
+         <fill>
+            <RadialGradient centerX="0.5516605306815398" centerY="0.7649842632305734" focusDistance="-0.5801526863156384" radius="0.7824427626515162">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8999999761581421" green="0.7112577557563782" blue="0.11699999868869781" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </fill>
       </Text>
       <Group layoutX="222.0" layoutY="192.0">
          <children>
@@ -53,29 +90,45 @@
             </PasswordField>
          </children>
       </Group>
-      <Button layoutX="171.0" layoutY="246.0" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="23.0" prefWidth="126.0" stylesheets="@styleSheet.css" text="Forgot Password?" textFill="#4d4949">
+      <Button layoutX="171.0" layoutY="338.0" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="29.0" prefWidth="138.0" stylesheets="@styleSheet.css" text="Forgot Password?" textFill="#4d4949">
          <effect>
-            <Blend mode="COLOR_DODGE" opacity="0.57" />
+            <Blend mode="COLOR_DODGE" opacity="0.62">
+               <topInput>
+                  <Glow />
+               </topInput>
+            </Blend>
          </effect>
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
          <styleClass>
             <String fx:value="saveHover" />
-            <String fx:value="saveButton" />
+            <String fx:value="items" />
+            <String fx:value="labelFont" />
          </styleClass>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <Button layoutX="321.0" layoutY="246.0" mnemonicParsing="false" onAction="#NewPlayer" prefHeight="23.0" prefWidth="126.0" stylesheets="@styleSheet.css" text="New Player?" textFill="#4d4949">
+      <Button layoutX="321.0" layoutY="338.0" mnemonicParsing="false" onAction="#NewPlayer" prefHeight="29.0" prefWidth="138.0" stylesheets="@styleSheet.css" text="New Player?" textFill="#4d4949">
          <effect>
-            <Blend mode="COLOR_DODGE" opacity="0.57" />
+            <Blend mode="COLOR_DODGE" opacity="0.62">
+               <topInput>
+                  <Glow />
+               </topInput>
+            </Blend>
          </effect>
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
          <styleClass>
             <String fx:value="saveHover" />
-            <String fx:value="saveButton" />
+            <String fx:value="items" />
+            <String fx:value="labelFont" />
          </styleClass>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>
