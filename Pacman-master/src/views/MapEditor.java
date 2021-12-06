@@ -41,7 +41,7 @@ public class MapEditor extends JFrame {
         JLabel l8 = new JLabel("F : Fruit");
         JLabel l9 = new JLabel("B : Ghost Base");
         //JLabel l4 = new JLabel("1 : Red Ghost (Chaser)");
-
+ 
         l0.setForeground(Color.yellow);
         l1.setForeground(Color.yellow);
         l2.setForeground(Color.yellow);
