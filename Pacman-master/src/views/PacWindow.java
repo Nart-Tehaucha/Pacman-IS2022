@@ -7,6 +7,15 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
 import java.awt.*;
 import java.util.Map;
 import java.util.Scanner;
@@ -28,6 +37,9 @@ public class PacWindow extends JFrame {
         setSize(794,884);
         setLocationRelativeTo(null);
 
+        
+     // ===== JAVAFX =====
+        final JFXPanel fxPanel = new JFXPanel();
         
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
@@ -52,12 +64,20 @@ public class PacWindow extends JFrame {
         addKeyListener(pb.pacman);
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        //this.getContentPane().add(fxPanel,BorderLayout.NORTH);
         bottomBar.add(scoreboard);
         bottomBar.add(level);
         bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         
         setVisible(true);
+        
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                initFX(fxPanel);
+//            }
+//        });
     }
     
     // Second constructor, gets MapData as an argument
@@ -164,6 +184,30 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
     }
+    
+    
+    // ============================== JavaFX Initialization =============================
+    
+    private static void initFX(JFXPanel fxPanel) {
+        // This method is invoked on the JavaFX thread
+        Scene scene = createScene();
+        fxPanel.setScene(scene);
+        
+    }
+    
+    private static Scene createScene() {
+        Group  root  =  new  Group();
+        Scene  scene  =  new  Scene(root);
+        //Button tstBtn = new Button();
+        Text  text  =  new  Text();
+        
+        text.setX(10);
+        text.setY(20);
+        text.setText("Welcome JavaFX!");
+        root.getChildren().add(text);
+        return (scene);
+    }
+    
     
     // ============================== Methods =============================
     

@@ -1,13 +1,9 @@
 package controllers;
 
-<<<<<<< HEAD
-import javafx.scene.effect.Light.Point;
-=======
 import views.*;
 import java.awt.*;
 import java.util.*;
 
->>>>>>> 0cf91c0e8e0315fa2516fb15e07907f79a9fb731
 import models.*;
 
 //Finds Path Between two Maze Points Using Breadth-First Search (BFS)
