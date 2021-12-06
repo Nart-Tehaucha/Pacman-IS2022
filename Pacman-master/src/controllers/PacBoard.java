@@ -19,8 +19,11 @@ public class PacBoard extends JPanel{
     public ActionListener redrawAL;
 
     public int[][] map;
-    public Image[] mapSegments;
-
+    public Image[] blue_mapSegments;
+    public Image[] pink_mapSegments;
+    public Image[] babyBlue_mapSegments;
+    public Image[] green_mapSegments;
+    
     public Image foodImage;
     public Image[] pfoodImage;
     public Image[] questionIconImage;
@@ -59,6 +62,7 @@ public class PacBoard extends JPanel{
 
     public MapData md_backup;
     public PacWindow windowParent;
+    
 
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
@@ -141,14 +145,43 @@ public class PacBoard extends JPanel{
         setSize(20*m_x,20*m_y);
         setBackground(Color.black);
 
-        // Load images for all segments of the map
-        mapSegments = new Image[28];
-        mapSegments[0] = null;
+        // Load blue images for all segments of the map
+        blue_mapSegments = new Image[28];
+        blue_mapSegments[0] = null;
         for(int ms=1;ms<28;ms++){
             try {
-                mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/map segments/"+ms+".png"));
+                blue_mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/blue_map segments/"+ms+".png"));
             }catch(Exception e){}
         }
+        
+     // Load pink images for all segments of the map
+        pink_mapSegments = new Image[28];
+        pink_mapSegments[0] = null;
+        for(int ms=1;ms<28;ms++){
+            try {
+                pink_mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/pink_map segments/"+ms+".png"));
+            }catch(Exception e){}
+        } System.out.println("this is pink_mapSegments: "+ pink_mapSegments.toString());
+        
+        
+     // Load green images for all segments of the map
+        green_mapSegments = new Image[28];
+        green_mapSegments[0] = null;
+        for(int ms=1;ms<28;ms++){
+            try {
+                green_mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/green_map segments/"+ms+".png"));
+            }catch(Exception e){}
+        }
+        
+     // Load babyBlue images for all segments of the map
+        babyBlue_mapSegments = new Image[28];
+        babyBlue_mapSegments[0] = null;
+        for(int ms=1;ms<28;ms++){
+            try {
+                babyBlue_mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/babyBlue_map segments/"+ms+".png"));
+            }catch(Exception e){}
+        }
+        
 
         pfoodImage = new Image[5];
         for(int ms=0 ;ms<5;ms++){
@@ -450,16 +483,72 @@ public class PacBoard extends JPanel{
             g.drawLine(10,ii*28+10,m_x*28+10,ii*28+10);
         }*/
 
-        //Draw Walls
-        g.setColor(Color.blue);
-        for(int i=0;i<m_x;i++){
-            for(int j=0;j<m_y;j++){
-                if(map[i][j]>0){
-                    //g.drawImage(10+i*28,10+j*28,28,28);
-                    g.drawImage(mapSegments[map[i][j]],10+i*28,10+j*28,null);
+        
+        
+        switch(level) {
+    	case 1:
+    		//Draw Walls
+            g.setColor(Color.blue);
+            for(int i=0;i<m_x;i++){
+                for(int j=0;j<m_y;j++){
+                    if(map[i][j]>0){
+                        //g.drawImage(10+i*28,10+j*28,28,28);
+                        g.drawImage(blue_mapSegments[map[i][j]],10+i*28,10+j*28,null);
+                    }
                 }
             }
-        }
+    		break;
+    	case 2:
+    		//Draw Walls
+            g.setColor(Color.blue);
+            for(int i=0;i<m_x;i++){
+                for(int j=0;j<m_y;j++){
+                    if(map[i][j]>0){
+                        //g.drawImage(10+i*28,10+j*28,28,28);
+                        g.drawImage(pink_mapSegments[map[i][j]],10+i*28,10+j*28,null);
+                    }
+                }
+            }
+    		break;
+    	case 3:
+    		//Draw Walls
+            g.setColor(Color.blue);
+            for(int i=0;i<m_x;i++){
+                for(int j=0;j<m_y;j++){
+                    if(map[i][j]>0){
+                        //g.drawImage(10+i*28,10+j*28,28,28);
+                        g.drawImage(babyBlue_mapSegments[map[i][j]],10+i*28,10+j*28,null);
+                    }
+                }
+            }
+    		break;
+    		
+    	case 4:
+    		//Draw Walls
+            g.setColor(Color.blue);
+            for(int i=0;i<m_x;i++){
+                for(int j=0;j<m_y;j++){
+                    if(map[i][j]>0){
+                        //g.drawImage(10+i*28,10+j*28,28,28);
+                        g.drawImage(green_mapSegments[map[i][j]],10+i*28,10+j*28,null);
+                    }
+                }
+            }
+    		scoreToNextLevel = 200;
+    		break;
+    	default:
+    		scoreToNextLevel = 51;
+    	}
+//        //Draw Walls
+//        g.setColor(Color.blue);
+//        for(int i=0;i<m_x;i++){
+//            for(int j=0;j<m_y;j++){
+//                if(map[i][j]>0){
+//                    //g.drawImage(10+i*28,10+j*28,28,28);
+//                    g.drawImage(mapSegments[map[i][j]],10+i*28,10+j*28,null);
+//                }
+//            }
+//        }
 
         //Draw Food
         g.setColor(new Color(204, 122, 122));
@@ -573,6 +662,7 @@ public class PacBoard extends JPanel{
         windowParent.dispose();
         
         new PacWindow(level+1, score, pacLives);
+        
     }
     
     
