@@ -88,7 +88,7 @@ public class BFSFinder {
                 Q[size] = m;
                 size++;
                 markMat[i + 1][j] = true;
- //               parentTable[i + 1][j] = new Point(i, j);
+                parentTable[i + 1][j] = new Point(i, j);
             }
             //LEFT
             if (isValid(i - 1, j, markMat)) {
@@ -97,7 +97,7 @@ public class BFSFinder {
                 Q[size] = m;
                 size++;
                 markMat[i - 1][j] = true;
-//                parentTable[i - 1][j] = new Point(i, j);
+                parentTable[i - 1][j] = new Point(i, j);
             }
             //UP
             if (isValid(i, j - 1, markMat)) {
@@ -106,7 +106,7 @@ public class BFSFinder {
                 Q[size] = m;
                 size++;
                 markMat[i][j - 1] = true;
- //               parentTable[i][j - 1] = new Point(i, j);
+                parentTable[i][j - 1] = new Point(i, j);
             }
             //DOWN
             if (isValid(i, j + 1, markMat)) {
@@ -115,10 +115,9 @@ public class BFSFinder {
                 Q[size] = m;
                 size++;
                 markMat[i][j + 1] = true;
- //               parentTable[i][j + 1] = new Point(i, j);
+                parentTable[i][j + 1] = new Point(i, j);
             }
         }
-
 
         //MazeCell t = mazeCellTable[tx][ty];
         int ttx = tx;
@@ -127,8 +126,8 @@ public class BFSFinder {
         MazeCell tl = null;
         while (t != start) {
             Point tp = parentTable[ttx][tty];
- //           ttx = tp.x;
-  //          tty = tp.y;
+            ttx = tp.x;
+            tty = tp.y;
             tl = t;
             t = mazeCellTable[ttx][tty];
         }

@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
@@ -34,9 +35,11 @@ public class PacBoard extends JPanel{
     public Pacman pacman;
     public ArrayList<Food> foods; // Regular foods (pac points)
     public ArrayList<PowerUpFood> pufoods; // Power Up foods (bombs, special fruit)
-    public ArrayList<QuestionIcon> questionIcons;// question icons (easy, medium, hard)
     public ArrayList<Ghost> ghosts;
     public ArrayList<TeleportTunnel> teleports; // Teleports = Passages
+    public ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
+    public ArrayList<Question> questions; // Questions
+    public HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
 
     public boolean isCustom = false;
     public boolean isGameOver = false;
@@ -98,16 +101,28 @@ public class PacBoard extends JPanel{
 
         this.isCustom = md.isCustom();
         this.ghostBase = md.getGhostBasePosition();
-
         pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
-
+        
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
         ghosts = new ArrayList<>();
         teleports = new ArrayList<>(); // Teleports = Passages
-        questionIcons = new ArrayList<>(); //Questions icons (easy, medium, hard)
+        questionIcons = new ArrayList<>(); //Objects on the map representing questions that can be eaten
+        questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
 
+        // Load questions from JSON file to arraylist
+        try {
+			questions = SysData.readQuestionsJSON();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
+        
         //TODO : read food from mapData (Map 1)
 
         if(!isCustom) {
@@ -122,7 +137,6 @@ public class PacBoard extends JPanel{
         }
 
         pufoods = md.getPufoodPositions();
-        questionIcons = md.getquestionIconsPositions();
 
         ghosts = new ArrayList<>();
         for(GhostData gd : md.getGhostsData()){
@@ -296,50 +310,13 @@ public class PacBoard extends JPanel{
         }
         
         
-        //Shahar- This function m
+        // Eat QuestionIcon and generate a new one on the map
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
-        	int index;
-        	Point pointOfNewQuestion;
-        	QuestionIcon qi;
-            switch(questionIcontToEat.type) {
-                case 0:
-                    //OPEN EASY QUESTION WINDOW
-                	
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position; 
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,0);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                case 1:
-                    //OPEN MEDIUM QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;        
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,1);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                    
-                case 2: 
-                    //OPEN HARD QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,2);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-            }
+        	//this.questionPopup();
+        	this.generateQuestionIcon(questionIcontToEat);
+        	questionIcontToEat=null;
+            scoreToAdd = 0;
         }
         
 
@@ -446,9 +423,58 @@ public class PacBoard extends JPanel{
         }
     }
 
+    // Returns a random question from the questions ArrayList
+    public Question getRandomQuestion() {
+    	int randIndex = (int)(Math.random() * questions.size());
+    	
+    	return questions.get(randIndex);
+    }
 
-
-    
+    // Generates a new question on the map
+    public void generateQuestionIcon(QuestionIcon questionIcontToEat) {
+    	//Generate a new QuestionIcon in a random position on the map.
+    	int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
+    	int randType = (int)(Math.random() * 3);
+    	Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 
+    	QuestionIcon newQuestionIcon; 
+    	Question newQuestion;
+    	
+    	if(questionIcontToEat == null) {
+    		// Get a random question that isn't already on the map
+    		do {
+    			newQuestion = getRandomQuestion();
+    		}while(questionPoints.containsValue(newQuestion));
+    		
+    		// Remove pac point and replace it with a QuestionIcon
+        	md_backup.getFoodPositions().remove(randIndex);
+        	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,randType); 
+            questionIcons.add(newQuestionIcon);
+            
+            // Put new Question & QuestionIcon pair in the hashmap
+            questionPoints.put(newQuestionIcon, newQuestion);
+            
+            //System.out.println("NEW Q: " + newQuestion + "/nNEW QI: " + newQuestionIcon + "/nQIS: " + questionIcons + "/nQPS: " + questionPoints);
+    	}
+    	else {
+    		// Get the question that we just ate
+    		Question previousQuestion = questionPoints.get(questionIcontToEat);
+    		
+    		// Get a random question that isn't already on the map, and is different from the question we just ate
+    		do {
+    			newQuestion = getRandomQuestion();
+    		}while(questionPoints.containsValue(newQuestion) || newQuestion.equals(previousQuestion));
+    		
+    		// Remove pac point and replace it with a QuestionIcon
+        	md_backup.getFoodPositions().remove(randIndex);
+        	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,questionIcontToEat.type);
+        	questionIcons.remove(questionIcontToEat);
+        	questionIcons.add(newQuestionIcon);
+            
+            // Put new Question & QuestionIcon pair in the hashmap, remove the one we ate.
+            questionPoints.remove(questionIcontToEat);
+            questionPoints.put(newQuestionIcon, newQuestion);
+    	}
+    }
 
 
     public void addScore() {
@@ -483,8 +509,6 @@ public class PacBoard extends JPanel{
             g.drawLine(10,ii*28+10,m_x*28+10,ii*28+10);
         }*/
 
-        
-        
         switch(level) {
     	case 1:
     		//Draw Walls
@@ -534,10 +558,18 @@ public class PacBoard extends JPanel{
                     }
                 }
             }
-    		scoreToNextLevel = 200;
     		break;
     	default:
-    		scoreToNextLevel = 51;
+    		//Draw Walls
+            g.setColor(Color.blue);
+            for(int i=0;i<m_x;i++){
+                for(int j=0;j<m_y;j++){
+                    if(map[i][j]>0){
+                        //g.drawImage(10+i*28,10+j*28,28,28);
+                        g.drawImage(blue_mapSegments[map[i][j]],10+i*28,10+j*28,null);
+                    }
+                }
+            }
     	}
 //        //Draw Walls
 //        g.setColor(Color.blue);
@@ -645,6 +677,20 @@ public class PacBoard extends JPanel{
         }
     }
 
+    
+    // Opens the Question interface
+    public void questionPopup() {
+    	// Stop all movement and animation
+    	pacman.moveTimer.stop();
+        pacman.animTimer.stop();
+        for(Ghost g : ghosts){
+            g.moveTimer.stop();
+            g.animTimer.stop();
+        }
+        
+        // Load the question window
+    	QuestionWindow qw = new QuestionWindow(windowParent);
+    }
     
     // Restarts the game.
     public void nextLevel(){

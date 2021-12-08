@@ -33,7 +33,7 @@ public class SysData {
 	 * array list
 	 */
 	@SuppressWarnings("deprecation")
-	public ArrayList<Question> readQuestionsJSON() throws Exception {
+	public static ArrayList<Question> readQuestionsJSON() throws Exception {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		// questionID
 		int k = 1;
