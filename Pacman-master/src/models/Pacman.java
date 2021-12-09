@@ -225,7 +225,14 @@ public class Pacman implements KeyListener{
 //       newColor.start(newColor,pacNewColor);
 //    }
     }      
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public Timer getMoveTimer() {
+		return moveTimer;
+	}
+	public void setMoveTimer(Timer moveTimer) {
+		this.moveTimer = moveTimer;
+	}   
     public boolean changeColor(){
     	isStrong =true; 
         return isStrong;
@@ -303,7 +310,13 @@ public class Pacman implements KeyListener{
 	public void setGameSpeed(int gameSpeed) {
 		this.gameSpeed = gameSpeed;
 	}
-
+	public void setGameSpeedForLevel2(int newGameSpeed, int level) {
+		if(level == 2) {
+		this.gameSpeed = newGameSpeed;
+		}
+		else 
+			this.gameSpeed =2;
+	}
 
 
 }

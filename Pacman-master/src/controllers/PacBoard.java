@@ -257,6 +257,7 @@ public class PacBoard extends JPanel{
                             g.moveTimer.stop();
                             isGameOver = true;
                             pacLives--;
+                            System.out.println(pacman.getGameSpeed() + "  "+ level);
                     		restart(level, score, pacLives);
                     	}
                     	else {
@@ -553,6 +554,7 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		//Draw Walls
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -565,6 +567,10 @@ public class PacBoard extends JPanel{
     		break;
     	case 2:
     		//Draw Walls
+    		//change pacman speed
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
+    		pacman.setGameSpeedForLevel2(4, level);
+    		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -577,6 +583,8 @@ public class PacBoard extends JPanel{
     		break;
     	case 3:
     		//Draw Walls
+    		pacman.setGameSpeedForLevel2(4, level);
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -590,6 +598,8 @@ public class PacBoard extends JPanel{
     		
     	case 4:
     		//Draw Walls
+    		pacman.setGameSpeedForLevel2(4, level);
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
