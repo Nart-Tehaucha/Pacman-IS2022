@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <children>
       <ImageView fitHeight="183.0" fitWidth="468.0" layoutX="134.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -16,7 +15,7 @@
             <Image url="@logo.png" />
          </image>
       </ImageView>
-      <Button fx:id="InstructionsBtn" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" stylesheets="@styleSheet.css" text="Instructions" textFill="WHITE">
+      <Button fx:id="InstructionsBtn" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#instructions" stylesheets="@styleSheet.css" text="Instructions" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />

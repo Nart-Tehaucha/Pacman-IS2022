@@ -44,6 +44,13 @@ public class MenuController {
     }
     
     @FXML
+    void instructions(ActionEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Instructions.fxml"));
+		LoadScreen(loader);
+		return;
+    }
+    
+    @FXML
 	void LoadScreen(FXMLLoader loader) {
 		try {
 

@@ -12,8 +12,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //new StartWindow();
     	//PlayersController.createJSON();
-    	//JFXLauncher.main(args);
-    	new PacWindow();
+    	JFXLauncher.main(args);
+    	//new PacWindow();
     	//Test.main(args);
     	//System.out.println(new SysData().readQuestionsJSON().toString());
     }
