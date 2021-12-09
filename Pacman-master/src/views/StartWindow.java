@@ -55,7 +55,7 @@ public class StartWindow extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PacWindow pw = new PacWindow();
+                PacWindow pw = new PacWindow("Test");
                 //new PacWindow();
                 dispose();
             }

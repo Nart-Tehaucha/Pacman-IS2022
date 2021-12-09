@@ -33,13 +33,15 @@ public class MenuController {
     
 	private Stage stage;
 	
+	private String username;
+	
 	private ObservableList<Player> player = FXCollections.observableArrayList();
     @FXML
     void start(ActionEvent event) {
 //    	player.add(new Player(typedText, score));
     	player.add(new Player("tal", "0"));
 		stage = (Stage) MainPanel.getScene().getWindow();
-		new PacWindow();
+		new PacWindow(username);
 		stage.close();
     }
     
@@ -53,7 +55,7 @@ public class MenuController {
     @FXML
 	void LoadScreen(FXMLLoader loader) {
 		try {
-
+			System.out.println("I use this method");
 			AnchorPane pane = loader.load();
 			MainPanel.getChildren().clear();
 			MainPanel.getChildren().add(pane);
@@ -63,4 +65,7 @@ public class MenuController {
 		}
     }
 
+    public void setUsername(String username) {
+    	this.username = username;
+    }
 }
