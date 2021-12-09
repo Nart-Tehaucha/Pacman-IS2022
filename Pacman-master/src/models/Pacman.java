@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 // Class for handling the Pacman. 
 public class Pacman implements KeyListener{
-	static final int GAMESPEED = 2; // Static variable that decides the movement speed of Pacman.
+	private int gameSpeed; // variable that decides the movement speed of Pacman.
     //Move Vars
     public Timer moveTimer;
     public ActionListener moveAL;
@@ -74,6 +74,7 @@ public class Pacman implements KeyListener{
 
         activeMove = moveType.NONE;
         todoMove = moveType.NONE;
+        gameSpeed = 2;
 
         // Load Pacman's sprites
         try {
@@ -109,7 +110,7 @@ public class Pacman implements KeyListener{
                 }
             }
         };
-        animTimer = new Timer(40 / GAMESPEED,animAL);
+        animTimer = new Timer(40 / gameSpeed,animAL);
         animTimer.start();
 
         // Handles the movement of the Pacman around the map.
@@ -162,7 +163,7 @@ public class Pacman implements KeyListener{
                                 return;
                             }
                         }
-                        pixelPosition.x += GAMESPEED;
+                        pixelPosition.x += gameSpeed;
                         break;
                     case LEFT:
                         if((pixelPosition.x <= 0)&&parentBoard.isCustom){
@@ -176,7 +177,7 @@ public class Pacman implements KeyListener{
                                 return;
                             }
                         }
-                        pixelPosition.x -= GAMESPEED;
+                        pixelPosition.x -= gameSpeed;
                         break;
                     case UP:
                         if((pixelPosition.y <= 0)&&parentBoard.isCustom){
@@ -190,7 +191,7 @@ public class Pacman implements KeyListener{
                                 return;
                             }
                         }
-                        pixelPosition.y -= GAMESPEED;
+                        pixelPosition.y -= gameSpeed;
                         break;
                     case DOWN:
                         if((pixelPosition.y >= (parentBoard.m_y-1) * 28)&&parentBoard.isCustom){
@@ -204,7 +205,7 @@ public class Pacman implements KeyListener{
                                 return;
                             }
                         }
-                        pixelPosition.y += GAMESPEED;
+                        pixelPosition.y += gameSpeed;
                         break;
                 }
 
@@ -296,6 +297,12 @@ public class Pacman implements KeyListener{
         }
         //System.out.println(ke.getKeyCode());
     }
+	public int getGameSpeed() {
+		return gameSpeed;
+	}
+	public void setGameSpeed(int gameSpeed) {
+		this.gameSpeed = gameSpeed;
+	}
 
 
 

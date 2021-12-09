@@ -28,6 +28,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import models.Player;
 
 public class LoginScreen{
 
@@ -78,6 +79,8 @@ public class LoginScreen{
     @FXML
     void EnterTheMenu(ActionEvent event) {
     	try {
+    		System.out.println("Checking the admin section");
+    		setNicknamesAndPasswords();
     		if(username.getText().equals("admin")
     				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
     			showAlert(AlertType.INFORMATION, "Enter The System",
@@ -85,7 +88,7 @@ public class LoginScreen{
 								+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
 								+ LocalDate.now().getYear() + "\nWelcome Back Admin!",
 						"");
-    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeScreen.fxml"));
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 				LoadScreen(loader);
 				return;
     		}
@@ -97,21 +100,28 @@ public class LoginScreen{
     		}
     		if (!username.getText().equals("admin")) {
     			if(nicknamesAndPasswords.containsKey(username.getText())){
-    				if(nicknamesAndPasswords.get(username.getText()).equals(passwordText.getText())) {
+    				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
     					showAlert(AlertType.INFORMATION, "Enter The System",
     							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
     									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
     									+ LocalDate.now().getYear() + "\nWelcome Back " + username.getText() + "!",
     							"");
-    	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeScreen.fxml"));
+    					PlayersController pc = new PlayersController();
+    					if(pc.readPlayersFromJSON().contains(new Player(username.getText(), loginPassword.getText())))
+    						System.out.println("this user exists");
+    					else
+    						System.out.println("nope");
+    	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
     					LoadScreen(loader);
     					return;
     				}
-    				System.out.println(passwordText.getText());
+    				System.out.println(loginPassword.getText());
 					if (nicknamesAndPasswords.containsKey(username.getText())
-							&& (!(nicknamesAndPasswords.get(username.getText()).equals(passwordText.getText())))) {
+							&& (!(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())))) {
 						showFailAlert(AlertType.INFORMATION, "Incorrect Password", null,
 								"Sorry " + username.getText() + ", You entered a wrong password...");
+						System.out.println("what i entered-"+ loginPassword.getText());
+						System.out.println("what i expect-" + nicknamesAndPasswords.get(username.getText()));
 						System.out.println("wrong password");
 						return;
 					}
@@ -140,9 +150,22 @@ public class LoginScreen{
 		return nicknamesAndPasswords;
 	}
 
-	public void setNicknamesAndPasswords(HashMap<String, String> nicknamesAndPasswords) {
-		this.nicknamesAndPasswords = nicknamesAndPasswords;
-	}
+	
+		public void setNicknamesAndPasswords() {
+			PlayersController pc = new PlayersController();
+			try {
+				for(Player p : pc.readPlayersFromJSON()) {
+					nicknamesAndPasswords.put(p.getNickname(), p.getPassword());
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for(String s : nicknamesAndPasswords.keySet()) {
+				System.out.println( "hashMap" + s);
+			}
+		}
+	
 
 	// if the 'forgot password' button is pressed then sends a text input dialog to
 	// the user

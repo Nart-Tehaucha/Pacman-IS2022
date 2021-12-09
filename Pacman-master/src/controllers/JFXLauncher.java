@@ -179,7 +179,7 @@ public class JFXLauncher extends Application {
 									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
 									+ LocalDate.now().getYear() + "\nWelcome Back Admin!",
 							"");
-	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeScreen.fxml"));
+	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 					LoadScreen(loader);
 					return;
 	    		}
@@ -197,7 +197,7 @@ public class JFXLauncher extends Application {
 	    									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
 	    									+ LocalDate.now().getYear() + "\nWelcome Back " + username.getText() + "!",
 	    							"");
-	    	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HomeScreen.fxml"));
+	    	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 	    					LoadScreen(loader);
 	    					return;
 	    				}

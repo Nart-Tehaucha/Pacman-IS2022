@@ -1,8 +1,4 @@
-package controllers;
-
-
-import models.*;
-
+package models;
 
 // Saves data about the ghosts: Position and Type
 public class GhostData {
