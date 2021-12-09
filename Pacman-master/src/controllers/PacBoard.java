@@ -504,7 +504,7 @@ public class PacBoard extends JPanel{
     		// Get a random question that isn't already on the map, and is different from the question we just ate
     		do {
     			newQuestion = getRandomQuestion();
-    		}while(questionPoints.containsValue(newQuestion) || newQuestion.equals(previousQuestion));
+    		}while(questionPoints.containsValue(newQuestion));
     		
     		// Remove pac point and replace it with a QuestionIcon
         	md_backup.getFoodPositions().remove(randIndex);
