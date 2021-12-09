@@ -8,14 +8,23 @@ import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
 
-
+	
+	private ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	
+	
     public Timer redrawTimer;
     public ActionListener redrawAL;
 
@@ -66,9 +75,49 @@ public class PacBoard extends JPanel{
     public MapData md_backup;
     public PacWindow windowParent;
     
+    //shahar
+    private String username;
+    
+    public void initializeTopTen() {
+      	//Fill the top 10 with past data about winners:
+    	//read top10 winners from ser file "topTenWinners.ser"
+        try{
+            FileInputStream fis = new FileInputStream("topTenWinnersData.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } 
+        catch (IOException ioe) 
+        {
+      	  //IF THERE ARE NO WINNERS YET
+            ioe.printStackTrace();
+            return;
+        } 
+        catch (ClassNotFoundException c) 
+        {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
+        
+        System.out.println(oldTopTenWinnersAL);
+        
+        return;
+    	
+    }
+    
 
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
+    	
+    	initializeTopTen();
+System.out.println("THIS IS USER NAME1: " + this.username);
+    	//shahar 
+    	this.username = pw.getUsername();
+    	System.out.println("THIS IS USER NAME2: " + this.username);
         this.level = level;
         this.score = score;
         this.pacLives = pacLives;
@@ -258,12 +307,15 @@ public class PacBoard extends JPanel{
                             isGameOver = true;
                             pacLives--;
                             System.out.println(pacman.getGameSpeed() + "  "+ level);
-                    		restart(level, score, pacLives);
+                    		restart(level, score, pacLives, username);
                     	}
                     	else {
                     		//Game Over
                             //siren.stop();
                             //SoundPlayer.play("pacman_lose.wav");
+                    		//Shahar
+                    		//get player score into top 10 if relevant
+                    		addToTopTen(oldTopTenWinnersAL);
                             pacman.moveTimer.stop();
                             pacman.animTimer.stop();
                             g.moveTimer.stop();
@@ -773,6 +825,8 @@ public class PacBoard extends JPanel{
 
         if(isGameOver){
             g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+            
+            
         }
 
         if(isWin){
@@ -795,7 +849,7 @@ public class PacBoard extends JPanel{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart(1,0,3);
+                restart(1,0,3,username);
         }else {
             super.processEvent(ae);
         }
@@ -831,19 +885,64 @@ public class PacBoard extends JPanel{
 
         windowParent.dispose();
         
-        new PacWindow(level+1, score, pacLives);
+        new PacWindow(level+1, score, pacLives,username);
         
     }
     
     
-    public void restart(int level, int score, int pacLives) {
+    public void restart(int level, int score, int pacLives, String userName) {
     	//siren.stop();
     	//pac6.stop();
     	
     	windowParent.dispose();
-    	new PacWindow(level, score, pacLives);
+    	new PacWindow(level, score, pacLives, userName);
     	
     }
+
+
+	public ArrayList<RecordWinner> getTopTenWinnersAL() {
+		return oldTopTenWinnersAL;
+	}
+
+
+	public void setTopTenWinnersAL(ArrayList<RecordWinner> topTenWinnersAL) {
+		this.oldTopTenWinnersAL = topTenWinnersAL;
+	}
+	
+	private void addToTopTen (ArrayList<RecordWinner> oldTopTen) {
+		boolean did_earn_trophy;
+		if (this.score >= 200) 
+			did_earn_trophy = true;
+		else 
+			did_earn_trophy = false;
+		
+		System.out.println("THIS IS USERNAME: "+ this.username);
+		RecordWinner newPlayerRecord = new RecordWinner(this.username,this.score, 0.0, did_earn_trophy);
+		ArrayList<RecordWinner> newTopTen = oldTopTen;
+		newTopTen.add(newPlayerRecord);
+		//sort new top 10
+		Collections.sort(newTopTen);
+		//remove the last (lowest score & time - #11's player) from the winners AL
+		if(newTopTen.size() == 11)
+			newTopTen.remove(10);
+		//write new top 10 to ser file
+		try
+	      {
+	           FileOutputStream fos = new FileOutputStream("topTenWinnersData.ser");
+	           ObjectOutputStream oos = new ObjectOutputStream(fos);
+	           oos.writeObject(newTopTen);
+	           oos.close();
+	           fos.close();
+	       } 
+	       catch (IOException ioe) 
+	       {
+	           ioe.printStackTrace();
+	       }
+		
+    	
+		
+		return;
+	}
     
 
 }

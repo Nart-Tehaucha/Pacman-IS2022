@@ -9,17 +9,40 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
 
 // Main window of the game screen.
 public class PacWindow extends JFrame {
+
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PacBoard pb;
 	private String username;
+	
+	
+	
+	
+
+     
+	
+	
 	// ============================== Constructors =============================
 	
 	// Default Constructor. Initializes the game screen.
     public PacWindow(String username){
+    	
+    	System.out.println("THIS IS USER NAME:" + username);
+        
+    	//Assign user name field
     	this.username = username;
     	
         setTitle("IS 2022 PacMan Game"); // Title of the game
@@ -72,7 +95,8 @@ public class PacWindow extends JFrame {
     }
     
     // Second constructor, gets MapData as an argument
-    public PacWindow(int level, int score, int pacLives){
+    public PacWindow(int level, int score, int pacLives, String userName){
+    	this.username = userName;
         setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -379,5 +403,24 @@ public class PacWindow extends JFrame {
     public PacBoard getPacBoard() {
     	return this.pb;
     }
+
+	public PacBoard getPb() {
+		return pb;
+	}
+
+	public void setPb(PacBoard pb) {
+		this.pb = pb;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+    
+	
+
 
 }
