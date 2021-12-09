@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -182,49 +183,99 @@ public class PlayersController implements Comparator<Player>, Serializable{
    
     
     @SuppressWarnings("deprecation")
-	public ArrayList<Player> readPlayersFromJSON() throws Exception {
+	public static ArrayList<Player> readPlayersFromJSON() throws Exception {
 		ArrayList<Player> arrlistp = new ArrayList<>();
-
-		Object obj = new JSONParser().parse(new FileReader("players.json"));
-		JSONObject jo = (JSONObject) obj;
-		JSONArray arr = (JSONArray) jo.get("player");
-		System.out.println(arr);
-		for (Object playerObj : arr) {
-			JSONObject jsonObjt = (JSONObject) playerObj;
-			@SuppressWarnings("rawtypes")
+		JSONParser jsonParser = new JSONParser();
+		
+		try {		
+			JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("players.json"));
+			JSONArray arr = (JSONArray) obj.get("players");
 			
-			String nickname = (String) jsonObjt.get("nickname");
-			String password = (String) jsonObjt.get("password");
-
-			Player p = new Player(nickname, password);
-			arrlistp.add(p);
-		}
-		System.out.println(arrlistp);
+			for (Object o : arr) {
+				JSONObject playerObj = (JSONObject) o;
+				@SuppressWarnings("rawtypes")
+				
+				String nickname = (String) playerObj.get("nickname");
+				String password = (String) playerObj.get("password");
+	
+				Player p = new Player(nickname, password);
+				arrlistp.add(p);
+			}
+			System.out.println(arrlistp);
+		
+	    } catch (ParseException | IOException e) {
+	        e.printStackTrace();
+	    }
 		return arrlistp;
 	}
     
-    public void deletePlayerFromJSON(Player player) {
-    	 try {
-    	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("players.json"));
-    	        Set keys = jsonObject.keySet();
-    	        Iterator iterator = keys.iterator();
-    	        while (iterator.hasNext()) {
-    	            String key = (String) iterator.next();          
-    	            if (key.equals(player.getNickname())) {
-    	                System.out.println("REMOVING KEY:VALUE");
-    	                System.out.println(key + ":" + jsonObject.get(key).toString());
-    	                iterator.remove();
-    	                jsonObject.remove(key);
-    	            }
-    	        }
-    	        try (FileWriter file = new FileWriter("players.json")) { //store data
-    	            file.write(jsonObject.toJSONString());
-    	            file.flush();
-    	        }
-    	    } catch (IOException | ParseException ex) {
-    	        System.out.println("Error: " + ex);
-    	    }
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	public static boolean createJSON() throws FileNotFoundException {
+		
+		JSONArray playersList = new JSONArray();
+		JSONObject playersObj = new JSONObject();
+		playersObj.put("players", playersList);
+		
+		
+		try(FileWriter fw = new FileWriter("players.json")) {
+			fw.write(playersObj.toJSONString());
+			fw.flush();
+		}
+		catch(IOException i) {
+			i.printStackTrace();
+		}
+
+
+		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static boolean addNewPlayerToJSON(Player newPlayer) {
+		JSONParser jsonParser = new JSONParser();
+
+        try {
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("players.json"));
+            
+            JSONArray jsonArray = (JSONArray) obj.get("players");
+                      
+            JSONObject player = new JSONObject();
+            player.put("nickname", newPlayer.getNickname());
+            player.put("password", newPlayer.getPassword());
+
+            jsonArray.add(player);
+            
+            FileWriter file = new FileWriter("players.json");
+            file.write(obj.toJSONString());
+            file.flush();
+            file.close();
+            
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
+	
+    public static void deletePlayerFromJSON(Player player) {
+   	 try {
+   	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("players.json"));
+   	        JSONArray jsonArray = (JSONArray) jsonObject.get("players");
+   	        
+   	        for(Object o : jsonArray) {
+   	        	JSONObject jo = (JSONObject) o;
+   	        	if(jo.get("nickname").equals(player.getNickname())) {
+	                System.out.println("REMOVING PLAYER:");
+	                System.out.println(jo.get("nickname"));
+	                jsonArray.remove(o);
+   	        	}
+   	        }
+   	        try (FileWriter file = new FileWriter("players.json")) { //store data
+   	            file.write(jsonObject.toJSONString());
+   	            file.flush();
+   	        }
+   	    } catch (IOException | ParseException ex) {
+   	        System.out.println("Error: " + ex);
+   	    }
+   }
     
     @FXML
 	void LoadScreen(FXMLLoader loader) {
@@ -266,58 +317,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
 		alert.showAndWait();
 	}
 	
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public static boolean createJSON() throws FileNotFoundException {
-		
-		JSONArray playersList = new JSONArray();
-		JSONObject playersObj = new JSONObject();
-		playersObj.put("players", playersList);
-		
-		
-		try(FileWriter fw = new FileWriter("players.json")) {
-			fw.write(playersObj.toJSONString());
-			fw.flush();
-		}
-		catch(IOException i) {
-			i.printStackTrace();
-		}
-//		PrintWriter pw = new PrintWriter("players.json");
-//		pw.write(jo.toJSONString());
-//		pw.flush();
-//		pw.close();
 
-
-		return true;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public boolean addNewPlayerToJSON(Player newPlayer) {
-		JSONParser jsonParser = new JSONParser();
-
-        try {
-            Object obj = jsonParser.parse(new FileReader("players.json"));
-            JSONArray jsonArray = (JSONArray)obj;
-
-            JSONObject player = new JSONObject();
-            player.put("nickname", newPlayer.getNickname());
-            player.put("password", newPlayer.getPassword());
-
-            jsonArray.add(player);
-           // JSONObject jo = new JSONObject();
-           // jo.put("questions", jsonArray);
-            FileWriter file = new FileWriter("players.json");
-            file.write(jsonArray.toJSONString());
-            file.flush();
-            file.close();
-
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
-        addPlayerToTreeSet(newPlayer);
-        return true;
-    }
-	
-	
 	public boolean addPlayerToTreeSet(Player player) {
 		if(player == null)
 			return false;
