@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
+   <children>
+      <ImageView fitHeight="183.0" fitWidth="468.0" layoutX="134.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="InstructionsBtn" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" stylesheets="@styleSheet.css" text="Instructions" textFill="WHITE">
+         <styleClass>
+            <String fx:value="Removechocie-box" />
+            <String fx:value="labelHeader" />
+         </styleClass>
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="RecordsBtn" layoutX="306.0" layoutY="310.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="94.0" stylesheets="@styleSheet.css" text="Records" textFill="WHITE">
+         <styleClass>
+            <String fx:value="Removechocie-box" />
+            <String fx:value="labelHeader" />
+         </styleClass>
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="ManageQuesBtn" layoutX="269.0" layoutY="380.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="177.0" stylesheets="@styleSheet.css" text="Manage Questions" textFill="WHITE">
+         <styleClass>
+            <String fx:value="Removechocie-box" />
+            <String fx:value="labelHeader" />
+         </styleClass>
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="StartPlayBtn" layoutX="310.0" layoutY="171.0" mnemonicParsing="false" onAction="#start" stylesheets="@styleSheet.css" text="Start Play" textFill="WHITE">
+         <styleClass>
+            <String fx:value="Removechocie-box" />
+            <String fx:value="labelHeader" />
+         </styleClass>
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

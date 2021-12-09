@@ -74,7 +74,20 @@ public class PacBoard extends JPanel{
         this.pacLives = pacLives;
     	this.scoreboard = scoreboard;
     	
-    	switch(level) {
+        this.setDoubleBuffered(true);
+        md_backup = md;
+        windowParent = pw;
+
+        m_x = md.getX();
+        m_y = md.getY();
+        this.map = md.getMap();
+
+        this.isCustom = md.isCustom();
+        this.ghostBase = md.getGhostBasePosition();
+        pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
+        addKeyListener(pacman);
+        
+        switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
     		break;
@@ -90,19 +103,6 @@ public class PacBoard extends JPanel{
     	default:
     		scoreToNextLevel = 51;
     	}
-    	
-        this.setDoubleBuffered(true);
-        md_backup = md;
-        windowParent = pw;
-
-        m_x = md.getX();
-        m_y = md.getY();
-        this.map = md.getMap();
-
-        this.isCustom = md.isCustom();
-        this.ghostBase = md.getGhostBasePosition();
-        pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
-        addKeyListener(pacman);
         
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
@@ -137,6 +137,7 @@ public class PacBoard extends JPanel{
         }
 
         pufoods = md.getPufoodPositions();
+        questionIcons = md.getquestionIconsPositions();
 
         ghosts = new ArrayList<>();
         for(GhostData gd : md.getGhostsData()){
@@ -310,15 +311,52 @@ public class PacBoard extends JPanel{
         }
         
         
-        // Eat QuestionIcon and generate a new one on the map
+        //Shahar- This function m
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
-        	//this.questionPopup();
-        	System.out.println("123ddddddd");
-        	this.generateQuestionIcon(questionIcontToEat);
-        	questionIcontToEat=null;
-            scoreToAdd = 0;
+        	int index;
+        	Point pointOfNewQuestion;
+        	QuestionIcon qi;
+            switch(questionIcontToEat.type) {
+                case 0:
+                    //OPEN EASY QUESTION WINDOW
+                	
+                	questionIcons.remove(questionIcontToEat);
+                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
+                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position; 
+                	md_backup.getFoodPositions().remove(index);
+                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,0);
+                    questionIcons.add(qi);
+                	questionIcontToEat=null;
+                    scoreToAdd = 0;
+                    break;
+                case 1:
+                    //OPEN MEDIUM QUESTION WINDOW
+                	questionIcons.remove(questionIcontToEat);
+                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
+                	
+                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;        
+                	md_backup.getFoodPositions().remove(index);
+                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,1);
+                    questionIcons.add(qi);
+                	questionIcontToEat=null;
+                    scoreToAdd = 0;
+                    break;
+                    
+                case 2: 
+                    //OPEN HARD QUESTION WINDOW
+                	questionIcons.remove(questionIcontToEat);
+                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
+                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;
+                	md_backup.getFoodPositions().remove(index);
+                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,2);
+                    questionIcons.add(qi);
+                	questionIcontToEat=null;
+                    scoreToAdd = 0;
+                    break;
+            }
         }
+        
         
 
         PowerUpFood puFoodToEat = null;

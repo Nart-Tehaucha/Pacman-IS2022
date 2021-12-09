@@ -38,7 +38,7 @@ public abstract class Ghost {
     int unweakBlinks;
     boolean isWhite = false;
     int timeToSleep = 5;
-
+    private int ghostSpeed;
 
     protected boolean isWeak = false;
     protected boolean isDead = false;
@@ -52,7 +52,17 @@ public abstract class Ghost {
         return isDead;
     }
 
-    //Image[] pac;
+
+    public int getGhostSpeed() {
+		return ghostSpeed;
+	}
+
+	public void setGhostSpeed(int ghostSpeed) {
+		this.ghostSpeed = ghostSpeed;
+	}
+
+
+	//Image[] pac;
     Image ghostImg;
     int activeImage = 0;
     int addFactor = 1;
@@ -92,6 +102,8 @@ public abstract class Ghost {
         ghostNormalDelay = ghostDelay;
 
         loadImages();
+        
+        this.ghostSpeed = 1;
 
         //load weak Image
         ghostW = new Image[2];
@@ -122,7 +134,7 @@ public abstract class Ghost {
                 activeImage = (activeImage + 1) % 2;
             }
         };
-        animTimer = new Timer(100,animAL);
+        animTimer = new Timer(100*ghostSpeed,animAL);
         animTimer.start();
         
         // Handles the movement of the Ghosts around the map.
