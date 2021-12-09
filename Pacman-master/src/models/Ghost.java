@@ -90,6 +90,7 @@ public abstract class Ghost {
     protected PacBoard parentBoard;
 
     // Constructor
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public Ghost (int x, int y,PacBoard pb,int ghostDelay) {
 
         logicalPosition = new Point(x,y);
@@ -262,7 +263,15 @@ public abstract class Ghost {
 
     }
     
-    // ---END OF CONSTRUCTOR---
+    public int getGhostNormalDelay() {
+		return ghostNormalDelay;
+	}
+
+	public void setGhostNormalDelay(int ghostNormalDelay) {
+		this.ghostNormalDelay = ghostNormalDelay;
+	}
+
+	// ---END OF CONSTRUCTOR---
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //load Images from Resource
     public abstract void loadImages();

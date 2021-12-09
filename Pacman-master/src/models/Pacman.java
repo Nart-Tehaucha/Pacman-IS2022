@@ -315,7 +315,7 @@ public class Pacman implements KeyListener{
 		this.gameSpeed = newGameSpeed;
 		}
 		else 
-			this.gameSpeed =2;
+			this.gameSpeed =4;
 	}
 
 

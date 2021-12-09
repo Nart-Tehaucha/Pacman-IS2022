@@ -537,6 +537,69 @@ public class PacBoard extends JPanel{
             }
         }
     }
+    public void addScoreAfterQuestion(Question question, int playerAnswer) {
+    	//easy question
+    	if(question.getDifficulty() == 1) {
+    		//Right answer
+    		if(question.getCorrect_ans() == playerAnswer) {
+    		  	score ++;
+    			
+    		}
+    		//Wrong answer
+    		else {
+    			if(score>=10) {
+    			score =score-10;
+    			}
+    			else {
+    				score =0;
+    			}
+    	       
+    			
+    		}
+    	 scoreboard.setText("    Score : "+score);
+    	}
+    	//medium  question
+    	if(question.getDifficulty() == 2) {
+    		//Right answer
+    		if(question.getCorrect_ans() == playerAnswer) {
+    		  	score= score+2;
+    			
+    		}
+    		//Wrong answer
+    		else {
+    			if(score>=20) {
+    			score =score-20;
+    			}
+    			else {
+    				score =0;
+    			}
+    	       
+    			
+    		}
+    	 scoreboard.setText("    Score : "+score);
+    	}
+    	//Hard question
+    	if(question.getDifficulty() == 1) {
+    		//Right answer
+    		if(question.getCorrect_ans() == playerAnswer) {
+    		  	score =score +3;
+    			
+    		}
+    		//Wrong answer
+    		else {
+    			if(score>=30) {
+    			score =score-30;
+    			}
+    			else {
+    				score =0;
+    			}
+    	       
+    			
+    		}
+    	 scoreboard.setText("    Score : "+score);
+    	}
+  
+    }
     
     // Draws all objects on the map
     @Override
@@ -554,7 +617,17 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		//Draw Walls
-    		System.out.println(pacman.getGameSpeed() + "   "+level);
+    		for (Ghost g1 : ghosts) {	
+    		//
+    			//g1.setGhostSpeed(7);
+    		//g1.setGhostNormalDelay(int ghostNormalDelay)
+    		//System.out.println(g1.getGhostSpeed());
+    		g1.setGhostNormalDelay(100);
+    		System.out.println(g1.getGhostNormalDelay());
+    		
+    		}
+    		pacman.setGameSpeedForLevel2(4, level);
+    		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -569,7 +642,7 @@ public class PacBoard extends JPanel{
     		//Draw Walls
     		//change pacman speed
     		System.out.println(pacman.getGameSpeed() + "   "+level);
-    		pacman.setGameSpeedForLevel2(4, level);
+    		pacman.setGameSpeedForLevel2(7, level);
     		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -598,7 +671,7 @@ public class PacBoard extends JPanel{
     		
     	case 4:
     		//Draw Walls
-    		pacman.setGameSpeedForLevel2(4, level);
+    		pacman.setGameSpeedForLevel2(7, level);
     		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
