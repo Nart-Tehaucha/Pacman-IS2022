@@ -135,7 +135,7 @@ public abstract class Ghost {
                 activeImage = (activeImage + 1) % 2;
             }
         };
-        animTimer = new Timer(50/ghostSpeed,animAL);
+        animTimer = new Timer(100,animAL);
         animTimer.start();
         
         // Handles the movement of the Ghosts around the map.

@@ -15,10 +15,13 @@ import java.util.Scanner;
 // Main window of the game screen.
 public class PacWindow extends JFrame {
 	private PacBoard pb;
+	private String username;
 	// ============================== Constructors =============================
 	
 	// Default Constructor. Initializes the game screen.
-    public PacWindow(){
+    public PacWindow(String username){
+    	this.username = username;
+    	
         setTitle("IS 2022 PacMan Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -28,6 +31,9 @@ public class PacWindow extends JFrame {
 
         setSize(794,884);
         setLocationRelativeTo(null);
+        
+        JPanel topBar = new JPanel();
+        topBar.setBackground(Color.black);
         
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
@@ -40,6 +46,9 @@ public class PacWindow extends JFrame {
         
         JLabel lbLives = new JLabel("    Lives : 3");
         lbLives.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbUsername = new JLabel("Hello, " + username + "!");
+        lbUsername.setForeground(new Color(255, 243, 36));
 
         // Load the default map layout
         MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
@@ -52,9 +61,11 @@ public class PacWindow extends JFrame {
         addKeyListener(pb.pacman);
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(scoreboard);
         bottomBar.add(level);
         bottomBar.add(lbLives);
+        topBar.add(lbUsername);
         this.getContentPane().add(pb);
         
         setVisible(true);
