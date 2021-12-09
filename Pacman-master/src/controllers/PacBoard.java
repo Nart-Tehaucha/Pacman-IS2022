@@ -314,6 +314,7 @@ public class PacBoard extends JPanel{
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
         	//this.questionPopup();
+        	System.out.println("123ddddddd");
         	this.generateQuestionIcon(questionIcontToEat);
         	questionIcontToEat=null;
             scoreToAdd = 0;
