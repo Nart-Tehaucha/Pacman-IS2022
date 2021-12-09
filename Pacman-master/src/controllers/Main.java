@@ -1,6 +1,7 @@
 package controllers;
 
 import models.SysData;
+import views.PacWindow;
 import views.StartWindow;
 
 public class Main {
@@ -11,7 +12,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //new StartWindow();
     	//PlayersController.createJSON();
-    	JFXLauncher.main(args);
+    	//JFXLauncher.main(args);
+    	new PacWindow();
     	//Test.main(args);
     	//System.out.println(new SysData().readQuestionsJSON().toString());
     }

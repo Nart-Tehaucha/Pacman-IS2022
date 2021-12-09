@@ -81,7 +81,7 @@ public abstract class Ghost {
     Image ghostEye;
 
     int ghostNormalDelay;
-    int ghostWeakDelay = 30;
+    int ghostWeakDelay = 5;
     int ghostDeadDelay = 0;
 
     // Calculates the ghost's path to the base
@@ -123,7 +123,7 @@ public abstract class Ghost {
         }
 
         try {
-            ghostEye = ImageIO.read(this.getClass().getResource("/resources/images/invis.png"));
+            ghostEye = ImageIO.read(this.getClass().getResource("/resources/images/eye.png")); // invis
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public abstract class Ghost {
                 activeImage = (activeImage + 1) % 2;
             }
         };
-        animTimer = new Timer(100*ghostSpeed,animAL);
+        animTimer = new Timer(50/ghostSpeed,animAL);
         animTimer.start();
         
         // Handles the movement of the Ghosts around the map.
@@ -245,8 +245,7 @@ public abstract class Ghost {
                 unweakBlinks++;
             }
         };
-        unWeakenTimer2 = new Timer(250,unweak2);
-
+        unWeakenTimer2 = new Timer(0,unweak2);
 
         pendingAL = new ActionListener() {
             @Override
@@ -255,7 +254,7 @@ public abstract class Ghost {
                 pendingTimer.stop();
             }
         };
-        pendingTimer = new Timer(5000,pendingAL);
+        pendingTimer = new Timer(0,pendingAL);
 
         baseReturner = new BFSFinder(pb);
         //start AI
