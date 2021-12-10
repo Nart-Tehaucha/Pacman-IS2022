@@ -6,9 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,23 +19,13 @@
             <Font size="11.0" />
          </font></Label>
       <Line endX="499.0" endY="-3.814697265625E-6" layoutX="101.0" layoutY="40.0" startX="-100.0" />
-      <Label layoutX="257.0" layoutY="55.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Easy Questions">
-         <effect>
-            <Lighting>
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect></Label>
       <TableView layoutX="1.0" layoutY="89.0" prefHeight="239.0" prefWidth="600.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
         <columns>
-          <TableColumn prefWidth="63.33338165283203" text="Number" />
-          <TableColumn prefWidth="402.66666412353516" text="Question" />
-            <TableColumn prefWidth="67.33334350585938" text="Edit" />
-            <TableColumn prefWidth="67.33331298828125" text="Delete" />
+          <TableColumn prefWidth="70.66668957471848" text="Number" />
+          <TableColumn prefWidth="352.66666412353516" text="Question" />
+            <TableColumn prefWidth="69.3333740234375" text="Difficulty" />
+            <TableColumn prefWidth="54.666656494140625" text="Edit" />
+            <TableColumn prefWidth="51.3333740234375" text="Delete" />
         </columns>
       </TableView>
       <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="18.0" layoutY="2.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">

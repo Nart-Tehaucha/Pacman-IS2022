@@ -11,11 +11,11 @@
 <?import javafx.scene.shape.Arc?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecordsController">
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecordsController">
    <children>
       <Label fx:id="WeAreTheChampions" layoutX="207.0" layoutY="8.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="We Are The Champions" textFill="#fffefe" />
       <Line endX="499.0" endY="-3.814697265625E-6" layoutX="100.0" layoutY="42.0" startX="-100.0" />
-      <TableView fx:id="allRecords" layoutY="62.0" prefHeight="284.0" prefWidth="600.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
+      <TableView fx:id="allRecords" layoutY="62.0" prefHeight="367.0" prefWidth="700.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
         <columns>
           <TableColumn fx:id="trophy" minWidth="0.0" prefWidth="64.66668828328466" text="Trophy" />
             <TableColumn fx:id="nickname" minWidth="0.0" prefWidth="343.33334732055664" text="Nickname" />
@@ -23,12 +23,12 @@
             <TableColumn fx:id="time" minWidth="0.0" prefWidth="87.99996948242188" text="Time" />
         </columns>
       </TableView>
-      <Button fx:id="playAgain" layoutX="248.0" layoutY="353.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="117.0" styleClass="saveButton" stylesheets="@styleSheet.css" text="Play Again">
+      <Button fx:id="playAgain" layoutX="260.0" layoutY="465.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="117.0" styleClass="saveButton" stylesheets="@styleSheet.css" text="Play ">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Arc fill="#f2ff00" layoutX="262.0" layoutY="367.0" length="270.0" radiusX="12.0" radiusY="9.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
-      <Arc fill="#f2ff00" layoutX="356.0" layoutY="367.0" length="270.0" radiusX="12.0" radiusY="9.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+      <Arc fill="#f2ff00" layoutX="276.0" layoutY="479.0" length="270.0" radiusX="12.0" radiusY="9.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+      <Arc fill="#f2ff00" layoutX="362.0" layoutY="479.0" length="270.0" radiusX="12.0" radiusY="9.0" startAngle="45.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
       <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="14.0" layoutY="2.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@1200px-Go-home.svg.png" />

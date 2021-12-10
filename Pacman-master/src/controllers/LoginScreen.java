@@ -212,6 +212,20 @@ public class LoginScreen{
 		}
 
 	}
+	
+    @FXML
+	void LoadScreen2(FXMLLoader loader) {
+		try {
+
+			AnchorPane pane = loader.load();
+			MainPanel.getChildren().clear();
+			MainPanel.getChildren().add(pane);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	private void showAlert(AlertType type, String title, String header, String text) {
 		Alert alert = new Alert(type);
@@ -278,7 +292,8 @@ public class LoginScreen{
     @FXML
     void NewPlayer(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/NewPlayer.fxml"));
-		LoadScreen(loader, "New Player");
+		//LoadScreen(loader, "New Player");
+		LoadScreen2(loader);
 		return;
     }
 
