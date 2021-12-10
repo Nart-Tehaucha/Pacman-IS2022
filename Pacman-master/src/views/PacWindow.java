@@ -112,6 +112,14 @@ public class PacWindow extends JFrame {
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
         
+        JPanel topBar = new JPanel();
+        topBar.setBackground(Color.black);
+
+        JLabel lbUsername = new JLabel("Hello, " + username + "!");
+        lbUsername.setForeground(new Color(255, 243, 36));
+
+        topBar.add(lbUsername);
+        
         JLabel lbScore = new JLabel("    Score : " + score);
         lbScore.setForeground(new Color(255, 243, 36));
         
@@ -150,11 +158,15 @@ public class PacWindow extends JFrame {
         adjustMap(map);
         
         // Load the custom map layout
+    
         PacBoard pb = new PacBoard(lbScore,level, score, pacLives,map,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
-
+        
+     
+        
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(lbScore);
         bottomBar.add(lbLevel);
         bottomBar.add(lbLives);
