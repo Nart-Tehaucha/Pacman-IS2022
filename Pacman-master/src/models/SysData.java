@@ -59,9 +59,8 @@ public class SysData {
 			}
 			int correct_ans = Integer.parseInt((String) jsonQObjt.get("correct_ans"));
 			int difficulty = Integer.parseInt((String) jsonQObjt.get("level"));
-			String team = (String) jsonQObjt.get("team");
 
-			Question q = new Question(k, context, difficulty, arrlista, correct_ans, team);
+			Question q = new Question(k, context, difficulty, arrlista, correct_ans);
 			k++;
 			arrlistq.add(q);
 		}
@@ -90,7 +89,6 @@ public class SysData {
             question.put("answers", ans);
             question.put("correct_ans", q.getCorrect_ans());
             question.put("level", q.getDifficulty());
-            question.put("team", q.getTeam());
 
             jsonArray.add(question);
             
