@@ -260,7 +260,9 @@ public class PlayersController implements Comparator<Player>, Serializable{
    	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("players.json"));
    	        JSONArray jsonArray = (JSONArray) jsonObject.get("players");
    	        
-   	        for(Object o : jsonArray) {
+   	        JSONArray aux = (JSONArray) jsonArray.clone();
+   	        
+   	        for(Object o : aux) {
    	        	JSONObject jo = (JSONObject) o;
    	        	if(jo.get("nickname").equals(player.getNickname())) {
 	                System.out.println("REMOVING PLAYER:");

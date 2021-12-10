@@ -29,7 +29,7 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(794,884);
+        setSize(774,918);
         setLocationRelativeTo(null);
         
         JPanel topBar = new JPanel();
@@ -80,7 +80,8 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(794,884);
+        //setSize(794,884);
+        setSize(774,918);
         setLocationRelativeTo(null);
 
         JPanel bottomBar = new JPanel();
@@ -145,7 +146,8 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(794,884);
+        //setSize(794,884);
+        setSize(774,918);
         setLocationRelativeTo(null);
 
         JPanel bottomBar = new JPanel();

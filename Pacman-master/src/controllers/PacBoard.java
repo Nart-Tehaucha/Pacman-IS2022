@@ -121,9 +121,8 @@ public class PacBoard extends JPanel{
 			e1.printStackTrace();
 		}
         
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
+        
+        System.out.println(questionIcons.toString());
         
         //TODO : read food from mapData (Map 1)
 
@@ -232,6 +231,10 @@ public class PacBoard extends JPanel{
         };
         redrawTimer = new Timer(16,redrawAL);
         redrawTimer .start();
+        
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
 
         // Start playing sounds
         //SoundPlayer.play("pacman_start.wav");
@@ -316,47 +319,10 @@ public class PacBoard extends JPanel{
         //Shahar- This function m
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
-        	int index;
-        	Point pointOfNewQuestion;
-        	QuestionIcon qi;
-            switch(questionIcontToEat.type) {
-                case 0:
-                    //OPEN EASY QUESTION WINDOW
-                	
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position; 
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,0);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                case 1:
-                    //OPEN MEDIUM QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;        
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,1);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                    
-                case 2: 
-                    //OPEN HARD QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,2);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-            }
+        	questionPopup(questionIcontToEat);
+        	generateQuestionIcon(questionIcontToEat);
+        	questionIcontToEat=null;
+            scoreToAdd = 0;
         }
         
         
@@ -494,6 +460,7 @@ public class PacBoard extends JPanel{
             // Put new Question & QuestionIcon pair in the hashmap
             questionPoints.put(newQuestionIcon, newQuestion);
             
+            System.out.println(pointOfNewQuestion);
             //System.out.println("NEW Q: " + newQuestion + "/nNEW QI: " + newQuestionIcon + "/nQIS: " + questionIcons + "/nQPS: " + questionPoints);
     	}
     	else {
@@ -637,6 +604,7 @@ public class PacBoard extends JPanel{
             g.drawImage(pfoodImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
         }
         
+        //Draw QuestionIcons
         for(QuestionIcon f : questionIcons){
             //g.fillOval(f.position.x*28+20,f.position.y*28+20,8,8);
             g.drawImage(questionIconImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
@@ -720,7 +688,7 @@ public class PacBoard extends JPanel{
 
     
     // Opens the Question interface
-    public void questionPopup() {
+    public void questionPopup(QuestionIcon qi) {
     	// Stop all movement and animation
     	pacman.moveTimer.stop();
         pacman.animTimer.stop();
@@ -729,8 +697,10 @@ public class PacBoard extends JPanel{
             g.animTimer.stop();
         }
         
+        Question q = questionPoints.get(qi);
+        
         // Load the question window
-    	QuestionWindow qw = new QuestionWindow(windowParent);
+    	QuestionWindow qw = new QuestionWindow(windowParent, q, this);
     }
     
     // Restarts the game.
@@ -752,6 +722,14 @@ public class PacBoard extends JPanel{
         
     }
     
+    public void resume() {
+    	pacman.moveTimer.start();
+        pacman.animTimer.start();
+        for(Ghost g : ghosts){
+            g.moveTimer.start();
+            g.animTimer.start();
+        }
+    }
     
     public void restart(int level, int score, int pacLives) {
     	//siren.stop();
