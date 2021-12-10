@@ -8,10 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 
 // Starting screen of the application.
 public class StartWindow extends JFrame {
+	
+
 
 	// Constructor, initializes the start screen.
     public StartWindow(){
@@ -21,6 +27,8 @@ public class StartWindow extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+
+          
         // Load Game logo
         ImageIcon logo = new ImageIcon();
         try {
@@ -75,5 +83,11 @@ public class StartWindow extends JFrame {
         getContentPane().add(buttonsC);
         
         setVisible(true);
+        
     }
+
+
+
+    
+    
 }

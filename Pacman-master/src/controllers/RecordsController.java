@@ -1,135 +1,120 @@
-/*package controllers;
+package controllers;
 
+
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import views.PacWindow;
 
 public class RecordsController {
-		@FXML
+	
+		
+	   @FXML
 	    private AnchorPane MainPanel;
 
 	    @FXML
 	    private Label WeAreTheChampions;
 
 	    @FXML
-	    private TableView<Record> allRecords;
+	    private TableView<RecordWinner> allRecords;
 
 	    @FXML
-	    private Button backToMenu;
+	    private ImageView goBack;
 
 	    @FXML
-	    private TableColumn<Record, String> nicknames;
+	    private TableColumn<RecordWinner, String> nickname;
 
-	    @FXML
-	    private TableColumn<Record, Integer> places;
+//	    @FXML
+//	    private TableColumn<RecordWinner, Integer> place;
 
 	    @FXML
 	    private Button playAgain;
 
 	    @FXML
-	    private TableColumn<Record, Integer> scores;
+	    private TableColumn<RecordWinner, Integer> score;
 
 	    @FXML
-	    private TableColumn<Record, String> times;
-	    
-        @FXML
-    	private ImageView goBack;
+	    private TableColumn<RecordWinner, Double> time;
 
-		public RecordsController(AnchorPane mainPanel, Label weAreTheChampions, TableView<Record> allRecords,
-				Button backToMenu, TableColumn<Record, String> nicknames, TableColumn<Record, Integer> places,
-				Button playAgain, TableColumn<Record, Integer> scores, TableColumn<Record, String> times) {
-			super();
-			MainPanel = mainPanel;
-			WeAreTheChampions = weAreTheChampions;
-			this.allRecords = allRecords;
-			this.backToMenu = backToMenu;
-			this.nicknames = nicknames;
-			this.places = places;
-			this.playAgain = playAgain;
-			this.scores = scores;
-			this.times = times;
-		}
+	    @FXML
+	    private TableColumn<RecordWinner, Boolean> trophy;
+
+
+
 		
 	    @FXML
 	    void goToPageBefore(MouseEvent event) {
-	
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+			LoadScreen(loader);
+			return;
 	    }
-
-		public AnchorPane getMainPanel() {
-			return MainPanel;
-		}
-
-		public void setMainPanel(AnchorPane mainPanel) {
-			MainPanel = mainPanel;
-		}
-
-		public Label getWeAreTheChampions() {
-			return WeAreTheChampions;
-		}
-
-		public void setWeAreTheChampions(Label weAreTheChampions) {
-			WeAreTheChampions = weAreTheChampions;
-		}
-
-		public TableView<Record> getAllRecords() {
-			return allRecords;
-		}
-
-		public void setAllRecords(TableView<Record> allRecords) {
-			this.allRecords = allRecords;
-		}
-
-		public Button getBackToMenu() {
-			return backToMenu;
-		}
-
-		public void setBackToMenu(Button backToMenu) {
-			this.backToMenu = backToMenu;
-		}
-
-		public TableColumn<Record, String> getNicknames() {
-			return nicknames;
-		}
-
-		public void setNicknames(TableColumn<Record, String> nicknames) {
-			this.nicknames = nicknames;
-		}
-
-		public TableColumn<Record, Integer> getPlaces() {
-			return places;
-		}
-
-		public void setPlaces(TableColumn<Record, Integer> places) {
-			this.places = places;
-		}
-
-		public Button getPlayAgain() {
-			return playAgain;
-		}
-
-		public void setPlayAgain(Button playAgain) {
-			this.playAgain = playAgain;
-		}
-
-		public TableColumn<Record, Integer> getScores() {
-			return scores;
-		}
-
-		public void setScores(TableColumn<Record, Integer> scores) {
-			this.scores = scores;
-		}
-
-		public TableColumn<Record, String> getTimes() {
-			return times;
-		}
-
-		public void setTimes(TableColumn<Record, String> times) {
-			this.times = times;
-		}
 	    
 	    
+	    @FXML
+	    void play(ActionEvent event) {
+	    	new PacWindow(LoginScreen.lastUserToLogIn);
+			return;
+	    }
+	    
+	    @FXML
+		void LoadScreen(FXMLLoader loader) {
+			try {
+				System.out.println("I use this method");
+				AnchorPane pane = loader.load();
+				MainPanel.getChildren().clear();
+				MainPanel.getChildren().add(pane);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }
+	    
+	    
+	  
+	    
+	   
+	    
+	    
+	    ObservableList<RecordWinner> tableList = FXCollections.observableArrayList();
+
+	    
+	    private ArrayList<RecordWinner> TopTenWinnersAL = new ArrayList<RecordWinner>();
+	    
+	 
+		@FXML
+		public void initialize() {
+			
+			TopTenWinnersAL= PacBoard.initializeTopTen();
+			tableList.clear();
+
+			tableList.addAll(TopTenWinnersAL);
+
+			 trophy.setCellValueFactory(new PropertyValueFactory<RecordWinner, Boolean>("did_Earn_Trophy"));
+			 nickname.setCellValueFactory(new PropertyValueFactory<RecordWinner, String>("userName"));
+			 score.setCellValueFactory(new PropertyValueFactory<RecordWinner, Integer>("points"));
+			 time.setCellValueFactory(new PropertyValueFactory<RecordWinner, Double>("time"));
+			 allRecords.setItems(tableList);
+
+			
+		}
+		
+		
+
+
 }
-*/
