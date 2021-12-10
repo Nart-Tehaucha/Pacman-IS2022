@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class PacBoard extends JPanel{
 
 	
-	private ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
 	
 	
     public Timer redrawTimer;
@@ -78,7 +78,7 @@ public class PacBoard extends JPanel{
     //shahar
     private String username;
     
-    public void initializeTopTen() {
+    public static ArrayList<RecordWinner> initializeTopTen() {
       	//Fill the top 10 with past data about winners:
     	//read top10 winners from ser file "topTenWinners.ser"
         try{
@@ -94,18 +94,17 @@ public class PacBoard extends JPanel{
         {
       	  //IF THERE ARE NO WINNERS YET
             ioe.printStackTrace();
-            return;
+            return null;
         } 
         catch (ClassNotFoundException c) 
         {
             System.out.println("Class not found");
             c.printStackTrace();
-            return;
+            return null;
         }
         
-        System.out.println(oldTopTenWinnersAL);
         
-        return;
+        return oldTopTenWinnersAL;
     	
     }
     
@@ -587,8 +586,12 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             if(level != 4) {
             	nextLevel();
             }
+            //if he won-add to top 10
+            else {
+            	addToTopTen(oldTopTenWinnersAL);
+            }
         }
-    }
+    } 
     public void addScoreAfterQuestion(Question question, int playerAnswer) {
     	//easy question
     	if(question.getDifficulty() == 1) {

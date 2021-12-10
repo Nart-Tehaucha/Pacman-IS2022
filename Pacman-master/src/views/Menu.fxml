@@ -27,7 +27,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="RecordsBtn" layoutX="306.0" layoutY="310.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="94.0" stylesheets="@styleSheet.css" text="Records" textFill="WHITE">
+      <Button fx:id="RecordsBtn" layoutX="306.0" layoutY="310.0" mnemonicParsing="false" onAction="#OpenRecordsScreen" prefHeight="38.0" prefWidth="94.0" stylesheets="@styleSheet.css" text="Records" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />

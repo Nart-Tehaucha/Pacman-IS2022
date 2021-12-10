@@ -31,6 +31,8 @@ public class PacWindow extends JFrame {
 	
 	
 	
+	
+	
 
      
 	
@@ -39,7 +41,7 @@ public class PacWindow extends JFrame {
 	
 	// Default Constructor. Initializes the game screen.
     public PacWindow(String username){
-    	
+
     	System.out.println("THIS IS USER NAME:" + username);
         
     	//Assign user name field

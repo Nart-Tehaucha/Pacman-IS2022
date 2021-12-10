@@ -32,6 +32,7 @@ import models.Player;
 
 public class LoginScreen{
 
+	static String lastUserToLogIn;
 
    @FXML
     private AnchorPane MainPanel;
@@ -107,6 +108,7 @@ public class LoginScreen{
     			// Successful login
     			if(nicknamesAndPasswords.containsKey(username.getText())){
     				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
+    					lastUserToLogIn= username.getText();
     					showAlert(AlertType.INFORMATION, "Enter The System",
     							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
     									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
