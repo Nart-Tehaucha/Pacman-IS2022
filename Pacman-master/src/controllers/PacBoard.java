@@ -169,9 +169,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 			e1.printStackTrace();
 		}
         
-        
-        System.out.println(questionIcons.toString());
-        
         //TODO : read food from mapData (Map 1)
 
         if(!isCustom) {
@@ -308,7 +305,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                             g.moveTimer.stop();
                             isGameOver = true;
                             pacLives--;
-                            System.out.println(pacman.getGameSpeed() + "  "+ level);
                     		restart(level, score, pacLives, username);
                     	}
                     	else {
@@ -511,9 +507,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             
             // Put new Question & QuestionIcon pair in the hashmap
             questionPoints.put(newQuestionIcon, newQuestion);
-            
-            System.out.println(pointOfNewQuestion);
-            //System.out.println("NEW Q: " + newQuestion + "/nNEW QI: " + newQuestionIcon + "/nQIS: " + questionIcons + "/nQPS: " + questionPoints);
     	}
     	else {
     		// Get the question that we just ate
