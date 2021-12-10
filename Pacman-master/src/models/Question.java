@@ -10,19 +10,16 @@ public class Question {
 	private int difficulty;
 	private ArrayList<Answer> answers;
 	private int correct_ans;
-	private String team;
 
 	// -------------------------------Constructors-------------------------------
 
-	public Question(int questionID, String content, int difficulty, ArrayList<Answer> answers, int correct_ans,
-			String team) {
+	public Question(int questionID, String content, int difficulty, ArrayList<Answer> answers, int correct_ans) {
 		super();
 		this.questionID = questionID;
 		this.content = content;
 		this.difficulty = difficulty;
 		this.answers = answers;
 		this.correct_ans = correct_ans;
-		this.team = team;
 	}
 
 	// -------------------------------Getters And Setters-------------------------
@@ -64,14 +61,6 @@ public class Question {
 
 	public void setCorrect_ans(int correct_ans) {
 		this.correct_ans = correct_ans;
-	}
-
-	public String getTeam() {
-		return team;
-	}
-
-	public void setTeam(String team) {
-		this.team = team;
 	}
 
 	// -------------------------------Methods------------------------------------

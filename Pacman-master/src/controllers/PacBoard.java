@@ -169,10 +169,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 			e1.printStackTrace();
 		}
         
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
-        
         //TODO : read food from mapData (Map 1)
 
         if(!isCustom) {
@@ -280,6 +276,10 @@ System.out.println("THIS IS USER NAME1: " + this.username);
         };
         redrawTimer = new Timer(16,redrawAL);
         redrawTimer .start();
+        
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
 
         // Start playing sounds
         //SoundPlayer.play("pacman_start.wav");
@@ -305,7 +305,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                             g.moveTimer.stop();
                             isGameOver = true;
                             pacLives--;
-                            System.out.println(pacman.getGameSpeed() + "  "+ level);
                     		restart(level, score, pacLives, username);
                     	}
                     	else {
@@ -368,47 +367,10 @@ System.out.println("THIS IS USER NAME1: " + this.username);
         //Shahar- This function m
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
-        	int index;
-        	Point pointOfNewQuestion;
-        	QuestionIcon qi;
-            switch(questionIcontToEat.type) {
-                case 0:
-                    //OPEN EASY QUESTION WINDOW
-                	
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position; 
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,0);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                case 1:
-                    //OPEN MEDIUM QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;        
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,1);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                    
-                case 2: 
-                    //OPEN HARD QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,2);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-            }
+        	questionPopup(questionIcontToEat);
+        	generateQuestionIcon(questionIcontToEat);
+        	questionIcontToEat=null;
+            scoreToAdd = 0;
         }
         
         
@@ -545,8 +507,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             
             // Put new Question & QuestionIcon pair in the hashmap
             questionPoints.put(newQuestionIcon, newQuestion);
-            
-            //System.out.println("NEW Q: " + newQuestion + "/nNEW QI: " + newQuestionIcon + "/nQIS: " + questionIcons + "/nQPS: " + questionPoints);
     	}
     	else {
     		// Get the question that we just ate
@@ -775,6 +735,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             g.drawImage(pfoodImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
         }
         
+        //Draw QuestionIcons
         for(QuestionIcon f : questionIcons){
             //g.fillOval(f.position.x*28+20,f.position.y*28+20,8,8);
             g.drawImage(questionIconImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
@@ -860,7 +821,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 
     
     // Opens the Question interface
-    public void questionPopup() {
+    public void questionPopup(QuestionIcon qi) {
     	// Stop all movement and animation
     	pacman.moveTimer.stop();
         pacman.animTimer.stop();
@@ -869,8 +830,10 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             g.animTimer.stop();
         }
         
+        Question q = questionPoints.get(qi);
+        
         // Load the question window
-    	QuestionWindow qw = new QuestionWindow(windowParent);
+    	QuestionWindow qw = new QuestionWindow(windowParent, q, this);
     }
     
     // Restarts the game.
@@ -892,6 +855,14 @@ System.out.println("THIS IS USER NAME1: " + this.username);
         
     }
     
+    public void resume() {
+    	pacman.moveTimer.start();
+        pacman.animTimer.start();
+        for(Ghost g : ghosts){
+            g.moveTimer.start();
+            g.animTimer.start();
+        }
+    }
     
     public void restart(int level, int score, int pacLives, String userName) {
     	//siren.stop();

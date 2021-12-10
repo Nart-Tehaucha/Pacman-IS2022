@@ -3,7 +3,7 @@ XO___________X___________OX
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
-XP_______E________________X
+XP________________________X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X______XX_________XX______X
@@ -12,7 +12,7 @@ XXXXXX_XX_XXX_XXX_XX_XXXXXX
 =====X_XX1_______2XX_X=====
 =====X_XX__XXYXX__XX_X=====
 XXXXXX_XX__X===X__XX_XXXXXX
-X__________X=B=X_____M____X
+X__________X=B=X__________X
 XXXXXX_XX__X===X__XX_XXXXXX
 =====X_XX__XXXXX__XX_X=====
 =====X_XX____3____XX_X=====
@@ -21,7 +21,7 @@ XXXXXX_XX_XXX_XXX_XX_XXXXXX
 X______XX_________XX______X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
 X_XXXX_XX_XXXXXXX_XX_XXXX_X
-X____________________H____X
+X_________________________X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
 X_XXXX_XXXXX_X_XXXXX_XXXX_X
