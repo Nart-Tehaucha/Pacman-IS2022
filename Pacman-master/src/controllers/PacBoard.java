@@ -56,6 +56,7 @@ public class PacBoard extends JPanel {
     public boolean isGameOver = false;
     public boolean isWin = false;
     public boolean drawScore = false;
+    public boolean drawQuestionScore = false;
     public boolean clearScore = false;
     public int scoreToAdd = 0;
     public int pacLives;
@@ -115,10 +116,8 @@ public class PacBoard extends JPanel {
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
     	initializeTopTen();
-System.out.println("THIS IS USER NAME1: " + this.username);
     	//shahar 
     	this.username = pw.getUsername();
-    	System.out.println("THIS IS USER NAME2: " + this.username);
         this.level = level;
         this.score = score;
         this.pacLives = pacLives;
@@ -145,18 +144,14 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 //    		g1.moveTimer.setDelay(1);
 //      		System.out.println("ghost"+g1.getGhostNormalDelay());
 //    		}
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		//changeGhostSpeed(1);
-    		System.out.println(pacman.getGameSpeed());
     		break;
     	case 2:
     		scoreToNextLevel = 101;
     		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		System.out.println(pacman.getGameSpeed());
     		break;
     	case 3:
     		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 4:
     		scoreToNextLevel = 200;
@@ -233,8 +228,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             try {
                 pink_mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/pink_map segments/"+ms+".png"));
             }catch(Exception e){}
-        } System.out.println("this is pink_mapSegments: "+ pink_mapSegments.toString());
-        
+        }
         
      // Load green images for all segments of the map
         green_mapSegments = new Image[28];
@@ -304,7 +298,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 		for (Ghost g1 : ghosts) {
 		//g1.moveTimer.setDelay(0);
 		g1.setGhostNormalDelay(g1.getGhostNormalDelay() -4);
-		System.out.println(level +" "+ "ghost" +"  "+g1.getGhostNormalDelay());
 		//hasChanged =false;
 		}
 	  }
@@ -412,25 +405,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                     //pac6.start();
                     pacman.setStrong(true);
                     pacman.setInLocation(true);
-//                    if(pacman.isEnterPressed()) {
-//                    	for (Ghost g : ghosts) {
-//                        	for(int i=-3 ;i<=3; i++) {
-//                        		for(int j=-3; j<=3; j++) {
-//                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
-//             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
-//             	                    		g.ghostDisappear();
-//             	                    		g.logicalPosition.x = 12;
-//             	                    		g.logicalPosition.y = 13;
-//             	                    		g.pixelPosition.x = 13 * 28;
-//             	                    		g.pixelPosition.y = 13 * 28;
-             	                    		//g.logicalPosition =  this.ghostBase;
-             	                    		
-//                        			}
-//    	                    	
-//    	                    	}
-//                        	}
-//                        }
-//                    }
                     
                     scoreToAdd = 0;
                     pacman.setEnterPreesed(false);
@@ -572,68 +546,58 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             }
         }
     } 
-    public void addScoreAfterQuestion(Question question, int playerAnswer) {
+    public void scoreAnswer(String difficulty, boolean correct) {
     	//easy question
-    	if(question.getDifficulty() == "Easy") {
+    	if(difficulty.equals("Easy")) {
     		//Right answer
-    		if(question.getCorrect_ans() == playerAnswer) {
-    		  	score ++;
-    			
+    		if(correct) {
+    		  	scoreToAdd = 1;
     		}
     		//Wrong answer
     		else {
     			if(score>=10) {
-    			score =score-10;
+    				scoreToAdd = -10;
     			}
     			else {
-    				score =0;
+    				scoreToAdd =0;
     			}
-    	       
-    			
     		}
-    	 scoreboard.setText("    Score : "+score);
     	}
     	//medium  question
-    	if(question.getDifficulty() == "Medium") {
+    	else if(difficulty.equals("Medium")) {
     		//Right answer
-    		if(question.getCorrect_ans() == playerAnswer) {
-    		  	score= score+2;
-    			
+    		if(correct) {
+    		  	scoreToAdd = 2;
     		}
     		//Wrong answer
     		else {
     			if(score>=20) {
-    			score =score-20;
+    				scoreToAdd = -20;
     			}
     			else {
-    				score =0;
+    				scoreToAdd = 0;
     			}
-    	       
-    			
     		}
-    	 scoreboard.setText("    Score : "+score);
     	}
     	//Hard question
-    	if(question.getDifficulty() == "Hard") {
+    	else if(difficulty.equals("Hard")) {
     		//Right answer
-    		if(question.getCorrect_ans() == playerAnswer) {
-    		  	score =score +3;
+    		if(correct) {
+    		  	scoreToAdd = 3;
     			
     		}
     		//Wrong answer
     		else {
     			if(score>=30) {
-    			score =score-30;
+    				scoreToAdd = -30;
     			}
     			else {
-    				score =0;
+    				scoreToAdd =0;
     			}
-    	       
-    			
     		}
-    	 scoreboard.setText("    Score : "+score);
     	}
-  
+
+	  	drawQuestionScore = true;
     }
     
     // Draws all objects on the map
@@ -713,7 +677,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     	case 4:
     		//Draw Walls
     		pacman.setGameSpeedForLevel2(7, level);
-    		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -798,6 +761,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                 e.printStackTrace();
             }
             drawScore = false;
+            drawQuestionScore = false;
             clearScore =false;
         }
 
@@ -811,6 +775,17 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             scoreboard.setText("    Score : "+score);
             clearScore = true;
 
+        }
+        
+        if(drawQuestionScore) {
+            g.setFont(new Font("Arial",Font.BOLD,15));
+            g.setColor(Color.yellow);
+            Integer s = scoreToAdd;
+            g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
+            //drawScore = false;
+            score += s;
+            scoreboard.setText("    Score : "+score);
+            clearScore = true;
         }
 
         if(isGameOver){
@@ -916,7 +891,6 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 		else 
 			did_earn_trophy = false;
 		
-		System.out.println("THIS IS USERNAME: "+ this.username);
 		RecordWinner newPlayerRecord = new RecordWinner(this.username,this.score, 0.0, did_earn_trophy);
 		ArrayList<RecordWinner> newTopTen = oldTopTen;
 		newTopTen.add(newPlayerRecord);
@@ -944,6 +918,20 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 		return;
 
 	}
+
+	// Checks if answer is correct, if yes, returns true and adds +10 to score.
+	public void checkAnswer(Question q, String ans) {
+		boolean correct = false;
+		for(Answer a : q.getAnswers()) {
+			if(a.getContent().equals(ans)) {
+				if(a.getAnswerID() == q.getCorrect_ans()) {
+					correct = true;
+				}
+			}
+		}
+		scoreAnswer(q.getDifficulty(), correct);
+	}
     
 
 }
+  
