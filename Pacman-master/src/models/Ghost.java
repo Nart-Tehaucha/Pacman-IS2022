@@ -135,7 +135,8 @@ public abstract class Ghost {
                 activeImage = (activeImage + 1) % 2;
             }
         };
-        animTimer = new Timer(100,animAL);
+        //tal you changed from 100 to 200
+        animTimer = new Timer(200,animAL);
         animTimer.start();
         
         // Handles the movement of the Ghosts around the map.
@@ -263,6 +264,10 @@ public abstract class Ghost {
 
     }
     
+ 
+
+	// ---END OF CONSTRUCTOR---
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     public int getGhostNormalDelay() {
 		return ghostNormalDelay;
 	}
@@ -270,10 +275,7 @@ public abstract class Ghost {
 	public void setGhostNormalDelay(int ghostNormalDelay) {
 		this.ghostNormalDelay = ghostNormalDelay;
 	}
-
-	// ---END OF CONSTRUCTOR---
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    //load Images from Resource
+	//load Images from Resource
     public abstract void loadImages();
 
     //get Move Based on AI

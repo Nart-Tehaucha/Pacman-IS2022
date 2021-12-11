@@ -4,16 +4,19 @@ package controllers;
 import views.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import javafx.scene.input.KeyEvent;
 import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
-public class PacBoard extends JPanel{
+public class PacBoard extends JPanel implements KeyListener{
 
 
     public Timer redrawTimer;
@@ -90,10 +93,19 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
+    	//	changeGhostSpeed(3);
+//    		for (Ghost g1 : ghosts) {
+//    		g1.moveTimer.setDelay(1);
+//      		System.out.println("ghost"+g1.getGhostNormalDelay());
+//    		}
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		//changeGhostSpeed(1);
+    		System.out.println(pacman.getGameSpeed());
     		break;
     	case 2:
     		scoreToNextLevel = 101;
     		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		System.out.println(pacman.getGameSpeed());
     		break;
     	case 3:
     		scoreToNextLevel = 151;
@@ -230,7 +242,7 @@ public class PacBoard extends JPanel{
                 repaint();
             }
         };
-        redrawTimer = new Timer(16,redrawAL);
+        redrawTimer = new Timer(0,redrawAL);
         redrawTimer .start();
 
         // Start playing sounds
@@ -240,7 +252,16 @@ public class PacBoard extends JPanel{
         //siren.start();
     }
 
-    
+  public void changeGhostSpeed(int level) {
+	  if(level ==3) {
+		for (Ghost g1 : ghosts) {
+		//g1.moveTimer.setDelay(0);
+		g1.setGhostNormalDelay(g1.getGhostNormalDelay() -4);
+		System.out.println(level +" "+ "ghost" +"  "+g1.getGhostNormalDelay());
+		//hasChanged =false;
+		}
+	  }
+  }
     // Checks if the player colided with a ghost
     public void collisionTest(){
         Rectangle pr = new Rectangle(pacman.pixelPosition.x+13,pacman.pixelPosition.y+13,2,2);
@@ -412,7 +433,7 @@ public class PacBoard extends JPanel{
             //score ++;
             //scoreboard.setText("    Score : "+score);
         }
-        
+
         if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
 	    	for (Ghost g : ghosts) {	
 	        	for(int i=-3 ;i<=3; i++) {	
@@ -617,16 +638,22 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		//Draw Walls
-    		for (Ghost g1 : ghosts) {	
+    	
+    		for (Ghost g1 : ghosts) {
+    		//changeGhostSpeed(3, true);
     		//
     			//g1.setGhostSpeed(7);
+    		//pacman.setGameSpeedForLevel2(7, 2);	
     		//g1.setGhostNormalDelay(int ghostNormalDelay)
     		//System.out.println(g1.getGhostSpeed());
-    		g1.setGhostNormalDelay(100);
-    		System.out.println(g1.getGhostNormalDelay());
+    		//	g1.moveTimer.setDelay(1);
+//    		g1.setGhostNormalDelay(100);
+    		//System.out.println(level);
+    		//System.out.println(g1.moveTimer.getDelay());
+    		//g1.getGhostNormalDelay(g1.moveTimer.getDelay())
     		
     		}
-    		pacman.setGameSpeedForLevel2(4, level);
+    		//pacman.setGameSpeedForLevel2(4, level);
     		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -641,8 +668,8 @@ public class PacBoard extends JPanel{
     	case 2:
     		//Draw Walls
     		//change pacman speed
-    		System.out.println(pacman.getGameSpeed() + "   "+level);
-    		pacman.setGameSpeedForLevel2(7, level);
+    		//System.out.println(pacman.getGameSpeed() + "   "+level);
+    		//pacman.setGameSpeedForLevel2(7, level);
     		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -655,9 +682,9 @@ public class PacBoard extends JPanel{
             }
     		break;
     	case 3:
+    		//changeGhostSpeed(3);
     		//Draw Walls
-    		pacman.setGameSpeedForLevel2(4, level);
-    		System.out.println(pacman.getGameSpeed() + "   "+level);
+    		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -844,6 +871,31 @@ public class PacBoard extends JPanel{
     	new PacWindow(level, score, pacLives);
     	
     }
+
+	@Override
+	public void keyTyped(java.awt.event.KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(java.awt.event.KeyEvent e) {
+		// TODO Auto-generated method stub
+      // public void keyPressed(KeyEvent ke){
+    	  pacman.moveTimer.stop();
+          pacman.animTimer.stop();
+        //  g.moveTimer.stop();
+      		
+         
+        
+		
+	}
+
+	@Override
+	public void keyReleased(java.awt.event.KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
     
 
 }
