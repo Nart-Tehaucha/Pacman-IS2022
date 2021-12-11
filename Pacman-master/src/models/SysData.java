@@ -28,7 +28,8 @@ public class SysData {
 			instance = new SysData();
 		return instance;
 	}
-
+	
+	
 	/*
 	 * This method reads the questions written in JSON file and returns them in an
 	 * array list
@@ -36,15 +37,14 @@ public class SysData {
 	@SuppressWarnings("deprecation")
 	public static ArrayList<Question> readQuestionsJSON() {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
-		// questionID
-		int k = 1;
-		Object obj;
 		try {
-			obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
+			Object obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
 			JSONObject jo = (JSONObject) obj;
 			JSONArray arr = (JSONArray) jo.get("questions");
+	
 			for (Object questionObj : arr) {
 				JSONObject jsonQObjt = (JSONObject) questionObj;
+				int questionID = Math.toIntExact((Long) jsonQObjt.get("ID"));
 				String context = (String) jsonQObjt.get("question");
 				JSONArray answersarr = (JSONArray) jsonQObjt.get("answers");
 				ArrayList<Answer> arrlista = new ArrayList<Answer>();
@@ -54,23 +54,20 @@ public class SysData {
 				int i = 1;
 				while (itr.hasNext()) {
 					String content = itr.next().toString();
-					Answer an = new Answer(i, k, content);
+					Answer an = new Answer(i, questionID, content);
 					i++;
 					arrlista.add(an);
 				}
-				int correct_ans = Integer.parseInt((String) jsonQObjt.get("correct_ans"));
+				int correct_ans = Math.toIntExact((Long) jsonQObjt.get("correct_ans"));
 				String difficulty = (String) jsonQObjt.get("level");
-
-				Question q = new Question(k, context, difficulty, arrlista, correct_ans);
-				k++;
+	
+				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans);
 				arrlistq.add(q);
 			}
-		} catch (IOException | ParseException e) {
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 		return arrlistq;
 	}
 
@@ -88,6 +85,7 @@ public class SysData {
             JSONArray jsonArray = (JSONArray) obj.get("questions");
                       
             JSONObject question = new JSONObject();
+            question.put("ID", q.getQuestionID());
             question.put("question", q.getContent());
             JSONArray ans = new JSONArray();
             for(Answer a : q.getAnswers()) {
@@ -119,7 +117,7 @@ public class SysData {
       	        
       	        for(Object o : aux) {
       	        	JSONObject jo = (JSONObject) o;
-      	        	if(jo.get("question").equals(q.getContent())) {
+      	        	if(Math.toIntExact((Long) jo.get("ID")) == q.getQuestionID()) {
    	                System.out.println("REMOVING QUESTION:");
    	                System.out.println(jo.get("question"));
    	                jsonArray.remove(o);
@@ -133,5 +131,62 @@ public class SysData {
       	        System.out.println("Error: " + ex);
       	    }
       }
+ 
+    public static void deleteQuestionFromJSONByID(int questionID) {
+
+    	 try {
+    	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
+    	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
+    	        
+    	        JSONArray aux = (JSONArray) jsonArray.clone();
+    	        
+    	        for(Object o : aux) {
+    	        	JSONObject jo = (JSONObject) o;
+    	        	if(Math.toIntExact((Long) jo.get("ID")) == questionID) {
+ 	                System.out.println("REMOVING QUESTION:");
+ 	                System.out.println(jo.get("question"));
+ 	                jsonArray.remove(o);
+    	        	}
+    	        }
+    	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
+    	            file.write(jsonObject.toJSONString());
+    	            file.flush();
+    	        }
+    	    } catch (IOException | ParseException ex) {
+    	        System.out.println("Error: " + ex);
+    	    }
+    
+   }
+    
+    public static void editQuestionInJSON(Question newQuestion) {
+
+     	 try {
+     	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
+     	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
+     	        
+     	        JSONArray aux = (JSONArray) jsonArray.clone();
+     	        
+     	        for(Object o : aux) {
+     	        	JSONObject jo = (JSONObject) o;
+     	        	if(Math.toIntExact((Long) jo.get("ID")) == newQuestion.getQuestionID()) {
+	  	                jo.put("question", newQuestion.getContent());
+	  	                jo.put("level", newQuestion.getDifficulty());
+		  	            JSONArray ans = new JSONArray();
+		  	            for(Answer a : newQuestion.getAnswers()) {
+		  	            	ans.add(a.getContent());
+		  	            }
+	  	              	jo.put("answers", ans);
+	  	            	jo.put("correct_ans", newQuestion.getCorrect_ans());
+     	        	}
+     	        }
+     	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
+     	            file.write(jsonObject.toJSONString());
+     	            file.flush();
+     	        }
+     	    } catch (IOException | ParseException ex) {
+     	        System.out.println("Error: " + ex);
+     	    }
+     
+    }
 
 }
