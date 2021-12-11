@@ -554,7 +554,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     } 
     public void addScoreAfterQuestion(Question question, int playerAnswer) {
     	//easy question
-    	if(question.getDifficulty() == 1) {
+    	if(question.getDifficulty() == "Easy") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score ++;
@@ -574,7 +574,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     	 scoreboard.setText("    Score : "+score);
     	}
     	//medium  question
-    	if(question.getDifficulty() == 2) {
+    	if(question.getDifficulty() == "Medium") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score= score+2;
@@ -594,7 +594,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     	 scoreboard.setText("    Score : "+score);
     	}
     	//Hard question
-    	if(question.getDifficulty() == 1) {
+    	if(question.getDifficulty() == "Hard") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score =score +3;

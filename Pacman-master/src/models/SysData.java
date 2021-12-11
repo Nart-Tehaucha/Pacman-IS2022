@@ -34,36 +34,43 @@ public class SysData {
 	 * array list
 	 */
 	@SuppressWarnings("deprecation")
-	public static ArrayList<Question> readQuestionsJSON() throws Exception {
+	public static ArrayList<Question> readQuestionsJSON() {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		// questionID
 		int k = 1;
-		Object obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
-		JSONObject jo = (JSONObject) obj;
-		JSONArray arr = (JSONArray) jo.get("questions");
+		Object obj;
+		try {
+			obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
+			JSONObject jo = (JSONObject) obj;
+			JSONArray arr = (JSONArray) jo.get("questions");
+			for (Object questionObj : arr) {
+				JSONObject jsonQObjt = (JSONObject) questionObj;
+				String context = (String) jsonQObjt.get("question");
+				JSONArray answersarr = (JSONArray) jsonQObjt.get("answers");
+				ArrayList<Answer> arrlista = new ArrayList<Answer>();
+				@SuppressWarnings("rawtypes")
+				Iterator<?> itr = answersarr.iterator();
+				// answerID
+				int i = 1;
+				while (itr.hasNext()) {
+					String content = itr.next().toString();
+					Answer an = new Answer(i, k, content);
+					i++;
+					arrlista.add(an);
+				}
+				int correct_ans = Integer.parseInt((String) jsonQObjt.get("correct_ans"));
+				String difficulty = (String) jsonQObjt.get("level");
 
-		for (Object questionObj : arr) {
-			JSONObject jsonQObjt = (JSONObject) questionObj;
-			String context = (String) jsonQObjt.get("question");
-			JSONArray answersarr = (JSONArray) jsonQObjt.get("answers");
-			ArrayList<Answer> arrlista = new ArrayList<Answer>();
-			@SuppressWarnings("rawtypes")
-			Iterator<?> itr = answersarr.iterator();
-			// answerID
-			int i = 1;
-			while (itr.hasNext()) {
-				String content = itr.next().toString();
-				Answer an = new Answer(i, k, content);
-				i++;
-				arrlista.add(an);
+				Question q = new Question(k, context, difficulty, arrlista, correct_ans);
+				k++;
+				arrlistq.add(q);
 			}
-			int correct_ans = Integer.parseInt((String) jsonQObjt.get("correct_ans"));
-			int difficulty = Integer.parseInt((String) jsonQObjt.get("level"));
-
-			Question q = new Question(k, context, difficulty, arrlista, correct_ans);
-			k++;
-			arrlistq.add(q);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+
 		return arrlistq;
 	}
 
@@ -72,7 +79,7 @@ public class SysData {
 	 * questions in the array list
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public boolean addQuestionToJSON(Question q) throws FileNotFoundException {
+	public static boolean addQuestionToJSON(Question q) throws FileNotFoundException {
 		JSONParser jsonParser = new JSONParser();
 
         try {

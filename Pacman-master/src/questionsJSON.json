@@ -4,25 +4,23 @@
 
     {
 
-      "question": "q1",
+      "question": "What is the name of the course?",
 
       "answers": [
 
-        "answer1",
+        "Big Data",
 
-        "answer2",
+        "Software Engineering",
 
-        "answer3",
+        "Data Structures",
 
-        "answer4"
+        "Operation Systems"
 
       ],
 
       "correct_ans": "2",
 
-      "level": "1",
-
-      "team": "animal"
+      "level": "Easy"
 
     },
 
@@ -44,9 +42,7 @@
 
       "correct_ans": "1",
 
-      "level": "2",
-
-      "team": "animal"
+      "level": "Medium"
 
     },
 
@@ -68,9 +64,7 @@
 
       "correct_ans": "4",
 
-      "level": "2",
-
-      "team": "test"
+      "level": "Medium"
 
     },
 
@@ -92,9 +86,7 @@
 
       "correct_ans": "3",
 
-      "level": "3",
-
-      "team": "test"
+      "level": "Hard"
 
     }
 

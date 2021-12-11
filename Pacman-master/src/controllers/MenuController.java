@@ -85,6 +85,14 @@ public class MenuController {
 		LoadScreen(loader);
 		return;
     }
+    
+
+    @FXML
+    void OpenQuestionManager(ActionEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageQuestions.fxml"));
+		LoadScreen(loader);
+		return;
+    }
 
     public void setUsername(String username) {
     	this.username = username;

@@ -2,6 +2,7 @@ package models;
 
 public class Answer {
 	// -------------------------------Class Members------------------------------
+	transient static int idCounter = 1;
 	private int answerID;
 	private int questionID;
 	private String content;
@@ -11,6 +12,12 @@ public class Answer {
 		super();
 		this.answerID = answerID;
 		this.questionID = questionID;
+		this.content = content;
+	}
+	
+	public Answer(String content) {
+		super();
+		this.answerID = idCounter;
 		this.content = content;
 	}
 

@@ -5,17 +5,27 @@ import java.util.ArrayList;
 
 public class Question {
 	// -------------------------------Class Members------------------------------
+	transient static int idCounter = 1;
 	private int questionID;
 	private String content;
-	private int difficulty;
+	private String difficulty;
 	private ArrayList<Answer> answers;
 	private int correct_ans;
 
 	// -------------------------------Constructors-------------------------------
 
-	public Question(int questionID, String content, int difficulty, ArrayList<Answer> answers, int correct_ans) {
+	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans) {
 		super();
 		this.questionID = questionID;
+		this.content = content;
+		this.difficulty = difficulty;
+		this.answers = answers;
+		this.correct_ans = correct_ans;
+	}
+	
+	public Question(String content, String difficulty, ArrayList<Answer> answers, int correct_ans) {
+		super();
+		this.questionID = idCounter++;
 		this.content = content;
 		this.difficulty = difficulty;
 		this.answers = answers;
@@ -31,11 +41,11 @@ public class Question {
 		this.questionID = questionID;
 	}
 
-	public int getDifficulty() {
+	public String getDifficulty() {
 		return difficulty;
 	}
 
-	public void setDifficulty(int difficulty) {
+	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
 	}
 
