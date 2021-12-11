@@ -10,15 +10,23 @@ import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
-public class PacBoard extends JPanel implements KeyListener{
+public class PacBoard extends JPanel {
 
-
+	
+	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	
+	
     public Timer redrawTimer;
     public ActionListener redrawAL;
 
@@ -69,9 +77,48 @@ public class PacBoard extends JPanel implements KeyListener{
     public MapData md_backup;
     public PacWindow windowParent;
     
+    //shahar
+    private String username;
+    
+    public static ArrayList<RecordWinner> initializeTopTen() {
+      	//Fill the top 10 with past data about winners:
+    	//read top10 winners from ser file "topTenWinners.ser"
+        try{
+            FileInputStream fis = new FileInputStream("topTenWinnersData.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } 
+        catch (IOException ioe) 
+        {
+      	  //IF THERE ARE NO WINNERS YET
+            ioe.printStackTrace();
+            return null;
+        } 
+        catch (ClassNotFoundException c) 
+        {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return null;
+        }
+        
+        
+        return oldTopTenWinnersAL;
+    	
+    }
+    
 
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
+    	
+    	initializeTopTen();
+System.out.println("THIS IS USER NAME1: " + this.username);
+    	//shahar 
+    	this.username = pw.getUsername();
+    	System.out.println("THIS IS USER NAME2: " + this.username);
         this.level = level;
         this.score = score;
         this.pacLives = pacLives;
@@ -132,10 +179,6 @@ public class PacBoard extends JPanel implements KeyListener{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
         
         //TODO : read food from mapData (Map 1)
 
@@ -244,6 +287,10 @@ public class PacBoard extends JPanel implements KeyListener{
         };
         redrawTimer = new Timer(0,redrawAL);
         redrawTimer .start();
+        
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
+        this.generateQuestionIcon(null);
 
         // Start playing sounds
         //SoundPlayer.play("pacman_start.wav");
@@ -278,13 +325,15 @@ public class PacBoard extends JPanel implements KeyListener{
                             g.moveTimer.stop();
                             isGameOver = true;
                             pacLives--;
-                            System.out.println(pacman.getGameSpeed() + "  "+ level);
-                    		restart(level, score, pacLives);
+                    		restart(level, score, pacLives, username);
                     	}
                     	else {
                     		//Game Over
                             //siren.stop();
                             //SoundPlayer.play("pacman_lose.wav");
+                    		//Shahar
+                    		//get player score into top 10 if relevant
+                    		addToTopTen(oldTopTenWinnersAL);
                             pacman.moveTimer.stop();
                             pacman.animTimer.stop();
                             g.moveTimer.stop();
@@ -338,47 +387,10 @@ public class PacBoard extends JPanel implements KeyListener{
         //Shahar- This function m
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
-        	int index;
-        	Point pointOfNewQuestion;
-        	QuestionIcon qi;
-            switch(questionIcontToEat.type) {
-                case 0:
-                    //OPEN EASY QUESTION WINDOW
-                	
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position; 
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,0);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                case 1:
-                    //OPEN MEDIUM QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;        
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,1);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-                    
-                case 2: 
-                    //OPEN HARD QUESTION WINDOW
-                	questionIcons.remove(questionIcontToEat);
-                	index = (int)(Math.random() * md_backup.getFoodPositions().size());
-                	pointOfNewQuestion = md_backup.getFoodPositions().get(index).position;
-                	md_backup.getFoodPositions().remove(index);
-                    qi = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,2);
-                    questionIcons.add(qi);
-                	questionIcontToEat=null;
-                    scoreToAdd = 0;
-                    break;
-            }
+        	questionPopup(questionIcontToEat);
+        	generateQuestionIcon(questionIcontToEat);
+        	questionIcontToEat=null;
+            scoreToAdd = 0;
         }
         
         
@@ -515,8 +527,6 @@ public class PacBoard extends JPanel implements KeyListener{
             
             // Put new Question & QuestionIcon pair in the hashmap
             questionPoints.put(newQuestionIcon, newQuestion);
-            
-            //System.out.println("NEW Q: " + newQuestion + "/nNEW QI: " + newQuestionIcon + "/nQIS: " + questionIcons + "/nQPS: " + questionPoints);
     	}
     	else {
     		// Get the question that we just ate
@@ -556,11 +566,15 @@ public class PacBoard extends JPanel implements KeyListener{
             if(level != 4) {
             	nextLevel();
             }
+            //if he won-add to top 10
+            else {
+            	addToTopTen(oldTopTenWinnersAL);
+            }
         }
-    }
+    } 
     public void addScoreAfterQuestion(Question question, int playerAnswer) {
     	//easy question
-    	if(question.getDifficulty() == 1) {
+    	if(question.getDifficulty() == "Easy") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score ++;
@@ -580,7 +594,7 @@ public class PacBoard extends JPanel implements KeyListener{
     	 scoreboard.setText("    Score : "+score);
     	}
     	//medium  question
-    	if(question.getDifficulty() == 2) {
+    	if(question.getDifficulty() == "Medium") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score= score+2;
@@ -600,7 +614,7 @@ public class PacBoard extends JPanel implements KeyListener{
     	 scoreboard.setText("    Score : "+score);
     	}
     	//Hard question
-    	if(question.getDifficulty() == 1) {
+    	if(question.getDifficulty() == "Hard") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score =score +3;
@@ -747,6 +761,7 @@ public class PacBoard extends JPanel implements KeyListener{
             g.drawImage(pfoodImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
         }
         
+        //Draw QuestionIcons
         for(QuestionIcon f : questionIcons){
             //g.fillOval(f.position.x*28+20,f.position.y*28+20,8,8);
             g.drawImage(questionIconImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
@@ -800,6 +815,8 @@ public class PacBoard extends JPanel implements KeyListener{
 
         if(isGameOver){
             g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+            
+            
         }
 
         if(isWin){
@@ -822,7 +839,7 @@ public class PacBoard extends JPanel implements KeyListener{
             }
         }else if(ae.getID()== Messages.RESET){
             if(isGameOver)
-                restart(1,0,3);
+                restart(1,0,3,username);
         }else {
             super.processEvent(ae);
         }
@@ -830,7 +847,7 @@ public class PacBoard extends JPanel implements KeyListener{
 
     
     // Opens the Question interface
-    public void questionPopup() {
+    public void questionPopup(QuestionIcon qi) {
     	// Stop all movement and animation
     	pacman.moveTimer.stop();
         pacman.animTimer.stop();
@@ -839,8 +856,10 @@ public class PacBoard extends JPanel implements KeyListener{
             g.animTimer.stop();
         }
         
+        Question q = questionPoints.get(qi);
+        
         // Load the question window
-    	QuestionWindow qw = new QuestionWindow(windowParent);
+    	QuestionWindow qw = new QuestionWindow(windowParent, q, this);
     }
     
     // Restarts the game.
@@ -858,43 +877,72 @@ public class PacBoard extends JPanel implements KeyListener{
 
         windowParent.dispose();
         
-        new PacWindow(level+1, score, pacLives);
+        new PacWindow(level+1, score, pacLives,username);
         
     }
     
+    public void resume() {
+    	pacman.moveTimer.start();
+        pacman.animTimer.start();
+        for(Ghost g : ghosts){
+            g.moveTimer.start();
+            g.animTimer.start();
+        }
+    }
     
-    public void restart(int level, int score, int pacLives) {
+    public void restart(int level, int score, int pacLives, String userName) {
     	//siren.stop();
     	//pac6.stop();
     	
     	windowParent.dispose();
-    	new PacWindow(level, score, pacLives);
+    	new PacWindow(level, score, pacLives, userName);
     	
     }
 
-	@Override
-	public void keyTyped(java.awt.event.KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+
+	public ArrayList<RecordWinner> getTopTenWinnersAL() {
+		return oldTopTenWinnersAL;
 	}
 
-	@Override
-	public void keyPressed(java.awt.event.KeyEvent e) {
-		// TODO Auto-generated method stub
-      // public void keyPressed(KeyEvent ke){
-    	  pacman.moveTimer.stop();
-          pacman.animTimer.stop();
-        //  g.moveTimer.stop();
-      		
-         
-        
-		
-	}
 
-	@Override
-	public void keyReleased(java.awt.event.KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void setTopTenWinnersAL(ArrayList<RecordWinner> topTenWinnersAL) {
+		this.oldTopTenWinnersAL = topTenWinnersAL;
+	}
+	
+	private void addToTopTen (ArrayList<RecordWinner> oldTopTen) {
+		boolean did_earn_trophy;
+		if (this.score >= 200) 
+			did_earn_trophy = true;
+		else 
+			did_earn_trophy = false;
 		
+		System.out.println("THIS IS USERNAME: "+ this.username);
+		RecordWinner newPlayerRecord = new RecordWinner(this.username,this.score, 0.0, did_earn_trophy);
+		ArrayList<RecordWinner> newTopTen = oldTopTen;
+		newTopTen.add(newPlayerRecord);
+		//sort new top 10
+		Collections.sort(newTopTen);
+		//remove the last (lowest score & time - #11's player) from the winners AL
+		if(newTopTen.size() == 11)
+			newTopTen.remove(10);
+		//write new top 10 to ser file
+		try
+	      {
+	           FileOutputStream fos = new FileOutputStream("topTenWinnersData.ser");
+	           ObjectOutputStream oos = new ObjectOutputStream(fos);
+	           oos.writeObject(newTopTen);
+	           oos.close();
+	           fos.close();
+	       } 
+	       catch (IOException ioe) 
+	       {
+	           ioe.printStackTrace();
+	       }
+		
+    	
+		
+		return;
+
 	}
     
 

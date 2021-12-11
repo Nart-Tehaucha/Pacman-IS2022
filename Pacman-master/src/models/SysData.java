@@ -2,6 +2,7 @@ package models;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -33,37 +34,43 @@ public class SysData {
 	 * array list
 	 */
 	@SuppressWarnings("deprecation")
-	public static ArrayList<Question> readQuestionsJSON() throws Exception {
+	public static ArrayList<Question> readQuestionsJSON() {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		// questionID
 		int k = 1;
-		Object obj = new JSONParser().parse(new FileReader("./Pacman-master/src/questionsJSON.json"));
-		JSONObject jo = (JSONObject) obj;
-		JSONArray arr = (JSONArray) jo.get("questions");
+		Object obj;
+		try {
+			obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
+			JSONObject jo = (JSONObject) obj;
+			JSONArray arr = (JSONArray) jo.get("questions");
+			for (Object questionObj : arr) {
+				JSONObject jsonQObjt = (JSONObject) questionObj;
+				String context = (String) jsonQObjt.get("question");
+				JSONArray answersarr = (JSONArray) jsonQObjt.get("answers");
+				ArrayList<Answer> arrlista = new ArrayList<Answer>();
+				@SuppressWarnings("rawtypes")
+				Iterator<?> itr = answersarr.iterator();
+				// answerID
+				int i = 1;
+				while (itr.hasNext()) {
+					String content = itr.next().toString();
+					Answer an = new Answer(i, k, content);
+					i++;
+					arrlista.add(an);
+				}
+				int correct_ans = Integer.parseInt((String) jsonQObjt.get("correct_ans"));
+				String difficulty = (String) jsonQObjt.get("level");
 
-		for (Object questionObj : arr) {
-			JSONObject jsonQObjt = (JSONObject) questionObj;
-			String context = (String) jsonQObjt.get("question");
-			JSONArray answersarr = (JSONArray) jsonQObjt.get("answers");
-			ArrayList<Answer> arrlista = new ArrayList<Answer>();
-			@SuppressWarnings("rawtypes")
-			Iterator<?> itr = answersarr.iterator();
-			// answerID
-			int i = 1;
-			while (itr.hasNext()) {
-				String content = itr.next().toString();
-				Answer an = new Answer(i, k, content);
-				i++;
-				arrlista.add(an);
+				Question q = new Question(k, context, difficulty, arrlista, correct_ans);
+				k++;
+				arrlistq.add(q);
 			}
-			int correct_ans = Integer.parseInt((String) jsonQObjt.get("correct_ans"));
-			int difficulty = Integer.parseInt((String) jsonQObjt.get("level"));
-			String team = (String) jsonQObjt.get("team");
-
-			Question q = new Question(k, context, difficulty, arrlista, correct_ans, team);
-			k++;
-			arrlistq.add(q);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+
 		return arrlistq;
 	}
 
@@ -72,39 +79,59 @@ public class SysData {
 	 * questions in the array list
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public boolean addQuestionToJSON(ArrayList<Question> arrlistq) throws FileNotFoundException {
-		JSONObject jo = new JSONObject();
-		JSONArray ja = new JSONArray();
+	public static boolean addQuestionToJSON(Question q) throws FileNotFoundException {
+		JSONParser jsonParser = new JSONParser();
 
-		System.out.println(arrlistq.toString());
-		for (Question q : arrlistq) {
+        try {
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("questionsJSON.json"));
+            
+            JSONArray jsonArray = (JSONArray) obj.get("questions");
+                      
+            JSONObject question = new JSONObject();
+            question.put("question", q.getContent());
+            JSONArray ans = new JSONArray();
+            for(Answer a : q.getAnswers()) {
+            	ans.add(a.getContent());
+            }
+            question.put("answers", ans);
+            question.put("correct_ans", q.getCorrect_ans());
+            question.put("level", q.getDifficulty());
 
-			@SuppressWarnings("rawtypes")
-			Map m = new LinkedHashMap(5);
-			m.put("question", q.getContent());
-
-			List<String> list = new ArrayList<>();
-			for (Answer a : q.getAnswers()) {
-				list.add(a.getContent());
-			}
-			JSONArray answersarr = new JSONArray();
-			answersarr.add(list);
-
-			m.put("answers", answersarr);
-			m.put("correct_ans", "" + q.getCorrect_ans());
-			m.put("level", q.getDifficulty());
-			m.put("team", q.getTeam());
-			ja.add(m);
-		}
-
-		jo.put("questions", ja);
-		PrintWriter pw = new PrintWriter("questionsJSON.json");
-		pw.write(jo.toJSONString());
-
-		pw.flush();
-		pw.close();
-
-		return true;
+            jsonArray.add(question);
+            
+            FileWriter file = new FileWriter("questionsJSON.json");
+            file.write(obj.toJSONString());
+            file.flush();
+            file.close();
+            
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+        return true;
 	}
+	
+    public static void deleteQuestionFromJSON(Question q) {
+      	 try {
+      	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
+      	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
+      	        
+      	        JSONArray aux = (JSONArray) jsonArray.clone();
+      	        
+      	        for(Object o : aux) {
+      	        	JSONObject jo = (JSONObject) o;
+      	        	if(jo.get("question").equals(q.getContent())) {
+   	                System.out.println("REMOVING QUESTION:");
+   	                System.out.println(jo.get("question"));
+   	                jsonArray.remove(o);
+      	        	}
+      	        }
+      	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
+      	            file.write(jsonObject.toJSONString());
+      	            file.flush();
+      	        }
+      	    } catch (IOException | ParseException ex) {
+      	        System.out.println("Error: " + ex);
+      	    }
+      }
 
 }

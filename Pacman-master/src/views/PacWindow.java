@@ -9,17 +9,42 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
 
 // Main window of the game screen.
 public class PacWindow extends JFrame {
+
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PacBoard pb;
 	private String username;
+	
+	
+	
+	
+	
+	
+
+     
+	
+	
 	// ============================== Constructors =============================
 	
 	// Default Constructor. Initializes the game screen.
     public PacWindow(String username){
+
+    	System.out.println("THIS IS USER NAME:" + username);
+        
+    	//Assign user name field
     	this.username = username;
     	
         setTitle("IS 2022 PacMan Game"); // Title of the game
@@ -29,7 +54,7 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(794,884);
+        setSize(774,918);
         setLocationRelativeTo(null);
         
         JPanel topBar = new JPanel();
@@ -72,7 +97,8 @@ public class PacWindow extends JFrame {
     }
     
     // Second constructor, gets MapData as an argument
-    public PacWindow(int level, int score, int pacLives){
+    public PacWindow(int level, int score, int pacLives, String userName){
+    	this.username = userName;
         setTitle("IS 2022 PacMan Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -80,11 +106,20 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(794,884);
+        //setSize(794,884);
+        setSize(774,918);
         setLocationRelativeTo(null);
 
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
+        
+        JPanel topBar = new JPanel();
+        topBar.setBackground(Color.black);
+
+        JLabel lbUsername = new JLabel("Hello, " + username + "!");
+        lbUsername.setForeground(new Color(255, 243, 36));
+
+        topBar.add(lbUsername);
         
         JLabel lbScore = new JLabel("    Score : " + score);
         lbScore.setForeground(new Color(255, 243, 36));
@@ -124,11 +159,15 @@ public class PacWindow extends JFrame {
         adjustMap(map);
         
         // Load the custom map layout
+    
         PacBoard pb = new PacBoard(lbScore,level, score, pacLives,map,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.pacman);
-
+        
+     
+        
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(lbScore);
         bottomBar.add(lbLevel);
         bottomBar.add(lbLives);
@@ -145,7 +184,8 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(794,884);
+        //setSize(794,884);
+        setSize(774,918);
         setLocationRelativeTo(null);
 
         JPanel bottomBar = new JPanel();
@@ -379,5 +419,24 @@ public class PacWindow extends JFrame {
     public PacBoard getPacBoard() {
     	return this.pb;
     }
+
+	public PacBoard getPb() {
+		return pb;
+	}
+
+	public void setPb(PacBoard pb) {
+		this.pb = pb;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+    
+	
+
 
 }

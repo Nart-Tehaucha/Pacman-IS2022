@@ -1,1 +1,1 @@
-{"questions":[]}
+{"questions":[{"question":"What is the name of the course?","level":"Easy","answers":["Big Data","Software Engineering","Data Structures","Operation Systems"],"correct_ans":"2"},{"question":"q2","level":"2","answers":["answer1","answer2","answer3","answer4"],"correct_ans":"1"},{"question":"q3","level":"2","answers":["answer1","answer2","answer3","answer4"],"correct_ans":"4"},{"question":"q4","level":"3","answers":["answer1","answer2","answer3","answer4"],"correct_ans":"3"},{"question":"test","level":"Hard","answers":["1","2","3","4"],"correct_ans":3}]}

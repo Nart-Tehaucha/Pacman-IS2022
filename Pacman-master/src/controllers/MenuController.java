@@ -15,6 +15,8 @@ import views.PacWindow;
 import views.StartWindow;
 
 public class MenuController {
+	
+	
 
     @FXML
     private Button InstructionsBtn;
@@ -28,7 +30,19 @@ public class MenuController {
     @FXML
     private Button RecordsBtn;
 
-    @FXML
+    public Button getRecordsBtn() {
+		return RecordsBtn;
+	}
+
+	public void setRecordsBtn(Button recordsBtn) {
+		RecordsBtn = recordsBtn;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	@FXML
     private Button StartPlayBtn;
     
 	private Stage stage;
@@ -63,6 +77,21 @@ public class MenuController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @FXML
+    void OpenRecordsScreen(ActionEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecordsTable.fxml"));
+		LoadScreen(loader);
+		return;
+    }
+    
+
+    @FXML
+    void OpenQuestionManager(ActionEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageQuestions.fxml"));
+		LoadScreen(loader);
+		return;
     }
 
     public void setUsername(String username) {

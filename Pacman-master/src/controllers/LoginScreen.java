@@ -32,6 +32,7 @@ import models.Player;
 
 public class LoginScreen{
 
+	static String lastUserToLogIn;
 
    @FXML
     private AnchorPane MainPanel;
@@ -107,6 +108,7 @@ public class LoginScreen{
     			// Successful login
     			if(nicknamesAndPasswords.containsKey(username.getText())){
     				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
+    					lastUserToLogIn= username.getText();
     					showAlert(AlertType.INFORMATION, "Enter The System",
     							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
     									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
@@ -210,6 +212,20 @@ public class LoginScreen{
 		}
 
 	}
+	
+    @FXML
+	void LoadScreen2(FXMLLoader loader) {
+		try {
+
+			AnchorPane pane = loader.load();
+			MainPanel.getChildren().clear();
+			MainPanel.getChildren().add(pane);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	private void showAlert(AlertType type, String title, String header, String text) {
 		Alert alert = new Alert(type);
@@ -276,7 +292,8 @@ public class LoginScreen{
     @FXML
     void NewPlayer(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/NewPlayer.fxml"));
-		LoadScreen(loader, "New Player");
+		//LoadScreen(loader, "New Player");
+		LoadScreen2(loader);
 		return;
     }
 
