@@ -57,38 +57,23 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
 	private static PlayersController playersController = null;
 
-    @FXML
-    private ToggleGroup allowNotifications;
-    
-    @FXML
-    private AnchorPane MainPanel;
+	 @FXML
+	    private AnchorPane MainPanel;
 
-    @FXML
-    private TextField email;
+	    @FXML
+	    private ImageView goBack;
 
-    @FXML
-    private TextField nickname;
+	    @FXML
+	    private TextField nickname;
 
-    @FXML
-    private RadioButton no;
+	    @FXML
+	    private PasswordField password;
 
-    @FXML
-    private PasswordField password;
+	    @FXML
+	    private PasswordField password2;
 
-    @FXML
-    private PasswordField password2;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private RadioButton yes;
-
-    @FXML
-    private Label enterEmail;
-    
-    @FXML
-    private ImageView goBack;
+	    @FXML
+	    private Button saveButton;
     
     private ArrayList<Player> allPlayers;
     // Kim
@@ -110,18 +95,6 @@ public class PlayersController implements Comparator<Player>, Serializable{
 		this.allPlayers = allPlayers;
 	}
 
-	@FXML
-    void Notifications(MouseEvent event) {
-    	email.setVisible(true);
-    	enterEmail.setVisible(true);
-    }
-    
-    @FXML
-    void NoNotif(ActionEvent event) {
-    	email.setVisible(false);
-    	enterEmail.setVisible(false);
-    }
-    
     @FXML
     void goToPageBefore(MouseEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
@@ -132,8 +105,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
     @FXML
     void saveData(ActionEvent event) {
-    	if(nickname.getText().isEmpty() || password.getText().isEmpty() || password2.getText().isEmpty()
-    			|| (!yes.isSelected() && !no.isSelected())){
+    	if(nickname.getText().isEmpty() || password.getText().isEmpty() || password2.getText().isEmpty()){
     		showFailAlert(AlertType.ERROR, "Empty Fields", "Please fill all the fields", null);
     	}
     	if(!password.getText().equals(password2.getText())) {
@@ -141,8 +113,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
     	}
     	 LoginScreen lc = new LoginScreen();
 
-    	if (!nickname.getText().isEmpty() && !password.getText().isEmpty() && !password2.getText().isEmpty()
-			&& (!yes.isSelected() || !no.isSelected()) && (password.getText().equals(password2.getText()))){
+    	if (!nickname.getText().isEmpty() && !password.getText().isEmpty() && !password2.getText().isEmpty() && (password.getText().equals(password2.getText()))){
     			if(!lc.getNicknamesAndPasswords().containsKey(nickname.getText())) {
     				lc.getNicknamesAndPasswords().put(nickname.getText(), password.getText());
 

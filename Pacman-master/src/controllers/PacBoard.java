@@ -4,8 +4,6 @@ package controllers;
 import views.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import javafx.scene.input.KeyEvent;
 import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +19,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
-public class PacBoard extends JPanel {
+public class PacBoard extends JPanel{
 
 	
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
@@ -56,7 +54,6 @@ public class PacBoard extends JPanel {
     public boolean isGameOver = false;
     public boolean isWin = false;
     public boolean drawScore = false;
-    public boolean drawQuestionScore = false;
     public boolean clearScore = false;
     public int scoreToAdd = 0;
     public int pacLives;
@@ -116,8 +113,10 @@ public class PacBoard extends JPanel {
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
     	initializeTopTen();
+System.out.println("THIS IS USER NAME1: " + this.username);
     	//shahar 
     	this.username = pw.getUsername();
+    	System.out.println("THIS IS USER NAME2: " + this.username);
         this.level = level;
         this.score = score;
         this.pacLives = pacLives;
@@ -139,12 +138,6 @@ public class PacBoard extends JPanel {
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
-    	//	changeGhostSpeed(3);
-//    		for (Ghost g1 : ghosts) {
-//    		g1.moveTimer.setDelay(1);
-//      		System.out.println("ghost"+g1.getGhostNormalDelay());
-//    		}
-    		//changeGhostSpeed(1);
     		break;
     	case 2:
     		scoreToNextLevel = 101;
@@ -152,6 +145,7 @@ public class PacBoard extends JPanel {
     		break;
     	case 3:
     		scoreToNextLevel = 151;
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 4:
     		scoreToNextLevel = 200;
@@ -228,7 +222,8 @@ public class PacBoard extends JPanel {
             try {
                 pink_mapSegments[ms] = ImageIO.read(this.getClass().getResource("/resources/images/pink_map segments/"+ms+".png"));
             }catch(Exception e){}
-        }
+        } System.out.println("this is pink_mapSegments: "+ pink_mapSegments.toString());
+        
         
      // Load green images for all segments of the map
         green_mapSegments = new Image[28];
@@ -279,7 +274,7 @@ public class PacBoard extends JPanel {
                 repaint();
             }
         };
-        redrawTimer = new Timer(0,redrawAL);
+        redrawTimer = new Timer(16,redrawAL);
         redrawTimer .start();
         
         this.generateQuestionIcon(null);
@@ -293,15 +288,7 @@ public class PacBoard extends JPanel {
         //siren.start();
     }
 
-  public void changeGhostSpeed(int level) {
-	  if(level ==3) {
-		for (Ghost g1 : ghosts) {
-		//g1.moveTimer.setDelay(0);
-		g1.setGhostNormalDelay(g1.getGhostNormalDelay() -4);
-		//hasChanged =false;
-		}
-	  }
-  }
+    
     // Checks if the player colided with a ghost
     public void collisionTest(){
         Rectangle pr = new Rectangle(pacman.pixelPosition.x+13,pacman.pixelPosition.y+13,2,2);
@@ -405,6 +392,25 @@ public class PacBoard extends JPanel {
                     //pac6.start();
                     pacman.setStrong(true);
                     pacman.setInLocation(true);
+//                    if(pacman.isEnterPressed()) {
+//                    	for (Ghost g : ghosts) {
+//                        	for(int i=-3 ;i<=3; i++) {
+//                        		for(int j=-3; j<=3; j++) {
+//                        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&
+//             	                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {
+//             	                    		g.ghostDisappear();
+//             	                    		g.logicalPosition.x = 12;
+//             	                    		g.logicalPosition.y = 13;
+//             	                    		g.pixelPosition.x = 13 * 28;
+//             	                    		g.pixelPosition.y = 13 * 28;
+             	                    		//g.logicalPosition =  this.ghostBase;
+             	                    		
+//                        			}
+//    	                    	
+//    	                    	}
+//                        	}
+//                        }
+//                    }
                     
                     scoreToAdd = 0;
                     pacman.setEnterPreesed(false);
@@ -419,7 +425,7 @@ public class PacBoard extends JPanel {
             //score ++;
             //scoreboard.setText("    Score : "+score);
         }
-
+        
         if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
 	    	for (Ghost g : ghosts) {	
 	        	for(int i=-3 ;i<=3; i++) {	
@@ -546,58 +552,68 @@ public class PacBoard extends JPanel {
             }
         }
     } 
-    public void scoreAnswer(String difficulty, boolean correct) {
+    public void addScoreAfterQuestion(Question question, int playerAnswer) {
     	//easy question
-    	if(difficulty.equals("Easy")) {
+    	if(question.getDifficulty() == "Easy") {
     		//Right answer
-    		if(correct) {
-    		  	scoreToAdd = 1;
+    		if(question.getCorrect_ans() == playerAnswer) {
+    		  	score ++;
+    			
     		}
     		//Wrong answer
     		else {
     			if(score>=10) {
-    				scoreToAdd = -10;
+    			score =score-10;
     			}
     			else {
-    				scoreToAdd =0;
+    				score =0;
     			}
+    	       
+    			
     		}
+    	 scoreboard.setText("    Score : "+score);
     	}
     	//medium  question
-    	else if(difficulty.equals("Medium")) {
+    	if(question.getDifficulty() == "Medium") {
     		//Right answer
-    		if(correct) {
-    		  	scoreToAdd = 2;
+    		if(question.getCorrect_ans() == playerAnswer) {
+    		  	score= score+2;
+    			
     		}
     		//Wrong answer
     		else {
     			if(score>=20) {
-    				scoreToAdd = -20;
+    			score =score-20;
     			}
     			else {
-    				scoreToAdd = 0;
+    				score =0;
     			}
+    	       
+    			
     		}
+    	 scoreboard.setText("    Score : "+score);
     	}
     	//Hard question
-    	else if(difficulty.equals("Hard")) {
+    	if(question.getDifficulty() == "Hard") {
     		//Right answer
-    		if(correct) {
-    		  	scoreToAdd = 3;
+    		if(question.getCorrect_ans() == playerAnswer) {
+    		  	score =score +3;
     			
     		}
     		//Wrong answer
     		else {
     			if(score>=30) {
-    				scoreToAdd = -30;
+    			score =score-30;
     			}
     			else {
-    				scoreToAdd =0;
+    				score =0;
     			}
+    	       
+    			
     		}
+    	 scoreboard.setText("    Score : "+score);
     	}
-
-	  	drawQuestionScore = true;
+  
     }
     
     // Draws all objects on the map
@@ -616,22 +632,16 @@ public class PacBoard extends JPanel {
         switch(level) {
     	case 1:
     		//Draw Walls
-    	
-    		for (Ghost g1 : ghosts) {
-    		//changeGhostSpeed(3, true);
+    		for (Ghost g1 : ghosts) {	
     		//
     			//g1.setGhostSpeed(7);
-    		//pacman.setGameSpeedForLevel2(7, 2);	
     		//g1.setGhostNormalDelay(int ghostNormalDelay)
     		//System.out.println(g1.getGhostSpeed());
-    		//	g1.moveTimer.setDelay(1);
-//    		g1.setGhostNormalDelay(100);
-    		//System.out.println(level);
-    		//System.out.println(g1.moveTimer.getDelay());
-    		//g1.getGhostNormalDelay(g1.moveTimer.getDelay())
+    		g1.setGhostNormalDelay(100);
+    		System.out.println(g1.getGhostNormalDelay());
     		
     		}
-    		//pacman.setGameSpeedForLevel2(4, level);
+    		pacman.setGameSpeedForLevel2(4, level);
     		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -646,8 +656,8 @@ public class PacBoard extends JPanel {
     	case 2:
     		//Draw Walls
     		//change pacman speed
-    		//System.out.println(pacman.getGameSpeed() + "   "+level);
-    		//pacman.setGameSpeedForLevel2(7, level);
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
+    		pacman.setGameSpeedForLevel2(7, level);
     		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -660,9 +670,9 @@ public class PacBoard extends JPanel {
             }
     		break;
     	case 3:
-    		//changeGhostSpeed(3);
     		//Draw Walls
-    		//System.out.println(pacman.getGameSpeed() + "   "+level);
+    		pacman.setGameSpeedForLevel2(4, level);
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -677,6 +687,7 @@ public class PacBoard extends JPanel {
     	case 4:
     		//Draw Walls
     		pacman.setGameSpeedForLevel2(7, level);
+    		System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -761,7 +772,6 @@ public class PacBoard extends JPanel {
                 e.printStackTrace();
             }
             drawScore = false;
-            drawQuestionScore = false;
             clearScore =false;
         }
 
@@ -775,17 +785,6 @@ public class PacBoard extends JPanel {
             scoreboard.setText("    Score : "+score);
             clearScore = true;
 
-        }
-        
-        if(drawQuestionScore) {
-            g.setFont(new Font("Arial",Font.BOLD,15));
-            g.setColor(Color.yellow);
-            Integer s = scoreToAdd;
-            g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
-            //drawScore = false;
-            score += s;
-            scoreboard.setText("    Score : "+score);
-            clearScore = true;
         }
 
         if(isGameOver){
@@ -891,6 +890,7 @@ public class PacBoard extends JPanel {
 		else 
 			did_earn_trophy = false;
 		
+		System.out.println("THIS IS USERNAME: "+ this.username);
 		RecordWinner newPlayerRecord = new RecordWinner(this.username,this.score, 0.0, did_earn_trophy);
 		ArrayList<RecordWinner> newTopTen = oldTopTen;
 		newTopTen.add(newPlayerRecord);
@@ -916,22 +916,7 @@ public class PacBoard extends JPanel {
     	
 		
 		return;
-
-	}
-
-	// Checks if answer is correct, if yes, returns true and adds +10 to score.
-	public void checkAnswer(Question q, String ans) {
-		boolean correct = false;
-		for(Answer a : q.getAnswers()) {
-			if(a.getContent().equals(ans)) {
-				if(a.getAnswerID() == q.getCorrect_ans()) {
-					correct = true;
-				}
-			}
-		}
-		scoreAnswer(q.getDifficulty(), correct);
 	}
     
 
 }
-  

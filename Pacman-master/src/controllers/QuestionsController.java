@@ -191,7 +191,7 @@ public class QuestionsController {
 	    	System.out.println("questions before: " + SysData.readQuestionsJSON());
 			for (Question q : SysData.readQuestionsJSON()) {
 				if (selectedQuestions.contains(q)) {
-					SysData.deleteQuestionFromJSON(q);
+					SysData.deleteQuestionFromJSONByID(q.getQuestionID());
 				}
 			}
 			System.out.println("questions after: " + SysData.readQuestionsJSON());
@@ -205,7 +205,7 @@ public class QuestionsController {
 	    void editQuestion(ActionEvent event) {
 	       	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditQuestions.fxml"));
 	       	chosenQuesId = questionsTable.getSelectionModel().getSelectedItem().getQuestionID();
-	       	System.out.println(questionsTable.getSelectionModel().getSelectedItem().getQuestionID());
+	       	System.out.println(chosenQuesId);
 			LoadScreen(loader);
 			return;
 	    }
