@@ -253,6 +253,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
             e.printStackTrace();
         }
         return true;
+        
     }
 	
     public static void deletePlayerFromJSON(Player player) {

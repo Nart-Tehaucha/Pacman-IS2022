@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PinkGhost extends Ghost {
 
     public PinkGhost(int x, int y,PacBoard pb){
+    	//6
         super(x,y,pb,6);
     }
 

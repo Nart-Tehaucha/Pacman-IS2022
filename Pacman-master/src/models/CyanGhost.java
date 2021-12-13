@@ -13,7 +13,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CyanGhost extends Ghost {
 
     public CyanGhost(int x, int y,PacBoard pb){
-        super(x,y,pb,9);
+    	//9
+        super(x,y,pb,12);
     }
 
     @Override

@@ -15,6 +15,7 @@ public class RedGhost extends Ghost {
     BFSFinder bfs;
 
     public RedGhost(int x, int y,PacBoard pb){
+    	//12
         super(x,y,pb,12);
     }
 

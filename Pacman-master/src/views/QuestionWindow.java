@@ -47,6 +47,9 @@ public class QuestionWindow extends JFrame implements ActionListener {
 		JLabel question = new JLabel(q.getContent());
 		question.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		JLabel error = new JLabel();
+		error.setForeground(new Color(255, 36, 36));
+		
 		//Create the radio buttons.
         JRadioButton rdAnswer1 = new JRadioButton(ans1);
         rdAnswer1.setActionCommand(ans1);
@@ -89,8 +92,28 @@ public class QuestionWindow extends JFrame implements ActionListener {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pb.resume();
-            	dispose();
+            	if(rdAnswer1.isSelected()) {
+            		pb.checkAnswer(q, rdAnswer1.getText());
+                    pb.resume();
+                	dispose();
+            	}else if(rdAnswer2.isSelected()) {
+            		pb.checkAnswer(q, rdAnswer2.getText());
+                    pb.resume();
+                	dispose();
+            	}else if(rdAnswer3.isSelected()) {
+            		pb.checkAnswer(q, rdAnswer3.getText());
+                    pb.resume();
+                	dispose();
+            	}else if(rdAnswer4.isSelected()) {
+            		pb.checkAnswer(q, rdAnswer4.getText());
+                    pb.resume();
+                	dispose();
+            	}else {
+            		error.setText("Please select an answer!");
+            	}
+            	
+            	//pb.checkAnswer(group.getSelection().toString());
+
             }
         });
 
