@@ -1,14 +1,18 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import models.Answer;
 import models.Question;
@@ -43,9 +47,20 @@ public class EditQuestionsController {
     @FXML
     private Button submit;
  
-
+    @FXML
+    private ImageView goBack;
+    
 	ObservableList<Integer> nums = FXCollections.observableArrayList(1,2,3,4);
 	ObservableList<String> difficulties = FXCollections.observableArrayList("Easy", "Medium", "Hard");
+
+
+
+    @FXML
+    void goToPageBefore(MouseEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+		LoadScreen(loader);
+		return;
+    }
 
     @FXML
     void submitChange(ActionEvent event) {
@@ -79,5 +94,18 @@ public class EditQuestionsController {
     	content.setText(chosenQuesContent);
     	difficulty.setValue(diff);
     	correct.setValue(correctQues);
+    }
+    
+    @FXML
+	void LoadScreen(FXMLLoader loader) {
+		try {
+			System.out.println("I use this method");
+			AnchorPane pane = loader.load();
+			MainPanel.getChildren().clear();
+			MainPanel.getChildren().add(pane);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 }

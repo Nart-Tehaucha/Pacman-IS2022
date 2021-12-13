@@ -154,7 +154,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
     				try {
 						this.addNewPlayerToJSON(new Player(nickname.getText(), password.getText()));
 						//this.readPlayersFromJSON();
-						this.deletePlayerFromJSON(new Player(nickname.getText(), password.getText()));
+						//this.deletePlayerFromJSON(new Player(nickname.getText(), password.getText()));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -40,12 +40,6 @@ public class RecordsController {
 	    @FXML
 	    private TableColumn<RecordWinner, String> nickname;
 
-//	    @FXML
-//	    private TableColumn<RecordWinner, Integer> place;
-
-	    @FXML
-	    private Button playAgain;
-
 	    @FXML
 	    private TableColumn<RecordWinner, Integer> score;
 
@@ -62,13 +56,6 @@ public class RecordsController {
 	    void goToPageBefore(MouseEvent event) {
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 			LoadScreen(loader);
-			return;
-	    }
-	    
-	    
-	    @FXML
-	    void play(ActionEvent event) {
-	    	new PacWindow(LoginScreen.lastUserToLogIn);
 			return;
 	    }
 	    
