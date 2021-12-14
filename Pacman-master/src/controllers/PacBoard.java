@@ -25,7 +25,7 @@ import java.util.HashMap;
 public class PacBoard extends JPanel{
 
 	
-	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	
 	
 	
     public Timer redrawTimer;
@@ -81,45 +81,14 @@ public class PacBoard extends JPanel{
     //shahar
     private String username;
     
-    @SuppressWarnings("unchecked")
-	public static ArrayList<RecordWinner> initializeTopTen() {
-      	//Fill the top 10 with past data about winners:
-    	//read top10 winners from ser file "topTenWinners.ser"
-        try{
-            FileInputStream fis = new FileInputStream("topTenWinnersData.ser");
-        	ObjectInputStream ois = new ObjectInputStream(fis);
-        	oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
-
-            ois.close();
-            fis.close();
-            
-        } 
-        catch (FileNotFoundException f) 
-        {
-      	  //IF THERE ARE NO WINNERS YET
-            f.printStackTrace();
-            return null;
-        } 
-        catch (IOException i) 
-        {
-            i.printStackTrace();
-            return null;
-        }
-        catch(Exception e) {
-        	e.printStackTrace();
-        	return null;
-        }
-        
-        return oldTopTenWinnersAL;
-    	
-    }
+   
     
 
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
-    	initializeTopTen();
-System.out.println("THIS IS USER NAME1: " + this.username);
+    	SysData.initializeTopTen();
+    	System.out.println("THIS IS USER NAME1: " + this.username);
     	//shahar 
     	this.username = pw.getUsername();
     	System.out.println("THIS IS USER NAME2: " + this.username);
@@ -210,6 +179,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
         // Set layout of the map (size, background color)
         setLayout(null);
         setSize(20*m_x,20*m_y);
+
         setBackground(Color.black);
 
         // Load blue images for all segments of the map
@@ -319,7 +289,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                             //SoundPlayer.play("pacman_lose.wav");
                     		//Shahar
                     		//get player score into top 10 if relevant
-                    		addToTopTen(oldTopTenWinnersAL);
+                    		SysData.addToTopTen(this.username,this.score,0.0);
                             pacman.moveTimer.stop();
                             pacman.animTimer.stop();
                             g.moveTimer.stop();
@@ -805,10 +775,10 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 
         if(isGameOver){
             g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            for(RecordWinner rw: getTopTenWinnersAL()) {
+            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
             	if(rw.getUserName() == username) {
             		if(rw.getPoints() < score) {
-            			addToTopTen(oldTopTenWinnersAL);
+            			SysData.addToTopTen(this.username, this.score, 0.0);
             		}
             	}
             }
@@ -817,10 +787,10 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 
         if(isWin){
             g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            for(RecordWinner rw: getTopTenWinnersAL()) {
+            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
             	if(rw.getUserName() == username) {
             		if(rw.getPoints() < score) {
-            			addToTopTen(oldTopTenWinnersAL);
+            			SysData.addToTopTen(this.username, this.score, 0.0);
             		}
             	}
             }
@@ -904,56 +874,8 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     }
 
 
-	public ArrayList<RecordWinner> getTopTenWinnersAL() {
-		return oldTopTenWinnersAL;
-	}
 
-
-	public void setTopTenWinnersAL(ArrayList<RecordWinner> topTenWinnersAL) {
-		PacBoard.oldTopTenWinnersAL = topTenWinnersAL;
-	}
 	
-	@SuppressWarnings("unchecked")
-	private void addToTopTen (ArrayList<RecordWinner> oldTopTen) {
-		boolean did_earn_trophy;
-		if (this.score > 200) {
-			this.score = 200;
-			did_earn_trophy = true;
-		}	
-		else if(score == 200) {
-			did_earn_trophy = true;
-		}
-		else
-			did_earn_trophy = false;
-		
-		System.out.println("THIS IS USERNAME: "+ this.username);
-		RecordWinner newPlayerRecord = new RecordWinner(this.username,this.score, 0.0, did_earn_trophy);
-		ArrayList<RecordWinner> newTopTen = oldTopTen;
-		newTopTen.add(newPlayerRecord);
-		//sort new top 10
-		Collections.sort(newTopTen);
-		//remove the last (lowest score & time - #11's player) from the winners AL
-		if(newTopTen.size() > 10)
-			newTopTen.remove(10);
-		//write new top 10 to ser file
-		try
-	      {
-	           FileOutputStream fos = new FileOutputStream("topTenWinnersData.ser");
-	           ObjectOutputStream oos = new ObjectOutputStream(fos);
-	           oos.writeObject(newTopTen);
-	           oos.close();
-	           fos.close();
-	       } 
-	       catch (IOException ioe) 
-	       {
-	           ioe.printStackTrace();
-	       }
-		
-    	
-		
-		return;
-	}
-
 
 	public void checkAnswer(Question q, String text) {
 		// TODO Auto-generated method stub

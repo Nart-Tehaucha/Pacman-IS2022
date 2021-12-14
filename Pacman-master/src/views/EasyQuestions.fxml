@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuestionsController">
+   <children>
+      <Label layoutX="235.0" layoutY="14.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="Manage Questions" textFill="WHITE">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
+      <Line endX="499.0" endY="-3.814697265625E-6" layoutX="101.0" layoutY="40.0" startX="-100.0" />
+      <Label layoutX="257.0" layoutY="55.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Easy Questions">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></Label>
+      <TableView layoutX="1.0" layoutY="89.0" prefHeight="239.0" prefWidth="600.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
+        <columns>
+          <TableColumn prefWidth="63.33338165283203" text="Number" />
+          <TableColumn prefWidth="402.66666412353516" text="Question" />
+            <TableColumn prefWidth="67.33334350585938" text="Edit" />
+            <TableColumn prefWidth="67.33331298828125" text="Delete" />
+        </columns>
+      </TableView>
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="18.0" layoutY="2.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@1200px-Go-home.svg.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <Button fx:id="Submit" layoutX="273.0" layoutY="355.0" mnemonicParsing="false" stylesheets="@styleSheet.css" text="Submit">
+         <styleClass>
+            <String fx:value="labelFont" />
+            <String fx:value="saveButton" />
+         </styleClass>
+      </Button>
+   </children>
+</AnchorPane>

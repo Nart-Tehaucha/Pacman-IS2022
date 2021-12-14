@@ -21,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import models.SysData;
 import views.PacWindow;
 
 public class RecordsController {
@@ -86,7 +87,7 @@ public class RecordsController {
 		@FXML
 		public void initialize() {
 			try {
-				TopTenWinnersAL= PacBoard.initializeTopTen();
+				TopTenWinnersAL= SysData.initializeTopTen();
 				tableList.clear();
 	
 				tableList.addAll(TopTenWinnersAL);
