@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecordsController">
    <children>
-      <Label fx:id="WeAreTheChampions" layoutX="303.0" layoutY="8.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="We Are The Champions" textFill="#fffefe" />
+      <Label fx:id="WeAreTheChampions" layoutX="233.0" layoutY="22.0" style="-fx-font-size: 25px;" styleClass="title" stylesheets="@styleSheet.css" text="We Are The Champions" textFill="#fffefe" />
       <TableView fx:id="allRecords" layoutX="-67.0" layoutY="92.0" prefHeight="264.0" prefWidth="767.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
         <columns>
           <TableColumn fx:id="trophy" minWidth="0.0" prefWidth="64.66668828328466" text="Trophy" />

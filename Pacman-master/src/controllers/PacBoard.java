@@ -4,11 +4,14 @@ package controllers;
 import views.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+
 import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +19,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Scanner;
+
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
@@ -78,31 +81,34 @@ public class PacBoard extends JPanel{
     //shahar
     private String username;
     
-    public static ArrayList<RecordWinner> initializeTopTen() {
+    @SuppressWarnings("unchecked")
+	public static ArrayList<RecordWinner> initializeTopTen() {
       	//Fill the top 10 with past data about winners:
     	//read top10 winners from ser file "topTenWinners.ser"
         try{
             FileInputStream fis = new FileInputStream("topTenWinnersData.ser");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
+        	ObjectInputStream ois = new ObjectInputStream(fis);
+        	oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
 
             ois.close();
             fis.close();
+            
         } 
-        catch (IOException ioe) 
+        catch (FileNotFoundException f) 
         {
       	  //IF THERE ARE NO WINNERS YET
-            ioe.printStackTrace();
+            f.printStackTrace();
             return null;
         } 
-        catch (ClassNotFoundException c) 
+        catch (IOException i) 
         {
-            System.out.println("Class not found");
-            c.printStackTrace();
+            i.printStackTrace();
             return null;
         }
-        
+        catch(Exception e) {
+        	e.printStackTrace();
+        	return null;
+        }
         
         return oldTopTenWinnersAL;
     	
@@ -282,10 +288,10 @@ System.out.println("THIS IS USER NAME1: " + this.username);
         this.generateQuestionIcon(null);
 
         // Start playing sounds
-        //SoundPlayer.play("pacman_start.wav");
-        //siren = new LoopPlayer("siren.wav");
+        SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
+        siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
         //pac6 = new LoopPlayer("pac6.wav");
-        //siren.start();
+        siren.start();
     }
 
     
@@ -309,7 +315,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                     	}
                     	else {
                     		//Game Over
-                            //siren.stop();
+                            siren.stop();
                             //SoundPlayer.play("pacman_lose.wav");
                     		//Shahar
                     		//get player score into top 10 if relevant
@@ -327,7 +333,9 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                         //SoundPlayer.play("pacman_eatghost.wav");
                         //getGraphics().setFont(new Font("Arial",Font.BOLD,20));
                         drawScore = true;
-                        scoreToAdd++;
+                        if(score != 200) {
+                        	scoreToAdd++;
+                        }
                         if(ghostBase!=null)
                             g.die();
                         else
@@ -387,7 +395,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                 case 0:
                     //PACMAN 6
                     pufoods.remove(puFoodToEat);
-                    //siren.stop();
+                    siren.stop();
                     mustReactivateSiren = true;
                     //pac6.start();
                     pacman.setStrong(true);
@@ -419,8 +427,12 @@ System.out.println("THIS IS USER NAME1: " + this.username);
                 default:
                     //SoundPlayer.play("pacman_eatfruit.wav");
                     pufoods.remove(puFoodToEat);
-                    scoreToAdd = 1;
-                    drawScore = true;
+                    if(score != 200) {
+                    	scoreToAdd = 1;
+                    	drawScore = true;
+                    }
+                    else
+                    	drawScore = false;
             }
             //score ++;
             //scoreboard.setText("    Score : "+score);
@@ -470,7 +482,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             //pac6.stop();
             if(mustReactivateSiren){
                 mustReactivateSiren = false;
-                //siren.start();
+                siren.start();
             }
 
         
@@ -532,10 +544,11 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 
     public void addScore() {
     	score ++;
+    	if(score > 200) score = 200;
         scoreboard.setText("    Score : "+score);
 
         if(score >= scoreToNextLevel){
-            //siren.stop();
+            siren.stop();
             //pac6.stop();
             //SoundPlayer.play("pacman_intermission.wav");
             isWin = true;
@@ -546,15 +559,15 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             if(level != 4) {
             	nextLevel();
             }
-            //if he won-add to top 10
-            else {
-            	addToTopTen(oldTopTenWinnersAL);
-            }
+//            //if he won - add to top 10
+//            else {
+//            	addToTopTen(oldTopTenWinnersAL);
+//            }
         }
     } 
     public void addScoreAfterQuestion(Question question, int playerAnswer) {
     	//easy question
-    	if(question.getDifficulty() == "Easy") {
+    	if(question.getDifficulty() == "Easy" ||question.getDifficulty() == "EASY" || question.getDifficulty() =="easy") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score ++;
@@ -574,7 +587,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     	 scoreboard.setText("    Score : "+score);
     	}
     	//medium  question
-    	if(question.getDifficulty() == "Medium") {
+    	if(question.getDifficulty() == "Medium" ||question.getDifficulty() == "MEDIUM" ||question.getDifficulty() == "medium") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score= score+2;
@@ -594,7 +607,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     	 scoreboard.setText("    Score : "+score);
     	}
     	//Hard question
-    	if(question.getDifficulty() == "Hard") {
+    	if(question.getDifficulty() == "Hard" ||question.getDifficulty() == "HARD" ||question.getDifficulty() == "hard") {
     		//Right answer
     		if(question.getCorrect_ans() == playerAnswer) {
     		  	score =score +3;
@@ -782,19 +795,35 @@ System.out.println("THIS IS USER NAME1: " + this.username);
             g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
             //drawScore = false;
             score += s;
-            scoreboard.setText("    Score : "+score);
+            if(score > 200) {
+            	score = 200;
+            }
+            scoreboard.setText("    Score : "+ score);
             clearScore = true;
 
         }
 
         if(isGameOver){
             g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            
+            for(RecordWinner rw: getTopTenWinnersAL()) {
+            	if(rw.getUserName() == username) {
+            		if(rw.getPoints() < score) {
+            			addToTopTen(oldTopTenWinnersAL);
+            		}
+            	}
+            }
             
         }
 
         if(isWin){
             g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+            for(RecordWinner rw: getTopTenWinnersAL()) {
+            	if(rw.getUserName() == username) {
+            		if(rw.getPoints() < score) {
+            			addToTopTen(oldTopTenWinnersAL);
+            		}
+            	}
+            }
         }
 
 
@@ -839,7 +868,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     // Restarts the game.
     public void nextLevel(){
 
-        //siren.stop();
+        siren.stop();
 //pac6.stop();
      
 //        
@@ -850,7 +879,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 //        }
 
         windowParent.dispose();
-        
+        if(score > 200) score = 200;
         new PacWindow(level+1, score, pacLives,username);
         
     }
@@ -865,10 +894,11 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     }
     
     public void restart(int level, int score, int pacLives, String userName) {
-    	//siren.stop();
+    	siren.stop();
     	//pac6.stop();
     	
     	windowParent.dispose();
+    	if(score > 200) score = 200;
     	new PacWindow(level, score, pacLives, userName);
     	
     }
@@ -880,14 +910,20 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 
 
 	public void setTopTenWinnersAL(ArrayList<RecordWinner> topTenWinnersAL) {
-		this.oldTopTenWinnersAL = topTenWinnersAL;
+		PacBoard.oldTopTenWinnersAL = topTenWinnersAL;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void addToTopTen (ArrayList<RecordWinner> oldTopTen) {
 		boolean did_earn_trophy;
-		if (this.score >= 200) 
+		if (this.score > 200) {
+			this.score = 200;
 			did_earn_trophy = true;
-		else 
+		}	
+		else if(score == 200) {
+			did_earn_trophy = true;
+		}
+		else
 			did_earn_trophy = false;
 		
 		System.out.println("THIS IS USERNAME: "+ this.username);
@@ -897,7 +933,7 @@ System.out.println("THIS IS USER NAME1: " + this.username);
 		//sort new top 10
 		Collections.sort(newTopTen);
 		//remove the last (lowest score & time - #11's player) from the winners AL
-		if(newTopTen.size() == 11)
+		if(newTopTen.size() > 10)
 			newTopTen.remove(10);
 		//write new top 10 to ser file
 		try
@@ -916,6 +952,12 @@ System.out.println("THIS IS USER NAME1: " + this.username);
     	
 		
 		return;
+	}
+
+
+	public void checkAnswer(Question q, String text) {
+		// TODO Auto-generated method stub
+		
 	}
     
 

@@ -85,18 +85,24 @@ public class RecordsController {
 	 
 		@FXML
 		public void initialize() {
-			
-			TopTenWinnersAL= PacBoard.initializeTopTen();
-			tableList.clear();
-
-			tableList.addAll(TopTenWinnersAL);
-
-			 trophy.setCellValueFactory(new PropertyValueFactory<RecordWinner, Boolean>("did_Earn_Trophy"));
-			 nickname.setCellValueFactory(new PropertyValueFactory<RecordWinner, String>("userName"));
-			 score.setCellValueFactory(new PropertyValueFactory<RecordWinner, Integer>("points"));
-			 time.setCellValueFactory(new PropertyValueFactory<RecordWinner, Double>("time"));
-			 allRecords.setItems(tableList);
-
+			try {
+				TopTenWinnersAL= PacBoard.initializeTopTen();
+				tableList.clear();
+	
+				tableList.addAll(TopTenWinnersAL);
+	
+				 trophy.setCellValueFactory(new PropertyValueFactory<RecordWinner, Boolean>("did_Earn_Trophy"));
+				 nickname.setCellValueFactory(new PropertyValueFactory<RecordWinner, String>("userName"));
+				 score.setCellValueFactory(new PropertyValueFactory<RecordWinner, Integer>("points"));
+				 time.setCellValueFactory(new PropertyValueFactory<RecordWinner, Double>("time"));
+				 allRecords.setItems(tableList);
+			}
+			catch(NullPointerException n) {
+				allRecords.setVisible(true);
+			}
+			catch(Exception e) {
+				allRecords.setVisible(true);
+			}
 			
 		}
 		

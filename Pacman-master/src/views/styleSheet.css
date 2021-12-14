@@ -96,14 +96,14 @@
 }
 .items{
 	-fx-background-color: saveButtonColor;
-	-fx-text-fil:lightGreen;
+	-fx-text-fill:lightGreen;
 	
 }
 .title{
 		-fx-font-size: 17px;
 		-fx-font-weight: bold;
 		-fx-font-style: italic;
-		-fx-text-fil:#990000;
+		-fx-text-fill:#FFD700;
 		
 }
 .chocie-box{
