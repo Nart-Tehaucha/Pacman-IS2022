@@ -8,13 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,13 +20,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import controllers.RecordWinner;
-import models.Answer;
-import models.Question;
+
 
 public class SysData {
 
 	private static SysData instance;
-	
+	public static ArrayList<Question> allQuestions = readQuestionsJSON();
 
 
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
@@ -44,7 +41,6 @@ public class SysData {
 	 * This method reads the questions written in JSON file and returns them in an
 	 * array list
 	 */
-	@SuppressWarnings("deprecation")
 	public static ArrayList<Question> readQuestionsJSON() {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		try {
@@ -58,7 +54,6 @@ public class SysData {
 				String context = (String) jsonQObjt.get("question");
 				JSONArray answersarr = (JSONArray) jsonQObjt.get("answers");
 				ArrayList<Answer> arrlista = new ArrayList<Answer>();
-				@SuppressWarnings("rawtypes")
 				Iterator<?> itr = answersarr.iterator();
 				// answerID
 				int i = 1;
@@ -85,7 +80,7 @@ public class SysData {
 	 * Given an array list this method overrides the JSON questions file with the
 	 * questions in the array list
 	 */
-	@SuppressWarnings({ "deprecation", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public static boolean addQuestionToJSON(Question q) throws FileNotFoundException {
 		JSONParser jsonParser = new JSONParser();
 
@@ -93,9 +88,9 @@ public class SysData {
             JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("questionsJSON.json"));
             
             JSONArray jsonArray = (JSONArray) obj.get("questions");
-                      
+            int size = readQuestionsJSON().get(readQuestionsJSON().size()-1).getQuestionID()+1;
             JSONObject question = new JSONObject();
-            question.put("ID", q.getQuestionID());
+            question.put("ID", size);
             question.put("question", q.getContent());
             JSONArray ans = new JSONArray();
             for(Answer a : q.getAnswers()) {
@@ -130,6 +125,7 @@ public class SysData {
       	        	if(Math.toIntExact((Long) jo.get("ID")) == q.getQuestionID()) {
    	                System.out.println("REMOVING QUESTION:");
    	                System.out.println(jo.get("question"));
+   	                allQuestions = readQuestionsJSON();
    	                jsonArray.remove(o);
       	        	}
       	        }

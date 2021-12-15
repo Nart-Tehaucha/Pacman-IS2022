@@ -59,6 +59,11 @@ import models.Question;
 
 public class PlayersController implements Comparator<Player>, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static PlayersController playersController = null;
 
 	 @FXML
