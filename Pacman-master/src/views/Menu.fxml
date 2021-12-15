@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,10 +16,11 @@
             <Image url="@logo.png" />
          </image>
       </ImageView>
-      <Button fx:id="InstructionsBtn" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#instructions" stylesheets="@styleSheet.css" text="Instructions" textFill="WHITE">
+      <Button fx:id="InstructionsBtn" layoutX="297.0" layoutY="241.0" mnemonicParsing="false" onAction="#instructions" stylesheets="@styleSheet.css" text="Instructions" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
+            <String fx:value="lavenderHover" />
          </styleClass>
          <font>
             <Font name="System Bold" size="32.0" />
@@ -26,11 +28,15 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
-      <Button fx:id="RecordsBtn" layoutX="306.0" layoutY="310.0" mnemonicParsing="false" onAction="#OpenRecordsScreen" prefHeight="38.0" prefWidth="94.0" stylesheets="@styleSheet.css" text="Records" textFill="WHITE">
+      <Button fx:id="RecordsBtn" layoutX="306.0" layoutY="310.0" mnemonicParsing="false" onAction="#OpenRecordsScreen" prefHeight="43.0" prefWidth="119.0" stylesheets="@styleSheet.css" text="Records" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
+            <String fx:value="lavenderHover" />
          </styleClass>
          <font>
             <Font name="System Bold" size="32.0" />
@@ -38,11 +44,15 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
-      <Button fx:id="ManageQuesBtn" layoutX="269.0" layoutY="380.0" mnemonicParsing="false" onAction="#OpenQuestionManager" prefHeight="38.0" prefWidth="177.0" stylesheets="@styleSheet.css" text="Manage Questions" textFill="WHITE">
+      <Button fx:id="ManageQuesBtn" layoutX="264.0" layoutY="380.0" mnemonicParsing="false" onAction="#OpenQuestionManager" prefHeight="43.0" prefWidth="216.0" stylesheets="@styleSheet.css" text="Manage Questions" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
+            <String fx:value="lavenderHover" />
          </styleClass>
          <font>
             <Font name="System Bold" size="32.0" />
@@ -50,18 +60,25 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
       <Button fx:id="StartPlayBtn" layoutX="310.0" layoutY="171.0" mnemonicParsing="false" onAction="#start" stylesheets="@styleSheet.css" text="Start Play" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
+            <String fx:value="lavenderHover" />
          </styleClass>
          <font>
-            <Font name="System Bold" size="32.0" />
+            <Font name="System Bold" size="76.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
    </children>
 </AnchorPane>

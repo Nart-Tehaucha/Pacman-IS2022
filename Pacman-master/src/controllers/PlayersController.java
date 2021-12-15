@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,6 +40,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
@@ -49,6 +51,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import models.Answer;
 import models.Player;
 import models.Question;
@@ -57,38 +61,23 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
 	private static PlayersController playersController = null;
 
-    @FXML
-    private ToggleGroup allowNotifications;
-    
-    @FXML
-    private AnchorPane MainPanel;
+	 @FXML
+	    private AnchorPane MainPanel;
 
-    @FXML
-    private TextField email;
+	    @FXML
+	    private ImageView goBack;
 
-    @FXML
-    private TextField nickname;
+	    @FXML
+	    private TextField nickname;
 
-    @FXML
-    private RadioButton no;
+	    @FXML
+	    private PasswordField password;
 
-    @FXML
-    private PasswordField password;
+	    @FXML
+	    private PasswordField password2;
 
-    @FXML
-    private PasswordField password2;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private RadioButton yes;
-
-    @FXML
-    private Label enterEmail;
-    
-    @FXML
-    private ImageView goBack;
+	    @FXML
+	    private Button saveButton;
     
     private ArrayList<Player> allPlayers;
     // Kim
@@ -110,18 +99,6 @@ public class PlayersController implements Comparator<Player>, Serializable{
 		this.allPlayers = allPlayers;
 	}
 
-	@FXML
-    void Notifications(MouseEvent event) {
-    	email.setVisible(true);
-    	enterEmail.setVisible(true);
-    }
-    
-    @FXML
-    void NoNotif(ActionEvent event) {
-    	email.setVisible(false);
-    	enterEmail.setVisible(false);
-    }
-    
     @FXML
     void goToPageBefore(MouseEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
@@ -132,8 +109,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
     @FXML
     void saveData(ActionEvent event) {
-    	if(nickname.getText().isEmpty() || password.getText().isEmpty() || password2.getText().isEmpty()
-    			|| (!yes.isSelected() && !no.isSelected())){
+    	if(nickname.getText().isEmpty() || password.getText().isEmpty() || password2.getText().isEmpty()){
     		showFailAlert(AlertType.ERROR, "Empty Fields", "Please fill all the fields", null);
     	}
     	if(!password.getText().equals(password2.getText())) {
@@ -141,20 +117,19 @@ public class PlayersController implements Comparator<Player>, Serializable{
     	}
     	 LoginScreen lc = new LoginScreen();
 
-    	if (!nickname.getText().isEmpty() && !password.getText().isEmpty() && !password2.getText().isEmpty()
-			&& (!yes.isSelected() || !no.isSelected()) && (password.getText().equals(password2.getText()))){
+    	if (!nickname.getText().isEmpty() && !password.getText().isEmpty() && !password2.getText().isEmpty() && (password.getText().equals(password2.getText()))){
     			if(!lc.getNicknamesAndPasswords().containsKey(nickname.getText())) {
     				lc.getNicknamesAndPasswords().put(nickname.getText(), password.getText());
 
-    				showAlert(AlertType.CONFIRMATION, "Successfully Registered", "You have been registerd!", "WELCOME TO PACMAN IS-21");
+    				showAlert(AlertType.CONFIRMATION, "Successfully Registered", "You have been registerd!", "");
     				this.getAllPlayers().add(new Player(nickname.getText(), password.getText()));
     				for(Player p : allPlayers) {
     					System.out.println(p.getNickname());
     				}
     				try {
-						this.addNewPlayerToJSON(new Player(nickname.getText(), password.getText()));
+						PlayersController.addNewPlayerToJSON(new Player(nickname.getText(), password.getText()));
 						//this.readPlayersFromJSON();
-						this.deletePlayerFromJSON(new Player(nickname.getText(), password.getText()));
+						//this.deletePlayerFromJSON(new Player(nickname.getText(), password.getText()));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -303,8 +278,14 @@ public class PlayersController implements Comparator<Player>, Serializable{
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(text);
-
-		
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setStyle(
+				"-fx-background-image: url('/views/bg.jpg'); -fx-background-size: cover; -fx-font-weight: bold; -fx-font-size: 12px;");
+		File temp = new File("");
+		String abPath = temp.getAbsolutePath();
+		String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
+		sound.play();
 		alert.showAndWait();
 	}
 
@@ -401,28 +382,28 @@ public class PlayersController implements Comparator<Player>, Serializable{
 		}
 		
 	}
-	private ObservableList<Player> player = FXCollections.observableArrayList();
-	private void load() { // loading the saved scores
-
-		try {
-			FileInputStream fis = new FileInputStream("PlayerSaveFile.ser"); // using
-																				// serialization
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			List<Player> list = (List<Player>) ois.readObject();
-
-			player = FXCollections.observableList(list);
-			ois.close();
-			fis.close();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			return;
-		} catch (ClassNotFoundException c) {
-			System.out.println("Class not found");
-			c.printStackTrace();
-			return;
-		}
-
-	}
+//	private ObservableList<Player> player = FXCollections.observableArrayList();
+//	private void load() { // loading the saved scores
+//
+//		try {
+//			FileInputStream fis = new FileInputStream("PlayerSaveFile.ser"); // using
+//																				// serialization
+//			ObjectInputStream ois = new ObjectInputStream(fis);
+//			List<Player> list = (List<Player>) ois.readObject();
+//
+//			player = FXCollections.observableList(list);
+//			ois.close();
+//			fis.close();
+//		} catch (IOException ioe) {
+//			ioe.printStackTrace();
+//			return;
+//		} catch (ClassNotFoundException c) {
+//			System.out.println("Class not found");
+//			c.printStackTrace();
+//			return;
+//		}
+//
+//	}
 
 	public static void write(ObservableList<Player> list) { // saving the scores to
 														// file

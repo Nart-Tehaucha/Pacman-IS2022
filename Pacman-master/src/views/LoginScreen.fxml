@@ -45,7 +45,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Text layoutX="151.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: yellow; -fx-font-style: italic; -fx-font-weight: bold;" text="Pacman IS-21" textAlignment="RIGHT">
+      <Text layoutX="151.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="Pacman IS-21" textAlignment="RIGHT">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>

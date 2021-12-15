@@ -36,27 +36,29 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Button fx:id="Edit" layoutX="235.0" layoutY="356.0" mnemonicParsing="false" onAction="#editQuestion" prefHeight="29.0" prefWidth="61.0" stylesheets="@styleSheet.css" text="Edit">
+      <Button fx:id="Edit" layoutX="226.0" layoutY="356.0" mnemonicParsing="false" onAction="#editQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Edit">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
+            <String fx:value="lavenderHover" />
          </styleClass>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
       <Label layoutX="244.0" layoutY="60.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose a question:" />
-      <Button fx:id="Delete" layoutX="320.0" layoutY="356.0" mnemonicParsing="false" onAction="#deleteQuestion" prefHeight="29.0" prefWidth="61.0" stylesheets="@styleSheet.css" text="Delete">
+      <Button fx:id="Delete" layoutX="335.0" layoutY="356.0" mnemonicParsing="false" onAction="#deleteQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Delete">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
          </styleClass>
       </Button>
       <Label layoutX="193.0" layoutY="404.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Would you like to add a new question?" />
-      <Button fx:id="Add" layoutX="289.0" layoutY="442.0" mnemonicParsing="false" onAction="#addAQuestion" prefHeight="29.0" prefWidth="61.0" stylesheets="@styleSheet.css" text="Add">
+      <Button fx:id="Add" layoutX="272.0" layoutY="442.0" mnemonicParsing="false" onAction="#addAQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Add">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
+            <String fx:value="lavenderHover" />
          </styleClass>
          <cursor>
             <Cursor fx:constant="HAND" />

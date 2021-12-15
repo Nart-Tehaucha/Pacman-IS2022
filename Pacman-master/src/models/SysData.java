@@ -1,11 +1,16 @@
 package models;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,13 +21,18 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import controllers.RecordWinner;
 import models.Answer;
 import models.Question;
 
 public class SysData {
 
 	private static SysData instance;
+	
 
+
+	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	
 	public static SysData getInstance() {
 		if (instance == null)
 			instance = new SysData();
@@ -188,5 +198,89 @@ public class SysData {
      	    }
      
     }
+    
+	public static ArrayList<RecordWinner> getOldTopTenWinnersAL() {
+		return oldTopTenWinnersAL;
+	}
+
+
+	public static void setOldTopTenWinnersAL(ArrayList<RecordWinner> oldTopTenWinnersAL) {
+		SysData.oldTopTenWinnersAL = oldTopTenWinnersAL;
+	}
+	
+	 @SuppressWarnings("unchecked")
+		public static ArrayList<RecordWinner> initializeTopTen() {
+	      	//Fill the top 10 with past data about winners:
+	    	//read top10 winners from ser file "topTenWinners.ser"
+	        try{
+	            FileInputStream fis = new FileInputStream("topTenWinnersData.ser");
+	        	ObjectInputStream ois = new ObjectInputStream(fis);
+	        	oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
+
+	            ois.close();
+	            fis.close();
+	            
+	        } 
+	        catch (FileNotFoundException f) 
+	        {
+	      	  //IF THERE ARE NO WINNERS YET
+	            f.printStackTrace();
+	            return null;
+	        } 
+	        catch (IOException i) 
+	        {
+	            i.printStackTrace();
+	            return null;
+	        }
+	        catch(Exception e) {
+	        	e.printStackTrace();
+	        	return null;
+	        }
+	        
+	        return oldTopTenWinnersAL;
+	    	
+	    }
+	 
+	 @SuppressWarnings("unchecked")
+	public static void addToTopTen (String username, int score, double time) {
+			boolean did_earn_trophy;
+			if (score > 200) {
+				score = 200;
+				did_earn_trophy = true;
+			}	
+			else if(score == 200) {
+				did_earn_trophy = true;
+			}
+			else
+				did_earn_trophy = false;
+			
+
+			RecordWinner newPlayerRecord = new RecordWinner(username,score, time, did_earn_trophy);
+			ArrayList<RecordWinner> newTopTen = oldTopTenWinnersAL;
+			newTopTen.add(newPlayerRecord);
+			//sort new top 10
+			Collections.sort(newTopTen);
+			//remove the last (lowest score & time - #11's player) from the winners AL
+			if(newTopTen.size() > 10)
+				newTopTen.remove(10);
+			//write new top 10 to ser file
+			try
+		      {
+					oldTopTenWinnersAL=newTopTen;
+		           FileOutputStream fos = new FileOutputStream("topTenWinnersData.ser");
+		           ObjectOutputStream oos = new ObjectOutputStream(fos);
+		           oos.writeObject(newTopTen);
+		           oos.close();
+		           fos.close();
+		       } 
+		       catch (IOException ioe) 
+		       {
+		           ioe.printStackTrace();
+		       }
+			
+	    	
+			
+			return;
+		}
 
 }
