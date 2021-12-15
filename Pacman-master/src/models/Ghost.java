@@ -1,7 +1,6 @@
 package models;
 
 import controllers.*;
-import views.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,9 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.TimerTask;
+
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+
 
 // Generic class for Ghost. Handles ghost position, status, and movement.
 public abstract class Ghost {

@@ -188,12 +188,17 @@ public class QuestionsController {
 	    	ArrayList<Question> selectedQuestions = new ArrayList<>();
 	    	selectedQuestions.addAll(questionsTable.getSelectionModel().getSelectedItems());
 	    	tableList.addAll(SysData.readQuestionsJSON());
+	    	System.out.println("The question- " + selectedQuestions.get(0).getDifficulty() + selectedQuestions.get(0).getQuestionID());
 	    	System.out.println("questions before: " + SysData.readQuestionsJSON());
 			for (Question q : SysData.readQuestionsJSON()) {
-				if (selectedQuestions.contains(q)) {
+				System.out.println("In the for");
+				if (selectedQuestions.get(0).getQuestionID() == q.getQuestionID()) {
+					System.out.println("after the if");
 					SysData.deleteQuestionFromJSONByID(q.getQuestionID());
+					System.out.println("The ques i chose- " + questionsTable.getSelectionModel().getSelectedItems().get(0).getQuestionID());
 				}
 			}
+
 			System.out.println("questions after: " + SysData.readQuestionsJSON());
 			tableList.removeAll(selectedQuestions);
 			questionsTable.setItems(null);

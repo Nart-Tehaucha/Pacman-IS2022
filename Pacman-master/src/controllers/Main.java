@@ -1,13 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
-
-import models.Answer;
-import models.Player;
-import models.Question;
-import models.SysData;
-import views.PacWindow;
-import views.StartWindow;
 
 
 
