@@ -20,6 +20,9 @@ public class Main {
         //new StartWindow();
     	//PlayersController.createJSON();
     	//JFXLauncher.main(args);
+    	//Question q = new Question(6, "ttstt", "Hard", null, 3);
+    	//SysData.deleteQuestionFromJSONByID(6);
+    	
     	new PacWindow("Nart");
     	//Test.main(args);
     	//System.out.println(new SysData().readQuestionsJSON().toString());
