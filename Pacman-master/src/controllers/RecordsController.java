@@ -14,12 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import models.SysData;
 import views.PacWindow;
 
 public class RecordsController {
@@ -40,12 +42,6 @@ public class RecordsController {
 	    @FXML
 	    private TableColumn<RecordWinner, String> nickname;
 
-//	    @FXML
-//	    private TableColumn<RecordWinner, Integer> place;
-
-	    @FXML
-	    private Button playAgain;
-
 	    @FXML
 	    private TableColumn<RecordWinner, Integer> score;
 
@@ -55,20 +51,11 @@ public class RecordsController {
 	    @FXML
 	    private TableColumn<RecordWinner, Boolean> trophy;
 
-
-
 		
 	    @FXML
 	    void goToPageBefore(MouseEvent event) {
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 			LoadScreen(loader);
-			return;
-	    }
-	    
-	    
-	    @FXML
-	    void play(ActionEvent event) {
-	    	new PacWindow(LoginScreen.lastUserToLogIn);
 			return;
 	    }
 	    
@@ -99,18 +86,24 @@ public class RecordsController {
 	 
 		@FXML
 		public void initialize() {
-			
-			TopTenWinnersAL= PacBoard.initializeTopTen();
-			tableList.clear();
-
-			tableList.addAll(TopTenWinnersAL);
-
-			 trophy.setCellValueFactory(new PropertyValueFactory<RecordWinner, Boolean>("did_Earn_Trophy"));
-			 nickname.setCellValueFactory(new PropertyValueFactory<RecordWinner, String>("userName"));
-			 score.setCellValueFactory(new PropertyValueFactory<RecordWinner, Integer>("points"));
-			 time.setCellValueFactory(new PropertyValueFactory<RecordWinner, Double>("time"));
-			 allRecords.setItems(tableList);
-
+			try {
+				TopTenWinnersAL= SysData.initializeTopTen();
+				tableList.clear();
+	
+				tableList.addAll(TopTenWinnersAL);
+	
+				 trophy.setCellValueFactory(new PropertyValueFactory<RecordWinner, Boolean>("did_Earn_Trophy"));
+				 nickname.setCellValueFactory(new PropertyValueFactory<RecordWinner, String>("userName"));
+				 score.setCellValueFactory(new PropertyValueFactory<RecordWinner, Integer>("points"));
+				 time.setCellValueFactory(new PropertyValueFactory<RecordWinner, Double>("time"));
+				 allRecords.setItems(tableList);
+			}
+			catch(NullPointerException n) {
+				allRecords.setVisible(true);
+			}
+			catch(Exception e) {
+				allRecords.setVisible(true);
+			}
 			
 		}
 		

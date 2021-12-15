@@ -128,21 +128,22 @@ public class QuestionsController {
 			correct.setHeaderText("Correct answer:");
 			correct.showAndWait();
 			
-			ArrayList<Answer> answers = new ArrayList();
+			ArrayList<Answer> answers = new ArrayList<>();
 			String contentResult = content.getResult();
 			String diffResult = difficulty.getResult();
-			String ans1Result = ans1.getResult();
-			answers.add(new Answer(ans1Result));
-			String ans2Result = ans2.getResult();
-			answers.add(new Answer(ans2Result));
-			String ans3Result = ans3.getResult();
-			answers.add(new Answer(ans3Result));
-			String ans4Result = ans4.getResult();
-			answers.add(new Answer(ans4Result));
 			int correctResult = Integer.parseInt(correct.getResult());
-			
+			Question newQuestion = new Question(contentResult, diffResult, null, correctResult);
+			String ans1Result = ans1.getResult();
+			answers.add(new Answer(newQuestion.getQuestionID(), ans1Result));
+			String ans2Result = ans2.getResult();
+			answers.add(new Answer(newQuestion.getQuestionID(), ans2Result));
+			String ans3Result = ans3.getResult();
+			answers.add(new Answer(newQuestion.getQuestionID(), ans3Result));
+			String ans4Result = ans4.getResult();
+			answers.add(new Answer(newQuestion.getQuestionID(), ans4Result));
+			newQuestion.setAnswers(answers);
 			try {
-				if(SysData.addQuestionToJSON(new Question(contentResult, diffResult, answers, correctResult))) {
+				if(SysData.addQuestionToJSON(newQuestion)) {
 					showAlert(AlertType.INFORMATION, "Success", "You successfully added a new question", "");
 					return;
 					}
@@ -190,7 +191,7 @@ public class QuestionsController {
 	    	System.out.println("questions before: " + SysData.readQuestionsJSON());
 			for (Question q : SysData.readQuestionsJSON()) {
 				if (selectedQuestions.contains(q)) {
-					SysData.deleteQuestionFromJSON(q);
+					SysData.deleteQuestionFromJSONByID(q.getQuestionID());
 				}
 			}
 			System.out.println("questions after: " + SysData.readQuestionsJSON());
@@ -204,7 +205,7 @@ public class QuestionsController {
 	    void editQuestion(ActionEvent event) {
 	       	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditQuestions.fxml"));
 	       	chosenQuesId = questionsTable.getSelectionModel().getSelectedItem().getQuestionID();
-	       	System.out.println(questionsTable.getSelectionModel().getSelectedItem().getQuestionID());
+	       	System.out.println(chosenQuesId);
 			LoadScreen(loader);
 			return;
 	    }

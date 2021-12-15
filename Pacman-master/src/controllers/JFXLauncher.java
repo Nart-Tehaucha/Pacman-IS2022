@@ -44,7 +44,7 @@ public class JFXLauncher extends Application {
 	private AnchorPane mainPane;
 	
 	private Stage stage;
-	private String password;
+//	private String password;
 
     @FXML
     private Button Start;
@@ -113,151 +113,151 @@ public class JFXLauncher extends Application {
 		
 	}
 
-	    @FXML
-	    private Button LoginButton;
+//	    @FXML
+//	    private Button LoginButton;
 
 
-	    @FXML
-	    private PasswordField loginPassword;
+//	    @FXML
+//	    private PasswordField loginPassword;
 
 	    @FXML
 	    private MediaView mv;
 
-	    @FXML
-	    private TextField passwordText;
-
-	    @FXML
-	    private RadioButton showPassword;
-
-	    @FXML
-	    private TextField username;
+//	    @FXML
+//	    private TextField passwordText;
+//
+//	    @FXML
+//	    private RadioButton showPassword;
+//
+//	    @FXML
+//	    private TextField username;
 	    
-	    private HashMap<String, String> nicknamesAndPasswords = new HashMap<>();
-
-		
-
-		public HashMap<String, String> getNicknamesAndPasswords() {
-			return nicknamesAndPasswords;
-		}
-
-		public void setNicknamesAndPasswords(HashMap<String, String> nicknamesAndPasswords) {
-			this.nicknamesAndPasswords = nicknamesAndPasswords;
-		}
-		private void showFailAlert(AlertType type, String title, String header, String text) {
-			Alert alert = new Alert(type);
-
-			alert.setHeight(Region.BASELINE_OFFSET_SAME_AS_HEIGHT);
-			alert.setWidth(Region.BASELINE_OFFSET_SAME_AS_HEIGHT);
-			alert.setResizable(true);
-			alert.setTitle(title);
-			alert.setHeaderText(header);
-			alert.setContentText(text);
-			alert.showAndWait();
-		}
-	    @FXML
-	    void showThePassword(ActionEvent event) {
-	    	if (showPassword.isSelected()) {
-				password = loginPassword.getText();
-				passwordText.setText(password);
-				passwordText.setVisible(true);
-				loginPassword.setVisible(false);
-				loginPassword.setText(passwordText.getText());
-				return;
-			}
-
-			loginPassword.setText(passwordText.getText());
-			loginPassword.setVisible(true);
-			passwordText.setVisible(false);
-	    }
-	    @FXML
-	    void EnterTheMenu(ActionEvent event) {
-	    	try {
-	    		if(username.getText().equals("admin")
-	    				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
-	    			showAlert(AlertType.INFORMATION, "Enter The System",
-							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
-									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
-									+ LocalDate.now().getYear() + "\nWelcome Back Admin!",
-							"");
-	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
-					LoadScreen(loader);
-					return;
-	    		}
-	    		if (username.getText().equals("admin") && !loginPassword.getText().equals("admin")) {
-	    			showFailAlert(AlertType.WARNING, "Error", "Sorry, cannot enter the system", "Oops... Are you sure you're the admin?"); 
-	    		}
-	    		if (username.getText().isEmpty() || (loginPassword.getText().isEmpty() && passwordText.getText().isEmpty())) {
-	    			showFailAlert(AlertType.WARNING, "Empty Fields", "You must fill all the fields", ""); 
-	    		}
-	    		if (!username.getText().equals("admin")) {
-	    			if(nicknamesAndPasswords.containsKey(username.getText())){
-	    				if(nicknamesAndPasswords.get(username.getText()).equals(passwordText.getText())) {
-	    					showAlert(AlertType.INFORMATION, "Enter The System",
-	    							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
-	    									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
-	    									+ LocalDate.now().getYear() + "\nWelcome Back " + username.getText() + "!",
-	    							"");
-	    	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
-	    					LoadScreen(loader);
-	    					return;
-	    				}
-	    				System.out.println(passwordText.getText());
-						if (nicknamesAndPasswords.containsKey(username.getText())
-								&& (!(nicknamesAndPasswords.get(username.getText()).equals(passwordText.getText())))) {
-							showFailAlert(AlertType.INFORMATION, "Incorrect Password", null,
-									"Sorry " + username.getText() + ", You entered a wrong password...");
-							System.out.println("wrong password");
-							return;
-						}
-	    			}
-	    			else if(!(nicknamesAndPasswords.containsKey(username.getText())) && !username.getText().isEmpty()){
-	    				showFailAlert(AlertType.ERROR, "Incorrect NickName", null,
-								"Sorry " + username.getText() + ", You entered a wrong nickname...");
-	    				System.out.println("no such username");
-						return;
-	    			}
-
-	    		}
-
-	    	}
-	    		catch(Exception e) {
-	    			e.getMessage();
-	    		}
-	    }
+//	    private HashMap<String, String> nicknamesAndPasswords = new HashMap<>();
+//
+//		
+//
+//		public HashMap<String, String> getNicknamesAndPasswords() {
+//			return nicknamesAndPasswords;
+//		}
+//
+//		public void setNicknamesAndPasswords(HashMap<String, String> nicknamesAndPasswords) {
+//			this.nicknamesAndPasswords = nicknamesAndPasswords;
+//		}
+//		private void showFailAlert(AlertType type, String title, String header, String text) {
+//			Alert alert = new Alert(type);
+//
+//			alert.setHeight(Region.BASELINE_OFFSET_SAME_AS_HEIGHT);
+//			alert.setWidth(Region.BASELINE_OFFSET_SAME_AS_HEIGHT);
+//			alert.setResizable(true);
+//			alert.setTitle(title);
+//			alert.setHeaderText(header);
+//			alert.setContentText(text);
+//			alert.showAndWait();
+//		}
+//	    @FXML
+//	    void showThePassword(ActionEvent event) {
+//	    	if (showPassword.isSelected()) {
+//				password = loginPassword.getText();
+//				passwordText.setText(password);
+//				passwordText.setVisible(true);
+//				loginPassword.setVisible(false);
+//				loginPassword.setText(passwordText.getText());
+//				return;
+//			}
+//
+//			loginPassword.setText(passwordText.getText());
+//			loginPassword.setVisible(true);
+//			passwordText.setVisible(false);
+//	    }
+//	    @FXML
+//	    void EnterTheMenu(ActionEvent event) {
+//	    	try {
+//	    		if(username.getText().equals("admin")
+//	    				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
+//	    			showAlert(AlertType.INFORMATION, "Enter The System",
+//							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
+//									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
+//									+ LocalDate.now().getYear() + "\nWelcome Back Admin!",
+//							"");
+//	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+//					LoadScreen(loader);
+//					return;
+//	    		}
+//	    		if (username.getText().equals("admin") && !loginPassword.getText().equals("admin")) {
+//	    			showFailAlert(AlertType.WARNING, "Error", "Sorry, cannot enter the system", "Oops... Are you sure you're the admin?"); 
+//	    		}
+//	    		if (username.getText().isEmpty() || (loginPassword.getText().isEmpty() && passwordText.getText().isEmpty())) {
+//	    			showFailAlert(AlertType.WARNING, "Empty Fields", "You must fill all the fields", ""); 
+//	    		}
+//	    		if (!username.getText().equals("admin")) {
+//	    			if(nicknamesAndPasswords.containsKey(username.getText())){
+//	    				if(nicknamesAndPasswords.get(username.getText()).equals(passwordText.getText())) {
+//	    					showAlert(AlertType.INFORMATION, "Enter The System",
+//	    							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
+//	    									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
+//	    									+ LocalDate.now().getYear() + "\nWelcome Back " + username.getText() + "!",
+//	    							"");
+//	    	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+//	    					LoadScreen(loader);
+//	    					return;
+//	    				}
+//	    				System.out.println(passwordText.getText());
+//						if (nicknamesAndPasswords.containsKey(username.getText())
+//								&& (!(nicknamesAndPasswords.get(username.getText()).equals(passwordText.getText())))) {
+//							showFailAlert(AlertType.INFORMATION, "Incorrect Password", null,
+//									"Sorry " + username.getText() + ", You entered a wrong password...");
+//							System.out.println("wrong password");
+//							return;
+//						}
+//	    			}
+//	    			else if(!(nicknamesAndPasswords.containsKey(username.getText())) && !username.getText().isEmpty()){
+//	    				showFailAlert(AlertType.ERROR, "Incorrect NickName", null,
+//								"Sorry " + username.getText() + ", You entered a wrong nickname...");
+//	    				System.out.println("no such username");
+//						return;
+//	    			}
+//
+//	    		}
+//
+//	    	}
+//	    		catch(Exception e) {
+//	    			e.getMessage();
+//	    		}
+//	    }
 	    
-	    private void inputDialog() {
-
-			Stage s = new Stage();
-			// set title for the stage
-			s.setTitle("User Confirmation");
-
-			// create a text input dialog
-			TextInputDialog td = new TextInputDialog("");
-
-			// setHeaderText
-			td.setHeaderText("Enter your nickname:");
-			td.showAndWait();
-
-			String result = td.getResult();
-			if(result == null) {
-				showFailAlert(AlertType.ERROR, "No nickname entered", "Please do not leave this field empty", "");
-			}
-			if (result != null) {
-				for (String nickname : getNicknamesAndPasswords().keySet()) {
-					if (nickname.equals(result)) {
-						showAlert(AlertType.INFORMATION, "Success", "Your password is: " + getNicknamesAndPasswords().get(result), "");
-						return;
-					}
-
-				}
-				showFailAlert(AlertType.INFORMATION, "Failed", "Sorry, could not find you in the system...", "");
-				return;
-			} else {
-				td.close();
-				return;
-			}
-
-		}
+//	    private void inputDialog() {
+//
+//			Stage s = new Stage();
+//			// set title for the stage
+//			s.setTitle("User Confirmation");
+//
+//			// create a text input dialog
+//			TextInputDialog td = new TextInputDialog("");
+//
+//			// setHeaderText
+//			td.setHeaderText("Enter your nickname:");
+//			td.showAndWait();
+//
+//			String result = td.getResult();
+//			if(result == null) {
+//				showFailAlert(AlertType.ERROR, "No nickname entered", "Please do not leave this field empty", "");
+//			}
+//			if (result != null) {
+//				for (String nickname : getNicknamesAndPasswords().keySet()) {
+//					if (nickname.equals(result)) {
+//						showAlert(AlertType.INFORMATION, "Success", "Your password is: " + getNicknamesAndPasswords().get(result), "");
+//						return;
+//					}
+//
+//				}
+//				showFailAlert(AlertType.INFORMATION, "Failed", "Sorry, could not find you in the system...", "");
+//				return;
+//			} else {
+//				td.close();
+//				return;
+//			}
+//
+//		}
 	    
 	    @FXML
 	    void NewPlayer(ActionEvent event) {

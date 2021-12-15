@@ -15,9 +15,10 @@ public class Answer {
 		this.content = content;
 	}
 	
-	public Answer(String content) {
+	public Answer(int questionID, String content) {
 		super();
 		this.answerID = idCounter;
+		this.questionID = questionID;
 		this.content = content;
 	}
 

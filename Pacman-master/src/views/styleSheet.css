@@ -39,7 +39,7 @@
 }
 .lavenderHover:hover{
 	-fx-background-color:  #b3f0ff;
-		-fx-opacity:0.7;
+	-fx-opacity:0.7;
 }
 .menuButton:hover{
 	-fx-background-color:lightGreen;
@@ -61,20 +61,21 @@
 	-fx-font-style: italic;
 }
 .saveButton{
-	-fx-background-image: url('./yellow.jpg');
-	-fx-font-size: 13px;
-	-fx-font-style: italic;
-	 -fx-font-weight: bold;
-	-fx-background-color: creamColor;
-	-fx-opacity:0.9;
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
-}
+
+-fx-background-color: #FFD700,
+        linear-gradient(#DAA520, #FAFAD2);
+	-fx-background-radius: 10px;
+	-fx-padding: 10px;
+	-fx-graphic-text-gap: 10px;
+	-fx-font-family: 'American Typewriter';
+	-fx-font-size: 18px;
+	
+  }
 
 
 .label{
 	-fx-font-size: 14px;
 	-fx-font-style: italic;
-	
 	-fx-font-weight: bold;
 }
 .labelFont{
@@ -84,7 +85,7 @@
 	-fx-font-weight: bold;
 }
 .labelHeader{
-	-fx-font-size: 17px;
+	-fx-font-size: 20px;
 	-fx-font-style: italic;
 	-fx-font-weight: bold;
 }
@@ -95,14 +96,14 @@
 }
 .items{
 	-fx-background-color: saveButtonColor;
-	-fx-text-fil:lightGreen;
+	-fx-text-fill:lightGreen;
 	
 }
 .title{
 		-fx-font-size: 17px;
 		-fx-font-weight: bold;
 		-fx-font-style: italic;
-		-fx-text-fil:#990000;
+		-fx-text-fill:#FFD700;
 		
 }
 .chocie-box{

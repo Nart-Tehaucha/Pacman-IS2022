@@ -13,8 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-
-
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -88,11 +87,11 @@ public class LoginScreen{
     	try {
     		if(username.getText().equals("admin")
     				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
-    			showAlert(AlertType.INFORMATION, "Enter The System",
-						LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
-								+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
-								+ LocalDate.now().getYear() + "\nWelcome Back Admin!",
-						"");
+    			File temp = new File("");
+    			String abPath = temp.getAbsolutePath();
+    			String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+    			MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
+    			sound.play();
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 				LoadScreen(loader, "Admin");
 				return;
@@ -109,15 +108,11 @@ public class LoginScreen{
     			if(nicknamesAndPasswords.containsKey(username.getText())){
     				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
     					lastUserToLogIn= username.getText();
-    					showAlert(AlertType.INFORMATION, "Enter The System",
-    							LocalTime.now().getHour() + ":" + LocalTime.now().getMinute() + "  "
-    									+ LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/"
-    									+ LocalDate.now().getYear() + "\nWelcome Back " + username.getText() + "!",
-    							"");
-    					if(PlayersController.readPlayersFromJSON().contains(new Player(username.getText(), loginPassword.getText())))
-    						System.out.println("this user exists");
-    					else
-    						System.out.println("nope");
+    					File temp = new File("");
+    	    			String abPath = temp.getAbsolutePath();
+    	    			String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+    	    			MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
+    	    			sound.play();
     	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
     					LoadScreen(loader, username.getText());
     					return;
@@ -236,8 +231,7 @@ public class LoginScreen{
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(text);
-
-		
+	
 		alert.showAndWait();
 	}
 
@@ -250,6 +244,16 @@ public class LoginScreen{
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(text);
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setStyle(
+				"-fx-background-image: url('/views/sad_pacman.jpg'); -fx-background-size: cover; -fx-font-weight: bold; -fx-font-size: 12px;");
+
+		File temp = new File("");
+		String abPath = temp.getAbsolutePath();
+		String path = new File(abPath + "/Pacman-master/src/media/fail.mp3").getAbsolutePath();
+		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
+		sound.play();
+		
 		alert.showAndWait();
 	}
 

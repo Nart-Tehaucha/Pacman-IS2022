@@ -120,7 +120,7 @@ public class PacWindow extends JFrame {
         lbUsername.setForeground(new Color(255, 243, 36));
 
         topBar.add(lbUsername);
-        
+        if(score > 200) score = 200;
         JLabel lbScore = new JLabel("    Score : " + score);
         lbScore.setForeground(new Color(255, 243, 36));
         
