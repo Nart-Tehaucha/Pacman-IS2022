@@ -67,6 +67,9 @@ public class QuestionsController {
 
 	    @FXML
 	    private TableView<Question> questionsTable;
+
+	    @FXML
+	    private AnchorPane popUp;
 	    
 	    ObservableList<Question> tableList = FXCollections.observableArrayList();
 	    
@@ -74,6 +77,7 @@ public class QuestionsController {
 	    
 	    ObservableList<Question> allQuestions = FXCollections.observableArrayList(SysData.readQuestionsJSON());
 	    ObservableList<Integer> nums = FXCollections.observableArrayList(1,2,3,4);
+	   
 	    @FXML
 		void LoadScreen(FXMLLoader loader) {
 			try {
@@ -87,8 +91,23 @@ public class QuestionsController {
 	    }
 	    
 	    @FXML
+		void PopUpLoadScreen(FXMLLoader loader) {
+			try {
+				AnchorPane pane = loader.load();
+				popUp.getChildren().clear();
+				popUp.getChildren().add(pane);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }
+	    
+	    @FXML
 	    void addAQuestion(ActionEvent event) {
-	    	inputDialog();
+	    	//inputDialog();
+	    	FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/views/AddQuestion.fxml"));
+			PopUpLoadScreen(popUpLoader);
+			return;
 	    }
 	    private void inputDialog() {
 
@@ -235,7 +254,7 @@ public class QuestionsController {
 				questionsTable.setItems(allQuestions);
 
 			} catch (NullPointerException p) {
-				questionsTable.setVisible(true);
+				//questionsTable.setVisible(true);
 			}
 		}
 

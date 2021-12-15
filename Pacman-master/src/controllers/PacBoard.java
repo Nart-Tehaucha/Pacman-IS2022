@@ -342,7 +342,6 @@ public class PacBoard extends JPanel{
         }
         
         
-        //Shahar- This function m
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
