@@ -87,7 +87,7 @@ public class PacBoard extends JPanel{
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
-    	SysData.initializeTopTen();
+    	//SysData.initializeTopTen();
     	System.out.println("THIS IS USER NAME1: " + this.username);
     	//shahar 
     	this.username = pw.getUsername();
@@ -252,10 +252,10 @@ public class PacBoard extends JPanel{
         };
         redrawTimer = new Timer(16,redrawAL);
         redrawTimer .start();
-        
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
-        this.generateQuestionIcon(null);
+        // Generates a new question on the map
+        QuestionFactory.generateQuestionIcon(null, md_backup, this);
+        QuestionFactory.generateQuestionIcon(null, md_backup, this);
+        QuestionFactory.generateQuestionIcon(null, md_backup, this);
 
         // Start playing sounds
         SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
@@ -346,7 +346,7 @@ public class PacBoard extends JPanel{
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
-        	generateQuestionIcon(questionIcontToEat);
+        	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
         	questionIcontToEat=null;
             scoreToAdd = 0;
         }
@@ -467,49 +467,7 @@ public class PacBoard extends JPanel{
     	return questions.get(randIndex);
     }
 
-    // Generates a new question on the map
-    public void generateQuestionIcon(QuestionIcon questionIcontToEat) {
-    	//Generate a new QuestionIcon in a random position on the map.
-    	int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
-    	int randType = (int)(Math.random() * 3);
-    	Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 
-    	QuestionIcon newQuestionIcon; 
-    	Question newQuestion;
-    	
-    	if(questionIcontToEat == null) {
-    		// Get a random question that isn't already on the map
-    		do {
-    			newQuestion = getRandomQuestion();
-    		}while(questionPoints.containsValue(newQuestion));
-    		
-    		// Remove pac point and replace it with a QuestionIcon
-        	md_backup.getFoodPositions().remove(randIndex);
-        	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,randType); 
-            questionIcons.add(newQuestionIcon);
-            
-            // Put new Question & QuestionIcon pair in the hashmap
-            questionPoints.put(newQuestionIcon, newQuestion);
-    	}
-    	else {
-    		// Get the question that we just ate
-    		Question previousQuestion = questionPoints.get(questionIcontToEat);
-    		
-    		// Get a random question that isn't already on the map, and is different from the question we just ate
-    		do {
-    			newQuestion = getRandomQuestion();
-    		}while(questionPoints.containsValue(newQuestion));
-    		
-    		// Remove pac point and replace it with a QuestionIcon
-        	md_backup.getFoodPositions().remove(randIndex);
-        	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,questionIcontToEat.type);
-        	questionIcons.remove(questionIcontToEat);
-        	questionIcons.add(newQuestionIcon);
-            
-            // Put new Question & QuestionIcon pair in the hashmap, remove the one we ate.
-            questionPoints.remove(questionIcontToEat);
-            questionPoints.put(newQuestionIcon, newQuestion);
-    	}
-    }
+
 
 
     public void addScore() {
