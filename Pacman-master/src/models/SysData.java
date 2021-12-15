@@ -1,5 +1,6 @@
 package models;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -234,7 +235,7 @@ public class SysData {
 		SysData.oldTopTenWinnersAL = oldTopTenWinnersAL;
 	}
 	
-	 @SuppressWarnings("unchecked")
+	 @SuppressWarnings({ "unchecked" })
 		public static ArrayList<RecordWinner> initializeTopTen() {
 	      	//Fill the top 10 with past data about winners:
 	    	//read top10 winners from ser file "topTenWinners.ser"
@@ -247,7 +248,7 @@ public class SysData {
 	            fis.close();
 	            
 	        } 
-	        catch (FileNotFoundException f) 
+	        catch (FileNotFoundException  | EOFException f) 
 	        {
 	      	  //IF THERE ARE NO WINNERS YET
 	            f.printStackTrace();
