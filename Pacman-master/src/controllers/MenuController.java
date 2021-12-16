@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Player;
@@ -50,6 +52,19 @@ public class MenuController {
 	private String username;
 	
 	private ObservableList<Player> player = FXCollections.observableArrayList();
+
+   @FXML
+    private ImageView logOut;
+
+   
+
+    @FXML
+    void logOutOfSystem(MouseEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
+		LoadScreen(loader);
+		return;
+    }
+
     @FXML
     void start(ActionEvent event) {
 //    	player.add(new Player(typedText, score));

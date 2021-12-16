@@ -36,7 +36,7 @@
       </Button>
       <Label layoutX="260.0" layoutY="159.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Difficulty:" />
       <ChoiceBox fx:id="difficulty" layoutX="363.0" layoutY="154.0" prefHeight="29.0" prefWidth="77.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
-      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="28.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@1200px-Go-home.svg.png" />
          </image>
