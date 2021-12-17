@@ -110,14 +110,17 @@ public class MapEditor extends JFrame {
             if(c == '1'){
                 map[i][j] = 0;
                 customMap.getGhostsData().add(new GhostData(i,j,ghostType.RED));
+                customMap.getFoodPositions().add(new Food(i,j));
             }
             if(c == '2'){
                 map[i][j] = 0;
                 customMap.getGhostsData().add(new GhostData(i,j,ghostType.PINK));
+                customMap.getFoodPositions().add(new Food(i,j));
             }
             if(c == '3'){
                 map[i][j] = 0;
                 customMap.getGhostsData().add(new GhostData(i,j,ghostType.CYAN));
+                customMap.getFoodPositions().add(new Food(i,j));
             }
             if(c == 'P'){
                 map[i][j] = 0;
@@ -149,8 +152,8 @@ public class MapEditor extends JFrame {
                 customMap.setGhostBasePosition(new Point(i,j));
             }
             
+            // Generate Easy Question Icon (Not used in final version)
             if(c == 'E'){
-            	System.out.println("this is i: " + i + "this is j:" + j);
             	map[i][j] = 0;
             	// customMap.getquestionIconsPositions().add(new QuestionIcon(i,j,0));
                 QuestionIcon qi = new QuestionIcon(i,j,0);
@@ -158,8 +161,8 @@ public class MapEditor extends JFrame {
                 customMap.getquestionIconsPositions().add(qi);
             }
             
+            // Generate Medium Question Icon (Not used in final version)
             if(c == 'M'){
-            	System.out.println("this is i: " + i + "this is j:" + j);
             	map[i][j] = 0;
             	// customMap.getquestionIconsPositions().add(new QuestionIcon(i,j,0));
                 QuestionIcon qi = new QuestionIcon(i,j,1);
@@ -167,8 +170,8 @@ public class MapEditor extends JFrame {
                 customMap.getquestionIconsPositions().add(qi);
             }
             
+            // Generate Hard Question Icon (Not used in final version)
             if(c == 'H'){
-            	System.out.println("this is i: " + i + "this is j:" + j);
             	map[i][j] = 0;
             	// customMap.getquestionIconsPositions().add(new QuestionIcon(i,j,0));
                 QuestionIcon qi = new QuestionIcon(i,j,2);
