@@ -19,16 +19,16 @@
             <Font size="11.0" />
          </font></Label>
       <Line endX="499.0" endY="-3.814697265625E-6" layoutX="101.0" layoutY="40.0" startX="-100.0" />
-      <TableView fx:id="questionsTable" layoutY="88.0" prefHeight="270.0" prefWidth="700.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
+      <TableView fx:id="questionsTable" layoutX="20.0" layoutY="88.0" prefHeight="239.0" prefWidth="600.0" styleClass="table-row-cell" stylesheets="@styleSheet.css">
         <columns>
-          <TableColumn fx:id="quesId" prefWidth="57.99996757507324" text="Number" />
-          <TableColumn fx:id="quesContent" prefWidth="296.0000228881836" text="Question" />
-            <TableColumn fx:id="quesDifficulty" minWidth="0.0" prefWidth="72.66668701171875" text="Difficulty" />
-            <TableColumn fx:id="quesAnswers" prefWidth="194.66665649414062" text="Answers" />
-            <TableColumn fx:id="quesCorrectAns" prefWidth="79.33331298828125" text="Correct" />
+          <TableColumn fx:id="quesId" prefWidth="70.66668957471848" text="Number" />
+          <TableColumn fx:id="quesContent" prefWidth="314.0000686645508" text="Question" />
+            <TableColumn fx:id="quesDifficulty" minWidth="0.0" prefWidth="74.6666259765625" text="Difficulty" />
+            <TableColumn fx:id="quesAnswers" prefWidth="73.33322143554688" text="Answers" />
+            <TableColumn fx:id="quesCorrectAns" prefWidth="67.33331298828125" text="Correct" />
         </columns>
       </TableView>
-      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="18.0" layoutY="2.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@1200px-Go-home.svg.png" />
          </image>
@@ -36,7 +36,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Button fx:id="Edit" layoutX="262.0" layoutY="383.0" mnemonicParsing="false" onAction="#editQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Edit">
+      <Button fx:id="Edit" layoutX="226.0" layoutY="356.0" mnemonicParsing="false" onAction="#editQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Edit">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
@@ -46,19 +46,15 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="259.0" layoutY="60.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose a question:" />
-      <Button fx:id="Delete" layoutX="371.0" layoutY="383.0" mnemonicParsing="false" onAction="#deleteQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Delete">
+      <Label layoutX="244.0" layoutY="60.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose a question:" />
+      <Button fx:id="Delete" layoutX="335.0" layoutY="356.0" mnemonicParsing="false" onAction="#deleteQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Delete">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
-            <String fx:value="lavenderHover" />
          </styleClass>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
       </Button>
-      <Label layoutX="229.0" layoutY="446.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Would you like to add a new question?" />
-      <Button fx:id="Add" layoutX="308.0" layoutY="474.0" mnemonicParsing="false" onAction="#addAQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Add">
+      <Label layoutX="193.0" layoutY="404.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Would you like to add a new question?" />
+      <Button fx:id="Add" layoutX="272.0" layoutY="442.0" mnemonicParsing="false" onAction="#addAQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Add">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />

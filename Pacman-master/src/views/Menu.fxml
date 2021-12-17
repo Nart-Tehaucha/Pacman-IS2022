@@ -80,13 +80,5 @@
             <DropShadow />
          </effect>
       </Button>
-      <ImageView fx:id="logOut" accessibleRole="BUTTON" fitHeight="34.0" fitWidth="45.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#logOutOfSystem" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@logout.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
    </children>
 </AnchorPane>
