@@ -58,6 +58,7 @@ import javafx.scene.text.Text;
 import models.Answer;
 import models.Player;
 import models.Question;
+import models.SysData;
 
 public class PlayersController implements Comparator<Player>, Serializable{
 
@@ -130,6 +131,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
     	if (!nickname.getText().isEmpty() && !password.getText().isEmpty() && !password2.getText().isEmpty() && (password.getText().equals(password2.getText()))){
     			if(!lc.getNicknamesAndPasswords().containsKey(nickname.getText())) {
+    				SysData.setThisUser(nickname.getText());
     				lc.getNicknamesAndPasswords().put(nickname.getText(), password.getText());
 
     				showAlert(AlertType.CONFIRMATION, "Successfully Registered", "You have been registerd!", "");

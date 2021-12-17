@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Player;
+import models.SysData;
 import views.PacWindow;
 import views.StartWindow;
 
@@ -70,6 +71,7 @@ public class MenuController {
 //    	player.add(new Player(typedText, score));
     	player.add(new Player("tal", "0"));
 		stage = (Stage) MainPanel.getScene().getWindow();
+		username =SysData.getThisUser();
 		new PacWindow(username);
 		stage.close();
     }

@@ -30,6 +30,16 @@ public class SysData {
 
 
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	public static String getThisUser() {
+		return thisUser;
+	}
+
+
+	public static void setThisUser(String thisUser) {
+		SysData.thisUser = thisUser;
+	}
+
+	private static String thisUser;
 	
 	public static SysData getInstance() {
 		if (instance == null)
