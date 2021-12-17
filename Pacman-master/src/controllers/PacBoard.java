@@ -384,8 +384,8 @@ public class PacBoard extends JPanel{
                     	drawScore = false;
             }
         }
-        
-        if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
+
+      if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
 	    	for (Ghost g : ghosts) {	
 	        	for(int i=-3 ;i<=3; i++) {	
 	        		for(int j=-3; j<=3; j++) {	
@@ -400,6 +400,10 @@ public class PacBoard extends JPanel{
 	        	}	
 	        }	
         }
+      if(pacman.isEnterPressed()){
+      	pacman.setStrong(false);	
+      }
+ 
         
         //Check Ghost Undie
         for(Ghost g:ghosts){

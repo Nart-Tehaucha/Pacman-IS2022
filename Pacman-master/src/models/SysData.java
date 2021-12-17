@@ -1,5 +1,6 @@
 package models;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -88,9 +89,11 @@ public class SysData {
             JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("questionsJSON.json"));
             
             JSONArray jsonArray = (JSONArray) obj.get("questions");
-            int size = readQuestionsJSON().get(readQuestionsJSON().size()-1).getQuestionID()+1;
+            int size = 0;
+            if(!readQuestionsJSON().isEmpty())
+            	size = readQuestionsJSON().get(readQuestionsJSON().size()-1).getQuestionID();
             JSONObject question = new JSONObject();
-            question.put("ID", size);
+            question.put("ID", size+1);
             question.put("question", q.getContent());
             JSONArray ans = new JSONArray();
             for(Answer a : q.getAnswers()) {
@@ -113,7 +116,7 @@ public class SysData {
         return true;
 	}
 	
-    public static void deleteQuestionFromJSON(Question q) {
+    public static boolean deleteQuestionFromJSON(Question q) {
       	 try {
       	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
       	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
@@ -123,11 +126,15 @@ public class SysData {
       	        for(Object o : aux) {
       	        	JSONObject jo = (JSONObject) o;
       	        	if(Math.toIntExact((Long) jo.get("ID")) == q.getQuestionID()) {
-   	                System.out.println("REMOVING QUESTION:");
-   	                System.out.println(jo.get("question"));
-   	                allQuestions = readQuestionsJSON();
-   	                jsonArray.remove(o);
+	   	                System.out.println("REMOVING QUESTION:");
+	   	                System.out.println(jo.get("question"));
+	   	                allQuestions = readQuestionsJSON();
+	   	                System.out.println(readQuestionsJSON());
+	   	                jsonArray.remove(o);
+	   	                return true;
       	        	}
+      	        	else
+      	        		return false;
       	        }
       	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
       	            file.write(jsonObject.toJSONString());
@@ -136,9 +143,13 @@ public class SysData {
       	    } catch (IOException | ParseException ex) {
       	        System.out.println("Error: " + ex);
       	    }
+      	 if(readQuestionsJSON().contains(q))
+      		 return false;
+      	 else
+      		 return true;
       }
  
-    public static void deleteQuestionFromJSONByID(int questionID) {
+    public static boolean deleteQuestionFromJSONByID(int questionID) {
 
     	 try {
     	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
@@ -149,11 +160,12 @@ public class SysData {
     	        for(Object o : aux) {
     	        	JSONObject jo = (JSONObject) o;
     	        	if(Math.toIntExact((Long) jo.get("ID")) == questionID) {
- 	                System.out.println("REMOVING QUESTION:");
- 	                System.out.println(jo.get("question"));
- 	                jsonArray.remove(o);
+	 	                System.out.println("REMOVING QUESTION:");
+	 	                System.out.println(jo.get("question"));
+	 	                jsonArray.remove(o);
     	        	}
     	        }
+    	        
     	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
     	            file.write(jsonObject.toJSONString());
     	            file.flush();
@@ -161,10 +173,18 @@ public class SysData {
     	    } catch (IOException | ParseException ex) {
     	        System.out.println("Error: " + ex);
     	    }
-    
+    	 boolean flag = true;
+    	 for(Question q: readQuestionsJSON()) {
+    	    if(q.getQuestionID() == questionID)
+         		 flag = false;
+    	 }
+    	 if(flag == false)
+    		 return false; 
+    	 else 
+    		 return true;
    }
     
-    public static void editQuestionInJSON(Question newQuestion) {
+    public static boolean editQuestionInJSON(Question newQuestion) {
 
      	 try {
      	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
@@ -192,6 +212,17 @@ public class SysData {
      	    } catch (IOException | ParseException ex) {
      	        System.out.println("Error: " + ex);
      	    }
+     	 boolean flag = false;
+     	 for(Question q: readQuestionsJSON()) {
+     		 if(q.getQuestionID() == newQuestion.getQuestionID()) {
+     			flag = true;
+ 		 		break;
+     		 }
+     	 }
+     	 if(flag == false)
+     		 return false;
+     	 else
+     		 return true;
      
     }
     
@@ -204,7 +235,7 @@ public class SysData {
 		SysData.oldTopTenWinnersAL = oldTopTenWinnersAL;
 	}
 	
-	 @SuppressWarnings("unchecked")
+	 @SuppressWarnings({ "unchecked" })
 		public static ArrayList<RecordWinner> initializeTopTen() {
 	      	//Fill the top 10 with past data about winners:
 	    	//read top10 winners from ser file "topTenWinners.ser"
@@ -217,7 +248,7 @@ public class SysData {
 	            fis.close();
 	            
 	        } 
-	        catch (FileNotFoundException f) 
+	        catch (FileNotFoundException  | EOFException f) 
 	        {
 	      	  //IF THERE ARE NO WINNERS YET
 	            f.printStackTrace();
