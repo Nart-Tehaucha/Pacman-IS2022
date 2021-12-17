@@ -66,7 +66,7 @@ public class PacBoard extends JPanel{
     public int scoreToNextLevel;
     public JLabel scoreboard;
 
-    public LoopPlayer siren;
+    //public LoopPlayer siren;
     public boolean mustReactivateSiren = false;
     public LoopPlayer pac6;
 
@@ -258,10 +258,10 @@ public class PacBoard extends JPanel{
         QuestionFactory.generateQuestionIcon(null, md_backup, this);
 
         // Start playing sounds
-        SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
-        siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
+        //SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
+        //siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
         //pac6 = new LoopPlayer("pac6.wav");
-        siren.start();
+        //siren.start();
     }
 
     
@@ -285,7 +285,7 @@ public class PacBoard extends JPanel{
                     	}
                     	else {
                     		//Game Over
-                            siren.stop();
+                           // siren.stop();
                             //SoundPlayer.play("pacman_lose.wav");
                     		//Shahar
                     		//get player score into top 10 if relevant
@@ -364,7 +364,7 @@ public class PacBoard extends JPanel{
                 case 0:
                     //PACMAN 6
                     pufoods.remove(puFoodToEat);
-                    siren.stop();
+                    //siren.stop();
                     mustReactivateSiren = true;
                     //pac6.start();
                     pacman.setStrong(true);
@@ -456,7 +456,7 @@ public class PacBoard extends JPanel{
             //pac6.stop();
             if(mustReactivateSiren){
                 mustReactivateSiren = false;
-                siren.start();
+                //siren.start();
             }
 
         
@@ -480,7 +480,7 @@ public class PacBoard extends JPanel{
         scoreboard.setText("    Score : "+score);
 
         if(score >= scoreToNextLevel){
-            siren.stop();
+            //siren.stop();
             //pac6.stop();
             //SoundPlayer.play("pacman_intermission.wav");
             isWin = true;
@@ -800,7 +800,7 @@ public class PacBoard extends JPanel{
     // Restarts the game.
     public void nextLevel(){
 
-        siren.stop();
+        //siren.stop();
 //pac6.stop();
      
 //        
@@ -826,7 +826,7 @@ public class PacBoard extends JPanel{
     }
     
     public void restart(int level, int score, int pacLives, String userName) {
-    	siren.stop();
+    	//siren.stop();
     	//pac6.stop();
     	
     	windowParent.dispose();
