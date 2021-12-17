@@ -19,11 +19,6 @@ public class StartWindow extends JFrame {
 	
 
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	// Constructor, initializes the start screen.
     public StartWindow(){
     	// Setup the screen

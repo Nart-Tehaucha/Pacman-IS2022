@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
+
 <AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" style="-fx-background-image: null; -fx-background-color: black;" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InstructionsController">
    <children>
       <ImageView fitHeight="149.0" fitWidth="293.0" layoutX="235.0" pickOnBounds="true" preserveRatio="true">
@@ -43,7 +44,7 @@
       <Label layoutX="96.0" layoutY="49.0" textFill="WHITE" />
       <Label layoutX="96.0" layoutY="478.0" text="Answering correctly: easy-&gt; +1, medium-&gt; +2, hard-&gt; +3 " textFill="WHITE" />
       <Label layoutX="94.0" layoutY="501.0" text="Answering wrongly: easy-&gt; -10, medium-&gt; -20, hard-&gt; -30" textFill="WHITE" />
-      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="49.0" layoutY="22.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@1200px-Go-home.svg.png" />
          </image>

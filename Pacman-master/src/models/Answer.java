@@ -49,7 +49,7 @@ public class Answer {
 
 	@Override
 	public String toString() {
-		return content;
+		return "Answer [answerID=" + answerID + ", questionID=" + questionID + ", content=" + content + "]";
 	}
 
 }
