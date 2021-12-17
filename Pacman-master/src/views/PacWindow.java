@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // Main window of the game screen.
 public class PacWindow extends JFrame {
@@ -29,24 +31,13 @@ public class PacWindow extends JFrame {
 	private String username;
 	
 	
-	
-	
-	
-	
-
-     
-	
-	
 	// ============================== Constructors =============================
 	
 	// Default Constructor. Initializes the game screen.
     public PacWindow(String username){
-
-    	System.out.println("THIS IS USER NAME:" + username);
         
     	//Assign user name field
     	this.username = username;
-    	
         setTitle("IS 2022 PacMan Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -94,6 +85,21 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         
         setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+            	pb.pause();
+            	int result = JOptionPane.showConfirmDialog(null,
+                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
+                  JOptionPane.YES_NO_OPTION);
+            	if (result == JOptionPane.YES_OPTION)
+            		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            	else if (result == JOptionPane.NO_OPTION) {
+            		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            		pb.resume();
+            	}
+            }
+        });
     }
     
     // Second constructor, gets MapData as an argument
@@ -109,7 +115,7 @@ public class PacWindow extends JFrame {
         //setSize(794,884);
         setSize(774,918);
         setLocationRelativeTo(null);
-
+        
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
         
@@ -173,6 +179,21 @@ public class PacWindow extends JFrame {
         bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+            	pb.pause();
+            	int result = JOptionPane.showConfirmDialog(null,
+                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
+                  JOptionPane.YES_NO_OPTION);
+            	if (result == JOptionPane.YES_OPTION)
+            		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            	else if (result == JOptionPane.NO_OPTION) {
+            		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            		pb.resume();
+            	}
+            }
+        });
     }
     
     // Third constructor, gets MapData as an argument
@@ -187,7 +208,19 @@ public class PacWindow extends JFrame {
         //setSize(794,884);
         setSize(774,918);
         setLocationRelativeTo(null);
-
+        
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+              int result = JOptionPane.showConfirmDialog(null,
+                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
+                  JOptionPane.YES_NO_OPTION);
+              if (result == JOptionPane.YES_OPTION)
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+              else if (result == JOptionPane.NO_OPTION)
+                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+          });
+        
         JPanel bottomBar = new JPanel();
         bottomBar.setBackground(Color.black);
         
@@ -214,6 +247,21 @@ public class PacWindow extends JFrame {
         bottomBar.add(lbLives);
         this.getContentPane().add(pb);
         setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+            	pb.pause();
+            	int result = JOptionPane.showConfirmDialog(null,
+                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
+                  JOptionPane.YES_NO_OPTION);
+            	if (result == JOptionPane.YES_OPTION)
+            		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            	else if (result == JOptionPane.NO_OPTION) {
+            		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            		pb.resume();
+            	}
+            }
+        });
     }
 
     
@@ -236,6 +284,7 @@ public class PacWindow extends JFrame {
         }
         return null;
     }
+    
 
     // Compiles a map from reading a text file, returns it as a MapData object
     public MapData getMapFromResource(String relPath){

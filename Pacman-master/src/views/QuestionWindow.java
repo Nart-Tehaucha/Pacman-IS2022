@@ -3,7 +3,9 @@ package views;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -11,9 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.Timer;
 
 import controllers.PacBoard;
-import javafx.scene.input.KeyEvent;
 import models.Answer;
 import models.Question;
 
@@ -27,6 +29,8 @@ public class QuestionWindow extends JFrame implements ActionListener {
 	static int correctAns;
 	
 	private PacBoard pb;
+	
+	Timer delayTimer;
 	
 	public QuestionWindow(PacWindow pw, Question q, PacBoard pb) {
 		this.pb = pb;
@@ -87,40 +91,39 @@ public class QuestionWindow extends JFrame implements ActionListener {
         radioPanel.add(rdAnswer4);
         
         JButton button = new JButton("Submit");
+        // Closes the window after a delay
+        ActionListener delayClose = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	delayTimer.stop();
+            	pb.resume();
+            	dispose();
+            }
+        }; 
+        delayTimer = new Timer (1000, delayClose);
         
         // Action listener for button presses
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(rdAnswer1.isSelected()) {
-            		pb.checkAnswer(q, rdAnswer1.getText());
-                    pb.resume();
-                	dispose();
-            	}else if(rdAnswer2.isSelected()) {
-            		pb.checkAnswer(q, rdAnswer2.getText());
-                    pb.resume();
-                	dispose();
-            	}else if(rdAnswer3.isSelected()) {
-            		pb.checkAnswer(q, rdAnswer3.getText());
-                    pb.resume();
-                	dispose();
-            	}else if(rdAnswer4.isSelected()) {
-            		pb.checkAnswer(q, rdAnswer4.getText());
-                    pb.resume();
-                	dispose();
-            	}else {
-            		error.setText("Please select an answer!");
-            	}
             	
-            	//pb.checkAnswer(group.getSelection().toString());
+            	for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
+            		JRadioButton button = (JRadioButton) buttons.nextElement();
 
+                    if (button.isSelected()) {
+                    	if(pb.checkAnswer(q, button.getText())) {
+                    		button.setBackground(new Color(0,255,0));
+                		} else {
+                			button.setBackground(new Color(255,0,0));
+                		}
+                    }
+                }
+            	delayTimer.start();
             }
         });
-
-        
         
         add(question, BorderLayout.PAGE_START);
-        add(radioPanel, BorderLayout.LINE_START);
+        add(radioPanel, BorderLayout.CENTER);
         add(button, BorderLayout.PAGE_END);
         
 
@@ -132,4 +135,5 @@ public class QuestionWindow extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
