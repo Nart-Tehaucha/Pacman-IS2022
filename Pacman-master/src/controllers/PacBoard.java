@@ -66,7 +66,7 @@ public class PacBoard extends JPanel{
     public int scoreToNextLevel;
     public JLabel scoreboard;
 
-    //public LoopPlayer siren;
+    public LoopPlayer siren;
     public boolean mustReactivateSiren = false;
     public LoopPlayer pac6;
 
@@ -760,7 +760,6 @@ public class PacBoard extends JPanel{
     public void nextLevel(){
 
         //siren.stop();
-
         //pac6.stop();
 
 
