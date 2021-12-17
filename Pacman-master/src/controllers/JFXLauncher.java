@@ -77,6 +77,8 @@ public class JFXLauncher extends Application {
 			Scene scene = new Scene (root);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
+			primaryStage.setTitle("Pacman IS-21");
+			primaryStage.getIcons().add(new Image("/views/sad_pacman.jpg"));
 			primaryStage.show();
 			File temp = new File("");
 			String abPath = temp.getAbsolutePath();
