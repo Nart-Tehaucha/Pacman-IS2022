@@ -108,26 +108,6 @@ public class PacBoard extends JPanel{
         this.ghostBase = md.getGhostBasePosition();
         pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
-        
-        switch(level) {
-    	case 1:
-    		scoreToNextLevel = 51;
-    		break;
-    	case 2:
-    		scoreToNextLevel = 101;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		break;
-    	case 3:
-    		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		break;
-    	case 4:
-    		scoreToNextLevel = 200;
-    		break;
-    	default:
-    		scoreToNextLevel = 51;
-    	}
-        
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
         ghosts = new ArrayList<>();
@@ -269,6 +249,34 @@ public class PacBoard extends JPanel{
         QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this);
         QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this);
         QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this);
+        switch(level) {
+    	case 1:
+    		scoreToNextLevel = 51;
+    		break;
+    	case 2:
+    		scoreToNextLevel = 101;
+    		for (Ghost g1 : ghosts) {	
+    			//g1.animTimer.setDelay(100);
+    			//g1.moveTimer.setDelay(0);
+    			//g1.setGhostSpeed(4);
+    		}
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		break;
+    	case 3:
+    		scoreToNextLevel = 151;
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		break;
+    	case 4:
+    		for (Ghost g1 : ghosts) {	
+    			//g1.animTimer.setDelay(100);
+    			//g1.moveTimer.setDelay(0);
+    			g1.setGhostSpeed(4);
+    		}
+    		scoreToNextLevel = 200;
+    		break;
+    	default:
+    		scoreToNextLevel = 51;
+    	}
 
         // Start playing sounds
         //SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");

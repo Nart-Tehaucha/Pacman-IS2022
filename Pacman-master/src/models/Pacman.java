@@ -175,6 +175,7 @@ public class Pacman implements KeyListener{
                         pixelPosition.y -= gameSpeed;
                         break;
                     case DOWN:
+                    	
                         if((pixelPosition.y >= (parentBoard.m_y-1) * 28)&&parentBoard.isCustom){
                             return;
                         }
@@ -197,14 +198,6 @@ public class Pacman implements KeyListener{
         };
         moveTimer = new Timer(9,moveAL);
         moveTimer.start();
-//        newColorAL = new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//           	
-//           }
-//
-//        Timer newColor =new Timer(9,newColorAL);
-//       newColor.start(newColor,pacNewColor);
-//    }
     }      
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -275,15 +268,10 @@ public class Pacman implements KeyListener{
                 parentBoard.dispatchEvent(new ActionEvent(this,Messages.RESET,null));
                 break;
             case KeyEvent.VK_ENTER:            	
-            	isEnterPressed =true;
-//            	if(isEnterPressed) {
-//                	changeColor();
-//            	}
-//                	
-            	
+            	isEnterPressed =true;    	
                 break;
         }
-        //System.out.println(ke.getKeyCode());
+     
     }
 	public int getGameSpeed() {
 		return gameSpeed;
