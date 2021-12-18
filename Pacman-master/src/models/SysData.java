@@ -298,7 +298,7 @@ public class SysData {
 			// Check if player beat their previous record. If yes, replace with new record, if no, don't do anything.
 			if(newTopTen.contains(newPlayerRecord))
 			{
-				if(newPlayerRecord.compareTo(newTopTen.get(newTopTen.indexOf(newPlayerRecord))) <= 0){
+				if(newPlayerRecord.compareTo(newTopTen.get(newTopTen.indexOf(newPlayerRecord))) >= 0){
 					return;
 				}
 				else {

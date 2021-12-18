@@ -89,7 +89,7 @@ public class PacBoard extends JPanel{
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
-    	//SysData.initializeTopTen();
+    	SysData.initializeTopTen();
     	this.username = pw.getUsername();
         this.level = level;
         this.score = score;
@@ -288,7 +288,6 @@ public class PacBoard extends JPanel{
                     		//Game Over
                            // siren.stop();
                             //SoundPlayer.play("pacman_lose.wav");
-                    		//Shahar
                     		//get player score into top 10 if relevant
                     		SysData.addToTopTen(this.username,this.score,0.0);
                             pacman.moveTimer.stop();
@@ -447,13 +446,12 @@ public class PacBoard extends JPanel{
             //siren.stop();
             //pac6.stop();
             //SoundPlayer.play("pacman_intermission.wav");
-            isWin = true;
-            pacman.moveTimer.stop();
-            for(Ghost g : ghosts){
-                g.moveTimer.stop();
-            }
             if(level != 4) {
             	nextLevel();
+            } else {
+                isWin = true;
+                SysData.addToTopTen(this.username,this.score,0.0);
+                pause();
             }
         } else if (score + amount >= 200) {
         	score = 200;
@@ -691,27 +689,11 @@ public class PacBoard extends JPanel{
 
         if(isGameOver){
         	g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-//            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
-//            	if(rw.getUserName() == username) {
-//            		if(rw.getPoints() < score) {
-//            			SysData.addToTopTen(this.username, this.score, 0.0);
-//            			System.out.println("SAVING TO TOP 10");
-//            		}
-//            	}
-//            }
             
         }
 
         if(isWin){
             g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
-            	if(rw.getUserName() == username) {
-            		if(rw.getPoints() < score) {
-            			SysData.addToTopTen(this.username, this.score, 0.0);
-            			System.out.println("SAVING TO TOP 10");
-            		}
-            	}
-            }
         }
 
 
