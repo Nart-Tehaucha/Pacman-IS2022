@@ -81,7 +81,7 @@ public abstract class Ghost {
 
     int ghostNormalDelay;
     int ghostWeakDelay = 5;
-    int ghostDeadDelay = 0;
+    int ghostDeadDelay = 5; //0
 
     // Calculates the ghost's path to the base
     BFSFinder baseReturner;
@@ -370,7 +370,7 @@ public abstract class Ghost {
     // Kills ghost
     public void die(){
         isDead = true;
-        
+        this.setGhostSpeed(14);
         moveTimer.setDelay(ghostDeadDelay);
     }
     // Respwans ghost
