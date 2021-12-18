@@ -19,6 +19,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
@@ -51,6 +52,7 @@ public class PacBoard extends JPanel{
     public ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
     public ArrayList<Question> questions; // Questions
     public HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
+    public PriorityQueue<Point> respawnPoints; // Contains the points(x,y) to respawn food at every 30 seconds
 
     public boolean isCustom = false;
     public boolean isGameOver = false;
@@ -330,6 +332,7 @@ public class PacBoard extends JPanel{
         if(foodToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
+            respawnFood(foodToEat.position);
             this.addScore(1);
         }
         
@@ -345,6 +348,7 @@ public class PacBoard extends JPanel{
             //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
         	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
+        	respawnFood(questionIcontToEat.position);
         	questionIcontToEat=null;
             scoreToAdd = 0;
         }
@@ -603,16 +607,6 @@ public class PacBoard extends JPanel{
                 }
             }
     	}
-//        //Draw Walls
-//        g.setColor(Color.blue);
-//        for(int i=0;i<m_x;i++){
-//            for(int j=0;j<m_y;j++){
-//                if(map[i][j]>0){
-//                    //g.drawImage(10+i*28,10+j*28,28,28);
-//                    g.drawImage(mapSegments[map[i][j]],10+i*28,10+j*28,null);
-//                }
-//            }
-//        }
 
         //Draw Food
         g.setColor(new Color(204, 122, 122));
@@ -696,14 +690,15 @@ public class PacBoard extends JPanel{
         }
 
         if(isGameOver){
-            g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
-            	if(rw.getUserName() == username) {
-            		if(rw.getPoints() < score) {
-            			SysData.addToTopTen(this.username, this.score, 0.0);
-            		}
-            	}
-            }
+        	g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+//            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
+//            	if(rw.getUserName() == username) {
+//            		if(rw.getPoints() < score) {
+//            			SysData.addToTopTen(this.username, this.score, 0.0);
+//            			System.out.println("SAVING TO TOP 10");
+//            		}
+//            	}
+//            }
             
         }
 
@@ -713,6 +708,7 @@ public class PacBoard extends JPanel{
             	if(rw.getUserName() == username) {
             		if(rw.getPoints() < score) {
             			SysData.addToTopTen(this.username, this.score, 0.0);
+            			System.out.println("SAVING TO TOP 10");
             		}
             	}
             }
@@ -738,6 +734,18 @@ public class PacBoard extends JPanel{
         }else {
             super.processEvent(ae);
         }
+    }
+    
+    public void respawnFood(Point position) {
+        //animation timer
+        ActionListener respawnAL = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                foods.add(new Food(position.x, position.y));
+            }
+        };
+        //tal you changed from 100 to 200
+        Timer respawnTimer = new Timer(3000,respawnAL);
+        respawnTimer.start();
     }
 
     

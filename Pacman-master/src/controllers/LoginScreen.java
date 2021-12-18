@@ -88,7 +88,6 @@ public class LoginScreen{
     	try {
     		if(username.getText().equals("admin")
     				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
-    			SysData.setThisUser(username.getText());
     			File temp = new File("");
     			String abPath = temp.getAbsolutePath();
     			String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
@@ -109,7 +108,6 @@ public class LoginScreen{
     			// Successful login
     			if(nicknamesAndPasswords.containsKey(username.getText())){
     				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
-    					SysData.setThisUser(username.getText());
     					lastUserToLogIn= username.getText();
     					File temp = new File("");
     	    			String abPath = temp.getAbsolutePath();

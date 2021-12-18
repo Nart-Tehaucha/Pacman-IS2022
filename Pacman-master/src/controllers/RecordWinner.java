@@ -2,11 +2,10 @@
 package controllers;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class RecordWinner implements Serializable, Comparable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private String userName;
@@ -60,6 +59,18 @@ public class RecordWinner implements Serializable, Comparable{
 				+ did_Earn_Trophy + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RecordWinner other = (RecordWinner) obj;
+		return Objects.equals(userName, other.userName);
+	}
+	
 	@Override
 	public int compareTo(Object o) {
 		RecordWinner rw = (RecordWinner) o;

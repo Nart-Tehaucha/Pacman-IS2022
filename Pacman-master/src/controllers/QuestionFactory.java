@@ -15,6 +15,8 @@ public class QuestionFactory {
     }
 	
 	public static void generateQuestionByDifficutly(String difficulty, MapData md_backup, PacBoard pb) {
+		if(pb.questions.size() < 3) return;
+		
 		//Generate a new QuestionIcon in a random position on the map.
 		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
 		int randType = (int)(Math.random() * 3);
@@ -53,6 +55,8 @@ public class QuestionFactory {
 	}
 	
 	public static void generateQuestionIcon(QuestionIcon questionIcontToEat, MapData md_backup, PacBoard pb) {
+	if(pb.questions.size() < 3) return;
+		
 	//Generate a new QuestionIcon in a random position on the map.
 	int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
 	Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -84,8 +85,16 @@ public class EditQuestionsController {
 				newAnswers.add(ansRes2);
 				newAnswers.add(ansRes3);
 				newAnswers.add(ansRes4);
-				SysData.editQuestionInJSON(new Question(q.getQuestionID(), content.getText(), difficulty.getSelectionModel().getSelectedItem(),
-						newAnswers,(int)correct.getSelectionModel().getSelectedItem()));
+				System.out.println("Out of the if");
+				if(SysData.editQuestionInJSON(new Question(q.getQuestionID(), content.getText(), difficulty.getSelectionModel().getSelectedItem(),
+						newAnswers,(int)correct.getSelectionModel().getSelectedItem()))) {
+					System.out.println("Im in the if");
+					showAlert(AlertType.INFORMATION, "Success", "You successfully edited the question", "");
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageQuestions.fxml"));
+					LoadScreen(loader);
+					return;
+				}
+
 			}
 		}
 		System.out.println("question after: " + SysData.readQuestionsJSON().get(0).getDifficulty());
@@ -121,31 +130,36 @@ public class EditQuestionsController {
 	
     @FXML
 	void initialize() {
-    	correct.setItems(nums);
-    	difficulty.setItems(difficulties);
-    	String chosenQuesContent = null;
-    	String diff = null;
-    	int correctQues = 0;
-    	ArrayList<Answer> answersOfChosenQues = new ArrayList<>();
-    
-    	for(Question q: SysData.readQuestionsJSON()) {
-    		if(QuestionsController.chosenQuesId == q.getQuestionID()) {
-    			answersOfChosenQues.addAll(q.getAnswers());
-    			chosenQuesContent = q.getContent();
-    			diff = q.getDifficulty();
-    			correctQues = q.getCorrect_ans();
-    		}
-    	}
-    	System.out.println(QuestionsController.chosenQuesId);
-    	System.out.println(answersOfChosenQues);
-    	int i = 0;
-    	ans1.setText(answersOfChosenQues.get(i++).getContent());
-    	ans2.setText(answersOfChosenQues.get(i++).getContent());
-    	ans3.setText(answersOfChosenQues.get(i++).getContent());
-    	ans4.setText(answersOfChosenQues.get(i++).getContent());
-    	content.setText(chosenQuesContent);
-    	difficulty.setValue(diff);
-    	correct.setValue(correctQues);
+    	try {
+	    	correct.setItems(nums);
+	    	difficulty.setItems(difficulties);
+	    	String chosenQuesContent = null;
+	    	String diff = null;
+	    	int correctQues = 0;
+	    	ArrayList<Answer> answersOfChosenQues = new ArrayList<>();
+	    
+	    	for(Question q: SysData.readQuestionsJSON()) {
+	    		if(QuestionsController.chosenQuesId == q.getQuestionID()) {
+	    			answersOfChosenQues.addAll(q.getAnswers());
+	    			System.out.println(answersOfChosenQues);
+	    			chosenQuesContent = q.getContent();
+	    			diff = q.getDifficulty();
+	    			correctQues = q.getCorrect_ans();
+	    		}
+	    	}
+	    	System.out.println(QuestionsController.chosenQuesId);
+	    	System.out.println(answersOfChosenQues);
+	    	int i = 0;
+	    	ans1.setText(answersOfChosenQues.get(i++).getContent());
+	    	ans2.setText(answersOfChosenQues.get(i++).getContent());
+	    	ans3.setText(answersOfChosenQues.get(i++).getContent());
+	    	ans4.setText(answersOfChosenQues.get(i++).getContent());
+	    	content.setText(chosenQuesContent);
+	    	difficulty.setValue(diff);
+	    	correct.setValue(correctQues);
+    	}catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     @FXML
