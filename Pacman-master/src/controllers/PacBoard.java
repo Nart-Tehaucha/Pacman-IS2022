@@ -25,8 +25,8 @@ import java.util.PriorityQueue;
 public class PacBoard extends JPanel{
 
 	
-	
-	
+	int ix = 0;
+	boolean mflag = false;
 	
     public Timer redrawTimer;
     public ActionListener redrawAL;
@@ -52,7 +52,7 @@ public class PacBoard extends JPanel{
     public ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
     public ArrayList<Question> questions; // Questions
     public HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
-    public PriorityQueue<Point> respawnPoints; // Contains the points(x,y) to respawn food at every 30 seconds
+    public ArrayList<Timer> foodRespawnTimers; // Contains all the active timers that respawn eaten foods
 
     public boolean isCustom = false;
     public boolean isGameOver = false;
@@ -134,7 +134,8 @@ public class PacBoard extends JPanel{
         teleports = new ArrayList<>(); // Teleports = Passages
         questionIcons = new ArrayList<>(); //Objects on the map representing questions that can be eaten
         questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
-
+        foodRespawnTimers = new ArrayList<>();
+        
         // Load questions from JSON file to arraylist
         try {
 			questions = SysData.readQuestionsJSON();
@@ -175,6 +176,18 @@ public class PacBoard extends JPanel{
         }
         teleports = md.getTeleports();
 
+        // Add all timers to an arraylist in SysData.
+        SysData.allTimers.add(pacman.animTimer);
+        SysData.allTimers.add(pacman.moveTimer);
+        SysData.allTimers.add(pacman.newColor);
+        for(Ghost g : ghosts) {
+        	SysData.allTimers.add(g.animTimer);
+        	SysData.allTimers.add(g.moveTimer);
+        	SysData.allTimers.add(g.pendingTimer);
+        	SysData.allTimers.add(g.unWeakenTimer1);
+        	SysData.allTimers.add(g.unWeakenTimer2);
+        }
+        
         // Set layout of the map (size, background color)
         setLayout(null);
         setSize(20*m_x,20*m_y);
@@ -250,6 +263,7 @@ public class PacBoard extends JPanel{
             }
         };
         redrawTimer = new Timer(16,redrawAL);
+        SysData.allTimers.add(redrawTimer);
         redrawTimer .start();
         // Generates a new question on the map
         QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this);
@@ -277,10 +291,7 @@ public class PacBoard extends JPanel{
                 if(!g.isDead()) {
                     if (!g.isWeak()) {
                     	if(pacLives > 1) {
-                    		pacman.moveTimer.stop();
-                            pacman.animTimer.stop();
-                            g.moveTimer.stop();
-                            isGameOver = true;
+                    		pause();
                             pacLives--;
                     		restart(level, score, pacLives, username);
                     	}
@@ -290,9 +301,7 @@ public class PacBoard extends JPanel{
                             //SoundPlayer.play("pacman_lose.wav");
                     		//get player score into top 10 if relevant
                     		SysData.addToTopTen(this.username,this.score,0.0);
-                            pacman.moveTimer.stop();
-                            pacman.animTimer.stop();
-                            g.moveTimer.stop();
+                            pause();
                             isGameOver = true;
                             scoreboard.setText("    Press R to try again !");	
                     	}
@@ -441,12 +450,13 @@ public class PacBoard extends JPanel{
     }
     
     public void addScore(int amount) {
-
+    	
         if(score >= scoreToNextLevel){
             //siren.stop();
             //pac6.stop();
             //SoundPlayer.play("pacman_intermission.wav");
             if(level != 4) {
+            	scoreToNextLevel += 50;
             	nextLevel();
             } else {
                 isWin = true;
@@ -705,6 +715,9 @@ public class PacBoard extends JPanel{
     public void processEvent(AWTEvent ae){
 
         if(ae.getID()== Messages.UPDATE) {
+        	if(mflag) {
+        		return;
+        	}
             update();
         }else if(ae.getID()== Messages.COLTEST) {
             if (!isGameOver) {
@@ -725,8 +738,11 @@ public class PacBoard extends JPanel{
                 foods.add(new Food(position.x, position.y));
             }
         };
-        //tal you changed from 100 to 200
         Timer respawnTimer = new Timer(3000,respawnAL);
+        respawnTimer.setRepeats(false);
+        foodRespawnTimers.add(respawnTimer);
+        //System.out.println(foodRespawnTimers.size());
+        //SysData.allTimers.add(respawnTimer);
         respawnTimer.start();
     }
 
@@ -747,10 +763,33 @@ public class PacBoard extends JPanel{
 
         //siren.stop();
         //pac6.stop();
-
-
-        windowParent.dispose();
+        //this.setEnabled(false);
+    	mflag = true;
+//    	removeKeyListener(pacman);
+    	stop();
+    	//System.out.println(SysData.allTimers.toString());
+    	
+    	
+    	
+    	for(Timer t : foodRespawnTimers) {
+    		if(t != null) {
+    			t.stop();
+        		System.out.println(t.isRunning());
+    		}
+    	}
+    	for(Timer t : SysData.allTimers) {
+    		if(t != null) {
+    			t.stop();
+        		System.out.println(t.isRunning());
+    		}
+    		
+    	}
+    	
+    	
+    	
+    	//pacman.setNewPosition(md_backup.getPacmanPosition().x,md_backup.getPacmanPosition().y);
         if(score > 200) score = 200;
+        windowParent.dispose();
         new PacWindow(level+1, score, pacLives,username);
         
     }
@@ -762,6 +801,11 @@ public class PacBoard extends JPanel{
             g.moveTimer.stop();
             g.animTimer.stop();
         }
+    }
+    
+    public void stop() {
+    	pause();
+    	redrawTimer.stop();
     }
     
     public void resume() {
@@ -776,6 +820,24 @@ public class PacBoard extends JPanel{
     public void restart(int level, int score, int pacLives, String userName) {
     	//siren.stop();
     	//pac6.stop();
+    	mflag = true;
+    	//removeKeyListener(pacman);
+    	stop();
+    	//System.out.println(SysData.allTimers.toString());
+    	
+    	for(Timer t : foodRespawnTimers) {
+    		if(t != null) {
+    			t.stop();
+        		System.out.println(t.isRunning());
+    		}
+    	}
+    	for(Timer t : SysData.allTimers) {
+    		if(t != null) {
+    			t.stop();
+        		System.out.println(t.isRunning());
+    		}
+    		
+    	}
     	
     	windowParent.dispose();
     	if(score > 200) score = 200;

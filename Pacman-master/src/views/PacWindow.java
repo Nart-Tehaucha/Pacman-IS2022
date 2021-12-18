@@ -465,7 +465,7 @@ public class PacWindow extends JFrame {
             System.out.print('\n');
         }*/
         
-        System.out.println("Map Adjust OK !");
+        //System.out.println("Map Adjust OK !");
     }
 
     public PacBoard getPacBoard() {

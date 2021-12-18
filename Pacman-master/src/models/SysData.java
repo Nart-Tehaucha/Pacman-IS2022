@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import javax.swing.Timer;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,9 +28,9 @@ public class SysData {
 
 	private static SysData instance;
 	public static ArrayList<Question> allQuestions = readQuestionsJSON();
-
-
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
+	
 	public static String getThisUser() {
 		return thisUser;
 	}

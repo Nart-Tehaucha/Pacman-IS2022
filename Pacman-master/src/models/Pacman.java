@@ -317,6 +317,11 @@ public class Pacman implements KeyListener{
 		else 
 			this.gameSpeed =4;
 	}
+	
+	public void setNewPosition(int x, int y) {
+        logicalPosition = new Point(x,y);
+        pixelPosition = new Point(28*x,28*y);
+	}
 
 
 }
