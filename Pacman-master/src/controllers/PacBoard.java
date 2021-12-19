@@ -248,16 +248,10 @@ public class PacBoard extends JPanel{
         SysData.allTimers.add(redrawTimer);
         redrawTimer .start();
         // Generates a new question on the map
-       
-        ArrayList<Object> temp = QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this);
-        questionPoints.put((QuestionIcon)temp.get(0),(Question)temp.get(1));        
-        questionIcons.add((QuestionIcon)temp.get(0));
-        temp = QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this);
-        questionPoints.put((QuestionIcon)temp.get(0),(Question)temp.get(1));        
-        questionIcons.add((QuestionIcon)temp.get(0));
-        temp = QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this);
-        questionPoints.put((QuestionIcon)temp.get(0),(Question)temp.get(1));        
-        questionIcons.add((QuestionIcon)temp.get(0));
+        
+        putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this));
+        putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this));
+        putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this));
 
         switch(level) {
     	case 1:
@@ -373,7 +367,7 @@ public class PacBoard extends JPanel{
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
-        	//QuestionFactory.generateQuestionByDifficutly(questionIcontToEat.type, md_backup, this);
+        	//QuestionFactory.generateQuestionIcon(questionIcontToEat.type, md_backup, this);
         	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
         	respawnFood(questionIcontToEat.position);
         	questionIcontToEat=null;
@@ -422,8 +416,8 @@ public class PacBoard extends JPanel{
 	        	for(int i=-3 ;i<=3; i++) {	
 	        		for(int j=-3; j<=3; j++) {	
 
-	        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&	
-	                	    pacman.logicalPosition.y == g.logicalPosition.y+j) {	
+	        			if(pacman.getLogicalPosition().x == g.logicalPosition.x+i&&	
+	                	    pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
 	                		g.moveTimer.stop();
 	                		g.animTimer.stop();
 	                		g.pendingTimer.stop();
@@ -912,6 +906,11 @@ public class PacBoard extends JPanel{
 		}
 		scoreAnswer(q.getDifficulty(), correct);
 		return correct;
+	}
+	
+	public void putQuestionOnMap(ArrayList<Object> questionIconPair) {
+        questionPoints.put((QuestionIcon)questionIconPair.get(0),(Question)questionIconPair.get(1));        
+        questionIcons.add((QuestionIcon)questionIconPair.get(0));
 	}
     
 

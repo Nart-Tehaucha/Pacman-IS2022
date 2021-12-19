@@ -67,7 +67,7 @@ public class RedGhost extends Ghost {
         		logicalPosition.x = 13;
         		logicalPosition.y = 8;
         	}
-            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.logicalPosition.x,parentBoard.pacman.logicalPosition.y);
+            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.getLogicalPosition().x,parentBoard.pacman.getLogicalPosition().y);
 
         }
     }

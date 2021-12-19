@@ -18,17 +18,15 @@ public class QuestionFactory {
     }
 	
 	public static ArrayList<Object> generateQuestionByDifficutly(String difficulty, MapData md_backup, PacBoard pb) {
-		//HashMap<QuestionIcon, Question> newQuestionHas = new HashMap<>();
-		ArrayList<Object>newQuestionArray = new ArrayList<>();
 		if(pb.questions.size() < 3) return null;
 		
 		//Generate a new QuestionIcon in a random position on the map.
 		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
 		int randType = (int)(Math.random() * 3);
 		Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 
-		int qType;
 		QuestionIcon newQuestionIcon; 
 		Question newQuestion;
+		ArrayList<Object>newQuestionArray = new ArrayList<>();
 		
 		// Get a new question that isn't already on the map and has the desired difficulty
 		do {
@@ -37,29 +35,14 @@ public class QuestionFactory {
 		
 		// Remove pac point and replace it with a QuestionIcon
     	md_backup.getFoodPositions().remove(randIndex);
-    	switch (newQuestion.getDifficulty()) {
-    	case "Easy":
-    		qType = 0;
-    		break;
-    	case "Medium":
-    		qType = 1;
-    		break;
-    	case "Hard":
-    		qType = 2;
-    		break;
-    	default:
-    		qType = 0;
-    	}
+    	int qType;
+    	if(difficulty.equalsIgnoreCase("Easy")) qType = 0;
+    	else if(difficulty.equalsIgnoreCase("Medium")) qType = 1;
+    	else qType = 2;
     	
-    	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,qType); 
-      //  pb.questionIcons.add(newQuestionIcon);
-        
-        // Put new Question & QuestionIcon pair in the hashmap
-       // pb.questionPoints.put(newQuestionIcon, newQuestion);
+    	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y, qType); 
     	newQuestionArray.add(newQuestionIcon);
     	newQuestionArray.add(newQuestion);
-    	
-        //newQuestionHas.put(newQuestionIcon, newQuestion);
     	
 		return newQuestionArray;
 		
@@ -67,7 +50,8 @@ public class QuestionFactory {
 	
 	public static ArrayList<Object> generateQuestionIcon(QuestionIcon questionIcontToEat, MapData md_backup, PacBoard pb) {
 	if(pb.questions.size() < 3) return null;
-	ArrayList<Object>newQuestionArray = new ArrayList<>();	
+	if(questionIcontToEat == null) return null;
+
 	//Generate a new QuestionIcon in a random position on the map.
 	int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
 	Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 
@@ -75,52 +59,25 @@ public class QuestionFactory {
 	QuestionIcon newQuestionIcon; 
 	Question newQuestion;
 	Question oldQuestion = pb.questionPoints.get(questionIcontToEat);
+	ArrayList<Object>newQuestionArray = new ArrayList<>();	
+		
+	// Get a random question that isn't already on the map, and is different from the question we just ate
+	do {
+		newQuestion = getRandomQuestion(pb);
+	}while(pb.questionPoints.containsValue(newQuestion) || newQuestion.equals(oldQuestion));
 	
-	if(questionIcontToEat == null) {
-		// Get a random question that isn't already on the map
-		do {
-			newQuestion = getRandomQuestion(pb);
-		}while(pb.questionPoints.containsValue(newQuestion));
-		
-		// Remove pac point and replace it with a QuestionIcon
-    	md_backup.getFoodPositions().remove(randIndex);
-    	switch (newQuestion.getDifficulty()) {
-    	case "Easy":
-    		qType = 0;
-    		break;
-    	case "Medium":
-    		qType = 1;
-    		break;
-    	case "Hard":
-    		qType = 2;
-    		break;
-    	default:
-    		qType = 0;
-    	}
-    	
-    	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,qType); 
-        pb.questionIcons.add(newQuestionIcon);
-        
-        // Put new Question & QuestionIcon pair in the hashmap
-        pb.questionPoints.put(newQuestionIcon, newQuestion);
-	}
-	else {
-		
-		// Get a random question that isn't already on the map, and is different from the question we just ate
-		do {
-			newQuestion = getRandomQuestion(pb);
-		}while(pb.questionPoints.containsValue(newQuestion) || newQuestion.equals(oldQuestion));
-		
-		// Remove pac point and replace it with a QuestionIcon
-    	md_backup.getFoodPositions().remove(randIndex);
-    	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,questionIcontToEat.type);
-    	pb.questionIcons.remove(questionIcontToEat);
-    	pb.questionIcons.add(newQuestionIcon);
-        
-        // Put new Question & QuestionIcon pair in the hashmap, remove the one we ate.
-        pb.questionPoints.remove(questionIcontToEat);
-        pb.questionPoints.put(newQuestionIcon, newQuestion);
-	}
+	// Remove pac point and replace it with a QuestionIcon
+	md_backup.getFoodPositions().remove(randIndex);
+	pb.questionIcons.remove(questionIcontToEat);
+	
+	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,questionIcontToEat.type);
+	
+	newQuestionArray.add(newQuestionIcon);
+	newQuestionArray.add(newQuestion);
+	
+	// Put new Question & QuestionIcon pair in the hashmap, remove the one we ate.
+	pb.questionPoints.remove(questionIcontToEat);
+	
   	newQuestionArray.add(newQuestionIcon);
 	newQuestionArray.add(newQuestion);
 	return newQuestionArray;
