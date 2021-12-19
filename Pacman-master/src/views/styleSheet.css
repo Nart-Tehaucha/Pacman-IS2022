@@ -12,25 +12,16 @@
 	lavender:  #d9b3ff;
 	redRemove:  #ff3333;
 	titleRes:  #990000;
-
-
-
-
 }
 
-#tryAnchor{
-		-fx-background-image: url('./bg.jpg'); 
-	-fx-background-size: cover;
-}
 #anchorP{
-	-fx-background-image: url('./bg.jpg'); 
+	-fx-background-image: url('./images/bg.jpg'); 
 	-fx-background-size: cover;
 }	
 
 #MainPanel{
-	-fx-background-image: url('./bg.jpg');
+	-fx-background-image: url('./images/bg.jpg');
 	-fx-background-size: cover;
-
 }
 
 .logOutButton:hover{
@@ -61,7 +52,6 @@
 	-fx-font-style: italic;
 }
 .saveButton{
-
 -fx-background-color: #FFD700,
         linear-gradient(#DAA520, #FAFAD2);
 	-fx-background-radius: 10px;

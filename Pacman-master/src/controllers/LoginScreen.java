@@ -30,11 +30,14 @@ import javafx.stage.Stage;
 import models.Player;
 import models.SysData;
 
+// controls the login screen- when a user wants to enter the system
 public class LoginScreen{
 
+	// save the username
 	static String lastUserToLogIn;
 
-   @FXML
+	// the Login screen components
+	@FXML
     private AnchorPane MainPanel;
 
 	@FXML
@@ -54,35 +57,33 @@ public class LoginScreen{
 
 	private String password;
 	
-
     @FXML
     private MediaView mv;
     
 	private HashMap<String, String> nicknamesAndPasswords = new HashMap<>();
-    
-//    @Override
-//	public void start(Stage primaryStage) {
-//    	System.out.println("hi");
-//	    File temp = new File("");
-//		String abPath = temp.getAbsolutePath();
-//		String path = new File(abPath + "/Pacman-master/src/media/ourZoo.mp4").getAbsolutePath();
-//		System.out.println(path);
-//		MediaPlayer mp = new MediaPlayer(new Media(new File(path).toURI().toString()));
-//		System.out.println(mp);
-//		mv = new MediaView(mp);
-//		mp.setVolume(0);
-//		mv.setFitHeight(primaryStage.getHeight());
-//		mv.setFitWidth(primaryStage.getWidth());
-//		mp.play();
-//		mp.setCycleCount(MediaPlayer.INDEFINITE);
-//		mv.getMediaPlayer().audioSpectrumIntervalProperty();
-//		MainPanel.getChildren().add(mv);
-//    }
 
+	// constructor
 	public LoginScreen() {
 		this.setNicknamesAndPasswords();
 	}
 	
+	public HashMap<String, String> getNicknamesAndPasswords() {
+		return nicknamesAndPasswords;
+	}
+
+	
+	public void setNicknamesAndPasswords() {
+		try {
+			for(Player p : PlayersController.readPlayersFromJSON()) {
+				nicknamesAndPasswords.put(p.getNickname(), p.getPassword());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// check the user who tries to enter the system- his nickname and password
     @FXML
     void EnterTheMenu(ActionEvent event) {
     	try {
@@ -126,7 +127,6 @@ public class LoginScreen{
 							&& (!(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())))) {
 						showFailAlert(AlertType.INFORMATION, "Incorrect Password", null,
 								"Sorry " + username.getText() + ", You entered a wrong password...");
-						System.out.println("wrong password");
 						return;
 					}
     			}
@@ -135,45 +135,21 @@ public class LoginScreen{
     			else if(!(nicknamesAndPasswords.containsKey(username.getText())) && !username.getText().isEmpty()){
     				showFailAlert(AlertType.ERROR, "Incorrect NickName", null,
 							"Sorry " + username.getText() + ", You entered a wrong nickname...");
-    				System.out.println("no such username");
 					return;
     			}
-
     		}
-
     	}
     		catch(Exception e) {
     			e.getMessage();
     		}
     	}		
-
 	
-
-	public HashMap<String, String> getNicknamesAndPasswords() {
-		return nicknamesAndPasswords;
-	}
-
-	
-	public void setNicknamesAndPasswords() {
-		try {
-			for(Player p : PlayersController.readPlayersFromJSON()) {
-				nicknamesAndPasswords.put(p.getNickname(), p.getPassword());
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-
 	// if the 'forgot password' button is pressed then sends a text input dialog to
 	// the user
 	@FXML
 	void forgotPassword(ActionEvent event) {
 		inputDialog();
 	}
-
-
 
 	// show the password
 	@FXML
@@ -221,7 +197,7 @@ public class LoginScreen{
 		}
 
 	}
-
+// in case of a success
 	private void showAlert(AlertType type, String title, String header, String text) {
 		Alert alert = new Alert(type);
 
@@ -234,7 +210,7 @@ public class LoginScreen{
 	
 		alert.showAndWait();
 	}
-
+// in case of a failure
 	private void showFailAlert(AlertType type, String title, String header, String text) {
 		Alert alert = new Alert(type);
 
@@ -293,10 +269,10 @@ public class LoginScreen{
 
 	}
 	
+	// if the user is not registered yet than he can register in this screen
     @FXML
     void NewPlayer(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/NewPlayer.fxml"));
-		//LoadScreen(loader, "New Player");
 		LoadScreen2(loader);
 		return;
     }

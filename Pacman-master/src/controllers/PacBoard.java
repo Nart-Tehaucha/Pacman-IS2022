@@ -259,14 +259,13 @@ public class PacBoard extends JPanel{
     		break;
     	case 2:
     		scoreToNextLevel = 101;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 3:
     		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		pacman.setGameSpeed(7);
     		break;
     	case 4:
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		pacman.setGameSpeed(7);
     		for (Ghost g1 : ghosts) {	
     			g1.setGhostSpeed(4);
     		}

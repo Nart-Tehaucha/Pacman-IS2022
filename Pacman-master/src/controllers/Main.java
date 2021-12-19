@@ -13,8 +13,5 @@ public class Main {
     	//new PacWindow("Nart");
     	//Delete.winnerWindow("Shaze");
     	//Test.main(args);
-    	//System.out.println(new SysData().readQuestionsJSON().toString());
-
-
     }
 }
