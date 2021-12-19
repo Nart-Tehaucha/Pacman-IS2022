@@ -66,18 +66,6 @@ public class RecordWinner implements Serializable, Comparable{
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RecordWinner other = (RecordWinner) obj;
-		return Objects.equals(userName, other.userName);
-	}
-	
-	@Override
 	public int compareTo(Object o) {
 		RecordWinner rw = (RecordWinner) o;
 		if (this.points > rw.getPoints())
