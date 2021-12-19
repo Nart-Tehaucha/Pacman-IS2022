@@ -316,7 +316,7 @@ public class PacBoard extends JPanel{
                         	scoreToAdd++;
                         }
                         if(ghostBase!=null)
-                            g.die();
+                            g.die(ghostBase);
                         else
                             ghostToRemove = g;
                     }
@@ -403,7 +403,7 @@ public class PacBoard extends JPanel{
 	        		for(int j=-3; j<=3; j++) {	
 	        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&	
 		                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {	
-		                    		g.ghostDisappear();		
+		                    		g.die(ghostBase);		
 		                    		pacman.setStrong(false);	
 		                    		pacman.setEnterPreesed(false);
 	        			}	
@@ -531,12 +531,12 @@ public class PacBoard extends JPanel{
         super.paintComponent(g);
 
         //DEBUG ONLY !
-        /*for(int ii=0;ii<=m_x;ii++){
+        for(int ii=0;ii<=m_x;ii++){
             g.drawLine(ii*28+10,10,ii*28+10,m_y*28+10);
         }
         for(int ii=0;ii<=m_y;ii++){
             g.drawLine(10,ii*28+10,m_x*28+10,ii*28+10);
-        }*/
+        }
 
         switch(level) {
     	case 1:

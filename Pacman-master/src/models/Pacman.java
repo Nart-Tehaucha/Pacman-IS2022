@@ -23,25 +23,6 @@ public class Pacman implements KeyListener{
     boolean isInLocation = false;
     public boolean isEnterPressed =false;
     
-    public boolean isEnterPressed() {
-		return isEnterPressed;
-	}
-	public void setEnterPreesed(boolean isEnterPreesed) {
-		this.isEnterPressed = isEnterPreesed;
-	}
-	public boolean isInLocation() {
-		return isInLocation;
-	}
-	public void setInLocation(boolean isInLocation) {
-		this.isInLocation = isInLocation;
-	}
-	public boolean getIsStrong() {
-		return isStrong;
-	}
-	public void setStrong(boolean isStrong) {
-		this.isStrong = isStrong;
-	}
-
 	public boolean isStrong = false;
 	public int pacNewColor = 5;
     public Timer newColor;
@@ -317,11 +298,32 @@ public class Pacman implements KeyListener{
 		else 
 			this.gameSpeed =4;
 	}
+
 	
 	public void setNewPosition(int x, int y) {
         logicalPosition = new Point(x,y);
         pixelPosition = new Point(28*x,28*y);
 	}
+
+	   public boolean isEnterPressed() {
+			return isEnterPressed;
+		}
+		public void setEnterPreesed(boolean isEnterPreesed) {
+			this.isEnterPressed = isEnterPreesed;
+		}
+		public boolean isInLocation() {
+			return isInLocation;
+		}
+		public void setInLocation(boolean isInLocation) {
+			this.isInLocation = isInLocation;
+		}
+		public boolean getIsStrong() {
+			return isStrong;
+		}
+		public void setStrong(boolean isStrong) {
+			this.isStrong = isStrong;
+		}
+
 
 
 }

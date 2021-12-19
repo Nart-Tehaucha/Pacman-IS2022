@@ -15,6 +15,7 @@ public class MapData {
     private int[][] map;
     private Point pacmanPosition;
     private Point ghostBasePosition;
+    private Point ghostRespawnPosition;
     private boolean isCustom;
     private ArrayList<Food> foodPositions;
     private ArrayList<PowerUpFood> pufoodPositions;
