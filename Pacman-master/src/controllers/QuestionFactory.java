@@ -19,10 +19,9 @@ public class QuestionFactory {
 	
 	public static ArrayList<Object> generateQuestionByDifficutly(String difficulty, MapData md_backup, PacBoard pb) {
 		if(pb.getQuestions().size() < 3) return null;
-		
+		int numberOfTries = 0; // Used to prevent infinite loops
 		//Generate a new QuestionIcon in a random position on the map.
 		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
-		int randType = (int)(Math.random() * 3);
 		Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 
 		QuestionIcon newQuestionIcon; 
 		Question newQuestion;
@@ -31,7 +30,10 @@ public class QuestionFactory {
 		// Get a new question that isn't already on the map and has the desired difficulty
 		do {
 			newQuestion = getRandomQuestion(pb);
-		}while(pb.getQuestionPoints().containsValue(newQuestion) || !(newQuestion.getDifficulty().equalsIgnoreCase(difficulty)));
+			numberOfTries++;
+		}while((pb.getQuestionPoints().containsValue(newQuestion) || !(newQuestion.getDifficulty().equalsIgnoreCase(difficulty))) && numberOfTries <= 999);
+		
+		if(numberOfTries >= 9) return null;
 		
 		// Remove pac point and replace it with a QuestionIcon
     	md_backup.getFoodPositions().remove(randIndex);
@@ -51,6 +53,8 @@ public class QuestionFactory {
 	public static ArrayList<Object> generateQuestionIcon(QuestionIcon questionIcontToEat, MapData md_backup, PacBoard pb) {
 	if(pb.getQuestions().size() < 3) return null;
 	if(questionIcontToEat == null) return null;
+	
+	int numberOfTries = 0; // Used to prevent infinite loops
 
 	//Generate a new QuestionIcon in a random position on the map.
 	int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
@@ -64,7 +68,10 @@ public class QuestionFactory {
 	// Get a random question that isn't already on the map, and is different from the question we just ate
 	do {
 		newQuestion = getRandomQuestion(pb);
-	}while(pb.getQuestionPoints().containsValue(newQuestion) || newQuestion.equals(oldQuestion));
+		numberOfTries++;
+	}while((pb.getQuestionPoints().containsValue(newQuestion) || newQuestion.equals(oldQuestion))  && numberOfTries <= 999);
+	
+	if(numberOfTries >= 99) return null;
 	
 	// Remove pac point and replace it with a QuestionIcon
 	md_backup.getFoodPositions().remove(randIndex);
