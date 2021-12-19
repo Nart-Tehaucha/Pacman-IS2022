@@ -250,40 +250,7 @@ public class PacBoard extends JPanel{
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this));
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this));
 
-        switch(level) {
-    	case 1:
-    		scoreToNextLevel = 51;
-    		break;
-    	case 2:
-    		scoreToNextLevel = 101;
-    		for (Ghost g1 : ghosts) {	
-    			//g1.animTimer.setDelay(100);
-    			//g1.moveTimer.setDelay(0);
-    			//g1.setGhostSpeed(4);
-    		}
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		break;
-    	case 3:
-    		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		break;
-    	case 4:
-    		for (Ghost g1 : ghosts) {	
-    			//g1.animTimer.setDelay(100);
-    			//g1.moveTimer.setDelay(0);
-    			g1.setGhostSpeed(4);
-    		}
-    		scoreToNextLevel = 200;
-    		break;
-    	default:
-    		scoreToNextLevel = 51;
-    	}
 
-        // Start playing sounds
-        //SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
-        //siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
-        //pac6 = new LoopPlayer("pac6.wav");
-        //siren.start();
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
@@ -603,9 +570,6 @@ public class PacBoard extends JPanel{
     		break;
     	case 2:
     		//Draw Walls
-    		//change pacman speed
-    		pacman.setGameSpeedForLevel2(7, level);
-    		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -618,7 +582,6 @@ public class PacBoard extends JPanel{
     		break;
     	case 3:
     		//Draw Walls
-    		pacman.setGameSpeedForLevel2(4, level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -632,7 +595,6 @@ public class PacBoard extends JPanel{
     		
     	case 4:
     		//Draw Walls
-    		pacman.setGameSpeedForLevel2(7, level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
