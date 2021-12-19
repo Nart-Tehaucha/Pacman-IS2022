@@ -11,8 +11,5 @@ public class Main {
     	JFXLauncher.main(args);
     	//new PacWindow("Nart");
     	//Test.main(args);
-    	//System.out.println(new SysData().readQuestionsJSON().toString());
-
-
     }
 }

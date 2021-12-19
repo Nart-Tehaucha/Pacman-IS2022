@@ -1,20 +1,13 @@
 package controllers;
 
-
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,11 +15,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import models.SysData;
-import views.PacWindow;
 
+// controls the records screen
 public class RecordsController {
 	
-		
+		// screen's components
 	   @FXML
 	    private AnchorPane MainPanel;
 
@@ -62,7 +55,6 @@ public class RecordsController {
 	    @FXML
 		void LoadScreen(FXMLLoader loader) {
 			try {
-				System.out.println("I use this method");
 				AnchorPane pane = loader.load();
 				MainPanel.getChildren().clear();
 				MainPanel.getChildren().add(pane);

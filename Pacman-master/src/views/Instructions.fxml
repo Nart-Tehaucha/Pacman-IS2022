@@ -11,14 +11,14 @@
    <children>
       <ImageView fitHeight="149.0" fitWidth="293.0" layoutX="235.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@getReady.jpg" />
+            <Image url="@images/getReady.jpg" />
          </image>
       </ImageView>
       <Label layoutX="90.0" layoutY="175.0" text="Try to eat as many pac-dots as you can, each one gives you 1 point to your score." textFill="WHITE" />
       <Label layoutX="90.0" layoutY="218.0" text="You can move your pacman using- " textFill="WHITE" />
       <ImageView fitHeight="39.0" fitWidth="62.0" layoutX="350.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@keyboard.jpg" />
+            <Image url="@images/keyboard.jpg" />
          </image>
       </ImageView>
       <Label layoutX="90.0" layoutY="262.0" text="Avoid meeting with the ghosts, you will lose 1 life." textFill="WHITE" />
@@ -45,7 +45,7 @@
       <Label layoutX="94.0" layoutY="501.0" text="Answering wrongly: easy-&gt; -10, medium-&gt; -20, hard-&gt; -30" textFill="WHITE" />
       <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@1200px-Go-home.svg.png" />
+            <Image url="@images/1200px-Go-home.svg.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

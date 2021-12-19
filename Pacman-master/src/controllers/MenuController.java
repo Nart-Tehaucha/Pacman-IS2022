@@ -38,8 +38,6 @@ public class MenuController {
 	private Stage stage;
 	
 	private String username;
-	
-	private ObservableList<Player> player = FXCollections.observableArrayList();
 
     @FXML
     private ImageView logOut;
@@ -52,6 +50,7 @@ public class MenuController {
     	return username;
     }
 
+    // log out
     @FXML
     void logOutOfSystem(MouseEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
@@ -59,15 +58,16 @@ public class MenuController {
 		return;
     }
 
+    // start the game
     @FXML
     void start(ActionEvent event) {
-    	player.add(new Player("tal", "0"));
 		stage = (Stage) MainPanel.getScene().getWindow();
 		username =SysData.getThisUser();
 		new PacWindow(username);
 		stage.close();
     }
     
+    // go to instructions screen
     @FXML
     void instructions(ActionEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Instructions.fxml"));
@@ -75,6 +75,7 @@ public class MenuController {
 		return;
     }
     
+    // go to records table
     @FXML
     void OpenRecordsScreen(ActionEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecordsTable.fxml"));
@@ -93,7 +94,6 @@ public class MenuController {
     @FXML
 	void LoadScreen(FXMLLoader loader) {
 		try {
-			System.out.println("I use this method");
 			AnchorPane pane = loader.load();
 			MainPanel.getChildren().clear();
 			MainPanel.getChildren().add(pane);
