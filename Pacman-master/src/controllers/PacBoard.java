@@ -10,79 +10,75 @@ import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
 
+	private boolean mflag = false; // This flag is used to stop the current game from updating after it ends. (for restarts and going up a level)
 	
-	private int ix = 0;
-	private boolean mflag = false;
 	
-    private Timer redrawTimer;
+    private Timer redrawTimer; // Timer for redrawing all graphical elements on the map
+	private ActionListener redrawAL; // AL for the redrawTimer
 
-	private ActionListener redrawAL;
-
-    private int[][] map;
-    private Image[] blue_mapSegments;
+    private int[][] map; // Contains a copy of the map with each cell converted to a number between 0 - 26. This is used to generate images of different types of walls.
+    
+    // Images for all the different walls
+    private Image[] blue_mapSegments; 
     private Image[] pink_mapSegments;
     private Image[] babyBlue_mapSegments;
     private Image[] green_mapSegments;
     
+    // Images for food
     private Image foodImage;
     private Image[] pfoodImage;
     private Image[] questionIconImage;
 
+    // Game over and Victory images
     private Image goImage;
     private Image vicImage;
 
     private Pacman pacman;
     private ArrayList<Food> foods; // Regular foods (pac points)
     private ArrayList<PowerUpFood> pufoods; // Power Up foods (bombs, special fruit)
-    private ArrayList<Ghost> ghosts;
+    private ArrayList<Ghost> ghosts; // All the ghosts that are currently alive
     private ArrayList<TeleportTunnel> teleports; // Teleports = Passages
     private ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
     private ArrayList<Question> questions; // Questions
     private HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
-    private ArrayList<Timer> foodRespawnTimers; // Contains all the active timers that respawn eaten foods
+    private ArrayList<Timer> foodRespawnTimers; // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
 
-    private boolean isCustom = false;
+    private boolean isCustom = false; // Is it a custom made map?
     private boolean isGameOver = false;
     private boolean isWin = false;
-    private boolean drawScore = false;
-    private boolean drawQuestionScore = false;
-    private boolean clearScore = false;
-    private int scoreToAdd = 0;
-    private int pacLives;
+    private boolean drawScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after eating Fruit)
+    private boolean drawQuestionScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after answering questions)
+    private boolean clearScore = false; // Resets the score that is to be given to the player
+    private int scoreToAdd = 0; // Score to be given to the player
+    private int pacLives; // Number of lives left
 
-    private int score;
-    private int level;
-    private int scoreToNextLevel;
-    private JLabel scoreboard;
-
+    private int score; // Current score
+    private int level; 
+    private int scoreToNextLevel; // Score needed to reach the next level
+    private JLabel scoreboard; //JLabel for the score 
+    
+    // Sounds that play throughout the game *Disabled for Iteration 3*
     private LoopPlayer siren;
     private boolean mustReactivateSiren = false;
     private LoopPlayer pac6;
 
-    private Point ghostBase;
+    private Point ghostBase; // The base of the ghosts
 
-    private int m_x;
+    // Dimensions of the map
+    private int m_x; 
     private int m_y;
 
-    private MapData md_backup;
-    private PacWindow windowParent;
+    private MapData md_backup; // MapData containing all initial info of the map
+    private PacWindow windowParent; // Parent window that contains the game
     
     private String username;
-	private Ghost ghostToRemove;
+	private ArrayList<Ghost> ghostsToRemove; // Used to signal to the program which ghosts to remove (die)
     
    
     
@@ -90,7 +86,7 @@ public class PacBoard extends JPanel{
     // Constructor
     public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
-    	SysData.initializeTopTen();
+    	SysData.initializeTopTen(); 
     	this.username = pw.getUsername();
         this.level = level;
         this.score = score;
@@ -115,18 +111,17 @@ public class PacBoard extends JPanel{
         teleports = new ArrayList<>(); // Teleports = Passages
         questionIcons = new ArrayList<>(); //Objects on the map representing questions that can be eaten
         questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
-        foodRespawnTimers = new ArrayList<>();
+        foodRespawnTimers = new ArrayList<>(); // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
+        ghostsToRemove = new ArrayList<>(); // Contains all ghosts that will be die
         
         // Load questions from JSON file to arraylist
         try {
 			questions = SysData.readQuestionsJSON();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         
-        //TODO : read food from mapData (Map 1)
-
+        // Add all pac points on the map
         if(!isCustom) {
             for (int i = 0; i < m_x; i++) {
                 for (int j = 0; j < m_y; j++) {
@@ -141,6 +136,7 @@ public class PacBoard extends JPanel{
         pufoods = md.getPufoodPositions();
         questionIcons = md.getquestionIconsPositions();
 
+        // Add all ghosts
         ghosts = new ArrayList<>();
         for(GhostData gd : md.getGhostsData()){
             switch(gd.getType()) {
@@ -155,12 +151,13 @@ public class PacBoard extends JPanel{
                     break;
             }
         }
-        teleports = md.getTeleports();
-
+        // Add Teleports
+        teleports.add(new TeleportTunnel(1, 9, 25, 9, moveType.LEFT));
+        teleports.add(new TeleportTunnel(25, 9, 1, 9, moveType.RIGHT));
         // Add all timers to an arraylist in SysData.
+        // This is done so that all timers can be stopped when the current game ends (to threading problems)
         SysData.allTimers.add(pacman.getAnimTimer());
         SysData.allTimers.add(pacman.getMoveTimer());
-        SysData.allTimers.add(pacman.getNewColor());
         for(Ghost g : ghosts) {
         	SysData.allTimers.add(g.animTimer);
         	SysData.allTimers.add(g.moveTimer);
@@ -181,7 +178,7 @@ public class PacBoard extends JPanel{
             }catch(Exception e){}
         }
         
-     // Load pink images for all segments of the map
+        // Load pink images for all segments of the map
         pink_mapSegments = new Image[28];
         pink_mapSegments[0] = null;
         for(int ms=1;ms<28;ms++){
@@ -191,7 +188,7 @@ public class PacBoard extends JPanel{
         }
         
         
-     // Load green images for all segments of the map
+        // Load green images for all segments of the map
         green_mapSegments = new Image[28];
         green_mapSegments[0] = null;
         for(int ms=1;ms<28;ms++){
@@ -200,7 +197,7 @@ public class PacBoard extends JPanel{
             }catch(Exception e){}
         }
         
-     // Load babyBlue images for all segments of the map
+        // Load babyBlue images for all segments of the map
         babyBlue_mapSegments = new Image[28];
         babyBlue_mapSegments[0] = null;
         for(int ms=1;ms<28;ms++){
@@ -209,7 +206,7 @@ public class PacBoard extends JPanel{
             }catch(Exception e){}
         }
         
-
+        // Load images for Fruits
         pfoodImage = new Image[5];
         for(int ms=0 ;ms<5;ms++){
             try {
@@ -217,7 +214,7 @@ public class PacBoard extends JPanel{
             }catch(Exception e){}
         }
         
-        //Insert the question's icons into array of images
+        // Insert the question's icons into array of images
         questionIconImage = new Image[3];
         for(int ms=0 ;ms<3;ms++){
         	try {
@@ -225,6 +222,7 @@ public class PacBoard extends JPanel{
          	}catch(Exception e){}
         }
         
+        // Load images for pac points, game over, and victory
         try{
             foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
             goImage = ImageIO.read(this.getClass().getResource("/resources/images/gameover.png"));
@@ -233,7 +231,7 @@ public class PacBoard extends JPanel{
         }catch(Exception e){}
 
 
-        // Draw the board
+        // Re-Draws the entire board periodically, updating all grahpics.
         redrawAL = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //Draw Board
@@ -241,39 +239,31 @@ public class PacBoard extends JPanel{
             }
         };
         redrawTimer = new Timer(16,redrawAL);
-        
-        SysData.allTimers.add(redrawTimer);
         redrawTimer .start();
-        // Generates a new question on the map
         
+        // Generate the first 3 questions and place them randomly on the map
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this));
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this));
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this));
 
-
+        // Set score, player speed, and ghost speed for each level
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
-    		for (Ghost g1 : ghosts) {	
-    			g1.animTimer.setDelay(1);
-    			g1.moveTimer.setDelay(1);
-    		}
     		break;
     	case 2:
     		scoreToNextLevel = 101;
-//    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 3:
     		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(7);
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 4:
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		for (Ghost g1 : ghosts) {	
-    			//g1.animTimer.setDelay(100);
-    			//g1.moveTimer.setDelay(0);
     			g1.setGhostSpeed(4);
     		}
-    		pacman.setGameSpeed(7);
     		scoreToNextLevel = 200;
     		break;
     	default:
@@ -281,28 +271,26 @@ public class PacBoard extends JPanel{
     	}
     }
 
-    
+    // ==============================================================================
     // ============================= END OF CONSTRUCTOR =============================
+    // ==============================================================================
     
-    // Checks if the player colided with a ghost
+    // Checks if the player collided with a ghost
     public void collisionTest(){
         Rectangle pr = new Rectangle(pacman.getPixelPosition().x+13,pacman.getPixelPosition().y+13,2,2);
-        Ghost ghostToRemove = null;
         for(Ghost g : ghosts){
             Rectangle gr = new Rectangle(g.pixelPosition.x,g.pixelPosition.y,28,28);
 
             if(pr.intersects(gr)){
                 if(!g.isDead()) {
                 	if(pacLives > 1) {
+                		// Remove 1 life
                 		pause();
                         pacLives--;
                 		restart(level, score, pacLives, username);
                 	}
                 	else {
-                		//Game Over
-                       // siren.stop();
-                        //SoundPlayer.play("pacman_lose.wav");
-                		//get player score into top 10 if relevant
+                		// Game Over
                 		SysData.addToTopTen(this.username,this.score,0.0);
                         pause();
                         isGameOver = true;
@@ -312,10 +300,6 @@ public class PacBoard extends JPanel{
                     break;
                 }
             }
-        }
-
-        if(ghostToRemove!= null){
-            ghosts.remove(ghostToRemove);
         }
     }
 
@@ -327,25 +311,22 @@ public class PacBoard extends JPanel{
             if(pacman.getLogicalPosition().x == f.position.x && pacman.getLogicalPosition().y == f.position.y)
                 foodToEat = f;
         }
+        
+        // Eat food
         if(foodToEat!=null) {
-            //SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
             respawnFood(foodToEat.position);
             this.addScore(1);
         }
         
-        
+        // Eat Question
         QuestionIcon questionIcontToEat = null;
         for(QuestionIcon question : questionIcons){
             if(pacman.getLogicalPosition().x == question.position.x && pacman.getLogicalPosition().y == question.position.y)
                 questionIcontToEat = question;
         }
-        
-        
         if(questionIcontToEat!=null) {
-            //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
-        	//QuestionFactory.generateQuestionIcon(questionIcontToEat.type, md_backup, this);
         	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
         	respawnFood(questionIcontToEat.position);
         	questionIcontToEat=null;
@@ -353,31 +334,23 @@ public class PacBoard extends JPanel{
         }
         
         
-
+        // Eat Fruit or Bomb
         PowerUpFood puFoodToEat = null;
-        //Check pu food eat
+        
         for(PowerUpFood puf : pufoods){
-            if(pacman.getLogicalPosition().x == puf.getPosition().x && pacman.getLogicalPosition().y == puf.getPosition().y)
+            if(pacman.getLogicalPosition().x == puf.position.x && pacman.getLogicalPosition().y == puf.position.y)
                 puFoodToEat = puf;
         }
         if(puFoodToEat!=null) {
-            //SoundPlayer.play("pacman_eat.wav");
-            switch(puFoodToEat.getType()) {
-                case 0:
-                    //PACMAN 6
+            switch(puFoodToEat.type) {
+                // Eat Bomb
+            	case 0:
                     pufoods.remove(puFoodToEat);
-                    //siren.stop();
-                    mustReactivateSiren = true;
-                    //pac6.start();
                     pacman.setStrong(true);
                     pacman.setInLocation(true);
-                    
-                    scoreToAdd = 0;
-                    pacman.setEnterPreesed(false);
-                    pacman.setInLocation(false);
                     break;
+                // Eat Fruit
                 default:
-                    //SoundPlayer.play("pacman_eatfruit.wav");
                     pufoods.remove(puFoodToEat);
                     if(score != 200) {
                     	scoreToAdd = 1;
@@ -394,11 +367,12 @@ public class PacBoard extends JPanel{
 	        	for(int i=-3 ;i<=3; i++) {	
 	        		for(int j=-3; j<=3; j++) {	
 
+	        			// Check if Ghost is in radius 3 of Pacman
 	        			if(pacman.getLogicalPosition().x == g.logicalPosition.x+i&&	
 	                	    pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
 	                		g.moveTimer.stop();
 	                		g.animTimer.stop();
-							ghostToRemove = g;
+							ghostsToRemove.add(g);
 					        // Action Listener for respawning ghosts after they die
 							ActionListener respawnAL = new ActionListener() {
 					            public void actionPerformed(ActionEvent evt) {
@@ -418,34 +392,25 @@ public class PacBoard extends JPanel{
 	        }	
         }
         
-        ghosts.remove(ghostToRemove);
+        ArrayList<Ghost> aux = (ArrayList<Ghost>) ghostsToRemove.clone();
+        for(Ghost g : aux) {
+        	ghosts.remove(g);
+        	ghostsToRemove.remove(g);
+        }
+        aux = null;
 
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
             if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
                 //System.out.println("TELE !");
-               // pacman.logicalPosition = tp.getTo();
-            	pacman.setLogicalPosition(ghostBase);
+                pacman.setLogicalPosition(tp.getTo());
                 pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
                 pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
             }
         }
-        
-        //Check isSiren
-        boolean isSiren = true;
-        if(isSiren){
-            //pac6.stop();
-            if(mustReactivateSiren){
-                mustReactivateSiren = false;
-                //siren.start();
-            }
-
-        
-        
-        }
     }
     
-
+    // Respawns a ghost that just died
 	private void spawnNewGhost(int ghostType) {
 		System.out.println("SPAWNED");
         switch(ghostType) {
@@ -462,7 +427,7 @@ public class PacBoard extends JPanel{
 		
 	}
 
-
+	// Method for adding score
 	public void addScore(int amount) {
     	
         if(score >= scoreToNextLevel){
@@ -484,6 +449,8 @@ public class PacBoard extends JPanel{
         }
         scoreboard.setText("    Score : "+score);
     } 
+	
+	// Score answer according to it's difficulty (minus points if guessed wrong)
     public void scoreAnswer(String difficulty, boolean correct) {
     	//easy question
     	if(difficulty.equalsIgnoreCase("Easy")) {
@@ -497,7 +464,7 @@ public class PacBoard extends JPanel{
     				scoreToAdd = -10;
     			}
     			else {
-    				scoreToAdd =0;
+    				scoreToAdd = -score;
     			}
     		}
     	}
@@ -513,7 +480,7 @@ public class PacBoard extends JPanel{
     				scoreToAdd = -20;
     			}
     			else {
-    				scoreToAdd = 0;
+    				scoreToAdd = -score;
     			}
     		}
     	}
@@ -530,7 +497,7 @@ public class PacBoard extends JPanel{
     				scoreToAdd = -30;
     			}
     			else {
-    				scoreToAdd =0;
+    				scoreToAdd = -score;
     			}
     		}
     	}
@@ -545,19 +512,16 @@ public class PacBoard extends JPanel{
         super.paintComponent(g);
 
         //DEBUG ONLY !
-        for(int ii=0;ii<=m_x;ii++){
+        /*for(int ii=0;ii<=m_x;ii++){
             g.drawLine(ii*28+10,10,ii*28+10,m_y*28+10);
         }
         for(int ii=0;ii<=m_y;ii++){
             g.drawLine(10,ii*28+10,m_x*28+10,ii*28+10);
-        }
+        }*/
 
         switch(level) {
     	case 1:
     		//Draw Walls
-
-    		//pacman.setGameSpeedForLevel2(4, level);
-    		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -574,7 +538,6 @@ public class PacBoard extends JPanel{
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
                     if(map[i][j]>0){
-                        //g.drawImage(10+i*28,10+j*28,28,28);
                         g.drawImage(pink_mapSegments[map[i][j]],10+i*28,10+j*28,null);
                     }
                 }
@@ -586,7 +549,6 @@ public class PacBoard extends JPanel{
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
                     if(map[i][j]>0){
-                        //g.drawImage(10+i*28,10+j*28,28,28);
                         g.drawImage(babyBlue_mapSegments[map[i][j]],10+i*28,10+j*28,null);
                     }
                 }
@@ -599,7 +561,6 @@ public class PacBoard extends JPanel{
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
                     if(map[i][j]>0){
-                        //g.drawImage(10+i*28,10+j*28,28,28);
                         g.drawImage(green_mapSegments[map[i][j]],10+i*28,10+j*28,null);
                     }
                 }
@@ -611,7 +572,6 @@ public class PacBoard extends JPanel{
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
                     if(map[i][j]>0){
-                        //g.drawImage(10+i*28,10+j*28,28,28);
                         g.drawImage(blue_mapSegments[map[i][j]],10+i*28,10+j*28,null);
                     }
                 }
@@ -621,22 +581,18 @@ public class PacBoard extends JPanel{
         //Draw Food
         g.setColor(new Color(204, 122, 122));
         for(Food f : foods){
-            //g.fillOval(f.position.x*28+22,f.position.y*28+22,4,4);
             g.drawImage(foodImage,10+f.position.x*28,10+f.position.y*28,null);
         }
 
         //Draw PowerUpFoods
         g.setColor(new Color(204, 174, 168));
         for(PowerUpFood f : pufoods){
-            //g.fillOval(f.position.x*28+20,f.position.y*28+20,8,8);
-            g.drawImage(pfoodImage[f.getType()],10+f.getPosition().x*28,10+f.getPosition().y*28,null);
+            g.drawImage(pfoodImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
         }
         
         //Draw QuestionIcons
         for(QuestionIcon f : questionIcons){
-            //g.fillOval(f.position.x*28+20,f.position.y*28+20,8,8);
             g.drawImage(questionIconImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
-            //System.out.println("This is the type:" + questionIconImage[f.type].toString());
             
         }
 
@@ -661,7 +617,8 @@ public class PacBoard extends JPanel{
         for(Ghost gh : ghosts){
             g.drawImage(gh.getGhostImage(),10+gh.pixelPosition.x,10+gh.pixelPosition.y,null);
         }
-
+        	
+        // Clear the little score below pacman after 1 second
         if(clearScore){
             try {
                 Thread.sleep(1000);
@@ -672,7 +629,8 @@ public class PacBoard extends JPanel{
             drawQuestionScore = false;
             clearScore =false;
         }
-
+        
+        // Draw the gained score below pacman after eating fruit
         if(drawScore) {
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
@@ -688,6 +646,7 @@ public class PacBoard extends JPanel{
 
         }
         
+        // Draw the gained/lost score below pacman after answering question
         if(drawQuestionScore) {
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
@@ -698,12 +657,14 @@ public class PacBoard extends JPanel{
             scoreboard.setText("    Score : "+score);
             clearScore = true;
         }
-
+        
+        // Draw game over screen
         if(isGameOver){
         	g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
             
         }
-
+        
+        // Draw victory screen
         if(isWin){
             g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
         }
@@ -733,6 +694,7 @@ public class PacBoard extends JPanel{
         }
     }
     
+    // Respawns eaten pacpoint after 30 seconds
     public void respawnFood(Point position) {
         //animation timer
         ActionListener respawnAL = new ActionListener() {
@@ -740,7 +702,7 @@ public class PacBoard extends JPanel{
                 foods.add(new Food(position.x, position.y));
             }
         };
-        Timer respawnTimer = new Timer(3000,respawnAL);
+        Timer respawnTimer = new Timer(30000,respawnAL);
         respawnTimer.setRepeats(false);
         foodRespawnTimers.add(respawnTimer);
         //System.out.println(foodRespawnTimers.size());
@@ -749,7 +711,7 @@ public class PacBoard extends JPanel{
     }
 
     
-    // Opens the Question interface
+    // Opens the Question pop-up window
     public void questionPopup(QuestionIcon qi) {
     	// Stop all movement and animation
     	pause();
@@ -757,22 +719,34 @@ public class PacBoard extends JPanel{
         Question q = questionPoints.get(qi);
         
         // Load the question window
-    	QuestionWindow qw = new QuestionWindow(windowParent, q, this);
+    	new QuestionWindow(windowParent, q, this);
     }
     
     // Restarts the game.
     public void nextLevel(){
-
-        //siren.stop();
-        //pac6.stop();
-        //this.setEnabled(false);
     	mflag = true;
-//    	removeKeyListener(pacman);
     	stop();
-    	//System.out.println(SysData.allTimers.toString());
     	
-    	
-    	
+        if(score > 200) score = 200;
+        windowParent.dispose();
+        new PacWindow(level+1, score, pacLives,username);
+        
+    }
+    
+    // Pauses the game
+    public void pause() {
+    	pacman.getMoveTimer().stop();
+        pacman.getAnimTimer().stop();
+        for(Ghost g : ghosts){
+            g.moveTimer.stop();
+            g.animTimer.stop();
+        }
+    }
+    
+    // Stops the game (stops all the timers in the program)
+    public void stop() {
+    	pause();
+    	redrawTimer.stop();
     	for(Timer t : foodRespawnTimers) {
     		if(t != null) {
     			t.stop();
@@ -784,31 +758,9 @@ public class PacBoard extends JPanel{
     		}
     		
     	}
-    	
-    	
-    	
-    	//pacman.setNewPosition(md_backup.getPacmanPosition().x,md_backup.getPacmanPosition().y);
-        if(score > 200) score = 200;
-        windowParent.dispose();
-        new PacWindow(level+1, score, pacLives,username);
-        
     }
     
-    public void pause() {
-    	//tal 
-    	pacman.getMoveTimer().stop();
-        pacman.getAnimTimer().stop();
-        for(Ghost g : ghosts){
-            g.moveTimer.stop();
-            g.animTimer.stop();
-        }
-    }
-    
-    public void stop() {
-    	pause();
-    	redrawTimer.stop();
-    }
-    
+    // Resumes the game
     public void resume() {
     	pacman.getMoveTimer().start();
         pacman.getAnimTimer().start();
@@ -818,27 +770,13 @@ public class PacBoard extends JPanel{
         }
     }
     
+    // Restarts the level with the same score, minus one life
     public void restart(int level, int score, int pacLives, String userName) {
     	//siren.stop();
     	//pac6.stop();
     	mflag = true;
-    	//removeKeyListener(pacman);
-    	stop();
-    	//System.out.println(SysData.allTimers.toString());
     	
-    	for(Timer t : foodRespawnTimers) {
-    		if(t != null) {
-    			t.stop();
-        		System.out.println(t.isRunning());
-    		}
-    	}
-    	for(Timer t : SysData.allTimers) {
-    		if(t != null) {
-    			t.stop();
-        		System.out.println(t.isRunning());
-    		}
-    		
-    	}
+    	stop();
     	
     	windowParent.dispose();
     	if(score > 200) score = 200;
@@ -861,7 +799,9 @@ public class PacBoard extends JPanel{
 		return correct;
 	}
 	
+	// Puts a question on the map that is generated by QuestionFactory class
 	public void putQuestionOnMap(ArrayList<Object> questionIconPair) {
+		if(questionIconPair == null) return;
         questionPoints.put((QuestionIcon)questionIconPair.get(0),(Question)questionIconPair.get(1));        
         questionIcons.add((QuestionIcon)questionIconPair.get(0));
 	}
@@ -1077,13 +1017,13 @@ public class PacBoard extends JPanel{
 	}
 
 
-	public Ghost getGhostToRemove() {
-		return ghostToRemove;
+	public ArrayList<Ghost> getGhostToRemove() {
+		return ghostsToRemove;
 	}
 
 
-	public void setGhostToRemove(Ghost ghostToRemove) {
-		this.ghostToRemove = ghostToRemove;
+	public void setGhostToRemove(ArrayList<Ghost> ghostToRemove) {
+		this.ghostsToRemove = ghostsToRemove;
 	}
     
 
