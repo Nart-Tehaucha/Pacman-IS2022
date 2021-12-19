@@ -370,9 +370,9 @@ public abstract class Ghost {
     public void die(Point base){
 
         moveTimer.stop();
-        isDead = true;
-        logicalPosition = new Point(base.x,base.y);
-        pixelPosition = new Point(28*(base.x),28*(base.y));
+//        isDead = true;
+//        logicalPosition = new Point(base.x,base.y);
+//        pixelPosition = new Point(28*(base.x),28*(base.y));
         System.out.println("\nDEAD !\n");
 //        this.setGhostSpeed(14);
 //        moveTimer.setDelay(ghostDeadDelay);
