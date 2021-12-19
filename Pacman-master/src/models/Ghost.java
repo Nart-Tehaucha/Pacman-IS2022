@@ -338,11 +338,11 @@ public abstract class Ghost {
 
     // Makes ghost "weak" (after player eats bomb)
     public void weaken(){
-    	this.die();
+    	//this.die();
     }
     public void ghostDisappear(){
         disappear = true;
-        this.die();
+        //this.die();
 
 
        // this.die();
@@ -368,10 +368,14 @@ public abstract class Ghost {
         moveTimer.setDelay(ghostNormalDelay);
     }
     // Kills ghost
-    public void die(){
+    public void die(Point base){
         isDead = true;
-        this.setGhostSpeed(14);
-        moveTimer.setDelay(ghostDeadDelay);
+        logicalPosition = new Point(base.x,base.y);
+        pixelPosition = new Point(28*base.x,28*base.y);
+        moveTimer.stop();
+        System.out.println("\nDEAD !\n");
+//        this.setGhostSpeed(14);
+//        moveTimer.setDelay(ghostDeadDelay);
     }
     // Respwans ghost
     public void undie(){
@@ -394,7 +398,7 @@ public abstract class Ghost {
 
         isDead = false;
         isWeak = false;
-        moveTimer.setDelay(ghostNormalDelay);
+        moveTimer.setDelay(0);
     }
     
 
