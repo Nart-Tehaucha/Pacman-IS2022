@@ -15,26 +15,27 @@ import java.util.concurrent.ThreadLocalRandom;
 
 // Generic class for Ghost. Handles ghost position, status, and movement.
 public abstract class Ghost {
-    //Anim Vars
+    // Timer for the animation of the ghost
     public Timer animTimer;
     public ActionListener animAL;
-    //Move Vars
+    // Timer for the movement of the ghost
     public Timer moveTimer;
     public ActionListener moveAL;
-    public moveType activeMove;
-    protected boolean isStuck = true;
+    
+    public moveType activeMove; // Current move that the ghost is doing
+    protected boolean isStuck = true; // Is the Ghost stuck?
 
-    int timeToSleep = 5;
-    private int ghostSpeed;
-    protected boolean isDead = false;
-	//Image[] pac;
+    private int ghostSpeed; // Speed of the ghost
+    protected boolean isDead = false; // Is the ghost dead?
+    
+    // Images of the ghost
     Image ghostImg;
     int activeImage = 0;
     int addFactor = 1;
-
-    public Point pixelPosition;
-    public Point logicalPosition;
-    public int ghostType;
+    
+    public Point pixelPosition; // The actual position of the ghost
+    public Point logicalPosition; // The graphical position of the ghost (28 * pixelPosition)
+    public int ghostType; // Type (Red, Pink, Cyan)
 
     // Sprite of the ghost for every direction (up, down, left, right)
     Image[] ghostR;
@@ -42,8 +43,8 @@ public abstract class Ghost {
     Image[] ghostU;
     Image[] ghostD;
 
+    // Decides the delay between the ghost's movements
     int ghostNormalDelay;
-    int ghostDeadDelay = 5;
 
     // Calculates the ghost's path to the base
     BFSFinder baseReturner;
@@ -159,13 +160,7 @@ public abstract class Ghost {
 
 	                            // ---END OF CONSTRUCTOR---\\
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    public int getGhostNormalDelay() {
-		return ghostNormalDelay;
-	}
 
-	public void setGhostNormalDelay(int ghostNormalDelay) {
-		this.ghostNormalDelay = ghostNormalDelay;
-	}
 	//load Images from Resource
     public abstract void loadImages();
 
@@ -213,10 +208,11 @@ public abstract class Ghost {
 		return ghostR[activeImage];   
     }
 
+    //=================================== GETTER SETTERS ===================================
+    
     public boolean isDead() {
         return isDead;
     }
-
 
     public int getGhostSpeed() {
 		return ghostSpeed;
@@ -226,6 +222,13 @@ public abstract class Ghost {
 		this.ghostSpeed = ghostSpeed;
 	}
 
+    public int getGhostNormalDelay() {
+		return ghostNormalDelay;
+	}
+
+	public void setGhostNormalDelay(int ghostNormalDelay) {
+		this.ghostNormalDelay = ghostNormalDelay;
+	}
 
     
 

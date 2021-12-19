@@ -13,10 +13,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PinkGhost extends Ghost {
 
     public PinkGhost(int x, int y,PacBoard pb){
-    	//6
+    	// (x,y) position, PacBoard, ghost speed, and GhostType
         super(x,y,pb,12,2);
     }
 
+    // Load Ghost sprites
     @Override
     public void loadImages(){
         ghostR = new Image[2];
@@ -41,6 +42,8 @@ public class PinkGhost extends Ghost {
 
     moveType pendMove = moveType.UP;
 
+    // Get the next move for the ghost
+    // The Pink Ghost moves around randomly and doesn't chase the Pacman
     @Override
     public moveType getMoveAI(){
         if(isDead) {

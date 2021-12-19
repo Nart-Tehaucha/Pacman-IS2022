@@ -22,10 +22,6 @@ import java.awt.event.WindowEvent;
 // Main window of the game screen.
 public class PacWindow extends JFrame {
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private PacBoard pb;
 	private String username;
@@ -87,6 +83,7 @@ public class PacWindow extends JFrame {
         
         setVisible(true);
         
+        // Event listner for when the player tries to close the game
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
             	pb.pause();
@@ -182,6 +179,7 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
         
+        // Event listner for when the player tries to close the game
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
             	pb.pause();
@@ -251,6 +249,7 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
         
+        // Event listner for when the player tries to close the game
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
             	pb.pause();
@@ -307,7 +306,7 @@ public class PacWindow extends JFrame {
         if("".equals(mapStr)){
             System.err.println("Map is Empty !");
         }
-        return MapEditor.compileMap(mapStr);
+        return MapFactory.compileMap(mapStr);
     }
 
     //Classifies all the walls on the map and gives each one a number representing it's type
@@ -452,7 +451,7 @@ public class PacWindow extends JFrame {
         }
         mapd.setMap(map);
         
-        //Print map array
+        // Print map array
         /*for(int ii=0;ii<my;ii++){
             for(int jj=0;jj<mx;jj++){
             	if(map[jj][ii] < 10) {

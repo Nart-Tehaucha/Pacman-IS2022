@@ -13,12 +13,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RedGhost extends Ghost {
 
     public BFSFinder bfs;
-
+	// (x,y) position, PacBoard, ghost speed, and GhostType
     public RedGhost(int x, int y,PacBoard pb){
     	//12
         super(x,y,pb,12,1);
     }
 
+    // Load Ghost sprites
     @Override
     public void loadImages(){
         ghostR = new Image[2];
@@ -41,7 +42,8 @@ public class RedGhost extends Ghost {
 
     moveType pendMove = moveType.UP;
 
-    //find closest path using BFS
+    // Get the next move for the ghost
+    // The red ghost chases after the Pacman by calculating a path using BFS. (Explained in class controllers.BFSFinder)
     @Override
     public moveType getMoveAI(){
         if(bfs==null)

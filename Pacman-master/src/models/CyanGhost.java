@@ -12,11 +12,13 @@ import java.util.concurrent.ThreadLocalRandom;
 // Class for the Cyan Ghost. Inherits from Ghost.
 public class CyanGhost extends Ghost {
 
+	// Constructor
     public CyanGhost(int x, int y,PacBoard pb){
-    	//9
+    	// (x,y) position, PacBoard, ghost speed, and GhostType
         super(x,y,pb,12,3);
     }
 
+    // Load Ghost sprites
     @Override
     public void loadImages(){
         ghostR = new Image[2];
@@ -40,6 +42,8 @@ public class CyanGhost extends Ghost {
     moveType lastCMove;
     moveType pendMove = moveType.UP;
 
+    // Get the next move for the ghost
+    // The Cyan Ghost moves around randomly and doesn't chase the Pacman
     @Override
     public moveType getMoveAI(){
         if(isDead) {
