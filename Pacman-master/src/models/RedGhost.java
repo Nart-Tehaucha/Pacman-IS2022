@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 //Class for the Red Ghost. Inherits from Ghost.
+// The red ghost chases after the Pacman by calculating a path using BFS. (Explained in class controllers.BFSFinder)
 public class RedGhost extends Ghost {
 
     public BFSFinder bfs;

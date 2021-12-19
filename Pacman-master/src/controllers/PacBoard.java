@@ -47,7 +47,7 @@ public class PacBoard extends JPanel{
     private ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
     private ArrayList<Question> questions; // Questions
     private HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
-    private ArrayList<Timer> foodRespawnTimers; // Contains all the active timers that respawn eaten foods
+    private ArrayList<Timer> foodRespawnTimers; // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
 
     private boolean isCustom = false; // Is it a custom made map?
     private boolean isGameOver = false;
@@ -78,7 +78,7 @@ public class PacBoard extends JPanel{
     private PacWindow windowParent; // Parent window that contains the game
     
     private String username;
-	private Ghost ghostToRemove; // Used to signal to the program which ghosts to remove (kill)
+	private ArrayList<Ghost> ghostsToRemove; // Used to signal to the program which ghosts to remove (die)
     
    
     
@@ -111,7 +111,8 @@ public class PacBoard extends JPanel{
         teleports = new ArrayList<>(); // Teleports = Passages
         questionIcons = new ArrayList<>(); //Objects on the map representing questions that can be eaten
         questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
-        foodRespawnTimers = new ArrayList<>();
+        foodRespawnTimers = new ArrayList<>(); // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
+        ghostsToRemove = new ArrayList<>(); // Contains all ghosts that will be die
         
         // Load questions from JSON file to arraylist
         try {
@@ -151,8 +152,8 @@ public class PacBoard extends JPanel{
             }
         }
         // Add Teleports
-        teleports = md.getTeleports();
-
+        teleports.add(new TeleportTunnel(1, 9, 25, 9, moveType.LEFT));
+        teleports.add(new TeleportTunnel(25, 9, 1, 9, moveType.RIGHT));
         // Add all timers to an arraylist in SysData.
         // This is done so that all timers can be stopped when the current game ends (to threading problems)
         SysData.allTimers.add(pacman.getAnimTimer());
@@ -371,7 +372,7 @@ public class PacBoard extends JPanel{
 	                	    pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
 	                		g.moveTimer.stop();
 	                		g.animTimer.stop();
-							ghostToRemove = g;
+							ghostsToRemove.add(g);
 					        // Action Listener for respawning ghosts after they die
 							ActionListener respawnAL = new ActionListener() {
 					            public void actionPerformed(ActionEvent evt) {
@@ -391,14 +392,18 @@ public class PacBoard extends JPanel{
 	        }	
         }
         
-        ghosts.remove(ghostToRemove);
+        ArrayList<Ghost> aux = (ArrayList<Ghost>) ghostsToRemove.clone();
+        for(Ghost g : aux) {
+        	ghosts.remove(g);
+        	ghostsToRemove.remove(g);
+        }
+        aux = null;
 
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
             if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
                 //System.out.println("TELE !");
-               // pacman.logicalPosition = tp.getTo();
-            	pacman.setLogicalPosition(ghostBase);
+                pacman.setLogicalPosition(tp.getTo());
                 pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
                 pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
             }
@@ -1012,13 +1017,13 @@ public class PacBoard extends JPanel{
 	}
 
 
-	public Ghost getGhostToRemove() {
-		return ghostToRemove;
+	public ArrayList<Ghost> getGhostToRemove() {
+		return ghostsToRemove;
 	}
 
 
-	public void setGhostToRemove(Ghost ghostToRemove) {
-		this.ghostToRemove = ghostToRemove;
+	public void setGhostToRemove(ArrayList<Ghost> ghostToRemove) {
+		this.ghostsToRemove = ghostsToRemove;
 	}
     
 

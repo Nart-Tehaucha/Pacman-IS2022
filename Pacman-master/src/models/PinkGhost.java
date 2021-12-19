@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 //Class for the Pink Ghost. Inherits from Ghost.
+// The Pink Ghost moves in a direction until it hits a wall, and chooses a new direction
 public class PinkGhost extends Ghost {
 
     public PinkGhost(int x, int y,PacBoard pb){
@@ -43,7 +44,7 @@ public class PinkGhost extends Ghost {
     moveType pendMove = moveType.UP;
 
     // Get the next move for the ghost
-    // The Pink Ghost moves around randomly and doesn't chase the Pacman
+    // The Pink Ghost moves in a direction until it hits a wall, and chooses a new direction
     @Override
     public moveType getMoveAI(){
         if(isDead) {

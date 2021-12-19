@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 // Class for the Cyan Ghost. Inherits from Ghost.
+// The Cyan Ghost moves in a direction until it hits a wall, and chooses a new direction
 public class CyanGhost extends Ghost {
 
 	// Constructor
@@ -43,16 +44,20 @@ public class CyanGhost extends Ghost {
     moveType pendMove = moveType.UP;
 
     // Get the next move for the ghost
-    // The Cyan Ghost moves around randomly and doesn't chase the Pacman
+    // The Cyan Ghost moves in a direction until it hits a wall, and chooses a new direction
     @Override
     public moveType getMoveAI(){
         if(isDead) {
             return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.getGhostBase().x,parentBoard.getGhostBase().y);
         }else {
-            ArrayList<moveType> pm = getPossibleMoves();
-            int i = ThreadLocalRandom.current().nextInt(pm.size());
-            lastCMove = pm.get(i);
-            return lastCMove;
+            if (lastCMove == null || isStuck) {
+                ArrayList<moveType> pm = getPossibleMoves();
+                int i = ThreadLocalRandom.current().nextInt(pm.size());
+                lastCMove = pm.get(i);
+                return lastCMove;
+            } else {
+                return lastCMove;
+            }
         }
     }
 }
