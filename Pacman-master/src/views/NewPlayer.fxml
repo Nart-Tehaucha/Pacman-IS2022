@@ -65,7 +65,7 @@
       <PasswordField fx:id="password2" layoutX="368.0" layoutY="208.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
       <ImageView fx:id="goBack" fitHeight="36.0" fitWidth="31.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@back.png" />
+            <Image url="@images/back.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

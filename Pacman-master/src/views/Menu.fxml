@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="183.0" fitWidth="468.0" layoutX="134.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@logo.png" />
+            <Image url="@images/logo.png" />
          </image>
       </ImageView>
       <Button fx:id="InstructionsBtn" layoutX="297.0" layoutY="241.0" mnemonicParsing="false" onAction="#instructions" stylesheets="@styleSheet.css" text="Instructions" textFill="WHITE">
@@ -82,7 +82,7 @@
       </Button>
       <ImageView fx:id="logOut" accessibleRole="BUTTON" fitHeight="34.0" fitWidth="45.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#logOutOfSystem" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@logout.png" />
+            <Image url="@images/logout.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

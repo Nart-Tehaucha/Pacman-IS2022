@@ -126,14 +126,12 @@ public class EditQuestionsController {
 	    	for(Question q: SysData.readQuestionsJSON()) {
 	    		if(QuestionsController.chosenQuesId == q.getQuestionID()) {
 	    			answersOfChosenQues.addAll(q.getAnswers());
-	    			System.out.println(answersOfChosenQues);
 	    			chosenQuesContent = q.getContent();
 	    			diff = q.getDifficulty();
 	    			correctQues = q.getCorrect_ans();
 	    		}
 	    	}
-	    	System.out.println(QuestionsController.chosenQuesId);
-	    	System.out.println(answersOfChosenQues);
+
 	    	int i = 0;
 	    	ans1.setText(answersOfChosenQues.get(i++).getContent());
 	    	ans2.setText(answersOfChosenQues.get(i++).getContent());
