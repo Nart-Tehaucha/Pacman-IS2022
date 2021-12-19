@@ -21,6 +21,12 @@ public class RecordWinner implements Serializable, Comparable{
 		this.did_Earn_Trophy = did_Earn_Trophy;
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(did_Earn_Trophy, points, time, userName);
+	}
+ 
+
 	public String getUserName() {
 		return userName;
 	}

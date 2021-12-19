@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import javax.swing.plaf.metal.MetalIconFactory.TreeFolderIcon;
 import javax.swing.Timer;
 
 import org.json.simple.JSONArray;
@@ -261,16 +262,19 @@ public class SysData {
 	        } 
 	        catch (FileNotFoundException  | EOFException f) 
 	        {
-	      	  //IF THERE ARE NO WINNERS YET
+	      	  //If file not found
 	            f.printStackTrace();
 	            return null;
 	        } 
 	        catch (IOException i) 
 	        {
-	            i.printStackTrace();
+	        	//if file is empty
+	            System.out.println("Note: this is the first game under this ser file, hence records list is empty. \n");
 	            return null;
+	        	
 	        }
 	        catch(Exception e) {
+	        	//General exception-print it
 	        	e.printStackTrace();
 	        	return null;
 	        }

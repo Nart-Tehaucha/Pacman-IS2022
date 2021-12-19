@@ -16,8 +16,10 @@ import models.Player;
 import models.SysData;
 import views.PacWindow;
 
+
 // controls the menu screen 
 public class MenuController {
+
 	
 	// the menu's components
     @FXML
@@ -32,12 +34,25 @@ public class MenuController {
     @FXML
     private Button RecordsBtn;
 
+    public Button getRecordsBtn() {
+		return RecordsBtn;
+	}
+
+	public void setRecordsBtn(Button recordsBtn) {
+		RecordsBtn = recordsBtn;
+	}
+
 	@FXML
     private Button StartPlayBtn;
     
 	private Stage stage;
 	
+
+	
+	private ObservableList<Player> player = FXCollections.observableArrayList();
+
 	private String username;
+
 
     @FXML
     private ImageView logOut;

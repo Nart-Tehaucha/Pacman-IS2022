@@ -10,6 +10,7 @@ import models.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -78,7 +79,12 @@ public class PacBoard extends JPanel{
     private PacWindow windowParent; // Parent window that contains the game
     
     private String username;
+
+    private boolean flag_did_open_victoy_window= false;
+    private boolean flag_did_open_lost_window= false;
+
 	private ArrayList<Ghost> ghostsToRemove; // Used to signal to the program which ghosts to remove (die)
+
     
    
     
@@ -253,14 +259,13 @@ public class PacBoard extends JPanel{
     		break;
     	case 2:
     		scoreToNextLevel = 101;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 3:
     		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		pacman.setGameSpeed(7);
     		break;
     	case 4:
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		pacman.setGameSpeed(7);
     		for (Ghost g1 : ghosts) {	
     			g1.setGhostSpeed(4);
     		}
@@ -660,13 +665,32 @@ public class PacBoard extends JPanel{
         
         // Draw game over screen
         if(isGameOver){
-        	g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            
+        	if(flag_did_open_lost_window == false) {
+        		try {
+        			SysData.addToTopTen(this.username, this.score, 0.0);
+        			windowParent.dispose();
+					LoserAnnouncment.loserWindow(username);
+				} catch (HeadlessException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		flag_did_open_lost_window = true;
+        	}
         }
         
         // Draw victory screen
         if(isWin){
-            g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+        	if(flag_did_open_victoy_window == false) {
+        		try {
+        			SysData.addToTopTen(this.username, this.score, 0.0);
+        			windowParent.dispose();
+					WinnerAnnouncment.winnerWindow(username);
+				} catch (HeadlessException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		flag_did_open_victoy_window = true;
+        	}
         }
 
 
