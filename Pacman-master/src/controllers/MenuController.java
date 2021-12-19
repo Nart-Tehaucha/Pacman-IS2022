@@ -8,16 +8,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Player;
+import models.SysData;
 import views.PacWindow;
-import views.StartWindow;
 
-public class MenuController { 
-	
-	
 
+// controls the menu screen 
+public class MenuController {
+
+	
+	// the menu's components
     @FXML
     private Button InstructionsBtn;
 
@@ -38,10 +42,6 @@ public class MenuController {
 		RecordsBtn = recordsBtn;
 	}
 
-	public static String getUsername() {
-		return username;
-	}
-
 	@FXML
     private Button StartPlayBtn;
     
@@ -50,11 +50,30 @@ public class MenuController {
 	private static String username;
 	
 	private ObservableList<Player> player = FXCollections.observableArrayList();
+
+    @FXML
+    private ImageView logOut;
+
+    public void setUsername(String username) {
+    	this.username = username;
+    }
+    
+    public String getUsername() {
+    	return username;
+    }
+
+    @FXML
+    void logOutOfSystem(MouseEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
+		LoadScreen(loader);
+		return;
+    }
+
     @FXML
     void start(ActionEvent event) {
-//    	player.add(new Player(typedText, score));
     	player.add(new Player("tal", "0"));
 		stage = (Stage) MainPanel.getScene().getWindow();
+		username =SysData.getThisUser();
 		new PacWindow(username);
 		stage.close();
     }
@@ -64,19 +83,6 @@ public class MenuController {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Instructions.fxml"));
 		LoadScreen(loader);
 		return;
-    }
-    
-    @FXML
-	void LoadScreen(FXMLLoader loader) {
-		try {
-			System.out.println("I use this method");
-			AnchorPane pane = loader.load();
-			MainPanel.getChildren().clear();
-			MainPanel.getChildren().add(pane);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     }
     
     @FXML
@@ -94,7 +100,16 @@ public class MenuController {
 		return;
     }
 
-    public void setUsername(String username) {
-    	this.username = username;
+    @FXML
+	void LoadScreen(FXMLLoader loader) {
+		try {
+			System.out.println("I use this method");
+			AnchorPane pane = loader.load();
+			MainPanel.getChildren().clear();
+			MainPanel.getChildren().add(pane);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 }

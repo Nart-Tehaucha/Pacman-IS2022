@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class Player implements Serializable{
 
-	private String nickname;
-	private String password;
-	
+	private String nickname; //player nickname
+	private String password; //player password
+//--------------------------------------Constructor-------------------------------------------------------------------//	
 	public Player(String nickname, String password) {
 		super();
 		this.nickname = nickname;
 		this.password = password;
 	}
-
+//-----------------------------------------------------------------------------------------------------------------------//
 	public String getNickname() {
 		return nickname;
 	}

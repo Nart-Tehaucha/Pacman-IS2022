@@ -7,7 +7,7 @@ public class Record {
 	private String nickname;
 	private int score;
 	private String time;
-
+//-------------------------------Constructor------------------------------------------------
 	public Record(int place, String nickname, int score, String time) {
 		super();
 		this.place = place;
@@ -15,7 +15,8 @@ public class Record {
 		this.score = score;
 		this.time = time;
 	}
-
+//------------------------------------------------------------------------------------------
+//---------------------------Getters and Setters--------------------------------------------
 	public int getPlace() {
 		return place;
 	}

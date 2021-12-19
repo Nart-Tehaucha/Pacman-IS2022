@@ -33,7 +33,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import views.StartWindow;
 
 public class JFXLauncher extends Application {
 	
@@ -77,6 +76,8 @@ public class JFXLauncher extends Application {
 			Scene scene = new Scene (root);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
+			primaryStage.setTitle("Pacman IS-21");
+			primaryStage.getIcons().add(new Image("/views/sad_pacman.jpg"));
 			primaryStage.show();
 			File temp = new File("");
 			String abPath = temp.getAbsolutePath();
@@ -103,15 +104,7 @@ public class JFXLauncher extends Application {
 			e.printStackTrace();
 		}
 	}
-		
-	
-	public void openGame(ActionEvent e) throws Exception { 
-		
-		stage = (Stage) mainPane.getScene().getWindow();
-		new StartWindow();
-		stage.close();
-		
-	}
+
 
 //	    @FXML
 //	    private Button LoginButton;

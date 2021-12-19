@@ -28,6 +28,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Player;
+import models.SysData;
 
 public class LoginScreen{
 
@@ -87,6 +88,7 @@ public class LoginScreen{
     	try {
     		if(username.getText().equals("admin")
     				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
+    			SysData.setThisUser(username.getText());
     			File temp = new File("");
     			String abPath = temp.getAbsolutePath();
     			String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
@@ -107,6 +109,7 @@ public class LoginScreen{
     			// Successful login
     			if(nicknamesAndPasswords.containsKey(username.getText())){
     				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
+    					SysData.setThisUser(username.getText());
     					lastUserToLogIn= username.getText();
     					File temp = new File("");
     	    			String abPath = temp.getAbsolutePath();
@@ -159,9 +162,6 @@ public class LoginScreen{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		for(String s : nicknamesAndPasswords.keySet()) {
-			System.out.println( "hashMap" + s);
 		}
 	}
 	

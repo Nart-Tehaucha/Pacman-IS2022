@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 //Class for the Pink Ghost. Inherits from Ghost.
+// The Pink Ghost moves in a direction until it hits a wall, and chooses a new direction
 public class PinkGhost extends Ghost {
 
     public PinkGhost(int x, int y,PacBoard pb){
-    	//6
-        super(x,y,pb,6);
+    	// (x,y) position, PacBoard, ghost speed, and GhostType
+        super(x,y,pb,12,2);
     }
 
+    // Load Ghost sprites
     @Override
     public void loadImages(){
         ghostR = new Image[2];
@@ -41,22 +43,12 @@ public class PinkGhost extends Ghost {
 
     moveType pendMove = moveType.UP;
 
+    // Get the next move for the ghost
+    // The Pink Ghost moves in a direction until it hits a wall, and chooses a new direction
     @Override
     public moveType getMoveAI(){
-        if(isPending){
-            if(isStuck){
-                if(pendMove == moveType.UP){
-                    pendMove = moveType.DOWN;
-                }else if(pendMove == moveType.DOWN){
-                    pendMove = moveType.UP;
-                }
-                return pendMove;
-            }else{
-                return pendMove;
-            }
-        }
         if(isDead) {
-            return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.ghostBase.x,parentBoard.ghostBase.y);
+            return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.getGhostBase().x,parentBoard.getGhostBase().y);
         }else {
             if (lastCMove == null || isStuck) {
                 ArrayList<moveType> pm = getPossibleMoves();

@@ -22,10 +22,6 @@ import java.awt.event.WindowEvent;
 // Main window of the game screen.
 public class PacWindow extends JFrame {
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private PacBoard pb;
 	private String username;
@@ -38,7 +34,7 @@ public class PacWindow extends JFrame {
         
     	//Assign user name field
     	this.username = username;
-        setTitle("IS 2022 PacMan Game"); // Title of the game
+        setTitle("IS 2022 getPacman() Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
@@ -75,7 +71,7 @@ public class PacWindow extends JFrame {
         pb = new PacBoard(scoreboard,1,0,3,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
-        addKeyListener(pb.pacman);
+        addKeyListener(pb.getPacman());
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         this.getContentPane().add(topBar,BorderLayout.NORTH);
@@ -87,7 +83,8 @@ public class PacWindow extends JFrame {
         
         setVisible(true);
         
-        
+        // Event listner for when the player tries to close the game
+
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
             	pb.pause();
@@ -107,7 +104,7 @@ public class PacWindow extends JFrame {
     // Second constructor, gets MapData as an argument
     public PacWindow(int level, int score, int pacLives, String userName){
     	this.username = userName;
-        setTitle("IS 2022 PacMan Game"); // Title
+        setTitle("IS 2022 getPacman() Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and lbScore
@@ -171,7 +168,7 @@ public class PacWindow extends JFrame {
     
         PacBoard pb = new PacBoard(lbScore,level, score, pacLives,map,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
-        addKeyListener(pb.pacman);
+        addKeyListener(pb.getPacman());
         
      
         
@@ -183,6 +180,7 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
         
+        // Event listner for when the player tries to close the game
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
             	pb.pause();
@@ -223,7 +221,7 @@ public class PacWindow extends JFrame {
         
     // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){
-        setTitle("IS 2022 PacMan Game"); // Title
+        setTitle("IS 2022 getPacman() Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
@@ -265,7 +263,7 @@ public class PacWindow extends JFrame {
         adjustMap(md);
         PacBoard pb = new PacBoard(scoreboard,1,0,3,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
-        addKeyListener(pb.pacman);
+        addKeyListener(pb.getPacman());
 
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(scoreboard);
@@ -274,6 +272,7 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(pb);
         setVisible(true);
         
+        // Event listner for when the player tries to close the game
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
             	pb.pause();
@@ -330,7 +329,7 @@ public class PacWindow extends JFrame {
         if("".equals(mapStr)){
             System.err.println("Map is Empty !");
         }
-        return MapEditor.compileMap(mapStr);
+        return MapFactory.compileMap(mapStr);
     }
 
     //Classifies all the walls on the map and gives each one a number representing it's type
@@ -475,7 +474,7 @@ public class PacWindow extends JFrame {
         }
         mapd.setMap(map);
         
-        //Print map array
+        // Print map array
         /*for(int ii=0;ii<my;ii++){
             for(int jj=0;jj<mx;jj++){
             	if(map[jj][ii] < 10) {
@@ -488,7 +487,7 @@ public class PacWindow extends JFrame {
             System.out.print('\n');
         }*/
         
-        System.out.println("Map Adjust OK !");
+        //System.out.println("Map Adjust OK !");
     }
 
     public PacBoard getPacBoard() {

@@ -10,15 +10,17 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 //Class for the Red Ghost. Inherits from Ghost.
+// The red ghost chases after the Pacman by calculating a path using BFS. (Explained in class controllers.BFSFinder)
 public class RedGhost extends Ghost {
 
-    BFSFinder bfs;
-
+    public BFSFinder bfs;
+	// (x,y) position, PacBoard, ghost speed, and GhostType
     public RedGhost(int x, int y,PacBoard pb){
     	//12
-        super(x,y,pb,12);
+        super(x,y,pb,12,1);
     }
 
+    // Load Ghost sprites
     @Override
     public void loadImages(){
         ghostR = new Image[2];
@@ -41,27 +43,17 @@ public class RedGhost extends Ghost {
 
     moveType pendMove = moveType.UP;
 
-    //find closest path using BFS
+    // Get the next move for the ghost
+    // The red ghost chases after the Pacman by calculating a path using BFS. (Explained in class controllers.BFSFinder)
     @Override
     public moveType getMoveAI(){
-        if(isPending){
-            if(isStuck){
-                if(pendMove == moveType.UP){
-                    pendMove = moveType.DOWN;
-                }else if(pendMove == moveType.DOWN){
-                    pendMove = moveType.UP;
-                }
-                return pendMove;
-            }else{
-                return pendMove;
-            }
-        }
         if(bfs==null)
             bfs = new BFSFinder(parentBoard);
         if(isDead) {
-            return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.ghostBase.x,parentBoard.ghostBase.y);
+            return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.getGhostBase().x,parentBoard.getGhostBase().y);
         }else{
-            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.logicalPosition.x,parentBoard.pacman.logicalPosition.y);
+            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.getPacman().getLogicalPosition().x,parentBoard.getPacman().getLogicalPosition().y);
+
         }
     }
 

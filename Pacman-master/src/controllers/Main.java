@@ -7,10 +7,9 @@ public class Main {
 	 
 	// Main class, opens the main screen
     public static void main(String[] args) throws Exception {
-//    	 new StartWindow();
+
     	//PlayersController.createJSON();
     	JFXLauncher.main(args);
-    	//123
     	//new PacWindow("Nart");
     	//Delete.winnerWindow("Shaze");
     	//Test.main(args);
@@ -18,8 +17,4 @@ public class Main {
 
 
     }
-    
-   
-
-
 }

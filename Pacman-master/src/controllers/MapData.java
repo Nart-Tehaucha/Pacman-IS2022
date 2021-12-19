@@ -7,21 +7,22 @@ import models.*;
 
 
 // Data about the map and the positions of the objects.
-// Used to design the layout of the map.
+// All data that is read from the map text file is stored here.
 public class MapData {
 
     private int x;
     private int y;
-    private int[][] map;
+    private int[][] map; // Contains a copy of the map with each cell converted to a number between 0 - 26. This is used to generate images of different types of walls.
     private Point pacmanPosition;
     private Point ghostBasePosition;
-    private boolean isCustom;
-    private ArrayList<Food> foodPositions;
-    private ArrayList<PowerUpFood> pufoodPositions;
-    private ArrayList<QuestionIcon> questionIconsPositions;
-    private ArrayList<TeleportTunnel> teleports;
-    private ArrayList<GhostData> ghostsData;
+    private boolean isCustom; // Is the map standard or custom
+    private ArrayList<Food> foodPositions; // Contains all the pac points (food) on the map
+    private ArrayList<PowerUpFood> pufoodPositions; // Contains all "powerup" foods (Bombs and fruit)
+    private ArrayList<QuestionIcon> questionIconsPositions; // Contains all questions on the map
+    private ArrayList<TeleportTunnel> teleports; // Contains all the passages (teleports)
+    private ArrayList<GhostData> ghostsData; // Contains data for all the ghosts on the map.
 
+    // Default Constructor
     public MapData(){
         foodPositions = new ArrayList<>();
         pufoodPositions = new ArrayList<>();
@@ -30,6 +31,7 @@ public class MapData {
         ghostsData = new ArrayList<>();
     }
 
+    // 2nd Constructor, parameters are the width and height of the map
     public MapData(int x,int y){
         this.x = x;
         this.y = y;
@@ -41,6 +43,7 @@ public class MapData {
         ghostsData = new ArrayList<>();
     }
 
+    // 3rd Constructor, parameters are width, height, map, and position of Pacman
     public MapData(int x, int y,int[][] map,Point pacPosition){
         this.x = x;
         this.y = y;
@@ -54,6 +57,7 @@ public class MapData {
         ghostsData = new ArrayList<>();
     }
 
+    //=================================== GETTER SETTERS ===================================
     public int getX() {
         return x;
     }

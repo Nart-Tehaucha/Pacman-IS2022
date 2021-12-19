@@ -11,54 +11,30 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// Class for handling the Pacman. 
+// Class for handling Pacman. 
 public class Pacman implements KeyListener{
 	private int gameSpeed; // variable that decides the movement speed of Pacman.
-    //Move Vars
-    public Timer moveTimer;
-    public ActionListener moveAL;
-    public moveType activeMove;
-    public moveType todoMove;
-    boolean isStuck = true;
-    boolean isInLocation = false;
-    public boolean isEnterPressed =false;
+   
+	private Timer moveTimer; // Timer for the movement of Pacman
+    private ActionListener moveAL;
+    private moveType activeMove; // Current active move
+    private  moveType todoMove; // Next move to do when available
+    private boolean isStuck = true;
+    private boolean isInLocation = false; // Checks if the pacman is in radius 3 of a ghost. Used to calculate killing ghosts with bomb
+    private boolean isEnterPressed =false; // Checks if enter has been pressed (to explode bomb)
     
-    public boolean isEnterPressed() {
-		return isEnterPressed;
-	}
-	public void setEnterPreesed(boolean isEnterPreesed) {
-		this.isEnterPressed = isEnterPreesed;
-	}
-	public boolean isInLocation() {
-		return isInLocation;
-	}
-	public void setInLocation(boolean isInLocation) {
-		this.isInLocation = isInLocation;
-	}
-	public boolean getIsStrong() {
-		return isStrong;
-	}
-	public void setStrong(boolean isStrong) {
-		this.isStrong = isStrong;
-	}
-
-	public boolean isStrong = false;
-	public int pacNewColor = 5;
-    public Timer newColor;
-    public ActionListener newColorAL;
+	private boolean isStrong = false; // Checks if pacman is holding a bomb
 
     //Animation Vars
-    public Timer animTimer;
-    public ActionListener animAL;
-    public Image[] pac;
-    public Image[] pacStrong;
-    public int activeImage = 0;
-    public int addFactor = 1;
-
-    public Point pixelPosition;
-    public Point logicalPosition;
-
-    public PacBoard parentBoard;
+	private Timer animTimer; // Timer for the animation of Pacman
+	private ActionListener animAL;
+	private Image[] pac; // Images for normal pacman
+	private Image[] pacStrong; // Images for when pacman is holding a bomb
+	private int activeImage = 0;
+	private int addFactor = 1;
+	private Point pixelPosition; // The actual position of Pacman
+	private Point logicalPosition; // The graphical position of Pacman (28 * pixelPosition)
+	private PacBoard parentBoard;
 
     // Constructor
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,10 +69,6 @@ public class Pacman implements KeyListener{
             pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
             pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
             pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
-//            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
-//            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
-//            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
-//            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
         }
@@ -152,56 +124,57 @@ public class Pacman implements KeyListener{
 
                 switch(activeMove){
                     case RIGHT:
-                        if((pixelPosition.x >= (parentBoard.m_x-1) * 28)&&parentBoard.isCustom){
+                        if((pixelPosition.x >= (parentBoard.getM_x()-1) * 28)&&parentBoard.isCustom()){
                             return;
                         }
-                        /*if((logicalPosition.x+1 < parentBoard.m_x) && (parentBoard.map[logicalPosition.x+1][logicalPosition.y]>0)){
+                        /*if((logicalPosition.x+1 < parentBoard.getM_x()) && (parentBoard.map[logicalPosition.x+1][logicalPosition.y]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if (parentBoard.map[logicalPosition.x + 1][logicalPosition.y] > 0) {
+                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if (parentBoard.getMap()[logicalPosition.x + 1][logicalPosition.y] > 0) {
                                 return;
                             }
                         }
                         pixelPosition.x += gameSpeed;
                         break;
                     case LEFT:
-                        if((pixelPosition.x <= 0)&&parentBoard.isCustom){
+                        if((pixelPosition.x <= 0)&&parentBoard.isCustom()){
                             return;
                         }
                         /*if((logicalPosition.x-1 >= 0) && (parentBoard.map[logicalPosition.x-1][logicalPosition.y]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x > 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if (parentBoard.map[logicalPosition.x - 1][logicalPosition.y] > 0) {
+                        if(logicalPosition.x > 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if (parentBoard.getMap()[logicalPosition.x - 1][logicalPosition.y] > 0) {
                                 return;
                             }
                         }
                         pixelPosition.x -= gameSpeed;
                         break;
                     case UP:
-                        if((pixelPosition.y <= 0)&&parentBoard.isCustom){
+                        if((pixelPosition.y <= 0)&&parentBoard.isCustom()){
                             return;
                         }
                         /*if((logicalPosition.y-1 >= 0) && (parentBoard.map[logicalPosition.x][logicalPosition.y-1]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if(parentBoard.map[logicalPosition.x][logicalPosition.y-1]>0){
+                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if(parentBoard.getMap()[logicalPosition.x][logicalPosition.y-1]>0){
                                 return;
                             }
                         }
                         pixelPosition.y -= gameSpeed;
                         break;
                     case DOWN:
-                        if((pixelPosition.y >= (parentBoard.m_y-1) * 28)&&parentBoard.isCustom){
+                    	
+                        if((pixelPosition.y >= (parentBoard.getM_y()-1) * 28)&&parentBoard.isCustom()){
                             return;
                         }
-                        /*if((logicalPosition.y+1 < parentBoard.m_y) && (parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0)){
+                        /*if((logicalPosition.y+1 < parentBoard.getM_y()) && (parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if(parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0){
+                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if(parentBoard.getMap()[logicalPosition.x][logicalPosition.y+1]>0){
                                 return;
                             }
                         }
@@ -216,14 +189,6 @@ public class Pacman implements KeyListener{
         };
         moveTimer = new Timer(9,moveAL);
         moveTimer.start();
-//        newColorAL = new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//           	
-//           }
-//
-//        Timer newColor =new Timer(9,newColorAL);
-//       newColor.start(newColor,pacNewColor);
-//    }
     }      
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -239,16 +204,16 @@ public class Pacman implements KeyListener{
     }  
     // Check if a move is possible
     public boolean isPossibleMove(moveType move){
-        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
+        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
             switch(move){
                 case RIGHT:
-                    return !(parentBoard.map[logicalPosition.x + 1][logicalPosition.y] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x + 1][logicalPosition.y] > 0);
                 case LEFT:
-                    return !(parentBoard.map[logicalPosition.x - 1][logicalPosition.y] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x - 1][logicalPosition.y] > 0);
                 case UP:
-                    return !(parentBoard.map[logicalPosition.x][logicalPosition.y - 1] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x][logicalPosition.y - 1] > 0);
                 case DOWN:
-                    return !(parentBoard.map[logicalPosition.x][logicalPosition.y+1] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x][logicalPosition.y+1] > 0);
             }
         }
         return false;
@@ -274,7 +239,7 @@ public class Pacman implements KeyListener{
         //
     }
 
-    //Handle Arrow Keys
+    //Handle Keyboard presses
     @Override
     public void keyPressed(KeyEvent ke){
         switch(ke.getKeyCode()){
@@ -294,15 +259,10 @@ public class Pacman implements KeyListener{
                 parentBoard.dispatchEvent(new ActionEvent(this,Messages.RESET,null));
                 break;
             case KeyEvent.VK_ENTER:            	
-            	isEnterPressed =true;
-//            	if(isEnterPressed) {
-//                	changeColor();
-//            	}
-//                	
-            	
+            	isEnterPressed =true;    	
                 break;
         }
-        //System.out.println(ke.getKeyCode());
+     
     }
 	public int getGameSpeed() {
 		return gameSpeed;
@@ -318,5 +278,138 @@ public class Pacman implements KeyListener{
 			this.gameSpeed =4;
 	}
 
+	
+	public void setNewPosition(int x, int y) {
+        logicalPosition = new Point(x,y);
+        pixelPosition = new Point(28*x,28*y);
+	}
+	
+	//=================================== GETTER SETTERS ===================================
 
+   public boolean isEnterPressed() {
+		return isEnterPressed;
+	}
+	public void setEnterPreesed(boolean isEnterPreesed) {
+		this.isEnterPressed = isEnterPreesed;
+	}
+	public boolean isInLocation() {
+		return isInLocation;
+	}
+	public void setInLocation(boolean isInLocation) {
+		this.isInLocation = isInLocation;
+	}
+	public boolean getIsStrong() {
+		return isStrong;
+	}
+	public void setStrong(boolean isStrong) {
+		this.isStrong = isStrong;
+	}
+
+	public ActionListener getMoveAL() {
+		return moveAL;
+	}
+
+	public void setMoveAL(ActionListener moveAL) {
+		this.moveAL = moveAL;
+	}
+
+	public moveType getActiveMove() {
+		return activeMove;
+	}
+
+	public void setActiveMove(moveType activeMove) {
+		this.activeMove = activeMove;
+	}
+
+	public moveType getTodoMove() {
+		return todoMove;
+	}
+
+	public void setTodoMove(moveType todoMove) {
+		this.todoMove = todoMove;
+	}
+
+	public boolean isStuck() {
+		return isStuck;
+	}
+
+	public void setStuck(boolean isStuck) {
+		this.isStuck = isStuck;
+	}
+
+	public Timer getAnimTimer() {
+		return animTimer;
+	}
+
+	public void setAnimTimer(Timer animTimer) {
+		this.animTimer = animTimer;
+	}
+
+	public ActionListener getAnimAL() {
+		return animAL;
+	}
+
+	public void setAnimAL(ActionListener animAL) {
+		this.animAL = animAL;
+	}
+
+	public Image[] getPac() {
+		return pac;
+	}
+
+	public void setPac(Image[] pac) {
+		this.pac = pac;
+	}
+
+	public Image[] getPacStrong() {
+		return pacStrong;
+	}
+
+	public void setPacStrong(Image[] pacStrong) {
+		this.pacStrong = pacStrong;
+	}
+
+	public int getActiveImage() {
+		return activeImage;
+	}
+
+	public void setActiveImage(int activeImage) {
+		this.activeImage = activeImage;
+	}
+
+	public int getAddFactor() {
+		return addFactor;
+	}
+
+	public void setAddFactor(int addFactor) {
+		this.addFactor = addFactor;
+	}
+
+	public Point getPixelPosition() {
+		return pixelPosition;
+	}
+
+	public void setPixelPosition(Point pixelPosition) {
+		this.pixelPosition = pixelPosition;
+	}
+
+	public Point getLogicalPosition() {
+		return logicalPosition;
+	}
+
+	public void setLogicalPosition(Point logicalPosition) {
+		this.logicalPosition = logicalPosition;
+	}
+
+	public PacBoard getParentBoard() {
+		return parentBoard;
+	}
+
+	public void setParentBoard(PacBoard parentBoard) {
+		this.parentBoard = parentBoard;
+	}
+
+	public void setEnterPressed(boolean isEnterPressed) {
+		this.isEnterPressed = isEnterPressed;
+	}
 }

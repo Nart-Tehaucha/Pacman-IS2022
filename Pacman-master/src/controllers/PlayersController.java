@@ -48,14 +48,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 import models.Answer;
 import models.Player;
 import models.Question;
+import models.SysData;
 
 public class PlayersController implements Comparator<Player>, Serializable{
 
@@ -83,6 +86,10 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
 	    @FXML
 	    private Button saveButton;
+	    
+	    @FXML
+	    private Text passwordMeter;
+
     
     private ArrayList<Player> allPlayers;
     // Kim
@@ -124,6 +131,7 @@ public class PlayersController implements Comparator<Player>, Serializable{
 
     	if (!nickname.getText().isEmpty() && !password.getText().isEmpty() && !password2.getText().isEmpty() && (password.getText().equals(password2.getText()))){
     			if(!lc.getNicknamesAndPasswords().containsKey(nickname.getText())) {
+    				SysData.setThisUser(nickname.getText());
     				lc.getNicknamesAndPasswords().put(nickname.getText(), password.getText());
 
     				showAlert(AlertType.CONFIRMATION, "Successfully Registered", "You have been registerd!", "");
@@ -160,10 +168,31 @@ public class PlayersController implements Comparator<Player>, Serializable{
 			e.printStackTrace();
 		}
     }
-   
-    
-    @SuppressWarnings("deprecation")
-	public static ArrayList<Player> readPlayersFromJSON() throws Exception {
+	// ** if the password is less than 4 characters than says its weak ** //
+    @FXML
+    void passwordStrength(KeyEvent event) {
+    	if (password.getText().length() < 4) {
+			passwordMeter.setText("Weak");
+			passwordMeter.setStyle(".text { \r\n" + " -fx-font-smoothing-type: lcd;\r\n" + " -fx-fill: red;\r\n"
+				+ " -fx-font-weight: bold; " + "}");
+
+		}
+		if (password.getText().length() >= 4 && password.getText().length() < 6) {
+			passwordMeter.setText("Medium");
+			passwordMeter.setStyle(".text { \r\n" + " -fx-font-smoothing-type: lcd;\r\n" + " -fx-fill: orange;\r\n"
+				+ " -fx-font-weight: bold; " + "}");
+
+		}
+		else if(password.getText().length() >= 6) {
+			passwordMeter.setText("Strong");
+			passwordMeter.setStyle(".text { \r\n" + " -fx-font-smoothing-type: lcd;\r\n" + " -fx-fill: green;\r\n"
+				+ " -fx-font-weight: bold; " + "}");
+
+		}
+    }
+
+
+    public static ArrayList<Player> readPlayersFromJSON() throws Exception {
 		ArrayList<Player> arrlistp = new ArrayList<>();
 		JSONParser jsonParser = new JSONParser();
 		
