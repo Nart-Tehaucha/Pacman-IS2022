@@ -25,62 +25,62 @@ import java.util.PriorityQueue;
 public class PacBoard extends JPanel{
 
 	
-	int ix = 0;
-	boolean mflag = false;
+	private int ix = 0;
+	private boolean mflag = false;
 	
-    public Timer redrawTimer;
-    public ActionListener redrawAL;
+    private Timer redrawTimer;
 
-    public int[][] map;
-    public Image[] blue_mapSegments;
-    public Image[] pink_mapSegments;
-    public Image[] babyBlue_mapSegments;
-    public Image[] green_mapSegments;
+	private ActionListener redrawAL;
+
+    private int[][] map;
+    private Image[] blue_mapSegments;
+    private Image[] pink_mapSegments;
+    private Image[] babyBlue_mapSegments;
+    private Image[] green_mapSegments;
     
-    public Image foodImage;
-    public Image[] pfoodImage;
-    public Image[] questionIconImage;
+    private Image foodImage;
+    private Image[] pfoodImage;
+    private Image[] questionIconImage;
 
-    public Image goImage;
-    public Image vicImage;
+    private Image goImage;
+    private Image vicImage;
 
-    public Pacman pacman;
-    public ArrayList<Food> foods; // Regular foods (pac points)
-    public ArrayList<PowerUpFood> pufoods; // Power Up foods (bombs, special fruit)
-    public ArrayList<Ghost> ghosts;
-    public ArrayList<TeleportTunnel> teleports; // Teleports = Passages
-    public ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
-    public ArrayList<Question> questions; // Questions
-    public HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
-    public ArrayList<Timer> foodRespawnTimers; // Contains all the active timers that respawn eaten foods
+    private Pacman pacman;
+    private ArrayList<Food> foods; // Regular foods (pac points)
+    private ArrayList<PowerUpFood> pufoods; // Power Up foods (bombs, special fruit)
+    private ArrayList<Ghost> ghosts;
+    private ArrayList<TeleportTunnel> teleports; // Teleports = Passages
+    private ArrayList<QuestionIcon> questionIcons;// Icons on the map representing questions
+    private ArrayList<Question> questions; // Questions
+    private HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
+    private ArrayList<Timer> foodRespawnTimers; // Contains all the active timers that respawn eaten foods
 
-    public boolean isCustom = false;
-    public boolean isGameOver = false;
-    public boolean isWin = false;
-    public boolean drawScore = false;
-    public boolean drawQuestionScore = false;
-    public boolean clearScore = false;
-    public int scoreToAdd = 0;
-    public int pacLives;
+    private boolean isCustom = false;
+    private boolean isGameOver = false;
+    private boolean isWin = false;
+    private boolean drawScore = false;
+    private boolean drawQuestionScore = false;
+    private boolean clearScore = false;
+    private int scoreToAdd = 0;
+    private int pacLives;
 
-    public int score;
-    public int level;
-    public int scoreToNextLevel;
-    public JLabel scoreboard;
+    private int score;
+    private int level;
+    private int scoreToNextLevel;
+    private JLabel scoreboard;
 
-    public LoopPlayer siren;
-    public boolean mustReactivateSiren = false;
-    public LoopPlayer pac6;
+    private LoopPlayer siren;
+    private boolean mustReactivateSiren = false;
+    private LoopPlayer pac6;
 
-    public Point ghostBase;
+    private Point ghostBase;
 
-    public int m_x;
-    public int m_y;
+    private int m_x;
+    private int m_y;
 
-    public MapData md_backup;
-    public PacWindow windowParent;
+    private MapData md_backup;
+    private PacWindow windowParent;
     
-    //shahar
     private String username;
 	private Ghost ghostToRemove;
     
@@ -164,9 +164,6 @@ public class PacBoard extends JPanel{
         for(Ghost g : ghosts) {
         	SysData.allTimers.add(g.animTimer);
         	SysData.allTimers.add(g.moveTimer);
-        	SysData.allTimers.add(g.pendingTimer);
-        	SysData.allTimers.add(g.unWeakenTimer1);
-        	SysData.allTimers.add(g.unWeakenTimer2);
         }
         
         // Set layout of the map (size, background color)
@@ -256,6 +253,40 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
+    		break;
+    	case 2:
+    		scoreToNextLevel = 101;
+    		for (Ghost g1 : ghosts) {	
+    			//g1.animTimer.setDelay(100);
+    			//g1.moveTimer.setDelay(0);
+    			//g1.setGhostSpeed(4);
+    		}
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		break;
+    	case 3:
+    		scoreToNextLevel = 151;
+    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		break;
+    	case 4:
+    		for (Ghost g1 : ghosts) {	
+    			//g1.animTimer.setDelay(100);
+    			//g1.moveTimer.setDelay(0);
+    			g1.setGhostSpeed(4);
+    		}
+    		scoreToNextLevel = 200;
+    		break;
+    	default:
+    		scoreToNextLevel = 51;
+    	}
+
+        // Start playing sounds
+        //SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
+        //siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
+        //pac6 = new LoopPlayer("pac6.wav");
+        //siren.start();
+        switch(level) {
+    	case 1:
+    		scoreToNextLevel = 51;
     		for (Ghost g1 : ghosts) {	
     			g1.animTimer.setDelay(1);
     			g1.moveTimer.setDelay(1);
@@ -283,13 +314,6 @@ public class PacBoard extends JPanel{
     	}
     }
 
-        // Start playing sounds
-        //SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
-        //siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
-        //pac6 = new LoopPlayer("pac6.wav");
-        //siren.start();
-    
-
     
     // ============================= END OF CONSTRUCTOR =============================
     
@@ -302,37 +326,23 @@ public class PacBoard extends JPanel{
 
             if(pr.intersects(gr)){
                 if(!g.isDead()) {
-                    if (!g.isWeak()) {
-                    	if(pacLives > 1) {
-                    		pause();
-                            pacLives--;
-                    		restart(level, score, pacLives, username);
-                    	}
-                    	else {
-                    		//Game Over
-                           // siren.stop();
-                            //SoundPlayer.play("pacman_lose.wav");
-                    		//get player score into top 10 if relevant
-                    		SysData.addToTopTen(this.username,this.score,0.0);
-                            pause();
-                            isGameOver = true;
-                            scoreboard.setText("    Press R to try again !");	
-                    	}
-                        
-                        break;
-                    } else {
-                        //Eat Ghost
-                        //SoundPlayer.play("pacman_eatghost.wav");
-                        //getGraphics().setFont(new Font("Arial",Font.BOLD,20));
-                        drawScore = true;
-                        if(score != 200) {
-                        	scoreToAdd++;
-                        }
-                        if(ghostBase!=null)
-                            g.die(ghostBase);
-                        else
-                            ghostToRemove = g;
-                    }
+                	if(pacLives > 1) {
+                		pause();
+                        pacLives--;
+                		restart(level, score, pacLives, username);
+                	}
+                	else {
+                		//Game Over
+                       // siren.stop();
+                        //SoundPlayer.play("pacman_lose.wav");
+                		//get player score into top 10 if relevant
+                		SysData.addToTopTen(this.username,this.score,0.0);
+                        pause();
+                        isGameOver = true;
+                        scoreboard.setText("    Press R to try again !");	
+                	}
+                    
+                    break;
                 }
             }
         }
@@ -421,7 +431,6 @@ public class PacBoard extends JPanel{
 	                	    pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
 	                		g.moveTimer.stop();
 	                		g.animTimer.stop();
-	                		g.pendingTimer.stop();
 							ghostToRemove = g;
 					        // Action Listener for respawning ghosts after they die
 							ActionListener respawnAL = new ActionListener() {
@@ -441,15 +450,8 @@ public class PacBoard extends JPanel{
 	        	}	
 	        }	
         }
-
-        ghosts.remove(ghostToRemove);
         
-        //Check Ghost Undie
-        for(Ghost g:ghosts){
-            if(g.isDead() && g.logicalPosition.x == ghostBase.x && g.logicalPosition.y == ghostBase.y){
-                g.undie();
-            }
-        }
+        ghosts.remove(ghostToRemove);
 
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
@@ -464,11 +466,6 @@ public class PacBoard extends JPanel{
         
         //Check isSiren
         boolean isSiren = true;
-        for(Ghost g:ghosts){
-            if(g.isWeak()){
-                isSiren = false;
-            }
-        }
         if(isSiren){
             //pac6.stop();
             if(mustReactivateSiren){
@@ -591,15 +588,8 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		//Draw Walls
-    		for (Ghost g1 : ghosts) {	
-    		//
-    			//g1.setGhostSpeed(7);
-    		//g1.setGhostNormalDelay(int ghostNormalDelay)
-    		//System.out.println(g1.getGhostSpeed());
-    		g1.setGhostNormalDelay(100);
-    		
-    		}
-    		pacman.setGameSpeedForLevel2(4, level);
+
+    		//pacman.setGameSpeedForLevel2(4, level);
     		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -614,6 +604,7 @@ public class PacBoard extends JPanel{
     	case 2:
     		//Draw Walls
     		//change pacman speed
+    		pacman.setGameSpeedForLevel2(7, level);
     		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -911,6 +902,226 @@ public class PacBoard extends JPanel{
 	public void putQuestionOnMap(ArrayList<Object> questionIconPair) {
         questionPoints.put((QuestionIcon)questionIconPair.get(0),(Question)questionIconPair.get(1));        
         questionIcons.add((QuestionIcon)questionIconPair.get(0));
+	}
+	
+	//=================================== GETTER SETTERS ===================================
+	public int[][] getMap() {
+		return map;
+	}
+
+
+	public void setMap(int[][] map) {
+		this.map = map;
+	}
+
+
+	public Pacman getPacman() {
+		return pacman;
+	}
+
+
+	public void setPacman(Pacman pacman) {
+		this.pacman = pacman;
+	}
+
+
+	public ArrayList<Food> getFoods() {
+		return foods;
+	}
+
+
+	public void setFoods(ArrayList<Food> foods) {
+		this.foods = foods;
+	}
+
+
+	public ArrayList<PowerUpFood> getPufoods() {
+		return pufoods;
+	}
+
+
+	public void setPufoods(ArrayList<PowerUpFood> pufoods) {
+		this.pufoods = pufoods;
+	}
+
+
+	public ArrayList<Ghost> getGhosts() {
+		return ghosts;
+	}
+
+
+	public void setGhosts(ArrayList<Ghost> ghosts) {
+		this.ghosts = ghosts;
+	}
+
+
+	public ArrayList<TeleportTunnel> getTeleports() {
+		return teleports;
+	}
+
+
+	public void setTeleports(ArrayList<TeleportTunnel> teleports) {
+		this.teleports = teleports;
+	}
+
+
+	public ArrayList<QuestionIcon> getQuestionIcons() {
+		return questionIcons;
+	}
+
+
+	public void setQuestionIcons(ArrayList<QuestionIcon> questionIcons) {
+		this.questionIcons = questionIcons;
+	}
+
+
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+
+
+	public void setQuestions(ArrayList<Question> questions) {
+		this.questions = questions;
+	}
+
+
+	public HashMap<QuestionIcon, Question> getQuestionPoints() {
+		return questionPoints;
+	}
+
+
+	public void setQuestionPoints(HashMap<QuestionIcon, Question> questionPoints) {
+		this.questionPoints = questionPoints;
+	}
+
+
+	public ArrayList<Timer> getFoodRespawnTimers() {
+		return foodRespawnTimers;
+	}
+
+
+	public void setFoodRespawnTimers(ArrayList<Timer> foodRespawnTimers) {
+		this.foodRespawnTimers = foodRespawnTimers;
+	}
+
+
+	public boolean isCustom() {
+		return isCustom;
+	}
+
+
+	public void setCustom(boolean isCustom) {
+		this.isCustom = isCustom;
+	}
+
+
+	public boolean isGameOver() {
+		return isGameOver;
+	}
+
+
+	public void setGameOver(boolean isGameOver) {
+		this.isGameOver = isGameOver;
+	}
+
+
+	public boolean isWin() {
+		return isWin;
+	}
+
+
+	public void setWin(boolean isWin) {
+		this.isWin = isWin;
+	}
+
+
+	public int getScore() {
+		return score;
+	}
+
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+
+	public int getLevel() {
+		return level;
+	}
+
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+
+	public Point getGhostBase() {
+		return ghostBase;
+	}
+
+
+	public void setGhostBase(Point ghostBase) {
+		this.ghostBase = ghostBase;
+	}
+
+
+	public int getM_x() {
+		return m_x;
+	}
+
+
+	public void setM_x(int m_x) {
+		this.m_x = m_x;
+	}
+
+
+	public int getM_y() {
+		return m_y;
+	}
+
+
+	public void setM_y(int m_y) {
+		this.m_y = m_y;
+	}
+
+
+	public MapData getMd_backup() {
+		return md_backup;
+	}
+
+
+	public void setMd_backup(MapData md_backup) {
+		this.md_backup = md_backup;
+	}
+
+
+	public PacWindow getWindowParent() {
+		return windowParent;
+	}
+
+
+	public void setWindowParent(PacWindow windowParent) {
+		this.windowParent = windowParent;
+	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public Ghost getGhostToRemove() {
+		return ghostToRemove;
+	}
+
+
+	public void setGhostToRemove(Ghost ghostToRemove) {
+		this.ghostToRemove = ghostToRemove;
 	}
     
 

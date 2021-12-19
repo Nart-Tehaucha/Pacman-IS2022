@@ -131,42 +131,42 @@ public class Pacman implements KeyListener{
 
                 switch(activeMove){
                     case RIGHT:
-                        if((pixelPosition.x >= (parentBoard.m_x-1) * 28)&&parentBoard.isCustom){
+                        if((pixelPosition.x >= (parentBoard.getM_x()-1) * 28)&&parentBoard.isCustom()){
                             return;
                         }
-                        /*if((logicalPosition.x+1 < parentBoard.m_x) && (parentBoard.map[logicalPosition.x+1][logicalPosition.y]>0)){
+                        /*if((logicalPosition.x+1 < parentBoard.getM_x()) && (parentBoard.map[logicalPosition.x+1][logicalPosition.y]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if (parentBoard.map[logicalPosition.x + 1][logicalPosition.y] > 0) {
+                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if (parentBoard.getMap()[logicalPosition.x + 1][logicalPosition.y] > 0) {
                                 return;
                             }
                         }
                         pixelPosition.x += gameSpeed;
                         break;
                     case LEFT:
-                        if((pixelPosition.x <= 0)&&parentBoard.isCustom){
+                        if((pixelPosition.x <= 0)&&parentBoard.isCustom()){
                             return;
                         }
                         /*if((logicalPosition.x-1 >= 0) && (parentBoard.map[logicalPosition.x-1][logicalPosition.y]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x > 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if (parentBoard.map[logicalPosition.x - 1][logicalPosition.y] > 0) {
+                        if(logicalPosition.x > 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if (parentBoard.getMap()[logicalPosition.x - 1][logicalPosition.y] > 0) {
                                 return;
                             }
                         }
                         pixelPosition.x -= gameSpeed;
                         break;
                     case UP:
-                        if((pixelPosition.y <= 0)&&parentBoard.isCustom){
+                        if((pixelPosition.y <= 0)&&parentBoard.isCustom()){
                             return;
                         }
                         /*if((logicalPosition.y-1 >= 0) && (parentBoard.map[logicalPosition.x][logicalPosition.y-1]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if(parentBoard.map[logicalPosition.x][logicalPosition.y-1]>0){
+                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if(parentBoard.getMap()[logicalPosition.x][logicalPosition.y-1]>0){
                                 return;
                             }
                         }
@@ -174,14 +174,14 @@ public class Pacman implements KeyListener{
                         break;
                     case DOWN:
                     	
-                        if((pixelPosition.y >= (parentBoard.m_y-1) * 28)&&parentBoard.isCustom){
+                        if((pixelPosition.y >= (parentBoard.getM_y()-1) * 28)&&parentBoard.isCustom()){
                             return;
                         }
-                        /*if((logicalPosition.y+1 < parentBoard.m_y) && (parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0)){
+                        /*if((logicalPosition.y+1 < parentBoard.getM_y()) && (parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0)){
                             return;
                         }*/
-                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
-                            if(parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0){
+                        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+                            if(parentBoard.getMap()[logicalPosition.x][logicalPosition.y+1]>0){
                                 return;
                             }
                         }
@@ -211,16 +211,16 @@ public class Pacman implements KeyListener{
     }  
     // Check if a move is possible
     public boolean isPossibleMove(moveType move){
-        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.m_x-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.m_y-1 ) {
+        if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
             switch(move){
                 case RIGHT:
-                    return !(parentBoard.map[logicalPosition.x + 1][logicalPosition.y] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x + 1][logicalPosition.y] > 0);
                 case LEFT:
-                    return !(parentBoard.map[logicalPosition.x - 1][logicalPosition.y] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x - 1][logicalPosition.y] > 0);
                 case UP:
-                    return !(parentBoard.map[logicalPosition.x][logicalPosition.y - 1] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x][logicalPosition.y - 1] > 0);
                 case DOWN:
-                    return !(parentBoard.map[logicalPosition.x][logicalPosition.y+1] > 0);
+                    return !(parentBoard.getMap()[logicalPosition.x][logicalPosition.y+1] > 0);
             }
         }
         return false;

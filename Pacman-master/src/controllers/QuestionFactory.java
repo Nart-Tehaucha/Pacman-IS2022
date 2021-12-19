@@ -13,12 +13,12 @@ public class QuestionFactory {
 	
     // Returns a random question from the questions ArrayList
     public static Question getRandomQuestion(PacBoard pb) {
-    	int randIndex = (int)(Math.random() * pb.questions.size());
-    	return pb.questions.get(randIndex);
+    	int randIndex = (int)(Math.random() * pb.getQuestions().size());
+    	return pb.getQuestions().get(randIndex);
     }
 	
 	public static ArrayList<Object> generateQuestionByDifficutly(String difficulty, MapData md_backup, PacBoard pb) {
-		if(pb.questions.size() < 3) return null;
+		if(pb.getQuestions().size() < 3) return null;
 		
 		//Generate a new QuestionIcon in a random position on the map.
 		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
@@ -31,7 +31,7 @@ public class QuestionFactory {
 		// Get a new question that isn't already on the map and has the desired difficulty
 		do {
 			newQuestion = getRandomQuestion(pb);
-		}while(pb.questionPoints.containsValue(newQuestion) || !(newQuestion.getDifficulty().equalsIgnoreCase(difficulty)));
+		}while(pb.getQuestionPoints().containsValue(newQuestion) || !(newQuestion.getDifficulty().equalsIgnoreCase(difficulty)));
 		
 		// Remove pac point and replace it with a QuestionIcon
     	md_backup.getFoodPositions().remove(randIndex);
@@ -49,7 +49,7 @@ public class QuestionFactory {
 	}
 	
 	public static ArrayList<Object> generateQuestionIcon(QuestionIcon questionIcontToEat, MapData md_backup, PacBoard pb) {
-	if(pb.questions.size() < 3) return null;
+	if(pb.getQuestions().size() < 3) return null;
 	if(questionIcontToEat == null) return null;
 
 	//Generate a new QuestionIcon in a random position on the map.
@@ -58,17 +58,17 @@ public class QuestionFactory {
 	int qType;
 	QuestionIcon newQuestionIcon; 
 	Question newQuestion;
-	Question oldQuestion = pb.questionPoints.get(questionIcontToEat);
+	Question oldQuestion = pb.getQuestionPoints().get(questionIcontToEat);
 	ArrayList<Object>newQuestionArray = new ArrayList<>();	
 		
 	// Get a random question that isn't already on the map, and is different from the question we just ate
 	do {
 		newQuestion = getRandomQuestion(pb);
-	}while(pb.questionPoints.containsValue(newQuestion) || newQuestion.equals(oldQuestion));
+	}while(pb.getQuestionPoints().containsValue(newQuestion) || newQuestion.equals(oldQuestion));
 	
 	// Remove pac point and replace it with a QuestionIcon
 	md_backup.getFoodPositions().remove(randIndex);
-	pb.questionIcons.remove(questionIcontToEat);
+	pb.getQuestionIcons().remove(questionIcontToEat);
 	
 	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,questionIcontToEat.type);
 	
@@ -76,7 +76,7 @@ public class QuestionFactory {
 	newQuestionArray.add(newQuestion);
 	
 	// Put new Question & QuestionIcon pair in the hashmap, remove the one we ate.
-	pb.questionPoints.remove(questionIcontToEat);
+	pb.getQuestionPoints().remove(questionIcontToEat);
 	
   	newQuestionArray.add(newQuestionIcon);
 	newQuestionArray.add(newQuestion);
