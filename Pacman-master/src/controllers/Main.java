@@ -9,9 +9,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
     	//new StartWindow();
     	//PlayersController.createJSON();
-    	JFXLauncher.main(args);
-    	//123
-    	//new PacWindow("Nart");
+    	//JFXLauncher.main(args);
+    	new PacWindow("Nart");
     	//Test.main(args);
     	//System.out.println(new SysData().readQuestionsJSON().toString());
 

@@ -45,6 +45,7 @@ public abstract class Ghost {
 
     public Point pixelPosition;
     public Point logicalPosition;
+    public int ghostType;
 
     // Sprite of the ghost for every direction (up, down, left, right)
     Image[] ghostR;
@@ -64,11 +65,15 @@ public abstract class Ghost {
     BFSFinder baseReturner;
 
     protected PacBoard parentBoard;
+	public boolean correctPos;
 
     // Constructor
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Ghost (int x, int y,PacBoard pb,int ghostDelay) {
+    public Ghost (int x, int y,PacBoard pb,int ghostDelay, int ghostType) {
 
+    	correctPos = false;
+    	this.ghostType = ghostType;
+    	
         logicalPosition = new Point(x,y);
         pixelPosition = new Point(28*x,28*y);
 
@@ -137,8 +142,7 @@ public abstract class Ghost {
                         }
                         parentBoard.dispatchEvent(new ActionEvent(this,Messages.UPDATE,null));
                     }
-
-
+                    
                     activeMove = getMoveAI();
                     isStuck = true;
 
@@ -314,11 +318,11 @@ public abstract class Ghost {
 
     // Makes ghost "weak" (after player eats bomb)
     public void weaken(){
-    	this.die();
+    	//this.die();
     }
     public void ghostDisappear(){
         disappear = true;
-        this.die();
+        //this.die();
 
 
        // this.die();
@@ -344,10 +348,14 @@ public abstract class Ghost {
         moveTimer.setDelay(ghostNormalDelay);
     }
     // Kills ghost
-    public void die(){
+    public void die(Point base){
+
+        //moveTimer.stop();
         isDead = true;
-        this.setGhostSpeed(14);
-        moveTimer.setDelay(ghostDeadDelay);
+        logicalPosition = new Point(base.x,base.y);
+        pixelPosition = new Point(28*(base.x),28*(base.y));
+        activeMove = moveType.RIGHT;
+        correctPos = true;
     }
     // Respwans ghost
     public void undie(){
@@ -358,20 +366,21 @@ public abstract class Ghost {
             //Do nothing
         }
         if(r==1){
-            logicalPosition.x += 1;
-            pixelPosition.x += 28;
+            logicalPosition.x += 0;
+            pixelPosition.x += 0;
         }
         if(r==2){
-            logicalPosition.x -= 1;
-            pixelPosition.x -= 28;
+            logicalPosition.x -= 0;
+            pixelPosition.x -= 0;
         }
         isPending = true;
         pendingTimer.start();
 
         isDead = false;
         isWeak = false;
-        moveTimer.setDelay(ghostNormalDelay);
+        moveTimer.setDelay(0);
     }
+
     
     public boolean isWeak() {
         return isWeak;

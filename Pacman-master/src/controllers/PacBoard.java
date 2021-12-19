@@ -82,6 +82,7 @@ public class PacBoard extends JPanel{
     
     //shahar
     private String username;
+	private Ghost ghostToRemove;
     
    
     
@@ -243,6 +244,7 @@ public class PacBoard extends JPanel{
             }
         };
         redrawTimer = new Timer(16,redrawAL);
+        
         SysData.allTimers.add(redrawTimer);
         redrawTimer .start();
         // Generates a new question on the map
@@ -332,7 +334,7 @@ public class PacBoard extends JPanel{
                         	scoreToAdd++;
                         }
                         if(ghostBase!=null)
-                            g.die();
+                            g.die(ghostBase);
                         else
                             ghostToRemove = g;
                     }
@@ -371,8 +373,8 @@ public class PacBoard extends JPanel{
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
-        	QuestionFactory.generateQuestionByDifficutly(questionIcontToEat.type, md_backup, this);
-        	//QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
+        	//QuestionFactory.generateQuestionByDifficutly(questionIcontToEat.type, md_backup, this);
+        	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
         	respawnFood(questionIcontToEat.position);
         	questionIcontToEat=null;
             scoreToAdd = 0;
@@ -414,21 +416,38 @@ public class PacBoard extends JPanel{
             }
         }
         
+        // Kill ghosts
         if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
 	    	for (Ghost g : ghosts) {	
 	        	for(int i=-3 ;i<=3; i++) {	
 	        		for(int j=-3; j<=3; j++) {	
-	        			if(pacman.getLogicalPosition().x == g.logicalPosition.x+i&&	
-	        					pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
-		                    		g.ghostDisappear();		
-		                    		pacman.setStrong(false);	
-		                    		pacman.setEnterPreesed(false);
+
+	        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&	
+	                	    pacman.logicalPosition.y == g.logicalPosition.y+j) {	
+	                		g.moveTimer.stop();
+	                		g.animTimer.stop();
+	                		g.pendingTimer.stop();
+							ghostToRemove = g;
+					        // Action Listener for respawning ghosts after they die
+							ActionListener respawnAL = new ActionListener() {
+					            public void actionPerformed(ActionEvent evt) {
+					                spawnNewGhost(g.ghostType);
+					            }
+					        };
+					        Timer ghostRespawnTimer = new Timer(5000,respawnAL);
+					        ghostRespawnTimer.setRepeats(false);
+					        SysData.allTimers.add(ghostRespawnTimer);
+					        ghostRespawnTimer.start();
+	                		pacman.setStrong(false);	
+	                		pacman.setEnterPreesed(false);
 	        			}	
 	            		
 	            	}	
 	        	}	
 	        }	
         }
+        
+        ghosts.remove(ghostToRemove);
         
         //Check Ghost Undie
         for(Ghost g:ghosts){
@@ -467,7 +486,25 @@ public class PacBoard extends JPanel{
         }
     }
     
-    public void addScore(int amount) {
+
+	private void spawnNewGhost(int ghostType) {
+		System.out.println("SPAWNED");
+        switch(ghostType) {
+        case 1:
+            ghosts.add(new RedGhost(ghostBase.x, ghostBase.y, this));
+            break;
+        case 2:
+            ghosts.add(new PinkGhost(ghostBase.x, ghostBase.y, this));
+            break;
+        case 3:
+            ghosts.add(new CyanGhost(ghostBase.x, ghostBase.y, this));
+            break;
+    }
+		
+	}
+
+
+	public void addScore(int amount) {
     	
         if(score >= scoreToNextLevel){
             //siren.stop();
@@ -549,12 +586,12 @@ public class PacBoard extends JPanel{
         super.paintComponent(g);
 
         //DEBUG ONLY !
-        /*for(int ii=0;ii<=m_x;ii++){
+        for(int ii=0;ii<=m_x;ii++){
             g.drawLine(ii*28+10,10,ii*28+10,m_y*28+10);
         }
         for(int ii=0;ii<=m_y;ii++){
             g.drawLine(10,ii*28+10,m_x*28+10,ii*28+10);
-        }*/
+        }
 
         switch(level) {
     	case 1:
@@ -792,13 +829,11 @@ public class PacBoard extends JPanel{
     	for(Timer t : foodRespawnTimers) {
     		if(t != null) {
     			t.stop();
-        		System.out.println(t.isRunning());
     		}
     	}
     	for(Timer t : SysData.allTimers) {
     		if(t != null) {
     			t.stop();
-        		System.out.println(t.isRunning());
     		}
     		
     	}

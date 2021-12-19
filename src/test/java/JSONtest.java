@@ -67,7 +67,7 @@ public class JSONtest {
 		PacWindow pw = new PacWindow("Test"); 
 		PacBoard pb = pw.getPacBoard();
 		int scoreBefore = pb.score;
-		pb.addScore();
+		pb.addScore(1);
 		int scoreAfter = pb.score;
 		assertTrue(scoreBefore + 1 == scoreAfter);
 	}
