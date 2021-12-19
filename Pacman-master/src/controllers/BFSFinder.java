@@ -119,18 +119,18 @@ public class BFSFinder {
             }
         }
         
-        System.out.println("====================================================================");
-        for (int ii = 0; ii < mx; ii++) {
-            for (int jj = 0; jj < my; jj++) {
-                if(mazeCellTable[ii][jj] == null) {
-                	System.out.print(String.format("%5s",""));
-                } else {
-            	System.out.print(String.format("%5s",mazeCellTable[ii][jj].x + "," + mazeCellTable[ii][jj].y));
-                }
-            }
-            System.out.println("");
-        }
-        System.out.println("====================================================================");
+//        System.out.println("====================================================================");
+//        for (int ii = 0; ii < mx; ii++) {
+//            for (int jj = 0; jj < my; jj++) {
+//                if(mazeCellTable[ii][jj] == null) {
+//                	System.out.print(String.format("%5s",""));
+//                } else {
+//            	System.out.print(String.format("%5s",mazeCellTable[ii][jj].x + "," + mazeCellTable[ii][jj].y));
+//                }
+//            }
+//            System.out.println("");
+//        }
+//        System.out.println("====================================================================");
 
         //MazeCell t = mazeCellTable[tx][ty];
         int ttx = tx;
@@ -145,7 +145,7 @@ public class BFSFinder {
             t = mazeCellTable[ttx][tty];
         }
 
-        System.out.println("POINT: " + tl.x + "," + tl.y);
+        //System.out.println("POINT: " + tl.x + "," + tl.y);
         
         if (x == tl.x - 1 && y == tl.y) {
             return moveType.RIGHT;

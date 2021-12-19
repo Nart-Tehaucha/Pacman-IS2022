@@ -14,7 +14,7 @@ public class PinkGhost extends Ghost {
 
     public PinkGhost(int x, int y,PacBoard pb){
     	//6
-        super(x,y,pb,6);
+        super(x,y,pb,12,2);
     }
 
     @Override

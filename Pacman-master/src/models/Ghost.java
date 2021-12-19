@@ -68,6 +68,7 @@ public abstract class Ghost {
 
     public Point pixelPosition;
     public Point logicalPosition;
+    public int ghostType;
 
     // Sprite of the ghost for every direction (up, down, left, right)
     Image[] ghostR;
@@ -87,11 +88,15 @@ public abstract class Ghost {
     BFSFinder baseReturner;
 
     protected PacBoard parentBoard;
+	public boolean correctPos;
 
     // Constructor
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Ghost (int x, int y,PacBoard pb,int ghostDelay) {
+    public Ghost (int x, int y,PacBoard pb,int ghostDelay, int ghostType) {
 
+    	correctPos = false;
+    	this.ghostType = ghostType;
+    	
         logicalPosition = new Point(x,y);
         pixelPosition = new Point(28*x,28*y);
 
@@ -369,13 +374,12 @@ public abstract class Ghost {
     // Kills ghost
     public void die(Point base){
 
-        moveTimer.stop();
-//        isDead = true;
-//        logicalPosition = new Point(base.x,base.y);
-//        pixelPosition = new Point(28*(base.x),28*(base.y));
-        System.out.println("\nDEAD !\n");
-//        this.setGhostSpeed(14);
-//        moveTimer.setDelay(ghostDeadDelay);
+        //moveTimer.stop();
+        isDead = true;
+        logicalPosition = new Point(base.x,base.y);
+        pixelPosition = new Point(28*(base.x),28*(base.y));
+        activeMove = moveType.RIGHT;
+        correctPos = true;
     }
     // Respwans ghost
     public void undie(){
@@ -400,6 +404,7 @@ public abstract class Ghost {
         isWeak = false;
         moveTimer.setDelay(0);
     }
+
     
 
 }
