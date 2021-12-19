@@ -163,9 +163,6 @@ public class LoginScreen{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(String s : nicknamesAndPasswords.keySet()) {
-			System.out.println( "hashMap" + s);
-		}
 	}
 	
 

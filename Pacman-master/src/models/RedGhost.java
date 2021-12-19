@@ -44,30 +44,12 @@ public class RedGhost extends Ghost {
     //find closest path using BFS
     @Override
     public moveType getMoveAI(){
-        if(isPending){
-            if(isStuck){
-                if(pendMove == moveType.UP){
-                    pendMove = moveType.DOWN;
-                }else if(pendMove == moveType.DOWN){
-                    pendMove = moveType.UP;
-                }
-                return pendMove;
-            }else{
-                return pendMove;
-            }
-        }
         if(bfs==null)
             bfs = new BFSFinder(parentBoard);
         if(isDead) {
-            return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.ghostBase.x,parentBoard.ghostBase.y);
+            return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.getGhostBase().x,parentBoard.getGhostBase().y);
         }else{
-
-        	if(correctPos) {
-        		correctPos = false;
-        		logicalPosition.x = 13;
-        		logicalPosition.y = 8;
-        	}
-            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.getLogicalPosition().x,parentBoard.pacman.getLogicalPosition().y);
+            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.getPacman().getLogicalPosition().x,parentBoard.getPacman().getLogicalPosition().y);
 
         }
     }

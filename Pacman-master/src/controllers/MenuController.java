@@ -86,7 +86,6 @@ public class MenuController {
     @FXML
 	void LoadScreen(FXMLLoader loader) {
 		try {
-			System.out.println("I use this method");
 			AnchorPane pane = loader.load();
 			MainPanel.getChildren().clear();
 			MainPanel.getChildren().add(pane);
