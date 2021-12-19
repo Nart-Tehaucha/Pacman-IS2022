@@ -357,12 +357,12 @@ public class PacBoard extends JPanel{
         PowerUpFood puFoodToEat = null;
         //Check pu food eat
         for(PowerUpFood puf : pufoods){
-            if(pacman.getLogicalPosition().x == puf.position.x && pacman.getLogicalPosition().y == puf.position.y)
+            if(pacman.getLogicalPosition().x == puf.getPosition().x && pacman.getLogicalPosition().y == puf.getPosition().y)
                 puFoodToEat = puf;
         }
         if(puFoodToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
-            switch(puFoodToEat.type) {
+            switch(puFoodToEat.getType()) {
                 case 0:
                     //PACMAN 6
                     pufoods.remove(puFoodToEat);
@@ -629,7 +629,7 @@ public class PacBoard extends JPanel{
         g.setColor(new Color(204, 174, 168));
         for(PowerUpFood f : pufoods){
             //g.fillOval(f.position.x*28+20,f.position.y*28+20,8,8);
-            g.drawImage(pfoodImage[f.type],10+f.position.x*28,10+f.position.y*28,null);
+            g.drawImage(pfoodImage[f.getType()],10+f.getPosition().x*28,10+f.getPosition().y*28,null);
         }
         
         //Draw QuestionIcons

@@ -74,12 +74,11 @@ public class Question {
 	}
 
 	// -------------------------------Methods------------------------------------
-	// wanna check if the same answer already exists (?)
-	public boolean addAnswer(Answer answer, boolean isCorrect) {
-		return true;
-	}
+//	public boolean addAnswer(Answer answer, boolean isCorrect) {
+//		return true;
+//	}
 
-	// or do you want to send the id only (?)
+	//Delete an answer
 	public boolean deleteAnswer(Answer answer) {
 		if (answer != null) {
 			answers.remove(answers.indexOf(answer));
