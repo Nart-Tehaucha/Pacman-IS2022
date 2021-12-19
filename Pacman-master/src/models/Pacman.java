@@ -15,50 +15,29 @@ import java.util.ArrayList;
 public class Pacman implements KeyListener{
 	private int gameSpeed; // variable that decides the movement speed of Pacman.
     //Move Vars
-    public Timer moveTimer;
-    public ActionListener moveAL;
-    public moveType activeMove;
-    public moveType todoMove;
-    boolean isStuck = true;
-    boolean isInLocation = false;
-    public boolean isEnterPressed =false;
+	private Timer moveTimer;
+    private ActionListener moveAL;
+    private moveType activeMove;
+    private  moveType todoMove;
+    private boolean isStuck = true;
+    private boolean isInLocation = false;
+    private boolean isEnterPressed =false;
     
-    public boolean isEnterPressed() {
-		return isEnterPressed;
-	}
-	public void setEnterPreesed(boolean isEnterPreesed) {
-		this.isEnterPressed = isEnterPreesed;
-	}
-	public boolean isInLocation() {
-		return isInLocation;
-	}
-	public void setInLocation(boolean isInLocation) {
-		this.isInLocation = isInLocation;
-	}
-	public boolean getIsStrong() {
-		return isStrong;
-	}
-	public void setStrong(boolean isStrong) {
-		this.isStrong = isStrong;
-	}
-
-	public boolean isStrong = false;
-	public int pacNewColor = 5;
-    public Timer newColor;
-    public ActionListener newColorAL;
+	private boolean isStrong = false;
+	private int pacNewColor = 5;
+	private Timer newColor;
+	private ActionListener newColorAL;
 
     //Animation Vars
-    public Timer animTimer;
-    public ActionListener animAL;
-    public Image[] pac;
-    public Image[] pacStrong;
-    public int activeImage = 0;
-    public int addFactor = 1;
-
-    public Point pixelPosition;
-    public Point logicalPosition;
-
-    public PacBoard parentBoard;
+	private Timer animTimer;
+	private ActionListener animAL;
+	private Image[] pac;
+	private Image[] pacStrong;
+	private int activeImage = 0;
+	private int addFactor = 1;
+	private Point pixelPosition;
+	private Point logicalPosition;
+	private PacBoard parentBoard;
 
     // Constructor
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -194,6 +173,7 @@ public class Pacman implements KeyListener{
                         pixelPosition.y -= gameSpeed;
                         break;
                     case DOWN:
+                    	
                         if((pixelPosition.y >= (parentBoard.m_y-1) * 28)&&parentBoard.isCustom){
                             return;
                         }
@@ -216,14 +196,6 @@ public class Pacman implements KeyListener{
         };
         moveTimer = new Timer(9,moveAL);
         moveTimer.start();
-//        newColorAL = new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//           	
-//           }
-//
-//        Timer newColor =new Timer(9,newColorAL);
-//       newColor.start(newColor,pacNewColor);
-//    }
     }      
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -294,15 +266,10 @@ public class Pacman implements KeyListener{
                 parentBoard.dispatchEvent(new ActionEvent(this,Messages.RESET,null));
                 break;
             case KeyEvent.VK_ENTER:            	
-            	isEnterPressed =true;
-//            	if(isEnterPressed) {
-//                	changeColor();
-//            	}
-//                	
-            	
+            	isEnterPressed =true;    	
                 break;
         }
-        //System.out.println(ke.getKeyCode());
+     
     }
 	public int getGameSpeed() {
 		return gameSpeed;
@@ -317,6 +284,165 @@ public class Pacman implements KeyListener{
 		else 
 			this.gameSpeed =4;
 	}
+
+	
+	public void setNewPosition(int x, int y) {
+        logicalPosition = new Point(x,y);
+        pixelPosition = new Point(28*x,28*y);
+	}
+
+	   public boolean isEnterPressed() {
+			return isEnterPressed;
+		}
+		public void setEnterPreesed(boolean isEnterPreesed) {
+			this.isEnterPressed = isEnterPreesed;
+		}
+		public boolean isInLocation() {
+			return isInLocation;
+		}
+		public void setInLocation(boolean isInLocation) {
+			this.isInLocation = isInLocation;
+		}
+		public boolean getIsStrong() {
+			return isStrong;
+		}
+		public void setStrong(boolean isStrong) {
+			this.isStrong = isStrong;
+		}
+
+		public ActionListener getMoveAL() {
+			return moveAL;
+		}
+
+		public void setMoveAL(ActionListener moveAL) {
+			this.moveAL = moveAL;
+		}
+
+		public moveType getActiveMove() {
+			return activeMove;
+		}
+
+		public void setActiveMove(moveType activeMove) {
+			this.activeMove = activeMove;
+		}
+
+		public moveType getTodoMove() {
+			return todoMove;
+		}
+
+		public void setTodoMove(moveType todoMove) {
+			this.todoMove = todoMove;
+		}
+
+		public boolean isStuck() {
+			return isStuck;
+		}
+
+		public void setStuck(boolean isStuck) {
+			this.isStuck = isStuck;
+		}
+
+		public int getPacNewColor() {
+			return pacNewColor;
+		}
+
+		public void setPacNewColor(int pacNewColor) {
+			this.pacNewColor = pacNewColor;
+		}
+
+		public Timer getNewColor() {
+			return newColor;
+		}
+
+		public void setNewColor(Timer newColor) {
+			this.newColor = newColor;
+		}
+
+		public ActionListener getNewColorAL() {
+			return newColorAL;
+		}
+
+		public void setNewColorAL(ActionListener newColorAL) {
+			this.newColorAL = newColorAL;
+		}
+
+		public Timer getAnimTimer() {
+			return animTimer;
+		}
+
+		public void setAnimTimer(Timer animTimer) {
+			this.animTimer = animTimer;
+		}
+
+		public ActionListener getAnimAL() {
+			return animAL;
+		}
+
+		public void setAnimAL(ActionListener animAL) {
+			this.animAL = animAL;
+		}
+
+		public Image[] getPac() {
+			return pac;
+		}
+
+		public void setPac(Image[] pac) {
+			this.pac = pac;
+		}
+
+		public Image[] getPacStrong() {
+			return pacStrong;
+		}
+
+		public void setPacStrong(Image[] pacStrong) {
+			this.pacStrong = pacStrong;
+		}
+
+		public int getActiveImage() {
+			return activeImage;
+		}
+
+		public void setActiveImage(int activeImage) {
+			this.activeImage = activeImage;
+		}
+
+		public int getAddFactor() {
+			return addFactor;
+		}
+
+		public void setAddFactor(int addFactor) {
+			this.addFactor = addFactor;
+		}
+
+		public Point getPixelPosition() {
+			return pixelPosition;
+		}
+
+		public void setPixelPosition(Point pixelPosition) {
+			this.pixelPosition = pixelPosition;
+		}
+
+		public Point getLogicalPosition() {
+			return logicalPosition;
+		}
+
+		public void setLogicalPosition(Point logicalPosition) {
+			this.logicalPosition = logicalPosition;
+		}
+
+		public PacBoard getParentBoard() {
+			return parentBoard;
+		}
+
+		public void setParentBoard(PacBoard parentBoard) {
+			this.parentBoard = parentBoard;
+		}
+
+		public void setEnterPressed(boolean isEnterPressed) {
+			this.isEnterPressed = isEnterPressed;
+		}
+		
+
 
 
 }

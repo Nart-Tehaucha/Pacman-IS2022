@@ -12,11 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 //Class for the Red Ghost. Inherits from Ghost.
 public class RedGhost extends Ghost {
 
-    BFSFinder bfs;
+    public BFSFinder bfs;
 
     public RedGhost(int x, int y,PacBoard pb){
     	//12
-        super(x,y,pb,12);
+        super(x,y,pb,12,1);
     }
 
     @Override
@@ -61,7 +61,14 @@ public class RedGhost extends Ghost {
         if(isDead) {
             return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.ghostBase.x,parentBoard.ghostBase.y);
         }else{
-            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.logicalPosition.x,parentBoard.pacman.logicalPosition.y);
+
+        	if(correctPos) {
+        		correctPos = false;
+        		logicalPosition.x = 13;
+        		logicalPosition.y = 8;
+        	}
+            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.getLogicalPosition().x,parentBoard.pacman.getLogicalPosition().y);
+
         }
     }
 

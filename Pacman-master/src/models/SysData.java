@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import javax.swing.Timer;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,9 +28,19 @@ public class SysData {
 
 	private static SysData instance;
 	public static ArrayList<Question> allQuestions = readQuestionsJSON();
-
-
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
+	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
+	
+	public static String getThisUser() {
+		return thisUser;
+	}
+
+
+	public static void setThisUser(String thisUser) {
+		SysData.thisUser = thisUser;
+	}
+
+	private static String thisUser;
 	
 	public static SysData getInstance() {
 		if (instance == null)
@@ -284,7 +295,23 @@ public class SysData {
 
 			RecordWinner newPlayerRecord = new RecordWinner(username,score, time, did_earn_trophy);
 			ArrayList<RecordWinner> newTopTen = oldTopTenWinnersAL;
-			newTopTen.add(newPlayerRecord);
+			
+			// Check if player beat their previous record. If yes, replace with new record, if no, don't do anything.
+			if(newTopTen.contains(newPlayerRecord))
+			{
+				if(newPlayerRecord.compareTo(newTopTen.get(newTopTen.indexOf(newPlayerRecord))) >= 0){
+					return;
+				}
+				else {
+					// Remove old record
+					newTopTen.remove(newTopTen.get(newTopTen.indexOf(newPlayerRecord)));
+					// Add new record
+					newTopTen.add(newPlayerRecord);
+				}
+			} else {
+				// Add new record
+				newTopTen.add(newPlayerRecord);
+			}
 			//sort new top 10
 			Collections.sort(newTopTen);
 			//remove the last (lowest score & time - #11's player) from the winners AL

@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Player;
+import models.SysData;
 import views.PacWindow;
 
 // controls the menu screen 
@@ -62,6 +63,7 @@ public class MenuController {
     void start(ActionEvent event) {
     	player.add(new Player("tal", "0"));
 		stage = (Stage) MainPanel.getScene().getWindow();
+		username =SysData.getThisUser();
 		new PacWindow(username);
 		stage.close();
     }

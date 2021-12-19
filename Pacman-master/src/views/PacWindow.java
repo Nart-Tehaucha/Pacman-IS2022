@@ -45,7 +45,8 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
-        setSize(774,918);
+        //setSize(794,918);
+        setSize(794,646);
         setLocationRelativeTo(null);
         
         JPanel topBar = new JPanel();
@@ -113,7 +114,8 @@ public class PacWindow extends JFrame {
         getContentPane().setBackground(Color.black);
 
         //setSize(794,884);
-        setSize(774,918);
+        //setSize(794,918);--upd
+        setSize(794,646);
         setLocationRelativeTo(null);
         
         JPanel bottomBar = new JPanel();
@@ -206,7 +208,8 @@ public class PacWindow extends JFrame {
         getContentPane().setBackground(Color.black);
 
         //setSize(794,884);
-        setSize(774,918);
+        //setSize(794,918);
+        setSize(794,646);
         setLocationRelativeTo(null);
         
         addWindowListener(new WindowAdapter() {
@@ -462,7 +465,7 @@ public class PacWindow extends JFrame {
             System.out.print('\n');
         }*/
         
-        System.out.println("Map Adjust OK !");
+        //System.out.println("Map Adjust OK !");
     }
 
     public PacBoard getPacBoard() {

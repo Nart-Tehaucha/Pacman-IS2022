@@ -14,7 +14,7 @@ public class CyanGhost extends Ghost {
 
     public CyanGhost(int x, int y,PacBoard pb){
     	//9
-        super(x,y,pb,9);
+        super(x,y,pb,12,3);
     }
 
     @Override
