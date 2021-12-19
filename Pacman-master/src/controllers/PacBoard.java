@@ -327,7 +327,7 @@ public class PacBoard extends JPanel{
         }
         if(questionIcontToEat!=null) {
         	questionPopup(questionIcontToEat);
-        	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
+        	putQuestionOnMap(QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this));
         	respawnFood(questionIcontToEat.position);
         	questionIcontToEat=null;
             scoreToAdd = 0;
