@@ -15,12 +15,11 @@ import javafx.stage.Stage;
 import models.Player;
 import models.SysData;
 import views.PacWindow;
-import views.StartWindow;
 
+// controls the menu screen 
 public class MenuController {
 	
-	
-
+	// the menu's components
     @FXML
     private Button InstructionsBtn;
 
@@ -33,18 +32,6 @@ public class MenuController {
     @FXML
     private Button RecordsBtn;
 
-    public Button getRecordsBtn() {
-		return RecordsBtn;
-	}
-
-	public void setRecordsBtn(Button recordsBtn) {
-		RecordsBtn = recordsBtn;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
 	@FXML
     private Button StartPlayBtn;
     
@@ -54,10 +41,16 @@ public class MenuController {
 	
 	private ObservableList<Player> player = FXCollections.observableArrayList();
 
-   @FXML
+    @FXML
     private ImageView logOut;
 
-   
+    public void setUsername(String username) {
+    	this.username = username;
+    }
+    
+    public String getUsername() {
+    	return username;
+    }
 
     @FXML
     void logOutOfSystem(MouseEvent event) {
@@ -68,7 +61,6 @@ public class MenuController {
 
     @FXML
     void start(ActionEvent event) {
-//    	player.add(new Player(typedText, score));
     	player.add(new Player("tal", "0"));
 		stage = (Stage) MainPanel.getScene().getWindow();
 		username =SysData.getThisUser();
@@ -81,18 +73,6 @@ public class MenuController {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Instructions.fxml"));
 		LoadScreen(loader);
 		return;
-    }
-    
-    @FXML
-	void LoadScreen(FXMLLoader loader) {
-		try {
-			AnchorPane pane = loader.load();
-			MainPanel.getChildren().clear();
-			MainPanel.getChildren().add(pane);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     }
     
     @FXML
@@ -110,7 +90,16 @@ public class MenuController {
 		return;
     }
 
-    public void setUsername(String username) {
-    	this.username = username;
+    @FXML
+	void LoadScreen(FXMLLoader loader) {
+		try {
+			System.out.println("I use this method");
+			AnchorPane pane = loader.load();
+			MainPanel.getChildren().clear();
+			MainPanel.getChildren().add(pane);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 }

@@ -21,9 +21,10 @@ import javafx.scene.layout.Region;
 import models.Answer;
 import models.Question;
 import models.SysData;
+// This class was made for controlling the adding question screen
 public class AddController {
 
-
+// all the screen's components
 	    @FXML
 	    private AnchorPane MainPanel;
 
@@ -54,12 +55,12 @@ public class AddController {
 	    @FXML
 	    private ImageView goBack;
 
-
+	    // fill the choice boxes with these values
 		ObservableList<Integer> nums = FXCollections.observableArrayList(1,2,3,4);
 		ObservableList<String> difficulties = FXCollections.observableArrayList("Easy", "Medium", "Hard");
 
 
-
+		// by clicking the Home button we go to the menu
 	    @FXML
 	    void goToPageBefore(MouseEvent event) {
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
@@ -67,7 +68,7 @@ public class AddController {
 			return;
 	    }
 	    
-
+	    // save the new question that has just been added
 	    @FXML
 	    void submitAdd(ActionEvent event) {
 			try {
@@ -124,33 +125,20 @@ public class AddController {
 			alert.setTitle(title);
 			alert.setHeaderText(header);
 			alert.setContentText(text);
-//			if(type == AlertType.ERROR) {
-//		 		File temp = new File("");
-//				String abPath = temp.getAbsolutePath();
-//				String path = new File(abPath+"/src/Media/fail.mp3").getAbsolutePath();
-//		 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
-//		 		sound.play();
-//	 		}
-//	 		else {
-//		 		File temp = new File("");
-//				String abPath = temp.getAbsolutePath();
-//				String path = new File(abPath+"/src/Media/success.mp3").getAbsolutePath();
-//		 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
-//		 		sound.play();
-//	 		}
 			alert.showAndWait();
 		}
 		
+		// this method initializes the screen
 	    @FXML
 		void initialize() {
 	    	correct.setItems(nums);
 	    	difficulty.setItems(difficulties);
 	    }
 	    
+	    // load another fxml document
 	    @FXML
 		void LoadScreen(FXMLLoader loader) {
 			try {
-				System.out.println("I use this method");
 				AnchorPane pane = loader.load();
 				MainPanel.getChildren().clear();
 				MainPanel.getChildren().add(pane);
