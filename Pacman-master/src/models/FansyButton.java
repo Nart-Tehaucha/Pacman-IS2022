@@ -12,7 +12,7 @@ import java.io.IOException;
 public class FansyButton extends JLabel implements MouseListener {
 
     ActionListener myAL;
-
+ // -------------------------------Constructor---------------------------------------------------\\
     public FansyButton(String str){
         super(str);
         Font customFont;
@@ -28,6 +28,7 @@ public class FansyButton extends JLabel implements MouseListener {
         this.setOpaque(false);
         this.addMouseListener(this);
     }
+ // ------------------------------- End of Constructor------------------------------------------\\
 
     public void addActionListener(ActionListener al){
         myAL = al;

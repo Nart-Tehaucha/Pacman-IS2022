@@ -324,7 +324,6 @@ public abstract class Ghost {
         disappear = true;
         //this.die();
 
-
        // this.die();
 //        moveTimer.setDelay(ghostWeakDelay);
 ////        unweakBlinks = 0;

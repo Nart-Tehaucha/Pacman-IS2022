@@ -256,19 +256,18 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
+    		for (Ghost g1 : ghosts) {	
+    			g1.animTimer.setDelay(1);
+    			g1.moveTimer.setDelay(1);
+    		}
     		break;
     	case 2:
     		scoreToNextLevel = 101;
-    		for (Ghost g1 : ghosts) {	
-    			//g1.animTimer.setDelay(100);
-    			//g1.moveTimer.setDelay(0);
-    			//g1.setGhostSpeed(4);
-    		}
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+//    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
     		break;
     	case 3:
     		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		pacman.setGameSpeed(7);
     		break;
     	case 4:
     		for (Ghost g1 : ghosts) {	
@@ -276,18 +275,20 @@ public class PacBoard extends JPanel{
     			//g1.moveTimer.setDelay(0);
     			g1.setGhostSpeed(4);
     		}
+    		pacman.setGameSpeed(7);
     		scoreToNextLevel = 200;
     		break;
     	default:
     		scoreToNextLevel = 51;
     	}
+    }
 
         // Start playing sounds
         //SoundPlayer.play("/Pacman-master/src/media/tutorial.mp4");
         //siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
         //pac6 = new LoopPlayer("pac6.wav");
         //siren.start();
-    }
+    
 
     
     // ============================= END OF CONSTRUCTOR =============================
@@ -440,7 +441,7 @@ public class PacBoard extends JPanel{
 	        	}	
 	        }	
         }
-        
+
         ghosts.remove(ghostToRemove);
         
         //Check Ghost Undie
@@ -613,7 +614,6 @@ public class PacBoard extends JPanel{
     	case 2:
     		//Draw Walls
     		//change pacman speed
-    		pacman.setGameSpeedForLevel2(7, level);
     		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
