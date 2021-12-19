@@ -74,9 +74,6 @@ public class Question {
 	}
 
 	// -------------------------------Methods------------------------------------
-//	public boolean addAnswer(Answer answer, boolean isCorrect) {
-//		return true;
-//	}
 
 	//Delete an answer
 	public boolean deleteAnswer(Answer answer) {

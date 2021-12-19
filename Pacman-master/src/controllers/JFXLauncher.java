@@ -18,7 +18,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import views.StartWindow;
 
 public class JFXLauncher extends Application {
 	
@@ -89,13 +88,6 @@ public class JFXLauncher extends Application {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-		
-	// open the game
-	public void openGame(ActionEvent e) throws Exception { 
-		stage = (Stage) mainPane.getScene().getWindow();
-		new StartWindow();
-		stage.close();
 	}
     
     @FXML
