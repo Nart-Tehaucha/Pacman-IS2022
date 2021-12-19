@@ -107,24 +107,27 @@ public class PacBoard extends JPanel{
         pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
         
-        switch(level) {
-    	case 1:
-    		scoreToNextLevel = 51;
-    		break;
-    	case 2:
-    		scoreToNextLevel = 101;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		break;
-    	case 3:
-    		scoreToNextLevel = 151;
-    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
-    		break;
-    	case 4:
-    		scoreToNextLevel = 200;
-    		break;
-    	default:
-    		scoreToNextLevel = 51;
-    	}
+//        switch(level) {
+//    	case 1:
+//    		scoreToNextLevel = 51;
+//    		break;
+//    	case 2:
+//    		scoreToNextLevel = 101;
+//    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+//    		break;
+//    	case 3:
+//    		scoreToNextLevel = 151;
+//    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+//    		break;
+//    	case 4:
+//    		for (Ghost g1 : ghosts) {	
+//    			g1.moveTimer.setDelay(g1.getGhostNormalDelay()/2);
+//    		}
+//    		scoreToNextLevel = 200;
+//    		break;
+//    	default:
+//    		scoreToNextLevel = 51;
+//    	}
         
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
@@ -259,6 +262,34 @@ public class PacBoard extends JPanel{
         //siren = new LoopPlayer("/Pacman-master/src/media/tutorial.mp4");
         //pac6 = new LoopPlayer("pac6.wav");
         //siren.start();
+        switch(level) {
+    	case 1:
+    		scoreToNextLevel = 51;
+    		for (Ghost g1 : ghosts) {	
+    			g1.animTimer.setDelay(1);
+    			g1.moveTimer.setDelay(1);
+    		}
+    		break;
+    	case 2:
+    		scoreToNextLevel = 101;
+//    		pacman.setGameSpeed(pacman.getGameSpeed() * 2);
+    		break;
+    	case 3:
+    		scoreToNextLevel = 151;
+    		pacman.setGameSpeed(7);
+    		break;
+    	case 4:
+    		for (Ghost g1 : ghosts) {	
+    			//g1.animTimer.setDelay(100);
+    			//g1.moveTimer.setDelay(0);
+    			g1.setGhostSpeed(4);
+    		}
+    		pacman.setGameSpeed(7);
+    		scoreToNextLevel = 200;
+    		break;
+    	default:
+    		scoreToNextLevel = 51;
+    	}
     }
 
     
@@ -529,15 +560,8 @@ public class PacBoard extends JPanel{
         switch(level) {
     	case 1:
     		//Draw Walls
-    		for (Ghost g1 : ghosts) {	
-    		//
-    			//g1.setGhostSpeed(7);
-    		//g1.setGhostNormalDelay(int ghostNormalDelay)
-    		//System.out.println(g1.getGhostSpeed());
-    		g1.setGhostNormalDelay(100);
-    		
-    		}
-    		pacman.setGameSpeedForLevel2(4, level);
+
+    		//pacman.setGameSpeedForLevel2(4, level);
     		//System.out.println(pacman.getGameSpeed() + "   "+level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -552,7 +576,8 @@ public class PacBoard extends JPanel{
     	case 2:
     		//Draw Walls
     		//change pacman speed
-    		pacman.setGameSpeedForLevel2(7, level);
+    		
+    		//pacman.setGameSpeedForLevel2(7, level);
     		//pacman.setGameSpeed(4);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
@@ -566,7 +591,7 @@ public class PacBoard extends JPanel{
     		break;
     	case 3:
     		//Draw Walls
-    		pacman.setGameSpeedForLevel2(4, level);
+    		//pacman.setGameSpeedForLevel2(4, level);
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){
@@ -580,7 +605,12 @@ public class PacBoard extends JPanel{
     		
     	case 4:
     		//Draw Walls
-    		pacman.setGameSpeedForLevel2(7, level);
+    		//pacman.setGameSpeedForLevel2(7, level);
+//    		for (Ghost g1 : ghosts) {	
+//
+//    			g1.moveTimer.setDelay(1);
+//    		
+//    		}
             g.setColor(Color.blue);
             for(int i=0;i<m_x;i++){
                 for(int j=0;j<m_y;j++){

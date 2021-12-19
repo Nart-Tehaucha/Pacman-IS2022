@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,8 +21,10 @@ import models.Answer;
 import models.Question;
 import models.SysData;
 
+//This class was made for controlling the editing question screen
 public class EditQuestionsController {
 
+	// all the screen's components
     @FXML
     private AnchorPane MainPanel;
 
@@ -54,12 +55,12 @@ public class EditQuestionsController {
     @FXML
     private ImageView goBack;
 
-
+    // fill the choice boxes with these values
 	ObservableList<Integer> nums = FXCollections.observableArrayList(1,2,3,4);
 	ObservableList<String> difficulties = FXCollections.observableArrayList("Easy", "Medium", "Hard");
 
 
-
+	// by clicking the Home button we go to the menu
     @FXML
     void goToPageBefore(MouseEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
@@ -67,13 +68,13 @@ public class EditQuestionsController {
 		return;
     }
 
+    // save the changes that have been made to the existing question 
     @FXML
     void submitChange(ActionEvent event) {
     	//ArrayList<Question> selectedQuestions = new ArrayList<>();
     	//selectedQuestions.addAll(questionsTable.getSelectionModel().getSelectedItems());
     	//tableList.addAll(SysData.readQuestionsJSON());
-    	System.out.println("questions before: " + SysData.readQuestionsJSON().get(0).getDifficulty());
-    
+    // get all the details of the question we chose to edit
 		for (Question q : SysData.readQuestionsJSON()) {
 			if (q.getQuestionID() == QuestionsController.chosenQuesId) {
 				Answer ansRes1 = new Answer(q.getQuestionID(), ans1.getText());
@@ -85,10 +86,8 @@ public class EditQuestionsController {
 				newAnswers.add(ansRes2);
 				newAnswers.add(ansRes3);
 				newAnswers.add(ansRes4);
-				System.out.println("Out of the if");
 				if(SysData.editQuestionInJSON(new Question(q.getQuestionID(), content.getText(), difficulty.getSelectionModel().getSelectedItem(),
 						newAnswers,(int)correct.getSelectionModel().getSelectedItem()))) {
-					System.out.println("Im in the if");
 					showAlert(AlertType.INFORMATION, "Success", "You successfully edited the question", "");
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageQuestions.fxml"));
 					LoadScreen(loader);
@@ -97,7 +96,6 @@ public class EditQuestionsController {
 
 			}
 		}
-		System.out.println("question after: " + SysData.readQuestionsJSON().get(0).getDifficulty());
 		//tableList.removeAll(selectedQuestions);
 		//questionsTable.setItems(null);
 		//questionsTable.setItems(tableList);
@@ -111,23 +109,10 @@ public class EditQuestionsController {
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(text);
-//		if(type == AlertType.ERROR) {
-//	 		File temp = new File("");
-//			String abPath = temp.getAbsolutePath();
-//			String path = new File(abPath+"/src/Media/fail.mp3").getAbsolutePath();
-//	 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
-//	 		sound.play();
-// 		}
-// 		else {
-//	 		File temp = new File("");
-//			String abPath = temp.getAbsolutePath();
-//			String path = new File(abPath+"/src/Media/success.mp3").getAbsolutePath();
-//	 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
-//	 		sound.play();
-// 		}
 		alert.showAndWait();
 	}
 	
+	// this method initializes the screen
     @FXML
 	void initialize() {
     	try {
@@ -162,10 +147,10 @@ public class EditQuestionsController {
 		}
     }
     
+    // load another fxml document
     @FXML
 	void LoadScreen(FXMLLoader loader) {
 		try {
-			System.out.println("I use this method");
 			AnchorPane pane = loader.load();
 			MainPanel.getChildren().clear();
 			MainPanel.getChildren().add(pane);

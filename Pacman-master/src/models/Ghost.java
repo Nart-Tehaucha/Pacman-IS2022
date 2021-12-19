@@ -103,7 +103,7 @@ public abstract class Ghost {
 
         loadImages();
         
-        this.ghostSpeed = 1;
+        this.ghostSpeed = 2;
 
         //load weak Image
         ghostW = new Image[2];
@@ -185,7 +185,7 @@ public abstract class Ghost {
                         if((logicalPosition.x+1 < parentBoard.m_x) && (parentBoard.map[logicalPosition.x+1][logicalPosition.y]>0) && ((parentBoard.map[logicalPosition.x+1][logicalPosition.y]<26)||isPending)){
                             return;
                         }
-                        pixelPosition.x ++;
+                        pixelPosition.x += getGhostSpeed();
                         break;
                     case LEFT:
                         if(pixelPosition.x <= 0){
@@ -194,7 +194,7 @@ public abstract class Ghost {
                         if((logicalPosition.x-1 >= 0) && (parentBoard.map[logicalPosition.x-1][logicalPosition.y]>0) && ((parentBoard.map[logicalPosition.x-1][logicalPosition.y]<26)||isPending)){
                             return;
                         }
-                        pixelPosition.x --;
+                        pixelPosition.x -= getGhostSpeed();
                         break;
                     case UP:
                         if(pixelPosition.y <= 0){
@@ -203,7 +203,7 @@ public abstract class Ghost {
                         if((logicalPosition.y-1 >= 0) && (parentBoard.map[logicalPosition.x][logicalPosition.y-1]>0) && ((parentBoard.map[logicalPosition.x][logicalPosition.y-1]<26)||isPending)){
                             return;
                         }
-                        pixelPosition.y--;
+                        pixelPosition.y -= getGhostSpeed();
                         break;
                     case DOWN:
                         if(pixelPosition.y >= (parentBoard.m_y-1) * 28){
@@ -212,10 +212,10 @@ public abstract class Ghost {
                         if((logicalPosition.y+1 < parentBoard.m_y) && (parentBoard.map[logicalPosition.x][logicalPosition.y+1]>0) && ((parentBoard.map[logicalPosition.x][logicalPosition.y+1]<26)||isPending)){
                             return;
                         }
-                        pixelPosition.y ++;
+                        pixelPosition.y += getGhostSpeed();
                         break;
                 }
-
+                
                 parentBoard.dispatchEvent(new ActionEvent(this,Messages.COLTEST,null));
             }
         };
@@ -365,7 +365,8 @@ public abstract class Ghost {
     // Makes ghost normal.
     public void unweaken(){
         isWeak = false;
-        moveTimer.setDelay(ghostNormalDelay);
+        //moveTimer.setDelay(ghostNormalDelay);
+        animTimer.setDelay(ghostNormalDelay);
     }
     // Kills ghost
     public void die(){
