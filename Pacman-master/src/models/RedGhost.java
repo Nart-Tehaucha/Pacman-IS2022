@@ -61,7 +61,7 @@ public class RedGhost extends Ghost {
         if(isDead) {
             return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.ghostBase.x,parentBoard.ghostBase.y);
         }else{
-            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.logicalPosition.x,parentBoard.pacman.logicalPosition.y);
+            return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.pacman.getLogicalPosition().x,parentBoard.pacman.getLogicalPosition().y);
         }
     }
 

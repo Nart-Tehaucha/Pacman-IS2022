@@ -157,9 +157,9 @@ public class PacBoard extends JPanel{
         teleports = md.getTeleports();
 
         // Add all timers to an arraylist in SysData.
-        SysData.allTimers.add(pacman.animTimer);
-        SysData.allTimers.add(pacman.moveTimer);
-        SysData.allTimers.add(pacman.newColor);
+        SysData.allTimers.add(pacman.getAnimTimer());
+        SysData.allTimers.add(pacman.getMoveTimer());
+        SysData.allTimers.add(pacman.getNewColor());
         for(Ghost g : ghosts) {
         	SysData.allTimers.add(g.animTimer);
         	SysData.allTimers.add(g.moveTimer);
@@ -246,9 +246,17 @@ public class PacBoard extends JPanel{
         SysData.allTimers.add(redrawTimer);
         redrawTimer .start();
         // Generates a new question on the map
-        QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this);
-        QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this);
-        QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this);
+       
+        ArrayList<Object> temp = QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this);
+        questionPoints.put((QuestionIcon)temp.get(0),(Question)temp.get(1));        
+        questionIcons.add((QuestionIcon)temp.get(0));
+        temp = QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this);
+        questionPoints.put((QuestionIcon)temp.get(0),(Question)temp.get(1));        
+        questionIcons.add((QuestionIcon)temp.get(0));
+        temp = QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this);
+        questionPoints.put((QuestionIcon)temp.get(0),(Question)temp.get(1));        
+        questionIcons.add((QuestionIcon)temp.get(0));
+
         switch(level) {
     	case 1:
     		scoreToNextLevel = 51;
@@ -290,7 +298,7 @@ public class PacBoard extends JPanel{
     
     // Checks if the player colided with a ghost
     public void collisionTest(){
-        Rectangle pr = new Rectangle(pacman.pixelPosition.x+13,pacman.pixelPosition.y+13,2,2);
+        Rectangle pr = new Rectangle(pacman.getPixelPosition().x+13,pacman.getPixelPosition().y+13,2,2);
         Ghost ghostToRemove = null;
         for(Ghost g : ghosts){
             Rectangle gr = new Rectangle(g.pixelPosition.x,g.pixelPosition.y,28,28);
@@ -342,7 +350,7 @@ public class PacBoard extends JPanel{
         Food foodToEat = null;
         //Check food eat
         for(Food f : foods){
-            if(pacman.logicalPosition.x == f.position.x && pacman.logicalPosition.y == f.position.y)
+            if(pacman.getLogicalPosition().x == f.position.x && pacman.getLogicalPosition().y == f.position.y)
                 foodToEat = f;
         }
         if(foodToEat!=null) {
@@ -355,7 +363,7 @@ public class PacBoard extends JPanel{
         
         QuestionIcon questionIcontToEat = null;
         for(QuestionIcon question : questionIcons){
-            if(pacman.logicalPosition.x == question.position.x && pacman.logicalPosition.y == question.position.y)
+            if(pacman.getLogicalPosition().x == question.position.x && pacman.getLogicalPosition().y == question.position.y)
                 questionIcontToEat = question;
         }
         
@@ -363,7 +371,8 @@ public class PacBoard extends JPanel{
         if(questionIcontToEat!=null) {
             //SoundPlayer.play("pacman_eat.wav");
         	questionPopup(questionIcontToEat);
-        	QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
+        	QuestionFactory.generateQuestionByDifficutly(questionIcontToEat.type, md_backup, this);
+        	//QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this);
         	respawnFood(questionIcontToEat.position);
         	questionIcontToEat=null;
             scoreToAdd = 0;
@@ -374,7 +383,7 @@ public class PacBoard extends JPanel{
         PowerUpFood puFoodToEat = null;
         //Check pu food eat
         for(PowerUpFood puf : pufoods){
-            if(pacman.logicalPosition.x == puf.position.x && pacman.logicalPosition.y == puf.position.y)
+            if(pacman.getLogicalPosition().x == puf.position.x && pacman.getLogicalPosition().y == puf.position.y)
                 puFoodToEat = puf;
         }
         if(puFoodToEat!=null) {
@@ -409,8 +418,8 @@ public class PacBoard extends JPanel{
 	    	for (Ghost g : ghosts) {	
 	        	for(int i=-3 ;i<=3; i++) {	
 	        		for(int j=-3; j<=3; j++) {	
-	        			if(pacman.logicalPosition.x == g.logicalPosition.x+i&&	
-		                    	   pacman.logicalPosition.y == g.logicalPosition.y+j) {	
+	        			if(pacman.getLogicalPosition().x == g.logicalPosition.x+i&&	
+	        					pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
 		                    		g.ghostDisappear();		
 		                    		pacman.setStrong(false);	
 		                    		pacman.setEnterPreesed(false);
@@ -430,11 +439,12 @@ public class PacBoard extends JPanel{
 
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
-            if (pacman.logicalPosition.x == tp.getFrom().x && pacman.logicalPosition.y == tp.getFrom().y && pacman.activeMove == tp.getReqMove()) {
+            if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
                 //System.out.println("TELE !");
-                pacman.logicalPosition = tp.getTo();
-                pacman.pixelPosition.x = pacman.logicalPosition.x * 28;
-                pacman.pixelPosition.y = pacman.logicalPosition.y * 28;
+               // pacman.logicalPosition = tp.getTo();
+            	pacman.setLogicalPosition(ghostBase);
+                pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
+                pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
             }
         }
         
@@ -647,19 +657,19 @@ public class PacBoard extends JPanel{
         }
 
         //Draw Pacman
-        switch(pacman.activeMove){
+        switch(pacman.getActiveMove()){
             case NONE:
             case RIGHT:
-                g.drawImage(pacman.getPacmanImage(),10+pacman.pixelPosition.x,10+pacman.pixelPosition.y,null);
+                g.drawImage(pacman.getPacmanImage(),10+pacman.getPixelPosition().x,10+pacman.getPixelPosition().y,null);
                 break;
             case LEFT:
-                g.drawImage(ImageHelper.flipHor(pacman.getPacmanImage()),10+pacman.pixelPosition.x,10+pacman.pixelPosition.y,null);
+                g.drawImage(ImageHelper.flipHor(pacman.getPacmanImage()),10+pacman.getPixelPosition().x,10+pacman.getPixelPosition().y,null);
                 break;
             case DOWN:
-                g.drawImage(ImageHelper.rotate90(pacman.getPacmanImage()),10+pacman.pixelPosition.x,10+pacman.pixelPosition.y,null);
+                g.drawImage(ImageHelper.rotate90(pacman.getPacmanImage()),10+pacman.getPixelPosition().x,10+pacman.getPixelPosition().y,null);
                 break;
             case UP:
-                g.drawImage(ImageHelper.flipVer(ImageHelper.rotate90(pacman.getPacmanImage())),10+pacman.pixelPosition.x,10+pacman.pixelPosition.y,null);
+                g.drawImage(ImageHelper.flipVer(ImageHelper.rotate90(pacman.getPacmanImage())),10+pacman.getPixelPosition().x,10+pacman.getPixelPosition().y,null);
                 break;
         }
 
@@ -683,7 +693,7 @@ public class PacBoard extends JPanel{
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
             Integer s = scoreToAdd*20;
-            g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
+            g.drawString(s.toString(), pacman.getPixelPosition().x + 13, pacman.getPixelPosition().y + 50);
             //drawScore = false;
             addScore(s);
             if(score > 200) {
@@ -698,7 +708,7 @@ public class PacBoard extends JPanel{
             g.setFont(new Font("Arial",Font.BOLD,15));
             g.setColor(Color.yellow);
             Integer s = scoreToAdd;
-            g.drawString(s.toString(), pacman.pixelPosition.x + 13, pacman.pixelPosition.y + 50);
+            g.drawString(s.toString(), pacman.getPixelPosition().x + 13, pacman.getPixelPosition().y + 50);
             //drawScore = false;
             addScore(s);
             scoreboard.setText("    Score : "+score);
@@ -803,8 +813,9 @@ public class PacBoard extends JPanel{
     }
     
     public void pause() {
-    	pacman.moveTimer.stop();
-        pacman.animTimer.stop();
+    	//tal 
+    	pacman.getMoveTimer().stop();
+        pacman.getAnimTimer().stop();
         for(Ghost g : ghosts){
             g.moveTimer.stop();
             g.animTimer.stop();
@@ -817,8 +828,8 @@ public class PacBoard extends JPanel{
     }
     
     public void resume() {
-    	pacman.moveTimer.start();
-        pacman.animTimer.start();
+    	pacman.getMoveTimer().start();
+        pacman.getAnimTimer().start();
         for(Ghost g : ghosts){
             g.moveTimer.start();
             g.animTimer.start();

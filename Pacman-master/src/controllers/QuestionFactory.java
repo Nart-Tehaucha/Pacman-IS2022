@@ -1,6 +1,9 @@
 package controllers;
 
 import java.awt.Point;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import models.Question;
 import models.QuestionIcon;
@@ -14,8 +17,10 @@ public class QuestionFactory {
     	return pb.questions.get(randIndex);
     }
 	
-	public static void generateQuestionByDifficutly(String difficulty, MapData md_backup, PacBoard pb) {
-		if(pb.questions.size() < 3) return;
+	public static ArrayList<Object> generateQuestionByDifficutly(String difficulty, MapData md_backup, PacBoard pb) {
+		//HashMap<QuestionIcon, Question> newQuestionHas = new HashMap<>();
+		ArrayList<Object>newQuestionArray = new ArrayList<>();
+		if(pb.questions.size() < 3) return null;
 		
 		//Generate a new QuestionIcon in a random position on the map.
 		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
@@ -47,16 +52,22 @@ public class QuestionFactory {
     	}
     	
     	newQuestionIcon = new QuestionIcon(pointOfNewQuestion.x,pointOfNewQuestion.y,qType); 
-        pb.questionIcons.add(newQuestionIcon);
+      //  pb.questionIcons.add(newQuestionIcon);
         
         // Put new Question & QuestionIcon pair in the hashmap
-        pb.questionPoints.put(newQuestionIcon, newQuestion);
+       // pb.questionPoints.put(newQuestionIcon, newQuestion);
+    	newQuestionArray.add(newQuestionIcon);
+    	newQuestionArray.add(newQuestion);
+    	
+        //newQuestionHas.put(newQuestionIcon, newQuestion);
+    	
+		return newQuestionArray;
 		
 	}
 	
-	public static void generateQuestionIcon(QuestionIcon questionIcontToEat, MapData md_backup, PacBoard pb) {
-	if(pb.questions.size() < 3) return;
-		
+	public static ArrayList<Object> generateQuestionIcon(QuestionIcon questionIcontToEat, MapData md_backup, PacBoard pb) {
+	if(pb.questions.size() < 3) return null;
+	ArrayList<Object>newQuestionArray = new ArrayList<>();	
 	//Generate a new QuestionIcon in a random position on the map.
 	int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
 	Point pointOfNewQuestion = md_backup.getFoodPositions().get(randIndex).position; 
@@ -110,6 +121,9 @@ public class QuestionFactory {
         pb.questionPoints.remove(questionIcontToEat);
         pb.questionPoints.put(newQuestionIcon, newQuestion);
 	}
+  	newQuestionArray.add(newQuestionIcon);
+	newQuestionArray.add(newQuestion);
+	return newQuestionArray;
 }
 
 }
