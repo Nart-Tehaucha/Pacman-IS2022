@@ -104,7 +104,7 @@ public class RecordsController {
 			catch(Exception e) {
 				allRecords.setVisible(true);
 			}
-			
+			 
 		}
 		
 		

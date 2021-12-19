@@ -14,7 +14,7 @@ import models.Player;
 import views.PacWindow;
 import views.StartWindow;
 
-public class MenuController {
+public class MenuController { 
 	
 	
 
@@ -38,7 +38,7 @@ public class MenuController {
 		RecordsBtn = recordsBtn;
 	}
 
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 
@@ -47,7 +47,7 @@ public class MenuController {
     
 	private Stage stage;
 	
-	private String username;
+	private static String username;
 	
 	private ObservableList<Player> player = FXCollections.observableArrayList();
     @FXML

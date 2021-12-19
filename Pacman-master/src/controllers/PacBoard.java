@@ -80,6 +80,8 @@ public class PacBoard extends JPanel{
     
     //shahar
     private String username;
+    private boolean flag_did_open_victoy_window= false;
+    private boolean flag_did_open_lost_window= false;
     
    
     
@@ -696,26 +698,50 @@ public class PacBoard extends JPanel{
         }
 
         if(isGameOver){
-            g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
-            	if(rw.getUserName() == username) {
-            		if(rw.getPoints() < score) {
-            			SysData.addToTopTen(this.username, this.score, 0.0);
-            		}
-            	}
-            }
+        	if(flag_did_open_victoy_window == false) {
+        		try {
+        			SysData.addToTopTen(this.username, this.score, 0.0);
+        			windowParent.dispose();
+					LoserAnnouncment.loserWindow(username);
+				} catch (HeadlessException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		flag_did_open_victoy_window = true;
+        	}
+        	
+        	
+//            g.drawImage(goImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+//            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
+//            	if(rw.getUserName() == username) {
+//            		if(rw.getPoints() < score) {
+//            			SysData.addToTopTen(this.username, this.score, 0.0);
+//            		}
+//            	}
+//            }
             
         }
 
         if(isWin){
-            g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
-            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
-            	if(rw.getUserName() == username) {
-            		if(rw.getPoints() < score) {
-            			SysData.addToTopTen(this.username, this.score, 0.0);
-            		}
-            	}
-            }
+        	if(flag_did_open_victoy_window == false) {
+        		try {
+        			SysData.addToTopTen(this.username, this.score, 0.0);
+        			windowParent.dispose();
+					WinnerAnnouncment.winnerWindow(username);
+				} catch (HeadlessException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		flag_did_open_victoy_window = true;
+        	}
+//            g.drawImage(vicImage,this.getSize().width/2-315,this.getSize().height/2-75,null);
+//            for(RecordWinner rw: SysData.getOldTopTenWinnersAL()) {
+//            	if(rw.getUserName() == username) {
+//            		if(rw.getPoints() < score) {
+//            			SysData.addToTopTen(this.username, this.score, 0.0);
+//            		}
+//            	}
+//            }
         }
 
 

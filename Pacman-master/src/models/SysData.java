@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import javax.swing.plaf.metal.MetalIconFactory.TreeFolderIcon;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -219,16 +220,19 @@ public class SysData {
 	        } 
 	        catch (FileNotFoundException f) 
 	        {
-	      	  //IF THERE ARE NO WINNERS YET
+	      	  //If file not found
 	            f.printStackTrace();
 	            return null;
 	        } 
 	        catch (IOException i) 
 	        {
-	            i.printStackTrace();
+	        	//if file is empty
+	            System.out.println("Note: this is the first game under this ser file, hence records list is empty. \n");
 	            return null;
+	        	
 	        }
 	        catch(Exception e) {
+	        	//General exception-print it
 	        	e.printStackTrace();
 	        	return null;
 	        }
