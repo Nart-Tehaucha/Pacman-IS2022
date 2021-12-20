@@ -408,7 +408,6 @@ public class PacBoard extends JPanel{
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
             if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
-                //System.out.println("TELE !");
                 pacman.setLogicalPosition(tp.getTo());
                 pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
                 pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
@@ -418,7 +417,6 @@ public class PacBoard extends JPanel{
     
     // Respawns a ghost that just died
 	private void spawnNewGhost(int ghostType) {
-		System.out.println("SPAWNED");
         switch(ghostType) {
         case 1:
             ghosts.add(new RedGhost(ghostBase.x, ghostBase.y, this));
@@ -731,8 +729,6 @@ public class PacBoard extends JPanel{
         Timer respawnTimer = new Timer(30000,respawnAL);
         respawnTimer.setRepeats(false);
         foodRespawnTimers.add(respawnTimer);
-        //System.out.println(foodRespawnTimers.size());
-        //SysData.allTimers.add(respawnTimer);
         respawnTimer.start();
     }
     
@@ -747,8 +743,6 @@ public class PacBoard extends JPanel{
         Timer respawnTimer = new Timer(30000,respawnAL);
         respawnTimer.setRepeats(false);
         bombRespawnTimers.add(respawnTimer);
-        //System.out.println(foodRespawnTimers.size());
-        //SysData.allTimers.add(respawnTimer);
         respawnTimer.start();
     }
 
@@ -1069,7 +1063,7 @@ public class PacBoard extends JPanel{
 	}
 
 
-	public void setGhostToRemove(ArrayList<Ghost> ghostToRemove) {
+	public void setGhostToRemove(ArrayList<Ghost> ghostsToRemove) {
 		this.ghostsToRemove = ghostsToRemove;
 	}
     

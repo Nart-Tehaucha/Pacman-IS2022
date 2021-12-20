@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,8 +21,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import models.Question;
 
 
 public class SysData {
@@ -51,7 +48,6 @@ public class SysData {
 		try {
 			Object obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
 			JSONObject jo = (JSONObject) obj;
-			System.out.println(jo.size());
 			JSONArray arr = (JSONArray) jo.get("questions");
 	
 			for (Object questionObj : arr) {
@@ -136,7 +132,6 @@ public class SysData {
 	   	                System.out.println("REMOVING QUESTION:");
 	   	                System.out.println(jo.get("question"));
 	   	                allQuestions = readQuestionsJSON();
-	   	                System.out.println(readQuestionsJSON());
 	   	                jsonArray.remove(o);
 	   	                return true;
       	        	}
@@ -167,8 +162,6 @@ public class SysData {
     	        for(Object o : aux) {
     	        	JSONObject jo = (JSONObject) o;
     	        	if(Math.toIntExact((Long) jo.get("ID")) == questionID) {
-	 	                System.out.println("REMOVING QUESTION:");
-	 	                System.out.println(jo.get("question"));
 	 	                jsonArray.remove(o);
     	        	}
     	        }
@@ -258,7 +251,7 @@ public class SysData {
 	        catch (FileNotFoundException  | EOFException f) 
 	        {
 	      	  //If file not found
-	            f.printStackTrace();
+	        	System.out.println("Note: this is the first game under this ser file, hence records list is empty. \n");
 	            return null;
 	        } 
 	        catch (IOException i) 
