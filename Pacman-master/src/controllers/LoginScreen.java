@@ -86,9 +86,7 @@ public class LoginScreen{
     		if(username.getText().equals("admin")
     				&& (loginPassword.getText().equals("admin") || passwordText.getText().equals("admin"))) {
     			SysData.setThisUser(username.getText());
-    			File temp = new File("");
-    			String abPath = temp.getAbsolutePath();
-    			String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+    			String path = new File(SysData.correctedPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
     			MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
     			sound.play();
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
@@ -108,9 +106,7 @@ public class LoginScreen{
     				if(nicknamesAndPasswords.get(username.getText()).equals(loginPassword.getText())) {
     					SysData.setThisUser(username.getText());
     					lastUserToLogIn= username.getText();
-    					File temp = new File("");
-    	    			String abPath = temp.getAbsolutePath();
-    	    			String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+    	    			String path = new File(SysData.correctedPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
     	    			MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
     	    			sound.play();
     	    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
@@ -220,9 +216,7 @@ public class LoginScreen{
 		dialogPane.setStyle(
 				"-fx-background-image: url('/views/sad_pacman.jpg'); -fx-background-size: cover; -fx-font-weight: bold; -fx-font-size: 12px;");
 
-		File temp = new File("");
-		String abPath = temp.getAbsolutePath();
-		String path = new File(abPath + "/Pacman-master/src/media/fail.mp3").getAbsolutePath();
+		String path = new File(SysData.correctedPath + "/Pacman-master/src/media/fail.mp3").getAbsolutePath();
 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
 		sound.play();
 		

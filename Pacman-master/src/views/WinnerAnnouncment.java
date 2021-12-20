@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
 import controllers.JFXLauncher;
+import controllers.SysData;
 
 import javax.imageio.ImageIO;
 
@@ -30,7 +31,7 @@ public class WinnerAnnouncment  extends JFrame {
 		        	
 		        	JFrame frame = buildFrame();
 		        	
-		        	final BufferedImage image = ImageIO.read(new File("Pacman-master/resources/images/victory.png"));
+		        	final BufferedImage image = ImageIO.read(new File(SysData.correctedPath + "/Pacman-master/resources/images/victory.png"));
 
 			        JPanel pane = new JPanel() {
 			            @Override

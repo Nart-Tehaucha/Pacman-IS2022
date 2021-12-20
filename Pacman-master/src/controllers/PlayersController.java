@@ -64,11 +64,6 @@ import models.Question;
 public class PlayersController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
-	private static PlayersController playersController = null;
-	private static File temp = new File("");
-	private static char[] abPath = temp.getAbsolutePath().toCharArray();
-	private static String correctedPath = String.valueOf(abPath).replace("target", "");
 	
 
 
@@ -111,7 +106,7 @@ public class PlayersController implements Serializable{
 
     @FXML
     void goToPageBefore(MouseEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource(correctedPath + "/views/LoginScreen.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
 		LoadScreen(loader);
 		return;
     }
@@ -140,7 +135,7 @@ public class PlayersController implements Serializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-    				FXMLLoader loader = new FXMLLoader(getClass().getResource(correctedPath + "/views/Menu.fxml"));
+    				FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 					LoadScreen(loader);
 					return;
     			}
@@ -185,7 +180,7 @@ public class PlayersController implements Serializable{
 		JSONParser jsonParser = new JSONParser();
 		
 		try {		
-			JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(correctedPath + "/players.json"));
+			JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(SysData.correctedPath + "/players.json"));
 			JSONArray arr = (JSONArray) obj.get("players");
 			
 			for (Object o : arr) {
@@ -211,7 +206,7 @@ public class PlayersController implements Serializable{
 		playersObj.put("players", playersList);
 		
 		
-		try(FileWriter fw = new FileWriter(correctedPath + "/players.json")) {
+		try(FileWriter fw = new FileWriter(SysData.correctedPath + "/players.json")) {
 			fw.write(playersObj.toJSONString());
 			fw.flush();
 		}
@@ -226,7 +221,7 @@ public class PlayersController implements Serializable{
 		JSONParser jsonParser = new JSONParser();
 
         try {
-            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(correctedPath + "/players.json"));
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(SysData.correctedPath + "/players.json"));
             
             JSONArray jsonArray = (JSONArray) obj.get("players");
                       
@@ -236,7 +231,7 @@ public class PlayersController implements Serializable{
 
             jsonArray.add(player);
             
-            FileWriter file = new FileWriter(correctedPath + "/players.json");
+            FileWriter file = new FileWriter(SysData.correctedPath + "/players.json");
             file.write(obj.toJSONString());
             file.flush();
             file.close();
@@ -249,7 +244,7 @@ public class PlayersController implements Serializable{
 	
     public static void deletePlayerFromJSON(Player player) {
    	 try {
-   	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(correctedPath + "/players.json"));
+   	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(SysData.correctedPath + "/players.json"));
    	        JSONArray jsonArray = (JSONArray) jsonObject.get("players");
    	        
    	        JSONArray aux = (JSONArray) jsonArray.clone();
@@ -260,7 +255,7 @@ public class PlayersController implements Serializable{
 	                jsonArray.remove(o);
    	        	}
    	        }
-   	        try (FileWriter file = new FileWriter(correctedPath + "/players.json")) { //store data
+   	        try (FileWriter file = new FileWriter(SysData.correctedPath + "/players.json")) { //store data
    	            file.write(jsonObject.toJSONString());
    	            file.flush();
    	        }
@@ -296,7 +291,7 @@ public class PlayersController implements Serializable{
 		DialogPane dialogPane = alert.getDialogPane();
 		dialogPane.setStyle(
 				"-fx-background-image: url('/views/bg.jpg'); -fx-background-size: cover; -fx-font-weight: bold; -fx-font-size: 12px;");
-		String path = new File(correctedPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+		String path = new File(SysData.correctedPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
 		sound.play();
 		alert.showAndWait();

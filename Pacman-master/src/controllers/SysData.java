@@ -28,13 +28,15 @@ public class SysData {
 	public static ArrayList<Question> allQuestions = readQuestionsJSON();
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
-	
-	//Used to get correct file path that the JAR file can read.
-	private static File temp = new File("");
-	private static char[] abPath = temp.getAbsolutePath().toCharArray();
-	private static String correctedPath = String.valueOf(abPath).replace("target", "");
 
 	private static String thisUser;
+	
+	//Used to get correct file path that the JAR file can read.
+	public static final File temp = new File("");
+	public static final char[] abPath = temp.getAbsolutePath().toCharArray();
+	public static final String correctedPath = String.valueOf(abPath).replace("target", "");
+	
+	
 	
 	public static SysData getInstance() {
 		if (instance == null)
@@ -48,12 +50,9 @@ public class SysData {
 	 * array list
 	 */
 	public static ArrayList<Question> readQuestionsJSON() {
-		File temp1 = new File("");
-		char[] abPath1 = temp1.getAbsolutePath().toCharArray();
-		String correctedPath1 = String.valueOf(abPath1).replace("target", "");
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		try {
-			Object obj = new JSONParser().parse(new FileReader(correctedPath1 + "/questionsJSON.json"));
+			Object obj = new JSONParser().parse(new FileReader(correctedPath + "/questionsJSON.json"));
 			JSONObject jo = (JSONObject) obj;
 			JSONArray arr = (JSONArray) jo.get("questions");
 	
@@ -81,8 +80,6 @@ public class SysData {
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("JSON file is not formatted correctly!");
-			System.out.println(correctedPath1 + "/questionsJSON.json");
-			System.out.println(abPath1.toString());
 			return arrlistq;
 		}
 		return arrlistq;
@@ -94,6 +91,7 @@ public class SysData {
 	 */
 	@SuppressWarnings({ "unchecked" })
 	public static boolean addQuestionToJSON(Question q) throws FileNotFoundException {
+		
 		JSONParser jsonParser = new JSONParser();
 
         try {
@@ -129,6 +127,7 @@ public class SysData {
 	}
 	
     public static boolean deleteQuestionFromJSON(Question q) {
+    	
       	 try {
       	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(correctedPath + "/questionsJSON.json"));
       	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
@@ -246,6 +245,7 @@ public class SysData {
 	
 	 @SuppressWarnings({ "unchecked" })
 		public static ArrayList<RecordWinner> initializeTopTen() {
+			
 	      	//Fill the top 10 with past data about winners:
 	    	//read top10 winners from ser file "topTenWinners.ser"
 	        try{
@@ -282,6 +282,7 @@ public class SysData {
 	 
 	 @SuppressWarnings("unchecked")
 	public static void addToTopTen (String username, int score, double time) {
+		 
 			boolean did_earn_trophy;
 			if (score > 200) {
 				score = 200;

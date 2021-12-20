@@ -39,11 +39,6 @@ public class JFXLauncher extends Application {
     private MediaView mv;
     
     AnchorPane root;
-    
-
-	private static File temp = new File("");
-	private static char[] abPath = temp.getAbsolutePath().toCharArray();
-	private static String correctedPath = String.valueOf(abPath).replace("target", "");
 	
     public static void main(String[] args) {
 		launch(args);
@@ -67,7 +62,7 @@ public class JFXLauncher extends Application {
 			primaryStage.setTitle("Pacman IS-21");
 			primaryStage.getIcons().add(new Image("/views/images/sad_pacman.jpg"));
 			primaryStage.show();
-			String path = new File(correctedPath + "/Pacman-master/src/media/tutorial.mp4").getAbsolutePath();
+			String path = new File(SysData.correctedPath + "/Pacman-master/src/media/tutorial.mp4").getAbsolutePath();
 			mp = new MediaPlayer(new Media(new File(path).toURI().toString()));
 			mv = new MediaView(mp);
 			mp.setVolume(0);
