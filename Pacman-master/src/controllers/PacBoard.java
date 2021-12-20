@@ -91,7 +91,7 @@ public class PacBoard extends JPanel{
     
 
     // Constructor
-    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
+    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData map1, PacWindow pw){
     	
     	SysData.initializeTopTen(); 
     	this.username = pw.getUsername();
@@ -101,16 +101,16 @@ public class PacBoard extends JPanel{
     	this.scoreboard = scoreboard;
     	
         this.setDoubleBuffered(true);
-        md_backup = md;
+        md_backup = map1;
         windowParent = pw;
 
-        m_x = md.getX();
-        m_y = md.getY();
-        this.map = md.getMap();
+        m_x = map1.getX();
+        m_y = map1.getY();
+        this.map = map1.getMap();
 
-        this.isCustom = md.isCustom();
-        this.ghostBase = md.getGhostBasePosition();
-        pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
+        this.isCustom = map1.isCustom();
+        this.ghostBase = map1.getGhostBasePosition();
+        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this);
         addKeyListener(pacman);
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
@@ -138,15 +138,15 @@ public class PacBoard extends JPanel{
                 }
             }
         }else{
-            foods = md.getFoodPositions();
+            foods = map1.getFoodPositions();
         }
 
-        pufoods = md.getPufoodPositions();
-        questionIcons = md.getquestionIconsPositions();
+        pufoods = map1.getPufoodPositions();
+        questionIcons = map1.getquestionIconsPositions();
 
         // Add all ghosts
         ghosts = new ArrayList<>();
-        for(GhostData gd : md.getGhostsData()){
+        for(GhostData gd : map1.getGhostsData()){
             switch(gd.getType()) {
                 case RED:
                     ghosts.add(new RedGhost(gd.getX(), gd.getY(), this));
@@ -298,8 +298,8 @@ public class PacBoard extends JPanel{
                 	}
                 	else {
                 		// Game Over
-                        isGameOver = true;	
                         pause();
+                        isGameOver = true;	
                 	}
                     
                     break;
@@ -443,7 +443,7 @@ public class PacBoard extends JPanel{
             	nextLevel();
             } else {
                 isWin = true;
-            	pause();
+                pause();
             }
         } else if (score + amount >= 200) {
         	score = 200;
@@ -666,7 +666,6 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_lost_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
-        			stop();
         			windowParent.dispose();
 					LoserAnnouncment.loserWindow(username);
 				} catch (HeadlessException | IOException e) {
@@ -682,7 +681,6 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_victoy_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
-        			stop();
         			windowParent.dispose();
 					WinnerAnnouncment.winnerWindow(username);
 				} catch (HeadlessException | IOException e) {
@@ -782,7 +780,6 @@ public class PacBoard extends JPanel{
     // Stops the game (stops all the timers in the program)
     public void stop() {
     	pause();
-    	if(redrawTimer == null) return;
     	redrawTimer.stop();
     	for(Timer t : foodRespawnTimers) {
     		if(t != null) {
@@ -1064,7 +1061,7 @@ public class PacBoard extends JPanel{
 	}
 
 
-	public void setGhostToRemove(ArrayList<Ghost> ghostsToRemove) {
+	public void setGhostToRemove(ArrayList<Ghost> ghostToRemove) {
 		this.ghostsToRemove = ghostsToRemove;
 	}
     
