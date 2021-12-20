@@ -70,6 +70,9 @@ public class EditQuestionsController {
     // save the changes that have been made to the existing question 
     @FXML
     void submitChange(ActionEvent event) {
+    	//ArrayList<Question> selectedQuestions = new ArrayList<>();
+    	//selectedQuestions.addAll(questionsTable.getSelectionModel().getSelectedItems());
+    	//tableList.addAll(SysData.readQuestionsJSON());
     // get all the details of the question we chose to edit
 		for (Question q : SysData.readQuestionsJSON()) {
 			if (q.getQuestionID() == QuestionsController.chosenQuesId) {
@@ -92,6 +95,9 @@ public class EditQuestionsController {
 
 			}
 		}
+		//tableList.removeAll(selectedQuestions);
+		//questionsTable.setItems(null);
+		//questionsTable.setItems(tableList);
     }
 
 	// ********************************* pop-up message ********************************* //

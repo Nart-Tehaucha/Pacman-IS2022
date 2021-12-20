@@ -466,12 +466,28 @@ public class PacWindow extends JFrame {
                         mustSet = 18;
                     }
 
+                    //System.out.println("MAP SEGMENT : " + mustSet);
                     map[x][y] = mustSet;
                 }
                 
             }
         }
         mapd.setMap(map);
+        
+        // Print map array
+        /*for(int ii=0;ii<my;ii++){
+            for(int jj=0;jj<mx;jj++){
+            	if(map[jj][ii] < 10) {
+            		System.out.print(map[jj][ii] + "  ");	
+            	}
+            	else {
+            		System.out.print(map[jj][ii] + " ");
+            	}
+            }
+            System.out.print('\n');
+        }*/
+        
+        //System.out.println("Map Adjust OK !");
     }
 
     public PacBoard getPacBoard() {

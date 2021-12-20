@@ -108,6 +108,7 @@ public class Pacman implements KeyListener{
                         }
                         //send update message
                         parentBoard.dispatchEvent(new ActionEvent(this,Messages.UPDATE,null));
+                        //System.out.println(logicalPosition);
                     }
                     isStuck = true;
                     animTimer.stop();

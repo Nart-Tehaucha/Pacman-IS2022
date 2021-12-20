@@ -7,7 +7,7 @@ XXXXXX_XX_XXX_XXX_XX_XXXXXX
 =====X_XX1_______2XX_X=====
 =====X_XX__XXYXX__XX_X=====
 XXXXXX_XX__X===X__XX_XXXXXX
-X=_________X=B=X_________=X
+X__________X=B=X__________X
 XXXXXX_XX__X===X__XX_XXXXXX
 =====X_XX__XXXXX__XX_X=====
 =====X_XX____3____XX_X=====

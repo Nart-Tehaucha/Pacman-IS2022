@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import controllers.PacBoard;
 import models.Answer;
 import models.Question;
-import controllers.SysData;
+import models.SysData;
 import views.PacWindow;
 
 public class JSONtest {
@@ -51,7 +51,7 @@ public class JSONtest {
 	public void testScoreInit() { 
 		PacWindow pw = new PacWindow("Test"); 
 		PacBoard pb = pw.getPacBoard();
-		int score = pb.getScore(); 
+		int score = pb.score; 
 		assertEquals(score, 0); 
 		} 
 	
@@ -59,16 +59,16 @@ public class JSONtest {
 	public void testNumOfGhost() {
 		PacWindow pw = new PacWindow("Test"); 
 		PacBoard pb = pw.getPacBoard();
-		assertEquals(pb.getGhosts().size(), 3); 
+		assertEquals(pb.ghosts.size(), 3); 
 	}
 	
 	@Test
 	public void isScoreIncreased() {
 		PacWindow pw = new PacWindow("Test"); 
 		PacBoard pb = pw.getPacBoard();
-		int scoreBefore = pb.getScore();
+		int scoreBefore = pb.score;
 		pb.addScore(1);
-		int scoreAfter = pb.getScore();
+		int scoreAfter = pb.score;
 		assertTrue(scoreBefore + 1 == scoreAfter);
 	}
 }
