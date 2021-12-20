@@ -75,13 +75,12 @@ public class QuestionWindow extends JFrame implements ActionListener {
         group.add(rdAnswer3);
         group.add(rdAnswer4);
 
-        
-        
         //Register a listener for the radio buttons.
         rdAnswer1.addActionListener(this);
         rdAnswer2.addActionListener(this);
         rdAnswer3.addActionListener(this);
         rdAnswer4.addActionListener(this);
+        System.out.println(group.getSelection().toString());
         
 
         //Put the radio buttons in a column in a panel.

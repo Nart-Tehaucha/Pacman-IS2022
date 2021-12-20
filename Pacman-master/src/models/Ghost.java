@@ -172,6 +172,7 @@ public abstract class Ghost {
         ArrayList<moveType> possibleMoves = new ArrayList<>();
 
         if(logicalPosition.x >= 0 && logicalPosition.x < parentBoard.getM_x()-1 && logicalPosition.y >= 0 && logicalPosition.y < parentBoard.getM_y()-1 ) {
+            //System.out.println(this.toString());
             if (!(parentBoard.getMap()[logicalPosition.x + 1][logicalPosition.y] > 0)) {
                 possibleMoves.add(moveType.RIGHT);
             }

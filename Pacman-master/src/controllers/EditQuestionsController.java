@@ -70,6 +70,9 @@ public class EditQuestionsController {
     // save the changes that have been made to the existing question 
     @FXML
     void submitChange(ActionEvent event) {
+    	//ArrayList<Question> selectedQuestions = new ArrayList<>();
+    	//selectedQuestions.addAll(questionsTable.getSelectionModel().getSelectedItems());
+    	//tableList.addAll(SysData.readQuestionsJSON());
     // get all the details of the question we chose to edit
 		for (Question q : SysData.readQuestionsJSON()) {
 			if (q.getQuestionID() == QuestionsController.chosenQuesId) {
@@ -82,6 +85,11 @@ public class EditQuestionsController {
 				newAnswers.add(ansRes2);
 				newAnswers.add(ansRes3);
 				newAnswers.add(ansRes4);
+				if(content.getText().isBlank() || difficulty.getValue().isEmpty() || correct.getSelectionModel().isEmpty() || ans1.getText().isBlank() ||
+						ans2.getText().isBlank() || ans3.getText().isBlank() || ans4.getText().isBlank() ) {
+					showAlert(AlertType.WARNING, "Failed to Add", "You must fill all the fields", null);
+	       			return;
+				}
 				if(SysData.editQuestionInJSON(new Question(q.getQuestionID(), content.getText(), difficulty.getSelectionModel().getSelectedItem(),
 						newAnswers,(int)correct.getSelectionModel().getSelectedItem()))) {
 					showAlert(AlertType.INFORMATION, "Success", "You successfully edited the question", "");
@@ -92,6 +100,9 @@ public class EditQuestionsController {
 
 			}
 		}
+		//tableList.removeAll(selectedQuestions);
+		//questionsTable.setItems(null);
+		//questionsTable.setItems(tableList);
     }
 
 	// ********************************* pop-up message ********************************* //

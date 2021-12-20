@@ -26,6 +26,8 @@ public class JFXLauncher extends Application {
 	
 	@FXML 
 	private AnchorPane mainPane;
+	
+	private Stage stage;
 
     @FXML
     private Button Start;
