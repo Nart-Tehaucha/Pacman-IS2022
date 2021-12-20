@@ -782,6 +782,7 @@ public class PacBoard extends JPanel{
     // Stops the game (stops all the timers in the program)
     public void stop() {
     	pause();
+    	if(redrawTimer == null) return;
     	redrawTimer.stop();
     	for(Timer t : foodRespawnTimers) {
     		if(t != null) {
