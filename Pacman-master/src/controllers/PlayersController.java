@@ -66,6 +66,11 @@ public class PlayersController implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private static PlayersController playersController = null;
+	private static File temp = new File("");
+	private static char[] abPath = temp.getAbsolutePath().toCharArray();
+	private static String correctedPath = String.valueOf(abPath).replace("target", "");
+	
+
 
 	 @FXML
 	    private AnchorPane MainPanel;
@@ -106,7 +111,7 @@ public class PlayersController implements Serializable{
 
     @FXML
     void goToPageBefore(MouseEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource(correctedPath + "/views/LoginScreen.fxml"));
 		LoadScreen(loader);
 		return;
     }
@@ -135,7 +140,7 @@ public class PlayersController implements Serializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-    				FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+    				FXMLLoader loader = new FXMLLoader(getClass().getResource(correctedPath + "/views/Menu.fxml"));
 					LoadScreen(loader);
 					return;
     			}
@@ -174,11 +179,13 @@ public class PlayersController implements Serializable{
     }
 
     public static ArrayList<Player> readPlayersFromJSON() throws Exception {
+    	
+    	
 		ArrayList<Player> arrlistp = new ArrayList<>();
 		JSONParser jsonParser = new JSONParser();
 		
 		try {		
-			JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("players.json"));
+			JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(correctedPath + "/players.json"));
 			JSONArray arr = (JSONArray) obj.get("players");
 			
 			for (Object o : arr) {
@@ -204,7 +211,7 @@ public class PlayersController implements Serializable{
 		playersObj.put("players", playersList);
 		
 		
-		try(FileWriter fw = new FileWriter("players.json")) {
+		try(FileWriter fw = new FileWriter(correctedPath + "/players.json")) {
 			fw.write(playersObj.toJSONString());
 			fw.flush();
 		}
@@ -219,7 +226,7 @@ public class PlayersController implements Serializable{
 		JSONParser jsonParser = new JSONParser();
 
         try {
-            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("players.json"));
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader(correctedPath + "/players.json"));
             
             JSONArray jsonArray = (JSONArray) obj.get("players");
                       
@@ -229,7 +236,7 @@ public class PlayersController implements Serializable{
 
             jsonArray.add(player);
             
-            FileWriter file = new FileWriter("players.json");
+            FileWriter file = new FileWriter(correctedPath + "/players.json");
             file.write(obj.toJSONString());
             file.flush();
             file.close();
@@ -242,7 +249,7 @@ public class PlayersController implements Serializable{
 	
     public static void deletePlayerFromJSON(Player player) {
    	 try {
-   	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("players.json"));
+   	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(correctedPath + "/players.json"));
    	        JSONArray jsonArray = (JSONArray) jsonObject.get("players");
    	        
    	        JSONArray aux = (JSONArray) jsonArray.clone();
@@ -253,7 +260,7 @@ public class PlayersController implements Serializable{
 	                jsonArray.remove(o);
    	        	}
    	        }
-   	        try (FileWriter file = new FileWriter("players.json")) { //store data
+   	        try (FileWriter file = new FileWriter(correctedPath + "/players.json")) { //store data
    	            file.write(jsonObject.toJSONString());
    	            file.flush();
    	        }
@@ -277,6 +284,7 @@ public class PlayersController implements Serializable{
 	}
 
 	private void showAlert(AlertType type, String title, String header, String text) {
+		
 		Alert alert = new Alert(type);
 
 		alert.setHeight(Region.USE_PREF_SIZE);
@@ -288,9 +296,7 @@ public class PlayersController implements Serializable{
 		DialogPane dialogPane = alert.getDialogPane();
 		dialogPane.setStyle(
 				"-fx-background-image: url('/views/bg.jpg'); -fx-background-size: cover; -fx-font-weight: bold; -fx-font-size: 12px;");
-		File temp = new File("");
-		String abPath = temp.getAbsolutePath();
-		String path = new File(abPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
+		String path = new File(correctedPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
 		MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
 		sound.play();
 		alert.showAndWait();
@@ -306,67 +312,6 @@ public class PlayersController implements Serializable{
 		alert.setHeaderText(header);
 		alert.setContentText(text);
 		alert.showAndWait();
-	}
-
-	public void writeToFile() {
-		
-		try {
-			FileOutputStream fileOut= new FileOutputStream("Players.ser");
-			ObjectOutputStream o = new ObjectOutputStream(fileOut);
-		
-			o.writeObject(this);
-			//o.flush();
-			o.close();
-			fileOut.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public static void readFile() {
-
-		try {
-
-			FileInputStream fileIn = new FileInputStream("PlayerSaveFile.ser");
-			ObjectInputStream i = new ObjectInputStream(fileIn);
-			playersController = (PlayersController) i.readObject();
-			i.close();
-			fileIn.close();
-			
-		} catch (FileNotFoundException e) {
-			playersController = new PlayersController();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException c) {
-			c.printStackTrace();
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void write(ObservableList<Player> list) { // saving the scores to
-														// file
-
-		try {
-
-			FileOutputStream fos = new FileOutputStream("PlayerSaveFile.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(new ArrayList<Player>(list));
-			oos.close();
-			fos.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 }
