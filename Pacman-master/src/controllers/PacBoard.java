@@ -49,7 +49,8 @@ public class PacBoard extends JPanel{
     private ArrayList<Question> questions; // Questions
     private HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
     private ArrayList<Timer> foodRespawnTimers; // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
-
+    private ArrayList<Timer> bombRespawnTimers; // Contains timers for every eaten bomb. Each timer activates after 30 seconds and respawns the bomb
+    
     private boolean isCustom = false; // Is it a custom made map?
     private boolean isGameOver = false;
     private boolean isWin = false;
@@ -118,6 +119,7 @@ public class PacBoard extends JPanel{
         questionIcons = new ArrayList<>(); //Objects on the map representing questions that can be eaten
         questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
         foodRespawnTimers = new ArrayList<>(); // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
+        bombRespawnTimers = new ArrayList<>(); // Contains timers for every eaten bomb. Each timer activates after 30 seconds and respawns the bomb
         ghostsToRemove = new ArrayList<>(); // Contains all ghosts that will be die
         
         // Load questions from JSON file to arraylist
@@ -350,6 +352,7 @@ public class PacBoard extends JPanel{
                 // Eat Bomb
             	case 0:
                     pufoods.remove(puFoodToEat);
+                    respawnBomb(puFoodToEat.getPosition());
                     pacman.setStrong(true);
                     pacman.setInLocation(true);
                     break;
@@ -731,6 +734,22 @@ public class PacBoard extends JPanel{
         //SysData.allTimers.add(respawnTimer);
         respawnTimer.start();
     }
+    
+    // Respawns eaten pacpoint after 30 seconds
+    public void respawnBomb(Point position) {
+        //animation timer
+        ActionListener respawnAL = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                pufoods.add(new PowerUpFood(position.x, position.y, 0));
+            }
+        };
+        Timer respawnTimer = new Timer(30000,respawnAL);
+        respawnTimer.setRepeats(false);
+        bombRespawnTimers.add(respawnTimer);
+        //System.out.println(foodRespawnTimers.size());
+        //SysData.allTimers.add(respawnTimer);
+        respawnTimer.start();
+    }
 
     
     // Opens the Question pop-up window
@@ -770,6 +789,11 @@ public class PacBoard extends JPanel{
     	pause();
     	redrawTimer.stop();
     	for(Timer t : foodRespawnTimers) {
+    		if(t != null) {
+    			t.stop();
+    		}
+    	}
+    	for(Timer t : bombRespawnTimers) {
     		if(t != null) {
     			t.stop();
     		}

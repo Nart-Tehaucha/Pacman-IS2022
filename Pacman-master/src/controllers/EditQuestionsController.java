@@ -19,7 +19,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import models.Answer;
 import models.Question;
-import models.SysData;
 
 //This class was made for controlling the editing question screen
 public class EditQuestionsController {

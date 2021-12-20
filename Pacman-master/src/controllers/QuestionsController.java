@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import models.Answer;
 import models.Question;
-import models.SysData;
 
 // controls the questions manager
 public class QuestionsController {

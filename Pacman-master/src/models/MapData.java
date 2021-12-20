@@ -1,9 +1,7 @@
-package controllers;
+package models;
 
 import java.awt.*;
 import java.util.ArrayList;
-
-import models.*;
 
 
 // Data about the map and the positions of the objects.

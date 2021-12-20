@@ -28,7 +28,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import models.Player;
-import models.SysData;
 
 // controls the login screen- when a user wants to enter the system
 public class LoginScreen{

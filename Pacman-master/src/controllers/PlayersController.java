@@ -58,7 +58,6 @@ import javafx.scene.text.Text;
 import models.Answer;
 import models.Player;
 import models.Question;
-import models.SysData;
 
 // controls the new player screen, implements Serializable in order to retrieve all the data of the players
 // implemets Comparator

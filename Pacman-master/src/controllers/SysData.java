@@ -1,5 +1,6 @@
-package models;
+package controllers;
 
+import models.*;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,7 +23,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import controllers.RecordWinner;
+import models.Question;
 
 
 public class SysData {
@@ -31,15 +32,6 @@ public class SysData {
 	public static ArrayList<Question> allQuestions = readQuestionsJSON();
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
-	
-	public static String getThisUser() {
-		return thisUser;
-	}
-
-
-	public static void setThisUser(String thisUser) {
-		SysData.thisUser = thisUser;
-	}
 
 	private static String thisUser;
 	
@@ -59,6 +51,7 @@ public class SysData {
 		try {
 			Object obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
 			JSONObject jo = (JSONObject) obj;
+			System.out.println(jo.size());
 			JSONArray arr = (JSONArray) jo.get("questions");
 	
 			for (Object questionObj : arr) {
@@ -84,7 +77,8 @@ public class SysData {
 			}
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("JSON file is not formatted correctly!");
+			return arrlistq;
 		}
 		return arrlistq;
 	}
@@ -123,7 +117,8 @@ public class SysData {
             file.close();
             
         } catch (ParseException | IOException e) {
-            e.printStackTrace();
+        	System.out.println("Couldn't add question, check if the JSON file is formatted correctly!");
+        	return false;
         }
         return true;
 	}
@@ -341,4 +336,13 @@ public class SysData {
 			return;
 		}
 
+	 
+		public static String getThisUser() {
+			return thisUser;
+		}
+
+
+		public static void setThisUser(String thisUser) {
+			SysData.thisUser = thisUser;
+		}
 }
