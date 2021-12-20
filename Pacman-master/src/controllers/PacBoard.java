@@ -298,9 +298,8 @@ public class PacBoard extends JPanel{
                 	}
                 	else {
                 		// Game Over
+                        isGameOver = true;	
                         pause();
-                        isGameOver = true;
-                        scoreboard.setText("    Press R to try again !");	
                 	}
                     
                     break;
@@ -446,7 +445,7 @@ public class PacBoard extends JPanel{
             	nextLevel();
             } else {
                 isWin = true;
-                pause();
+            	pause();
             }
         } else if (score + amount >= 200) {
         	score = 200;
@@ -669,6 +668,7 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_lost_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
+        			stop();
         			windowParent.dispose();
 					LoserAnnouncment.loserWindow(username);
 				} catch (HeadlessException | IOException e) {
@@ -684,6 +684,7 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_victoy_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
+        			stop();
         			windowParent.dispose();
 					WinnerAnnouncment.winnerWindow(username);
 				} catch (HeadlessException | IOException e) {
