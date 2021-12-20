@@ -7,8 +7,6 @@ import javax.swing.*;
 
 
 import models.*;
-import models.MapData;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +49,8 @@ public class PacBoard extends JPanel{
     private ArrayList<Question> questions; // Questions
     private HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
     private ArrayList<Timer> foodRespawnTimers; // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
-
+    private ArrayList<Timer> bombRespawnTimers; // Contains timers for every eaten bomb. Each timer activates after 30 seconds and respawns the bomb
+    
     private boolean isCustom = false; // Is it a custom made map?
     private boolean isGameOver = false;
     private boolean isWin = false;
@@ -92,7 +91,7 @@ public class PacBoard extends JPanel{
     
 
     // Constructor
-    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData map1, PacWindow pw){
+    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData md, PacWindow pw){
     	
     	SysData.initializeTopTen(); 
     	this.username = pw.getUsername();
@@ -102,16 +101,16 @@ public class PacBoard extends JPanel{
     	this.scoreboard = scoreboard;
     	
         this.setDoubleBuffered(true);
-        md_backup = map1;
+        md_backup = md;
         windowParent = pw;
 
-        m_x = map1.getX();
-        m_y = map1.getY();
-        this.map = map1.getMap();
+        m_x = md.getX();
+        m_y = md.getY();
+        this.map = md.getMap();
 
-        this.isCustom = map1.isCustom();
-        this.ghostBase = map1.getGhostBasePosition();
-        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this);
+        this.isCustom = md.isCustom();
+        this.ghostBase = md.getGhostBasePosition();
+        pacman = new Pacman(md.getPacmanPosition().x,md.getPacmanPosition().y,this);
         addKeyListener(pacman);
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
@@ -120,6 +119,7 @@ public class PacBoard extends JPanel{
         questionIcons = new ArrayList<>(); //Objects on the map representing questions that can be eaten
         questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
         foodRespawnTimers = new ArrayList<>(); // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
+        bombRespawnTimers = new ArrayList<>(); // Contains timers for every eaten bomb. Each timer activates after 30 seconds and respawns the bomb
         ghostsToRemove = new ArrayList<>(); // Contains all ghosts that will be die
         
         // Load questions from JSON file to arraylist
@@ -138,15 +138,15 @@ public class PacBoard extends JPanel{
                 }
             }
         }else{
-            foods = map1.getFoodPositions();
+            foods = md.getFoodPositions();
         }
 
-        pufoods = map1.getPufoodPositions();
-        questionIcons = map1.getquestionIconsPositions();
+        pufoods = md.getPufoodPositions();
+        questionIcons = md.getquestionIconsPositions();
 
         // Add all ghosts
         ghosts = new ArrayList<>();
-        for(GhostData gd : map1.getGhostsData()){
+        for(GhostData gd : md.getGhostsData()){
             switch(gd.getType()) {
                 case RED:
                     ghosts.add(new RedGhost(gd.getX(), gd.getY(), this));
@@ -298,9 +298,8 @@ public class PacBoard extends JPanel{
                 	}
                 	else {
                 		// Game Over
+                        isGameOver = true;	
                         pause();
-                        isGameOver = true;
-                        scoreboard.setText("    Press R to try again !");	
                 	}
                     
                     break;
@@ -352,6 +351,7 @@ public class PacBoard extends JPanel{
                 // Eat Bomb
             	case 0:
                     pufoods.remove(puFoodToEat);
+                    respawnBomb(puFoodToEat.getPosition());
                     pacman.setStrong(true);
                     pacman.setInLocation(true);
                     break;
@@ -408,7 +408,6 @@ public class PacBoard extends JPanel{
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
             if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
-                //System.out.println("TELE !");
                 pacman.setLogicalPosition(tp.getTo());
                 pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
                 pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
@@ -418,7 +417,6 @@ public class PacBoard extends JPanel{
     
     // Respawns a ghost that just died
 	private void spawnNewGhost(int ghostType) {
-		System.out.println("SPAWNED");
         switch(ghostType) {
         case 1:
             ghosts.add(new RedGhost(ghostBase.x, ghostBase.y, this));
@@ -445,7 +443,7 @@ public class PacBoard extends JPanel{
             	nextLevel();
             } else {
                 isWin = true;
-                pause();
+            	pause();
             }
         } else if (score + amount >= 200) {
         	score = 200;
@@ -668,6 +666,7 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_lost_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
+        			stop();
         			windowParent.dispose();
 					LoserAnnouncment.loserWindow(username);
 				} catch (HeadlessException | IOException e) {
@@ -683,6 +682,7 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_victoy_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
+        			stop();
         			windowParent.dispose();
 					WinnerAnnouncment.winnerWindow(username);
 				} catch (HeadlessException | IOException e) {
@@ -729,8 +729,20 @@ public class PacBoard extends JPanel{
         Timer respawnTimer = new Timer(30000,respawnAL);
         respawnTimer.setRepeats(false);
         foodRespawnTimers.add(respawnTimer);
-        //System.out.println(foodRespawnTimers.size());
-        //SysData.allTimers.add(respawnTimer);
+        respawnTimer.start();
+    }
+    
+    // Respawns eaten pacpoint after 30 seconds
+    public void respawnBomb(Point position) {
+        //animation timer
+        ActionListener respawnAL = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                pufoods.add(new PowerUpFood(position.x, position.y, 0));
+            }
+        };
+        Timer respawnTimer = new Timer(30000,respawnAL);
+        respawnTimer.setRepeats(false);
+        bombRespawnTimers.add(respawnTimer);
         respawnTimer.start();
     }
 
@@ -770,8 +782,14 @@ public class PacBoard extends JPanel{
     // Stops the game (stops all the timers in the program)
     public void stop() {
     	pause();
+    	if(redrawTimer == null) return;
     	redrawTimer.stop();
     	for(Timer t : foodRespawnTimers) {
+    		if(t != null) {
+    			t.stop();
+    		}
+    	}
+    	for(Timer t : bombRespawnTimers) {
     		if(t != null) {
     			t.stop();
     		}
@@ -1046,7 +1064,7 @@ public class PacBoard extends JPanel{
 	}
 
 
-	public void setGhostToRemove(ArrayList<Ghost> ghostToRemove) {
+	public void setGhostToRemove(ArrayList<Ghost> ghostsToRemove) {
 		this.ghostsToRemove = ghostsToRemove;
 	}
     

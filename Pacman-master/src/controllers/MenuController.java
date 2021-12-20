@@ -2,8 +2,6 @@ package controllers;
 
 import java.io.IOException;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import models.Player;
 import views.PacWindow;
 
 
@@ -45,10 +42,6 @@ public class MenuController {
     private Button StartPlayBtn;
     
 	private Stage stage;
-	
-
-	
-	private ObservableList<Player> player = FXCollections.observableArrayList();
 
 	private String username;
 

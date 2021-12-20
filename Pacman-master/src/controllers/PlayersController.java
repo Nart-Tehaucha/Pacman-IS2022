@@ -106,7 +106,7 @@ public class PlayersController implements Serializable{
 
     @FXML
     void goToPageBefore(MouseEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/LoginScreen.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
 		LoadScreen(loader);
 		return;
     }
@@ -135,7 +135,7 @@ public class PlayersController implements Serializable{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-    				FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/Menu.fxml"));
+    				FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 					LoadScreen(loader);
 					return;
     			}

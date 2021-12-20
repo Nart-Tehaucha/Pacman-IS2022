@@ -53,6 +53,7 @@ public class MapFactory {
             if(c == 'P'){
                 map[i][j] = 0;
                 customMap.setPacmanPosition(new Point(i,j));
+                customMap.getFoodPositions().add(new Food(i,j));
             }
             // X - Wall
             if(c == 'X'){

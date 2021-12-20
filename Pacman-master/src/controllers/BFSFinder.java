@@ -127,35 +127,7 @@ public class BFSFinder {
             }
         }
         
-      // MARKMAT PRINTOUT  
-      /*  
-      System.out.println("====================================================================");
-      for (int ii = 0; ii < x; ii++) {
-          for (int jj = 0; jj < y; jj++) {
-              if(markMat[ii][jj]) {
-              	System.out.print(String.format("%2d",0));
-              } else {
-          	System.out.print(String.format("%2d",1));
-              }
-          }
-          System.out.println("");
-      }
-      System.out.println("====================================================================");
-      */
-	/*
-	System.out.println("====================================================================");
-	for (int ii = 0; ii < mx; ii++) {
-	    for (int jj = 0; jj < my; jj++) {
-	        if(mazeCellTable[ii][jj] == null) {
-	        	System.out.print(String.format("%5s",""));
-	        } else {
-	    	System.out.print(String.format("%5s",mazeCellTable[ii][jj].x + "," + mazeCellTable[ii][jj].y));
-	        }
-	    }
-	    System.out.println("");
-	}
-	System.out.println("====================================================================");
-	*/
+
 
         // This code gets the current position of the Ghost
         int ttx = tx;
