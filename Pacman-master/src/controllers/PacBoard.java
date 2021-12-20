@@ -666,6 +666,7 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_lost_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
+        			stop();
         			windowParent.dispose();
 					LoserAnnouncment.loserWindow(username);
 				} catch (HeadlessException | IOException e) {
@@ -681,6 +682,7 @@ public class PacBoard extends JPanel{
         	if(flag_did_open_victoy_window == false) {
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
+        			stop();
         			windowParent.dispose();
 					WinnerAnnouncment.winnerWindow(username);
 				} catch (HeadlessException | IOException e) {

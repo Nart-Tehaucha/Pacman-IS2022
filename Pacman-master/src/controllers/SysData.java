@@ -79,7 +79,7 @@ public class SysData {
 			}
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("JSON file is not formatted correctly!");
+			System.err.println("");
 			return arrlistq;
 		}
 		return arrlistq;
