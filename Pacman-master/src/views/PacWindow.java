@@ -34,7 +34,7 @@ public class PacWindow extends JFrame {
         
     	//Assign user name field
     	this.username = username;
-        setTitle("IS 2022 getPacman() Game"); // Title of the game
+        setTitle("IS 2022 Pacman Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard

@@ -46,7 +46,7 @@ public class SysData {
 	public static ArrayList<Question> readQuestionsJSON() {
 		ArrayList<Question> arrlistq = new ArrayList<Question>();
 		try {
-			Object obj = new JSONParser().parse(new FileReader("questionsJSON.json"));
+			Object obj = new JSONParser().parse(new FileReader("./questionsJSON.json"));
 			JSONObject jo = (JSONObject) obj;
 			JSONArray arr = (JSONArray) jo.get("questions");
 	
@@ -88,7 +88,7 @@ public class SysData {
 		JSONParser jsonParser = new JSONParser();
 
         try {
-            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("questionsJSON.json"));
+            JSONObject obj = (JSONObject) jsonParser.parse(new FileReader("./questionsJSON.json"));
             
             JSONArray jsonArray = (JSONArray) obj.get("questions");
             int size = 0;
@@ -107,7 +107,7 @@ public class SysData {
 
             jsonArray.add(question);
             
-            FileWriter file = new FileWriter("questionsJSON.json");
+            FileWriter file = new FileWriter("./questionsJSON.json");
             file.write(obj.toJSONString());
             file.flush();
             file.close();
@@ -121,7 +121,7 @@ public class SysData {
 	
     public static boolean deleteQuestionFromJSON(Question q) {
       	 try {
-      	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
+      	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("./questionsJSON.json"));
       	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
       	        
       	        JSONArray aux = (JSONArray) jsonArray.clone();
@@ -138,7 +138,7 @@ public class SysData {
       	        	else
       	        		return false;
       	        }
-      	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
+      	        try (FileWriter file = new FileWriter("./questionsJSON.json")) { //store data
       	            file.write(jsonObject.toJSONString());
       	            file.flush();
       	        }
@@ -154,7 +154,7 @@ public class SysData {
     public static boolean deleteQuestionFromJSONByID(int questionID) {
 
     	 try {
-    	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
+    	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("./questionsJSON.json"));
     	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
     	        
     	        JSONArray aux = (JSONArray) jsonArray.clone();
@@ -166,7 +166,7 @@ public class SysData {
     	        	}
     	        }
     	        
-    	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
+    	        try (FileWriter file = new FileWriter("./questionsJSON.json")) { //store data
     	            file.write(jsonObject.toJSONString());
     	            file.flush();
     	        }
@@ -187,7 +187,7 @@ public class SysData {
     public static boolean editQuestionInJSON(Question newQuestion) {
 
      	 try {
-     	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("questionsJSON.json"));
+     	        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader("./questionsJSON.json"));
      	        JSONArray jsonArray = (JSONArray) jsonObject.get("questions");
      	        
      	        JSONArray aux = (JSONArray) jsonArray.clone();
@@ -205,7 +205,7 @@ public class SysData {
 	  	            	jo.put("correct_ans", newQuestion.getCorrect_ans());
      	        	}
      	        }
-     	        try (FileWriter file = new FileWriter("questionsJSON.json")) { //store data
+     	        try (FileWriter file = new FileWriter("./questionsJSON.json")) { //store data
      	            file.write(jsonObject.toJSONString());
      	            file.flush();
      	        }
@@ -240,7 +240,7 @@ public class SysData {
 	      	//Fill the top 10 with past data about winners:
 	    	//read top10 winners from ser file "topTenWinners.ser"
 	        try{
-	            FileInputStream fis = new FileInputStream("topTenWinnersData.ser");
+	            FileInputStream fis = new FileInputStream("./topTenWinnersData.ser");
 	        	ObjectInputStream ois = new ObjectInputStream(fis);
 	        	oldTopTenWinnersAL = (ArrayList<RecordWinner>) ois.readObject();
 
@@ -313,7 +313,7 @@ public class SysData {
 			try
 		      {
 					oldTopTenWinnersAL=newTopTen;
-		           FileOutputStream fos = new FileOutputStream("topTenWinnersData.ser");
+		           FileOutputStream fos = new FileOutputStream("./topTenWinnersData.ser");
 		           ObjectOutputStream oos = new ObjectOutputStream(fos);
 		           oos.writeObject(newTopTen);
 		           oos.close();
