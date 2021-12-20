@@ -9,8 +9,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
     	//PlayersController.createJSON();
-    	JFXLauncher.main(args);
-    	//new PacWindow("Nart");
+    	//JFXLauncher.main(args);
+    	new PacWindow("Nart");
     	//Delete.winnerWindow("Shaze");
     	//Test.main(args);
     }
