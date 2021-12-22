@@ -1,6 +1,5 @@
 package controllers;
 
-import views.PacWindow;
 
 public class Main {
 	 
