@@ -144,7 +144,7 @@ public class QuestionsController {
 	    // go back to the menu
 	    @FXML
 	    void goToPageBefore(MouseEvent event) {
-	       	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+	       	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminMenu.fxml"));
 			LoadScreen(loader);
 			return;
 	    }

@@ -88,6 +88,11 @@ public class RecordsController {
 		
 	    @FXML
 	    void goToPageBefore(MouseEvent event) {
+	    	if(SysData.getThisUser().equals("admin")) {
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminMenu.fxml"));
+				LoadScreen(loader);
+				return;
+	    	}
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 			LoadScreen(loader);
 			return;
