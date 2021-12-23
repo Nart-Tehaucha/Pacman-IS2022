@@ -24,12 +24,13 @@ public class Pacman implements KeyListener{
     private boolean isEnterPressed =false; // Checks if enter has been pressed (to explode bomb)
     
 	private boolean isStrong = false; // Checks if pacman is holding a bomb
-
+	 private boolean missPac =false;
     //Animation Vars
 	private Timer animTimer; // Timer for the animation of Pacman
 	private ActionListener animAL;
 	private Image[] pac; // Images for normal pacman
 	private Image[] pacStrong; // Images for when pacman is holding a bomb
+	private Image[] mpac;// Images for miss pacman
 	private int activeImage = 0;
 	private int addFactor = 1;
 	private Point pixelPosition; // The actual position of Pacman
@@ -47,6 +48,7 @@ public class Pacman implements KeyListener{
 
         pac = new Image[5];
         pacStrong = new Image[5];
+        mpac = new Image[5];
 
         activeMove = moveType.NONE;
         todoMove = moveType.NONE;
@@ -69,6 +71,15 @@ public class Pacman implements KeyListener{
             pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
             pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
             pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
+        }catch(IOException e){
+            System.err.println("Cannot Read Images !");
+        }
+        try {
+            mpac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac0.png"));
+            mpac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac1.png"));
+            mpac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac2.png"));
+            mpac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac3.png"));
+            mpac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac4.png"));
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
         }
@@ -221,6 +232,9 @@ public class Pacman implements KeyListener{
     public Image getPacmanImage(){
     	if(!isStrong) {
         return pac[activeImage];
+    	}
+    	else if(missPac) {
+    		return mpac[activeImage];
     	}
     	else {
     		 return pacStrong[activeImage];
@@ -411,4 +425,20 @@ public class Pacman implements KeyListener{
 	public void setEnterPressed(boolean isEnterPressed) {
 		this.isEnterPressed = isEnterPressed;
 	}
+	public Image[] getMpac() {
+		return mpac;
+	}
+
+	public void setMpac(Image[] mpac) {
+		this.mpac = mpac;
+	}
+
+	public boolean isMissPac() {
+		return missPac;
+	}
+
+	public void setMissPac(boolean missPac) {
+		this.missPac = missPac;
+	}
+
 }
