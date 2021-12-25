@@ -22,9 +22,6 @@ public class newGameController {
 
 		private Pacman pacman;
 
-	      
-		
-
 	    @FXML
 	    private AnchorPane MainPanel;
 
@@ -32,7 +29,7 @@ public class newGameController {
 	    private Button MissPacBtn;
 
 	    @FXML
-	    private Button ZombieBtn;
+	    private Button choosePlayer;
 
 	    @FXML
 	    private Button StartPlayBtn;
@@ -40,8 +37,6 @@ public class newGameController {
 	    @FXML
 	    private ImageView logOut;
 
-	    @FXML
-	    private Button CovidBtn;
 
 	    @FXML
 	    void logOutOfSystem(MouseEvent event) {
@@ -60,22 +55,10 @@ public class newGameController {
 			stage.close();
 
 	    }
-	    @FXML
-	    void startCovid(ActionEvent event) {
-//	    	pacman = new Pacman();
-//	    	pacman.setCovidPac(true); //covidPac mode
-	    	PacMode ="covidPac";
-	    	stage = (Stage) MainPanel.getScene().getWindow();
-			username =SysData.getThisUser();
-			new PacWindow(username);
-			stage.close();
 
-	    }
 
 	    @FXML
 	    void startMissPac(ActionEvent event) {
-//	    	pacman = new Pacman();
-//	    	pacman.setMissPac(true);//missPac mode
 	    	PacMode ="missPac";
 	    	//System.out.println(" misspac " +pacman.isMissPac());
 	    	stage = (Stage) MainPanel.getScene().getWindow();
@@ -84,25 +67,7 @@ public class newGameController {
 			stage.close();
 	    }
 
-	    @FXML
-	    void startZombie(ActionEvent event) {
-//	    	pacman = new Pacman();
-//	    	pacman.setZombiePac(true);// zombiePac mode
-	    	PacMode ="zombiePac";
-	     	stage = (Stage) MainPanel.getScene().getWindow();
-			username =SysData.getThisUser();
-			new PacWindow(username);
-			stage.close();
 
-	    }
-	    @FXML
-	    void startChristmas(ActionEvent event) {
-	    	PacMode ="christmasPac";
-	     	stage = (Stage) MainPanel.getScene().getWindow();
-			username =SysData.getThisUser();
-			new PacWindow(username);
-			stage.close();
-	    }
 	    @FXML
 		void LoadScreen(FXMLLoader loader) {
 			try {

@@ -16,7 +16,7 @@
             <Image url="@images/logo.png" />
          </image>
       </ImageView>
-      <Button fx:id="MissPacBtn" layoutX="317.0" layoutY="213.0" mnemonicParsing="false" onAction="#startMissPac" stylesheets="@styleSheet.css" text="MissPac" textFill="WHITE">
+      <Button fx:id="MissPacBtn" layoutX="310.0" layoutY="178.0" mnemonicParsing="false" onAction="#startMissPac" stylesheets="@styleSheet.css" text="MissPac" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
@@ -32,7 +32,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="ZombieBtn" layoutX="247.0" layoutY="253.0" mnemonicParsing="false" onAction="#startZombie" prefHeight="44.0" prefWidth="243.0" stylesheets="@styleSheet.css" text=" ZombiePac" textFill="WHITE">
+      <Button fx:id="pacman" layoutX="229.0" layoutY="275.0" mnemonicParsing="false" onAction="#start" prefHeight="44.0" prefWidth="243.0" stylesheets="@styleSheet.css" text="Pacman" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
@@ -40,22 +40,6 @@
          </styleClass>
          <font>
             <Font name="System Bold" size="32.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
-      <Button fx:id="StartPlayBtn" layoutX="310.0" layoutY="156.0" mnemonicParsing="false" onAction="#start" stylesheets="@styleSheet.css" text="Start Play" textFill="WHITE">
-         <styleClass>
-            <String fx:value="Removechocie-box" />
-            <String fx:value="labelHeader" />
-            <String fx:value="lavenderHover" />
-         </styleClass>
-         <font>
-            <Font name="System Bold" size="76.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -72,23 +56,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Button fx:id="CovidBtn" layoutX="240.0" layoutY="312.0" mnemonicParsing="false" onAction="#startCovid" prefHeight="44.0" prefWidth="243.0" stylesheets="@styleSheet.css" text="CovidPac" textFill="WHITE">
-         <styleClass>
-            <String fx:value="Removechocie-box" />
-            <String fx:value="labelHeader" />
-            <String fx:value="lavenderHover" />
-         </styleClass>
-         <font>
-            <Font name="System Bold" size="32.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
-      <Button fx:id="christmasBtm" layoutX="247.0" layoutY="374.0" mnemonicParsing="false" onAction="#startChristmas" prefHeight="44.0" prefWidth="243.0" stylesheets="@styleSheet.css" text="ChristmasPac" textFill="WHITE">
+      <Button fx:id="choosePlayer" layoutX="38.0" layoutY="147.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="243.0" stylesheets="@styleSheet.css" text="Choose your player:" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />
             <String fx:value="labelHeader" />
