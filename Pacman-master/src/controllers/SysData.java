@@ -30,6 +30,8 @@ public class SysData {
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
 
 	private static String thisUser;
+	private static String pacMode;
+	private static String gameMode;
 	
 	//Used to get correct file path that the JAR file can read.
 	public static final File temp = new File("");
@@ -348,4 +350,26 @@ public class SysData {
 		public static void setThisUser(String thisUser) {
 			SysData.thisUser = thisUser;
 		}
+
+
+		public static String getPacMode() {
+			return pacMode;
+		}
+
+
+		public static void setPacMode(String pacMode) {
+			SysData.pacMode = pacMode;
+		}
+
+
+		public static String getGameMode() {
+			return gameMode;
+		}
+
+
+		public static void setGameMode(String gameMode) {
+			SysData.gameMode = gameMode;
+		}
+		
+		
 }
