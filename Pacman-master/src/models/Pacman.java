@@ -24,12 +24,14 @@ public class Pacman implements KeyListener{
     private boolean isEnterPressed =false; // Checks if enter has been pressed (to explode bomb)
     
 	private boolean isStrong = false; // Checks if pacman is holding a bomb
+	private boolean isMasked = false; // Checks if pacman is wearing a mask
 
-    //Animation Vars
+	//Animation Vars
 	private Timer animTimer; // Timer for the animation of Pacman
 	private ActionListener animAL;
 	private Image[] pac; // Images for normal pacman
 	private Image[] pacStrong; // Images for when pacman is holding a bomb
+	private Image[] pacMasked; // Image for when pacman is wearing a covid mask (gameMode = 2)
 	private int activeImage = 0;
 	private int addFactor = 1;
 	private Point pixelPosition; // The actual position of Pacman
@@ -47,6 +49,7 @@ public class Pacman implements KeyListener{
 
         pac = new Image[5];
         pacStrong = new Image[5];
+        pacMasked = new Image[1];
 
         activeMove = moveType.NONE;
         todoMove = moveType.NONE;
@@ -54,11 +57,12 @@ public class Pacman implements KeyListener{
 
         // Load Pacman's sprites
         try {
-            pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac0.png"));
-            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
-            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
-            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
-            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
+            pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac0.png"));
+            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac1.png"));
+            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac2.png"));
+            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac3.png"));
+            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac4.png"));
+        	
             
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
@@ -72,6 +76,12 @@ public class Pacman implements KeyListener{
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
         }
+        try {
+        	pacMasked[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacMask.png"));
+        }catch(IOException e){
+            System.err.println("Cannot Read Images !");
+        }
+        
 
         //animation timer
         animAL = new ActionListener() {
@@ -82,7 +92,7 @@ public class Pacman implements KeyListener{
                 }
             }
         };
-        animTimer = new Timer(40 / gameSpeed,animAL);
+        animTimer = new Timer(40 / gameSpeed ,animAL);
         animTimer.start();
 
         // Handles the movement of the Pacman around the map.
@@ -219,13 +229,9 @@ public class Pacman implements KeyListener{
     }
 
     public Image getPacmanImage(){
-    	if(!isStrong) {
-        return pac[activeImage];
-    	}
-    	else {
-    		 return pacStrong[activeImage];
-    		// newColor.setDelay();
-    	}
+    	if(isStrong) return pacStrong[activeImage];
+    	else if(isMasked) return pacMasked[0];
+    	else return pac[activeImage];
     }
 
     @Override
@@ -410,5 +416,13 @@ public class Pacman implements KeyListener{
 
 	public void setEnterPressed(boolean isEnterPressed) {
 		this.isEnterPressed = isEnterPressed;
+	}
+
+    public boolean isMasked() {
+		return isMasked;
+	}
+
+	public void setMasked(boolean isMasked) {
+		this.isMasked = isMasked;
 	}
 }
