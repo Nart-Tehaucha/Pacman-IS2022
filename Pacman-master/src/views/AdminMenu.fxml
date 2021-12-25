@@ -48,6 +48,22 @@
             <DropShadow />
          </effect>
       </Button>
+      <Button fx:id="ManageQuesBtn" layoutX="264.0" layoutY="380.0" mnemonicParsing="false" onAction="#OpenQuestionManager" prefHeight="43.0" prefWidth="216.0" stylesheets="@styleSheet.css" text="Manage Questions" textFill="WHITE">
+         <styleClass>
+            <String fx:value="Removechocie-box" />
+            <String fx:value="labelHeader" />
+            <String fx:value="lavenderHover" />
+         </styleClass>
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
       <Button fx:id="StartPlayBtn" layoutX="310.0" layoutY="171.0" mnemonicParsing="false" onAction="#start" stylesheets="@styleSheet.css" text="Start Play" textFill="WHITE">
          <styleClass>
             <String fx:value="Removechocie-box" />

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import controllers.newGameController;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
@@ -117,7 +118,7 @@ public class PacBoard extends JPanel{
 
         this.isCustom = map1.isCustom();
         this.ghostBase = map1.getGhostBasePosition();
-        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this);
+        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this ,newGameController. getPacMode());
         addKeyListener(pacman);
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)

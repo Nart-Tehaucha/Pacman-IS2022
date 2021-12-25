@@ -25,12 +25,16 @@ public class Pacman implements KeyListener{
     
 	private boolean isStrong = false; // Checks if pacman is holding a bomb
 	private boolean isMasked = false; // Checks if pacman is wearing a mask
-
+	private boolean missPac = false;
+	private boolean zombiePac = false;
+	private boolean covidPac = false;
+	private boolean christmasPac = false;
 	//Animation Vars
 	private Timer animTimer; // Timer for the animation of Pacman
 	private ActionListener animAL;
 	private Image[] pac; // Images for normal pacman
 	private Image[] pacStrong; // Images for when pacman is holding a bomb
+	private Image[] mpac;// Images for miss pacman
 	private Image[] pacMasked; // Image for when pacman is wearing a covid mask (gameMode = 2)
 	private int activeImage = 0;
 	private int addFactor = 1;
@@ -40,7 +44,35 @@ public class Pacman implements KeyListener{
 
     // Constructor
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Pacman (int x, int y,PacBoard pb) {
+	public Pacman () {
+		//missPac =pacMode;
+		if(missPac) {
+			this.setMissPac(true);
+		}
+		
+	}
+	
+	public Pacman (int x, int y,PacBoard pb, String pacMode) {
+		if(pacMode.equals("missPac")) {
+			this.setMissPac(true);
+			System.out.println("missPac " +this.isMissPac());
+		}
+		else if(pacMode.equals("covidPac")) {
+			this.setCovidPac(true);
+		}
+		else if(pacMode.equals("zombiePac")) {
+			this.setZombiePac(true);
+		}
+		else if(pacMode.equals("christmasPac")) {
+			this.setChristmasPac(true);
+		}
+		else {
+			this.setZombiePac(false);
+			this.setCovidPac(false);
+			this.setMissPac(false);
+			this.setChristmasPac(false);
+		}
+		
 
         logicalPosition = new Point(x,y);
         pixelPosition = new Point(28*x,28*y);
@@ -49,6 +81,7 @@ public class Pacman implements KeyListener{
 
         pac = new Image[5];
         pacStrong = new Image[5];
+        mpac = new Image[5];
         pacMasked = new Image[1];
 
         activeMove = moveType.NONE;
@@ -57,12 +90,11 @@ public class Pacman implements KeyListener{
 
         // Load Pacman's sprites
         try {
-            pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac0.png"));
-            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac1.png"));
-            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac2.png"));
-            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac3.png"));
-            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac4.png"));
-        	
+            pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac0.png"));
+            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
+            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
+            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
+            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
             
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
@@ -78,9 +110,19 @@ public class Pacman implements KeyListener{
         }
         try {
         	pacMasked[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacMask.png"));
-        }catch(IOException e){
+        }
+        catch(IOException e){
             System.err.println("Cannot Read Images !");
         }
+        try {
+            mpac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac0.png"));
+            mpac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac1.png"));
+            mpac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac2.png"));
+            mpac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac3.png"));
+            mpac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac4.png"));
+        }catch(IOException e){
+            System.err.println("Cannot Read Images !");
+        }        
         
 
         //animation timer
@@ -92,7 +134,7 @@ public class Pacman implements KeyListener{
                 }
             }
         };
-        animTimer = new Timer(40 / gameSpeed ,animAL);
+        animTimer = new Timer(40 / gameSpeed,animAL);
         animTimer.start();
 
         // Handles the movement of the Pacman around the map.
@@ -229,9 +271,26 @@ public class Pacman implements KeyListener{
     }
 
     public Image getPacmanImage(){
-    	if(isStrong) return pacStrong[activeImage];
+    	 if(isStrong) {
+     		return pacStrong[activeImage];//after pacman eats a bomb
+     	}
+    	 else if(missPac) {
+    	return mpac[activeImage];// activate missPac images
+    	}
+    	else if(zombiePac) {
+    		return mpac[activeImage];// activate zombiePac images
+    	}
+    	else if(covidPac) {
+    		return mpac[activeImage];// activate covidPac images
+    	}
+       	else if(christmasPac) {
+    		return mpac[activeImage];// activate covidPac images
+    	}
     	else if(isMasked) return pacMasked[0];
-    	else return pac[activeImage];
+    	else {
+    		return pac[activeImage]; 
+    		// newColor.setDelay();
+    	}
     }
 
     @Override
@@ -424,5 +483,44 @@ public class Pacman implements KeyListener{
 
 	public void setMasked(boolean isMasked) {
 		this.isMasked = isMasked;
+	}
+		public Image[] getMpac() {
+		return mpac;
+	}
+
+	public void setMpac(Image[] mpac) {
+		this.mpac = mpac;
+	}
+
+	public boolean isMissPac() {
+		return missPac;
+	}
+
+	public void setMissPac(boolean missPac) {
+		this.missPac = missPac;
+	}
+
+	public boolean isZombiePac() {
+		return zombiePac;
+	}
+
+	public void setZombiePac(boolean zombiePac) {
+		zombiePac = zombiePac;
+	}
+
+	public boolean isCovidPac() {
+		return covidPac;
+	}
+
+	public void setCovidPac(boolean covidPac) {
+		this.covidPac = covidPac;
+	}
+
+	public boolean isChristmasPac() {
+		return christmasPac;
+	}
+
+	public void setChristmasPac(boolean christmasPac) {
+		this.christmasPac = christmasPac;
 	}
 }
