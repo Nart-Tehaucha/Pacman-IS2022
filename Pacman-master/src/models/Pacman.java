@@ -24,7 +24,10 @@ public class Pacman implements KeyListener{
     private boolean isEnterPressed =false; // Checks if enter has been pressed (to explode bomb)
     
 	private boolean isStrong = false; // Checks if pacman is holding a bomb
-	 private boolean missPac =false;
+	private boolean missPac = false;
+	 private boolean zombiePac = false;
+	 private boolean covidPac = false;
+	 private boolean christmasPac = false;
     //Animation Vars
 	private Timer animTimer; // Timer for the animation of Pacman
 	private ActionListener animAL;
@@ -39,7 +42,35 @@ public class Pacman implements KeyListener{
 
     // Constructor
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Pacman (int x, int y,PacBoard pb) {
+	public Pacman () {
+		//missPac =pacMode;
+		if(missPac) {
+			this.setMissPac(true);
+		}
+		
+	}
+	
+	public Pacman (int x, int y,PacBoard pb, String pacMode) {
+		if(pacMode.equals("missPac")) {
+			this.setMissPac(true);
+			System.out.println("missPac " +this.isMissPac());
+		}
+		else if(pacMode.equals("covidPac")) {
+			this.setCovidPac(true);
+		}
+		else if(pacMode.equals("zombiePac")) {
+			this.setZombiePac(true);
+		}
+		else if(pacMode.equals("christmasPac")) {
+			this.setChristmasPac(true);
+		}
+		else {
+			this.setZombiePac(false);
+			this.setCovidPac(false);
+			this.setMissPac(false);
+			this.setChristmasPac(false);
+		}
+		
 
         logicalPosition = new Point(x,y);
         pixelPosition = new Point(28*x,28*y);
@@ -230,14 +261,27 @@ public class Pacman implements KeyListener{
     }
 
     public Image getPacmanImage(){
-    	if(!isStrong) {
-        return pac[activeImage];
+    	 if(isStrong) {
+     		return pacStrong[activeImage];//after pacman eats a bomb
+     	}
+    	 else if(missPac) {
+    	return mpac[activeImage];// activate missPac images
     	}
     	else if(missPac) {
-    		return mpac[activeImage];
+    		System.out.println("Am i here?");
+    		return mpac[activeImage];// activate missPac images
+    	}
+    	else if(zombiePac) {
+    		return mpac[activeImage];// activate zombiePac images
+    	}
+    	else if(covidPac) {
+    		return mpac[activeImage];// activate covidPac images
+    	}
+       	else if(christmasPac) {
+    		return mpac[activeImage];// activate covidPac images
     	}
     	else {
-    		 return pacStrong[activeImage];
+    		return pac[activeImage]; 
     		// newColor.setDelay();
     	}
     }
@@ -440,5 +484,31 @@ public class Pacman implements KeyListener{
 	public void setMissPac(boolean missPac) {
 		this.missPac = missPac;
 	}
+
+	public boolean isZombiePac() {
+		return zombiePac;
+	}
+
+	public void setZombiePac(boolean zombiePac) {
+		zombiePac = zombiePac;
+	}
+
+	public boolean isCovidPac() {
+		return covidPac;
+	}
+
+	public void setCovidPac(boolean covidPac) {
+		this.covidPac = covidPac;
+	}
+
+	public boolean isChristmasPac() {
+		return christmasPac;
+	}
+
+	public void setChristmasPac(boolean christmasPac) {
+		this.christmasPac = christmasPac;
+	}
+	
+	
 
 }
