@@ -118,7 +118,7 @@ public class PacBoard extends JPanel{
 
         this.isCustom = map1.isCustom();
         this.ghostBase = map1.getGhostBasePosition();
-        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this ,newGameController. getPacMode());
+        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this , SysData.getPacMode());
         addKeyListener(pacman);
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)

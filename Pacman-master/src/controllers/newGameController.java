@@ -18,12 +18,6 @@ public class newGameController {
 	private Stage stage;
 
 		private String username;
-		private static String PacMode;
-
-		private Pacman pacman;
-
-	      
-		
 
 	    @FXML
 	    private AnchorPane MainPanel;
@@ -53,7 +47,8 @@ public class newGameController {
 
 	    @FXML
 	    void start(ActionEvent event) {
-	    	PacMode ="regular";
+	    	// Normal Mode
+	    	SysData.setGameMode(0);
 			stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
 			new PacWindow(username);
@@ -61,34 +56,20 @@ public class newGameController {
 
 	    }
 	    @FXML
+    	// Zombie mode
 	    void startCovid(ActionEvent event) {
-//	    	pacman = new Pacman();
-//	    	pacman.setCovidPac(true); //covidPac mode
-	    	PacMode ="covidPac";
+	    	SysData.setGameMode(1);
 	    	stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
 			new PacWindow(username);
 			stage.close();
 
-	    }
-
-	    @FXML
-	    void startMissPac(ActionEvent event) {
-//	    	pacman = new Pacman();
-//	    	pacman.setMissPac(true);//missPac mode
-	    	PacMode ="missPac";
-	    	//System.out.println(" misspac " +pacman.isMissPac());
-	    	stage = (Stage) MainPanel.getScene().getWindow();
-			username =SysData.getThisUser();
-			new PacWindow(username);
-			stage.close();
 	    }
 
 	    @FXML
 	    void startZombie(ActionEvent event) {
-//	    	pacman = new Pacman();
-//	    	pacman.setZombiePac(true);// zombiePac mode
-	    	PacMode ="zombiePac";
+		    // Corona Mode
+	    	SysData.setGameMode(2);
 	     	stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
 			new PacWindow(username);
@@ -97,7 +78,8 @@ public class newGameController {
 	    }
 	    @FXML
 	    void startChristmas(ActionEvent event) {
-	    	PacMode ="christmasPac";
+	    	// Christmas Modde
+	    	SysData.setGameMode(3);
 	     	stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
 			new PacWindow(username);
@@ -114,16 +96,5 @@ public class newGameController {
 				e.printStackTrace();
 			}
 	    }
-
-		public static String getPacMode() {
-			return PacMode;
-		}
-
-		public void setPacMode(String pacMode) {
-			PacMode = pacMode;
-		}
-
 	
-
-
 }
