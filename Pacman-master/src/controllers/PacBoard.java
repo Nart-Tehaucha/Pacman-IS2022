@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import controllers.newGameController;
 
 // This is the main class for running the game. It handles all the logic of the player, ghosts, score, and time.
 public class PacBoard extends JPanel{
@@ -85,13 +86,19 @@ public class PacBoard extends JPanel{
     private boolean flag_did_open_lost_window= false;
 
 	private ArrayList<Ghost> ghostsToRemove; // Used to signal to the program which ghosts to remove (die)
+	
+	private int gameMode;
+	// gameMode 0 - Normal Mode
+	// gameMode 1 - Zombie Mode
+	// gameMode 2 - Corona Mode
+	// gameMode 3 - Christmas Mode
 
     
    
     
 
     // Constructor
-    public PacBoard(JLabel scoreboard, int level, int score, int pacLives, MapData map1, PacWindow pw){
+    public PacBoard(int gameMode, JLabel scoreboard, int level, int score, int pacLives, MapData map1, PacWindow pw){
     	
     	SysData.initializeTopTen(); 
     	this.username = pw.getUsername();
@@ -99,6 +106,7 @@ public class PacBoard extends JPanel{
         this.score = score;
         this.pacLives = pacLives;
     	this.scoreboard = scoreboard;
+    	this.gameMode = gameMode;
     	
         this.setDoubleBuffered(true);
         md_backup = map1;
@@ -110,7 +118,7 @@ public class PacBoard extends JPanel{
 
         this.isCustom = map1.isCustom();
         this.ghostBase = map1.getGhostBasePosition();
-        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this);
+        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this , SysData.getPacMode());
         addKeyListener(pacman);
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
@@ -149,13 +157,13 @@ public class PacBoard extends JPanel{
         for(GhostData gd : map1.getGhostsData()){
             switch(gd.getType()) {
                 case RED:
-                    ghosts.add(new RedGhost(gd.getX(), gd.getY(), this));
+                    ghosts.add(new RedGhost(gd.getX(), gd.getY(), this, gameMode));
                     break;
                 case PINK:
-                    ghosts.add(new PinkGhost(gd.getX(), gd.getY(), this));
+                    ghosts.add(new PinkGhost(gd.getX(), gd.getY(), this, gameMode));
                     break;
                 case CYAN:
-                    ghosts.add(new CyanGhost(gd.getX(), gd.getY(), this));
+                    ghosts.add(new CyanGhost(gd.getX(), gd.getY(), this, gameMode));
                     break;
             }
         }
@@ -218,7 +226,15 @@ public class PacBoard extends JPanel{
         pfoodImage = new Image[5];
         for(int ms=0 ;ms<5;ms++){
             try {
-                pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/"+ms+".png"));
+                if(gameMode == 2 && ms > 0) {
+                	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/mask.png"));
+                }
+                else if(gameMode == 3) {
+                	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/"+ms+".png"));
+                }
+                else {
+                    pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/"+ms+".png"));
+                }
             }catch(Exception e){}
         }
         
@@ -232,7 +248,8 @@ public class PacBoard extends JPanel{
         
         // Load images for pac points, game over, and victory
         try{
-            foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
+        	if(gameMode == 3) foodImage = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/xmas_food.png"));
+        	else foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
             goImage = ImageIO.read(this.getClass().getResource("/resources/images/gameover.png"));
             vicImage = ImageIO.read(this.getClass().getResource("/resources/images/victory.png"));
             //pfoodImage = ImageIO.read(this.getClass().getResource("/images/pfood.png"));
@@ -254,6 +271,8 @@ public class PacBoard extends JPanel{
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this));
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this));
 
+        int NumOfExtraEnemies = 0; // Number of extra enemies to add on the map (only applicable for Zombie mode, gameMode = 1)
+        
         // Set score, player speed, and ghost speed for each level
         switch(level) {
     	case 1:
@@ -261,21 +280,31 @@ public class PacBoard extends JPanel{
     		break;
     	case 2:
     		scoreToNextLevel = 101;
+    		if(gameMode == 1) NumOfExtraEnemies = 1;
     		break;
     	case 3:
     		scoreToNextLevel = 151;
     		pacman.setGameSpeed(7);
+    		if(gameMode == 1) NumOfExtraEnemies = 2;
     		break;
     	case 4:
     		pacman.setGameSpeed(7);
     		for (Ghost g1 : ghosts) {	
     			g1.setGhostSpeed(4);
     		}
+    		if(gameMode == 1) NumOfExtraEnemies = 3;
     		scoreToNextLevel = 200;
     		break;
     	default:
     		scoreToNextLevel = 51;
     	}
+        
+        for(int i=0;i<NumOfExtraEnemies;i++) {
+        	Point randPoint = getRandomCell();
+        	ghosts.add(new RedGhost(randPoint.x, randPoint.y, this, gameMode));
+        	ghosts.add(new PinkGhost(randPoint.x, randPoint.y, this, gameMode));
+        	ghosts.add(new CyanGhost(randPoint.x, randPoint.y, this, gameMode));
+        }
     }
 
     // ==============================================================================
@@ -357,6 +386,9 @@ public class PacBoard extends JPanel{
                     break;
                 // Eat Fruit
                 default:
+                	if(gameMode == 2) {
+                		pacman.setMasked(true);
+                	}
                     pufoods.remove(puFoodToEat);
                     if(score != 200) {
                     	scoreToAdd = 1;
@@ -419,13 +451,13 @@ public class PacBoard extends JPanel{
 	private void spawnNewGhost(int ghostType) {
         switch(ghostType) {
         case 1:
-            ghosts.add(new RedGhost(ghostBase.x, ghostBase.y, this));
+            ghosts.add(new RedGhost(ghostBase.x, ghostBase.y, this, gameMode));
             break;
         case 2:
-            ghosts.add(new PinkGhost(ghostBase.x, ghostBase.y, this));
+            ghosts.add(new PinkGhost(ghostBase.x, ghostBase.y, this, gameMode));
             break;
         case 3:
-            ghosts.add(new CyanGhost(ghostBase.x, ghostBase.y, this));
+            ghosts.add(new CyanGhost(ghostBase.x, ghostBase.y, this, gameMode));
             break;
     }
 		
@@ -845,6 +877,12 @@ public class PacBoard extends JPanel{
 		if(questionIconPair == null) return;
         questionPoints.put((QuestionIcon)questionIconPair.get(0),(Question)questionIconPair.get(1));        
         questionIcons.add((QuestionIcon)questionIconPair.get(0));
+	}
+	
+	public Point getRandomCell() {
+		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
+		Point pointOfCell = md_backup.getFoodPositions().get(randIndex).position; 
+		return pointOfCell;
 	}
 	
 	//=================================== GETTER SETTERS ===================================

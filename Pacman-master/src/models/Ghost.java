@@ -45,6 +45,9 @@ public abstract class Ghost {
 
     // Decides the delay between the ghost's movements
     int ghostNormalDelay;
+    
+    // Number of frames per animation cycle.
+    private int framesInCycle;
 
     // Calculates the ghost's path to the base
     BFSFinder baseReturner;
@@ -53,7 +56,7 @@ public abstract class Ghost {
 
     // Constructor
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Ghost (int x, int y,PacBoard pb,int ghostDelay, int ghostType) {
+    public Ghost (int x, int y,PacBoard pb,int ghostDelay, int ghostType, int gameMode) {
     	this.ghostType = ghostType;
     	
         logicalPosition = new Point(x,y);
@@ -65,14 +68,26 @@ public abstract class Ghost {
 
         ghostNormalDelay = ghostDelay;
 
-        loadImages();
+        loadImages(gameMode);
         
         this.ghostSpeed = 1;
+        
+        // Set the number of frames in the enemy's walk cycle
+        switch(gameMode) {
+        case 0:
+        	framesInCycle = 2;
+        case 1:
+        	framesInCycle = 3;
+        case 2:
+        	framesInCycle = 4;
+    	default:
+    		framesInCycle = 2;
+        }
         
         //animation timer
         animAL = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                activeImage = (activeImage + 1) % 2;
+                activeImage = (activeImage + 1) % framesInCycle;
             }
         };
         animTimer = new Timer(200,animAL);
@@ -162,7 +177,7 @@ public abstract class Ghost {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 	//load Images from Resource
-    public abstract void loadImages();
+    public abstract void loadImages(int gameMode);
 
     //get Move Based on AI
     public abstract moveType getMoveAI();

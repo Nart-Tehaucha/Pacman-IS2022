@@ -32,7 +32,7 @@ public class QuestionFactory {
 		do {
 			newQuestion = getRandomQuestion(pb);
 			numberOfTries++;
-		}while((pb.getQuestionPoints().containsValue(newQuestion) || !(newQuestion.getDifficulty().equalsIgnoreCase(difficulty))) && numberOfTries <= 999);
+		}while((pb.getQuestionPoints().containsValue(newQuestion) || !(newQuestion.getDifficulty().equalsIgnoreCase(difficulty))) && numberOfTries <= 9999);
 		
 		if(numberOfTries >= 9) return null;
 		
@@ -70,7 +70,7 @@ public class QuestionFactory {
 	do {
 		newQuestion = getRandomQuestion(pb);
 		numberOfTries++;
-	}while((pb.getQuestionPoints().containsValue(newQuestion) || newQuestion.equals(oldQuestion))  && numberOfTries <= 999);
+	}while((pb.getQuestionPoints().containsValue(newQuestion) || newQuestion.equals(oldQuestion))  && numberOfTries <= 9999);
 	
 	if(numberOfTries >= 99) return null;
 	
