@@ -343,13 +343,9 @@ public class SysData {
 		       {
 		           ioe.printStackTrace();
 		       }
-			
-	    	
-			
 			return;
 		}
 
-	 
 		public static String getThisUser() {
 			return thisUser;
 		}
@@ -358,7 +354,6 @@ public class SysData {
 		public static void setThisUser(String thisUser) {
 			SysData.thisUser = thisUser;
 		}
-		
 		
 		public static int getGameMode() {
 			return gameMode;
