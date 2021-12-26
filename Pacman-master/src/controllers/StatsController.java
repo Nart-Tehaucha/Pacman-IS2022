@@ -52,6 +52,7 @@ public class StatsController {
 	@FXML
 	void initialize() {
 		try {
+			question.setAnimated(false);
 			ArrayList<Question> allQuestions = SysData.readQuestionsJSON();
 			
 			XYChart.Series<String, Double> series3 = new Series<String, Double>();
