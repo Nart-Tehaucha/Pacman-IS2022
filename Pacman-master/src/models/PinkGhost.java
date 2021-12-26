@@ -69,6 +69,16 @@ public class PinkGhost extends Ghost {
             	ghostD[2] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/2.png"));
             	ghostD[3] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/3.png"));
             	break;
+        	case 3:
+                ghostR[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/1.png"));
+                ghostR[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/3.png"));
+                ghostL[0] = ImageHelper.flipHor(ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/1.png")));
+                ghostL[1] = ImageHelper.flipHor(ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/3.png")));
+                ghostU[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/4.png"));
+                ghostU[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/5.png"));
+                ghostD[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/6.png"));
+                ghostD[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/pink/7.png"));
+                break;
         	default:
                 ghostR[0] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/pink/1.png"));
                 ghostR[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/pink/3.png"));

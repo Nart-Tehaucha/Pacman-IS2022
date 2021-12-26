@@ -29,8 +29,6 @@ public class newGameController {
 	private Stage stage;
 
 	private String username;
-	private static String PacMode;
-	private static String GameMode;
 
 
 	@FXML
@@ -68,18 +66,10 @@ public class newGameController {
     @FXML
     private Button startPlay;
 
+    private boolean gameModeSelected = false;
+    private boolean pacModeSelected = false;
+    
 
-
-
-//	@FXML
-//	void start(ActionEvent event) {
-//
-//	}
-//
-//	@FXML
-//	void startMissPac(ActionEvent event) {
-//
-//	}
 	private void showFailAlert(AlertType type, String title, String header, String text) {
 		Alert alert = new Alert(type);
 
@@ -111,9 +101,11 @@ public class newGameController {
 	
 	  @FXML 
 	  void start(ActionEvent event) { 
-		  if(PacMode!= null && GameMode!=null) {
+		  if(pacModeSelected && gameModeSelected) {
 			stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
+			System.out.println(SysData.getGameMode());
+			System.out.println(SysData.getPacMode());
 			new PacWindow(username);
 			stage.close();
 		  }
@@ -140,15 +132,15 @@ public class newGameController {
 
 	@FXML
 	void modeMissPac(ActionEvent event) {
-		PacMode ="missPac";
 		SysData.setPacMode(1);
+		pacModeSelected = true;
 	
 	}
 	
 	@FXML
 	void modePacman(ActionEvent event) {
-		PacMode ="pacman";
 		SysData.setPacMode(0);
+		pacModeSelected = true;
 	
 	}
 	
@@ -156,41 +148,25 @@ public class newGameController {
 	@FXML
 	void RegularBtm(ActionEvent event) {
 		SysData.setGameMode(0);
+		gameModeSelected = true;
 	
 	}
 	
 	@FXML
 	void christmas(ActionEvent event) {
 		SysData.setGameMode(3);
-	
+		gameModeSelected = true;
 	}
 	
 	@FXML
 	void covid(ActionEvent event) {
 		SysData.setGameMode(2);
-	
+		gameModeSelected = true;
 	}
 	
 	@FXML
 	void zombie(ActionEvent event) {
 		SysData.setGameMode(1);
-	
-	}
-	public static String getPacMode() {
-		return PacMode;
-	}
-	
-	public void setPacMode(String pacMode) {
-		PacMode = pacMode;
-	}
-	
-	
-	public static String getGameMode() {
-		return GameMode;
-	}
-	
-	
-	public static void setGameMode(String gameMode) {
-		GameMode = gameMode;
+		gameModeSelected = true;
 	}
 }

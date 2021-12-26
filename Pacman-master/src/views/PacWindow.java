@@ -68,7 +68,7 @@ public class PacWindow extends JFrame {
         adjustMap(map1);
 
         // Create a new game object.
-        pb = new PacBoard(2, scoreboard,1,0,3,map1,this);
+        pb = new PacBoard(SysData.getGameMode(), scoreboard,1,0,3,map1,this);
 
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.getPacman());
@@ -166,7 +166,7 @@ public class PacWindow extends JFrame {
         
         // Load the custom map layout
     
-        PacBoard pb = new PacBoard(2, lbScore,level, score, pacLives,map,this);
+        PacBoard pb = new PacBoard(SysData.getGameMode(), lbScore,level, score, pacLives,map,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.getPacman());
         
@@ -261,7 +261,7 @@ public class PacWindow extends JFrame {
         
         // Load the custom map layout
         adjustMap(md);
-        PacBoard pb = new PacBoard(2, scoreboard,1,0,3,md,this);
+        PacBoard pb = new PacBoard(SysData.getGameMode(), scoreboard,1,0,3,md,this);
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.getPacman());
 

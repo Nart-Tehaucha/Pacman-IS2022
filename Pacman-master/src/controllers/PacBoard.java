@@ -229,6 +229,9 @@ public class PacBoard extends JPanel{
                 if(gameMode == 2 && ms > 0) {
                 	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/mask.png"));
                 }
+                else if(gameMode == 3) {
+                	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/"+ms+".png"));
+                }
                 else {
                     pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/"+ms+".png"));
                 }
@@ -245,7 +248,8 @@ public class PacBoard extends JPanel{
         
         // Load images for pac points, game over, and victory
         try{
-            foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
+        	if(gameMode == 3) foodImage = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/xmas_food.png"));
+        	else foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
             goImage = ImageIO.read(this.getClass().getResource("/resources/images/gameover.png"));
             vicImage = ImageIO.read(this.getClass().getResource("/resources/images/victory.png"));
             //pfoodImage = ImageIO.read(this.getClass().getResource("/images/pfood.png"));
