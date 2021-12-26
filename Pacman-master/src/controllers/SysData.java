@@ -73,8 +73,10 @@ public class SysData {
 				}
 				int correct_ans = Math.toIntExact((Long) jsonQObjt.get("correct_ans"));
 				String difficulty = (String) jsonQObjt.get("level");
-	
-				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans);
+				int numOfAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_answers"));
+				int numOfCorrectAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_correct_answers"));
+				
+				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans, numOfAnswers, numOfCorrectAnswers);
 				arrlistq.add(q);
 			}
 		}catch (Exception e) {
@@ -111,6 +113,8 @@ public class SysData {
             question.put("answers", ans);
             question.put("correct_ans", q.getCorrect_ans());
             question.put("level", q.getDifficulty());
+            question.put("num_of_answers", q.getNumOfPeopleAnswered());
+            question.put("num_of_correct_answers", q.getAnsweredCorrectly());
 
             jsonArray.add(question);
             
@@ -211,6 +215,8 @@ public class SysData {
 		  	            }
 	  	              	jo.put("answers", ans);
 	  	            	jo.put("correct_ans", newQuestion.getCorrect_ans());
+	  	            	jo.put("num_of_answers", newQuestion.getNumOfPeopleAnswered());
+	  	            	jo.put("num_of_correct_answers", newQuestion.getAnsweredCorrectly());
      	        	}
      	        }
      	        try (FileWriter file = new FileWriter(correctedPath + "/questionsJSON.json")) { //store data

@@ -62,6 +62,9 @@ public class QuestionsController {
 	    ObservableList<Question> tableList = FXCollections.observableArrayList();
 	    
 	    static int chosenQuesId;
+	    @FXML
+	    private Button statsBtn;
+
 	    
 	    ObservableList<Question> allQuestions = FXCollections.observableArrayList(SysData.readQuestionsJSON());
 	    ObservableList<Integer> nums = FXCollections.observableArrayList(1,2,3,4);
@@ -145,6 +148,13 @@ public class QuestionsController {
 	    @FXML
 	    void goToPageBefore(MouseEvent event) {
 	       	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminMenu.fxml"));
+			LoadScreen(loader);
+			return;
+	    }
+	    
+	    @FXML
+	    void goToStats(ActionEvent event) {
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuestionsStatistics.fxml"));
 			LoadScreen(loader);
 			return;
 	    }
