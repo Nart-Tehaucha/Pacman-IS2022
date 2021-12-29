@@ -101,6 +101,7 @@ public class QuestionWindow extends JFrame implements ActionListener {
             }
         }; 
         delayTimer = new Timer (1000, delayClose);
+        delayTimer.setRepeats(false);
         
         // Action listener for button presses
         button.addActionListener(new ActionListener() {
@@ -110,6 +111,8 @@ public class QuestionWindow extends JFrame implements ActionListener {
             	for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
             		JRadioButton button = (JRadioButton) buttons.nextElement();
 
+                	// If selected answer is correct, color it in green and add points
+                	// If not, color it in red, color the correct answer in blue, and take away points
                     if (button.isSelected()) {
                     	if(pb.checkAnswer(q, button.getText())) {
                     		button.setBackground(new Color(0,255,0));
@@ -122,6 +125,7 @@ public class QuestionWindow extends JFrame implements ActionListener {
                     		SysData.editQuestionInJSON(q);
                 		}
                     }
+                    else if(pb.checkAnswer(q, button.getText())) {button.setBackground(new Color(150,150,255));}
                 }
             	delayTimer.start();
             }

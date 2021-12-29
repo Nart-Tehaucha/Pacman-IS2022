@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // The red ghost chases after the Pacman by calculating a path using BFS. (Explained in class controllers.BFSFinder)
 public class RedGhost extends Ghost {
 
-    public BFSFinder bfs;
+    private BFSFinder bfs;
 	// (x,y) position, PacBoard, ghost speed, and GhostType
     public RedGhost(int x, int y,PacBoard pb, int gameMode){
     	//12
@@ -54,7 +54,6 @@ public class RedGhost extends Ghost {
             	ghostD[2] = ImageIO.read(this.getClass().getResource("/resources/images/zombie_b/d3.png"));
             	break;
         	case 2:
-        		System.out.println("GAME MODE: " + gameMode);
             	ghostR[0] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/0.png"));
             	ghostR[1] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/1.png"));
             	ghostR[2] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/2.png"));
