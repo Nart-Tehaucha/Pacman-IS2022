@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // The Cyan Ghost moves in a direction until it hits a wall, and chooses a new direction
 public class CyanGhost extends Ghost {
 
+	private BFSFinder bfs;
 	// Constructor
     public CyanGhost(int x, int y,PacBoard pb, int gameMode){
     	// (x,y) position, PacBoard, ghost speed, and GhostType
@@ -70,6 +71,16 @@ public class CyanGhost extends Ghost {
             	ghostD[2] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/2.png"));
             	ghostD[3] = ImageIO.read(this.getClass().getResource("/resources/images/corona_b/3.png"));
             	break;
+        	case 3:
+                ghostR[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/1.png"));
+                ghostR[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/3.png"));
+                ghostL[0] = ImageHelper.flipHor(ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/1.png")));
+                ghostL[1] = ImageHelper.flipHor(ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/3.png")));
+                ghostU[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/4.png"));
+                ghostU[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/5.png"));
+                ghostD[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/6.png"));
+                ghostD[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_ghost/cyan/7.png"));
+                break;
         	default:
                 ghostR[0] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/cyan/1.png"));
                 ghostR[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/cyan/3.png"));
@@ -95,7 +106,13 @@ public class CyanGhost extends Ghost {
     public moveType getMoveAI(){
         if(isDead) {
             return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.getGhostBase().x,parentBoard.getGhostBase().y);
-        }else {
+        } 
+        else if(isInBase) {
+            if(bfs==null)
+                bfs = new BFSFinder(parentBoard);
+        	return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.getPacman().getLogicalPosition().x,parentBoard.getPacman().getLogicalPosition().y);
+        }
+        else {
             if (lastCMove == null || isStuck) {
                 ArrayList<moveType> pm = getPossibleMoves();
                 int i = ThreadLocalRandom.current().nextInt(pm.size());

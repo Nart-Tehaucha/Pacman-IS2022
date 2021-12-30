@@ -30,9 +30,17 @@ public class SysData {
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
 
 	private static String thisUser;
-	private static String pacMode;
-	private static String gameMode;
 	
+	private static int gameMode;
+	// gameMode 0 - Normal Mode
+	// gameMode 1 - Zombie Mode
+	// gameMode 2 - Corona Mode
+	// gameMode 3 - Christmas Mode
+	private static int pacMode;
+	// pacMode 0 - Pacman
+	// pacMode 1 - Ms. Pacman
+
+
 	//Used to get correct file path that the JAR file can read.
 	public static final File temp = new File("");
 	public static final char[] abPath = temp.getAbsolutePath().toCharArray();
@@ -75,8 +83,10 @@ public class SysData {
 				}
 				int correct_ans = Math.toIntExact((Long) jsonQObjt.get("correct_ans"));
 				String difficulty = (String) jsonQObjt.get("level");
-	
-				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans);
+				int numOfAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_answers"));
+				int numOfCorrectAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_correct_answers"));
+				
+				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans, numOfAnswers, numOfCorrectAnswers);
 				arrlistq.add(q);
 			}
 		}catch (Exception e) {
@@ -113,6 +123,8 @@ public class SysData {
             question.put("answers", ans);
             question.put("correct_ans", q.getCorrect_ans());
             question.put("level", q.getDifficulty());
+            question.put("num_of_answers", q.getNumOfPeopleAnswered());
+            question.put("num_of_correct_answers", q.getAnsweredCorrectly());
 
             jsonArray.add(question);
             
@@ -213,6 +225,8 @@ public class SysData {
 		  	            }
 	  	              	jo.put("answers", ans);
 	  	            	jo.put("correct_ans", newQuestion.getCorrect_ans());
+	  	            	jo.put("num_of_answers", newQuestion.getNumOfPeopleAnswered());
+	  	            	jo.put("num_of_correct_answers", newQuestion.getAnsweredCorrectly());
      	        	}
      	        }
      	        try (FileWriter file = new FileWriter(correctedPath + "/questionsJSON.json")) { //store data
@@ -335,13 +349,9 @@ public class SysData {
 		       {
 		           ioe.printStackTrace();
 		       }
-			
-	    	
-			
 			return;
 		}
 
-	 
 		public static String getThisUser() {
 			return thisUser;
 		}
@@ -350,26 +360,23 @@ public class SysData {
 		public static void setThisUser(String thisUser) {
 			SysData.thisUser = thisUser;
 		}
-
-
-		public static String getPacMode() {
-			return pacMode;
-		}
-
-
-		public static void setPacMode(String pacMode) {
-			SysData.pacMode = pacMode;
-		}
-
-
-		public static String getGameMode() {
+		
+		public static int getGameMode() {
 			return gameMode;
 		}
 
 
-		public static void setGameMode(String gameMode) {
+		public static void setGameMode(int gameMode) {
 			SysData.gameMode = gameMode;
 		}
-		
-		
+
+
+		public static int getPacMode() {
+			return pacMode;
+		}
+
+
+		public static void setPacMode(int pacMode) {
+			SysData.pacMode = pacMode;
+		}
 }

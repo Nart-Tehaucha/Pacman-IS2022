@@ -29,8 +29,6 @@ public class newGameController {
 	private Stage stage;
 
 	private String username;
-	private static String PacMode;
-	private static String GameMode;
 
 
 	@FXML
@@ -68,18 +66,10 @@ public class newGameController {
     @FXML
     private Button startPlay;
 
+    private boolean gameModeSelected = false;
+    private boolean pacModeSelected = false;
+    
 
-
-
-//	@FXML
-//	void start(ActionEvent event) {
-//
-//	}
-//
-//	@FXML
-//	void startMissPac(ActionEvent event) {
-//
-//	}
 	private void showFailAlert(AlertType type, String title, String header, String text) {
 		Alert alert = new Alert(type);
 
@@ -111,7 +101,7 @@ public class newGameController {
 	
 	  @FXML 
 	  void start(ActionEvent event) { 
-		  if(PacMode!= null && GameMode!=null) {
+		  if(pacModeSelected && gameModeSelected) {
 			stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
 			new PacWindow(username);
@@ -131,79 +121,50 @@ public class newGameController {
 			AnchorPane pane = loader.load();
 			MainPanel.getChildren().clear();
 			MainPanel.getChildren().add(pane);
-
+	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 
-	    @FXML
-	    void modeMissPac(ActionEvent event) {
-	    	PacMode ="missPac";
-	    	SysData.setPacMode("missPac");
-
-	    }
-
-	    @FXML
-	    void modePacman(ActionEvent event) {
-	    	PacMode ="pacman";
-	    	SysData.setPacMode("pacman");
-
-	    }
-
-
-	    @FXML
-	    void RegularBtm(ActionEvent event) {
-	    	SysData.setGameMode("regular");
-	    	this.setGameMode("regular");
-
-	    }
-
-	    @FXML
-	    void christmas(ActionEvent event) {
-	    	SysData.setGameMode("christmas");
-	    	this.setGameMode("christmas");
-
-	    }
-
-	    @FXML
-	    void covid(ActionEvent event) {
-	    	SysData.setGameMode("covid");
-	    	this.setGameMode("covid");
-
-	    }
-
-	    @FXML
-	    void zombie(ActionEvent event) {
-	    	SysData.setGameMode("zombie");
-	    	this.setGameMode("zombie");
-
-	    }
-		public static String getPacMode() {
-			return PacMode;
-		}
-
-		public void setPacMode(String pacMode) {
-			PacMode = pacMode;
-		}
-
-
-		public static String getGameMode() {
-			return GameMode;
-		}
-
-
-		public static void setGameMode(String gameMode) {
-			GameMode = gameMode;
-		}
+	@FXML
+	void modeMissPac(ActionEvent event) {
+		SysData.setPacMode(1);
+		pacModeSelected = true;
 	
-
+	}
 	
-
-
-		
-
-
-
+	@FXML
+	void modePacman(ActionEvent event) {
+		SysData.setPacMode(0);
+		pacModeSelected = true;
+	
+	}
+	
+	
+	@FXML
+	void RegularBtm(ActionEvent event) {
+		SysData.setGameMode(0);
+		gameModeSelected = true;
+	
+	}
+	
+	@FXML
+	void christmas(ActionEvent event) {
+		SysData.setGameMode(3);
+		gameModeSelected = true;
+	}
+	
+	@FXML
+	void covid(ActionEvent event) {
+		SysData.setGameMode(2);
+		gameModeSelected = true;
+	}
+	
+	@FXML
+	void zombie(ActionEvent event) {
+		SysData.setGameMode(1);
+		gameModeSelected = true;
+	}
 }

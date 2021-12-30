@@ -51,6 +51,7 @@ public class PacBoard extends JPanel{
     private HashMap<QuestionIcon, Question> questionPoints; //Pairs of Questions and their QuestionIcon on the map
     private ArrayList<Timer> foodRespawnTimers; // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
     private ArrayList<Timer> bombRespawnTimers; // Contains timers for every eaten bomb. Each timer activates after 30 seconds and respawns the bomb
+    private ArrayList<Timer> ghostRespawnTimers; // Contains timers for every dead ghost. Each timer activates after 5 seconds and respawns the ghost
     
     private boolean isCustom = false; // Is it a custom made map?
     private boolean isGameOver = false;
@@ -118,7 +119,7 @@ public class PacBoard extends JPanel{
 
         this.isCustom = map1.isCustom();
         this.ghostBase = map1.getGhostBasePosition();
-        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this ,newGameController. getPacMode());
+        pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this , SysData.getPacMode());
         addKeyListener(pacman);
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
@@ -128,6 +129,7 @@ public class PacBoard extends JPanel{
         questionPoints = new HashMap<>(); // Pairs every Question with a QuestionIcon that's on the map
         foodRespawnTimers = new ArrayList<>(); // Contains timers for every eaten pacpoint. Each timer activates after 30 seconds and respawns the pacpoint
         bombRespawnTimers = new ArrayList<>(); // Contains timers for every eaten bomb. Each timer activates after 30 seconds and respawns the bomb
+        ghostRespawnTimers = new ArrayList<>(); // Contains timers for every dead ghost. Each timer activates after 5 seconds and respawns the ghost
         ghostsToRemove = new ArrayList<>(); // Contains all ghosts that will be die
         
         // Load questions from JSON file to arraylist
@@ -229,6 +231,9 @@ public class PacBoard extends JPanel{
                 if(gameMode == 2 && ms > 0) {
                 	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/mask.png"));
                 }
+                else if(gameMode == 3) {
+                	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/"+ms+".png"));
+                }
                 else {
                     pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/"+ms+".png"));
                 }
@@ -245,7 +250,8 @@ public class PacBoard extends JPanel{
         
         // Load images for pac points, game over, and victory
         try{
-            foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
+        	if(gameMode == 3) foodImage = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/xmas_food.png"));
+        	else foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
             goImage = ImageIO.read(this.getClass().getResource("/resources/images/gameover.png"));
             vicImage = ImageIO.read(this.getClass().getResource("/resources/images/victory.png"));
             //pfoodImage = ImageIO.read(this.getClass().getResource("/images/pfood.png"));
@@ -313,8 +319,28 @@ public class PacBoard extends JPanel{
         for(Ghost g : ghosts){
             Rectangle gr = new Rectangle(g.pixelPosition.x,g.pixelPosition.y,28,28);
 
-            if(pr.intersects(gr)){
-                if(!g.isDead()) {
+            if(pr.intersects(gr))
+            {
+            	// If the player is wearing a mask, kill the virus and remove mask (Only in game mode 2)
+            	if(gameMode == 2 && pacman.isMasked()) {
+            		pacman.setMasked(false);
+            		g.moveTimer.stop();
+            		g.animTimer.stop();
+					ghosts.remove(g);
+			        // Action Listener for respawning ghosts after they die
+					ActionListener respawnAL = new ActionListener() {
+			            public void actionPerformed(ActionEvent evt) {
+			                spawnNewGhost(g.ghostType);
+			            }
+			        };
+			        Timer ghostRespawnTimer = new Timer(5000,respawnAL);
+			        ghostRespawnTimer.setRepeats(false);
+			        SysData.allTimers.add(ghostRespawnTimer);
+			        ghostRespawnTimers.add(ghostRespawnTimer);
+			        ghostRespawnTimer.start();
+			        break;
+            	}
+            	else if(!g.isDead()) {
                 	if(pacLives > 1) {
                 		// Remove 1 life
                 		pause();
@@ -403,7 +429,7 @@ public class PacBoard extends JPanel{
 
 	        			// Check if Ghost is in radius 3 of Pacman
 	        			if(pacman.getLogicalPosition().x == g.logicalPosition.x+i&&	
-	                	    pacman.getLogicalPosition().y == g.logicalPosition.y+j) {	
+	                	    pacman.getLogicalPosition().y == g.logicalPosition.y+j) {
 	                		g.moveTimer.stop();
 	                		g.animTimer.stop();
 							ghostsToRemove.add(g);
@@ -416,6 +442,7 @@ public class PacBoard extends JPanel{
 					        Timer ghostRespawnTimer = new Timer(5000,respawnAL);
 					        ghostRespawnTimer.setRepeats(false);
 					        SysData.allTimers.add(ghostRespawnTimer);
+					        ghostRespawnTimers.add(ghostRespawnTimer);
 					        ghostRespawnTimer.start();
 	                		pacman.setStrong(false);	
 	                		pacman.setEnterPreesed(false);
@@ -432,6 +459,17 @@ public class PacBoard extends JPanel{
         	ghostsToRemove.remove(g);
         }
         aux = null;
+        
+      // If the ghost is inside the base, make it get out
+        for(Ghost g:ghosts){
+        	if(g.isInBase()) {
+            	Rectangle br = new Rectangle((ghostBase.x-3)*28+10,(ghostBase.y-3)*28+10,28*7,28*7);
+            	Rectangle gr = new Rectangle(g.pixelPosition.x,g.pixelPosition.y,28,28);
+            	if(!gr.intersects(br)) {
+            		g.setInBase(false);
+            		}	
+        	}
+        }
 
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
@@ -445,17 +483,22 @@ public class PacBoard extends JPanel{
     
     // Respawns a ghost that just died
 	private void spawnNewGhost(int ghostType) {
+		Ghost newGhost;
         switch(ghostType) {
         case 1:
-            ghosts.add(new RedGhost(ghostBase.x, ghostBase.y, this, gameMode));
+        	newGhost = new RedGhost(ghostBase.x, ghostBase.y, this, gameMode);
             break;
         case 2:
-            ghosts.add(new PinkGhost(ghostBase.x, ghostBase.y, this, gameMode));
+        	newGhost = new PinkGhost(ghostBase.x, ghostBase.y, this, gameMode);
             break;
         case 3:
-            ghosts.add(new CyanGhost(ghostBase.x, ghostBase.y, this, gameMode));
+        	newGhost = new CyanGhost(ghostBase.x, ghostBase.y, this, gameMode);
             break;
-    }
+        default:
+        	newGhost = new RedGhost(ghostBase.x, ghostBase.y, this, gameMode);
+        }
+        newGhost.setInBase(true);
+		ghosts.add(newGhost);
 		
 	}
 
@@ -542,14 +585,16 @@ public class PacBoard extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        //DEBUG ONLY !
+        // Show the map grid and base radius. FOR DEBUG ONLY!
         /*for(int ii=0;ii<=m_x;ii++){
             g.drawLine(ii*28+10,10,ii*28+10,m_y*28+10);
         }
         for(int ii=0;ii<=m_y;ii++){
             g.drawLine(10,ii*28+10,m_x*28+10,ii*28+10);
-        }*/
-
+        }
+        g.fillRect((ghostBase.x-3)*28+10,(ghostBase.y-3)*28+10,28*7,28*7);
+        */
+        
         switch(level) {
     	case 1:
     		//Draw Walls
@@ -757,6 +802,7 @@ public class PacBoard extends JPanel{
         Timer respawnTimer = new Timer(30000,respawnAL);
         respawnTimer.setRepeats(false);
         foodRespawnTimers.add(respawnTimer);
+        SysData.allTimers.add(respawnTimer);
         respawnTimer.start();
     }
     
@@ -805,6 +851,9 @@ public class PacBoard extends JPanel{
             g.moveTimer.stop();
             g.animTimer.stop();
         }
+        for(Timer t : ghostRespawnTimers) {
+        	t.stop();
+        }
     }
     
     // Stops the game (stops all the timers in the program)
@@ -836,6 +885,9 @@ public class PacBoard extends JPanel{
         for(Ghost g : ghosts){
             g.moveTimer.start();
             g.animTimer.start();
+        }
+        for(Timer t : ghostRespawnTimers) {
+        	t.start();
         }
     }
     

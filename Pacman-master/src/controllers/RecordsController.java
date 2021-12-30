@@ -110,10 +110,7 @@ public class RecordsController {
 			}
 	    }
 	    
-	    
 	  
-	    
-	   
 	    
 	    
 	    ObservableList<RecordWinner> tableList = FXCollections.observableArrayList();
