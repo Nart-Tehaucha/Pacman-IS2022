@@ -200,24 +200,6 @@ public class PacWindow extends JFrame {
         
         
     }
-
-
-    	public void windowAfterWinning() {
-//        	pb.pause();
-//        	int result = JOptionPane.showConfirmDialog(null,
-//              "You won!\n	Would you like to play again ?", "You won! ",
-//              JOptionPane.YES_NO_OPTION);
-//        	if (result == JOptionPane.YES_OPTION)
-//        		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        	else if (result == JOptionPane.NO_OPTION) {
-//        		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//        		pb.resume();
-//        }
-    		
-
-
-//            }
-        }
         
     // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){

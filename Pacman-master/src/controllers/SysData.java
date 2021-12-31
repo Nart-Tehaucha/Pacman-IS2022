@@ -21,7 +21,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
+// This class is responsible for saving all system information including:
+// JSON files, player records, and global variables that are used during runtime.
 public class SysData {
 
 	private static SysData instance;
@@ -29,8 +30,9 @@ public class SysData {
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
 
-	private static String thisUser;
-	
+	private static String thisUser; // Global variable for the user name
+
+
 	//Used to get correct file path that the JAR file can read.
 	public static final File temp = new File("");
 	public static final char[] abPath = temp.getAbsolutePath().toCharArray();
@@ -73,8 +75,10 @@ public class SysData {
 				}
 				int correct_ans = Math.toIntExact((Long) jsonQObjt.get("correct_ans"));
 				String difficulty = (String) jsonQObjt.get("level");
-	
-				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans);
+				int numOfAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_answers"));
+				int numOfCorrectAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_correct_answers"));
+				
+				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans, numOfAnswers, numOfCorrectAnswers);
 				arrlistq.add(q);
 			}
 		}catch (Exception e) {
@@ -111,6 +115,8 @@ public class SysData {
             question.put("answers", ans);
             question.put("correct_ans", q.getCorrect_ans());
             question.put("level", q.getDifficulty());
+            question.put("num_of_answers", q.getNumOfPeopleAnswered());
+            question.put("num_of_correct_answers", q.getAnsweredCorrectly());
 
             jsonArray.add(question);
             
@@ -126,6 +132,7 @@ public class SysData {
         return true;
 	}
 	
+	// Recieves a question object, and deletes it from the JSON file
     public static boolean deleteQuestionFromJSON(Question q) {
     	
       	 try {
@@ -158,7 +165,7 @@ public class SysData {
       	 else
       		 return true;
       }
- 
+	// Recieves a question ID, and deletes it from the JSON file
     public static boolean deleteQuestionFromJSONByID(int questionID) {
 
     	 try {
@@ -192,6 +199,7 @@ public class SysData {
     		 return true;
    }
     
+    // Edit a question
     public static boolean editQuestionInJSON(Question newQuestion) {
 
      	 try {
@@ -211,6 +219,8 @@ public class SysData {
 		  	            }
 	  	              	jo.put("answers", ans);
 	  	            	jo.put("correct_ans", newQuestion.getCorrect_ans());
+	  	            	jo.put("num_of_answers", newQuestion.getNumOfPeopleAnswered());
+	  	            	jo.put("num_of_correct_answers", newQuestion.getAnsweredCorrectly());
      	        	}
      	        }
      	        try (FileWriter file = new FileWriter(correctedPath + "/questionsJSON.json")) { //store data
@@ -233,16 +243,8 @@ public class SysData {
      		 return true;
      
     }
-    
-	public static ArrayList<RecordWinner> getOldTopTenWinnersAL() {
-		return oldTopTenWinnersAL;
-	}
-
-
-	public static void setOldTopTenWinnersAL(ArrayList<RecordWinner> oldTopTenWinnersAL) {
-		SysData.oldTopTenWinnersAL = oldTopTenWinnersAL;
-	}
 	
+    // Loads the current top 10 and returns it as an arraylist
 	 @SuppressWarnings({ "unchecked" })
 		public static ArrayList<RecordWinner> initializeTopTen() {
 			
@@ -280,6 +282,7 @@ public class SysData {
 	    	
 	    }
 	 
+	 // Adds a new record to the top 10
 	 @SuppressWarnings("unchecked")
 	public static void addToTopTen (String username, int score, double time) {
 		 
@@ -333,13 +336,19 @@ public class SysData {
 		       {
 		           ioe.printStackTrace();
 		       }
-			
-	    	
-			
 			return;
 		}
+	    
 
-	 
+	 	// =========================== GETTERS AND SETTERS ===============================
+		public static ArrayList<RecordWinner> getOldTopTenWinnersAL() {
+			return oldTopTenWinnersAL;
+		}
+
+		public static void setOldTopTenWinnersAL(ArrayList<RecordWinner> oldTopTenWinnersAL) {
+			SysData.oldTopTenWinnersAL = oldTopTenWinnersAL;
+		}
+
 		public static String getThisUser() {
 			return thisUser;
 		}

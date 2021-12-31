@@ -22,10 +22,9 @@ public class Pacman implements KeyListener{
     private boolean isStuck = true;
     private boolean isInLocation = false; // Checks if the pacman is in radius 3 of a ghost. Used to calculate killing ghosts with bomb
     private boolean isEnterPressed =false; // Checks if enter has been pressed (to explode bomb)
-    
-	private boolean isStrong = false; // Checks if pacman is holding a bomb
-
-    //Animation Vars
+	private boolean isStrong;
+	
+	//Animation Vars
 	private Timer animTimer; // Timer for the animation of Pacman
 	private ActionListener animAL;
 	private Image[] pac; // Images for normal pacman
@@ -35,11 +34,15 @@ public class Pacman implements KeyListener{
 	private Point pixelPosition; // The actual position of Pacman
 	private Point logicalPosition; // The graphical position of Pacman (28 * pixelPosition)
 	private PacBoard parentBoard;
+	
+	
+	
 
     // Constructor
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Pacman (int x, int y,PacBoard pb) {
-
+	
+	public Pacman (int x, int y,PacBoard pb) {
+		
         logicalPosition = new Point(x,y);
         pixelPosition = new Point(28*x,28*y);
 
@@ -60,18 +63,16 @@ public class Pacman implements KeyListener{
             pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
             pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
             
-        }catch(IOException e){
-            System.err.println("Cannot Read Images !");
-        }
-        try {
             pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong0.png"));
             pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong1.png"));
             pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
             pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
             pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
+            
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
-        }
+        }    
+        
 
         //animation timer
         animAL = new ActionListener() {
@@ -218,14 +219,10 @@ public class Pacman implements KeyListener{
         return false;
     }
 
+    // Gets the next image for pacman's animation
     public Image getPacmanImage(){
-    	if(!isStrong) {
-        return pac[activeImage];
-    	}
-    	else {
-    		 return pacStrong[activeImage];
-    		// newColor.setDelay();
-    	}
+    	if(isStrong) return pacStrong[activeImage]; //after pacman eats a bomb
+    	else return pac[activeImage]; // Normal pacman
     }
 
     @Override

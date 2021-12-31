@@ -62,7 +62,7 @@ public class EditQuestionsController {
 	// by clicking the Home button we go to the menu
     @FXML
     void goToPageBefore(MouseEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminMenu.fxml"));
 		LoadScreen(loader);
 		return;
     }
@@ -88,7 +88,7 @@ public class EditQuestionsController {
 	       			return;
 				}
 				if(SysData.editQuestionInJSON(new Question(q.getQuestionID(), content.getText(), difficulty.getSelectionModel().getSelectedItem(),
-						newAnswers,(int)correct.getSelectionModel().getSelectedItem()))) {
+						newAnswers,(int)correct.getSelectionModel().getSelectedItem(), 0, 0))) {
 					showAlert(AlertType.INFORMATION, "Success", "You successfully edited the question", "");
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageQuestions.fxml"));
 					LoadScreen(loader);

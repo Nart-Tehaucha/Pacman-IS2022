@@ -23,10 +23,10 @@ public class RedGhost extends Ghost {
     // Load Ghost sprites
     @Override
     public void loadImages(){
-        ghostR = new Image[2];
-        ghostL = new Image[2];
-        ghostU = new Image[2];
-        ghostD = new Image[2];
+        ghostR = new Image[4];
+        ghostL = new Image[4];
+        ghostU = new Image[4];
+        ghostD = new Image[4];
         try {
             ghostR[0] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/red/1.png"));
             ghostR[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/red/3.png"));
@@ -36,9 +36,9 @@ public class RedGhost extends Ghost {
             ghostU[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/red/5.png"));
             ghostD[0] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/red/6.png"));
             ghostD[1] = ImageIO.read(this.getClass().getResource("/resources/images/ghost/red/7.png"));
-        }catch(IOException e){
-            System.err.println("Cannot Read Images !");
-        }
+    }catch(IOException e){
+        System.err.println("Cannot Read Images !");
+    }
     }
 
     moveType pendMove = moveType.UP;

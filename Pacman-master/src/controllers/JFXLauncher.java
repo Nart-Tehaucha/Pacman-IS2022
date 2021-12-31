@@ -62,16 +62,6 @@ public class JFXLauncher extends Application {
 			primaryStage.setTitle("Pacman IS-21");
 			primaryStage.getIcons().add(new Image("/views/images/sad_pacman.jpg"));
 			primaryStage.show();
-			String path = new File(SysData.correctedPath + "/Pacman-master/src/media/tutorial.mp4").getAbsolutePath();
-			mp = new MediaPlayer(new Media(new File(path).toURI().toString()));
-			mv = new MediaView(mp);
-			mp.setVolume(0);
-			mv.setFitHeight(primaryStage.getHeight());
-			mv.setFitWidth(primaryStage.getWidth());
-			mp.play();
-			mp.setCycleCount(MediaPlayer.INDEFINITE);
-			mv.getMediaPlayer().audioSpectrumIntervalProperty();
-			root.getChildren().add(mv);
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 					@Override
 					public void handle(WindowEvent event)

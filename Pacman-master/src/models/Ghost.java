@@ -45,6 +45,9 @@ public abstract class Ghost {
 
     // Decides the delay between the ghost's movements
     int ghostNormalDelay;
+    
+    // Number of frames per animation cycle.
+    private int framesInCycle;
 
     // Calculates the ghost's path to the base
     BFSFinder baseReturner;
@@ -68,6 +71,7 @@ public abstract class Ghost {
         loadImages();
         
         this.ghostSpeed = 1;
+
         
         //animation timer
         animAL = new ActionListener() {
@@ -148,11 +152,14 @@ public abstract class Ghost {
             parentBoard.dispatchEvent(new ActionEvent(this,Messages.COLTEST,null));
         }
     };
+    	// Timer that gets the ghost's next move 
         moveTimer = new Timer(ghostDelay,moveAL);
         moveTimer.start();
 
+        // A move finder that helps the ghost return to base
         baseReturner = new BFSFinder(pb);
-        //start AI
+        
+        //start move AI
         activeMove = getMoveAI();
 
     }

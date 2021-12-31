@@ -85,9 +85,6 @@ public class PacBoard extends JPanel{
     private boolean flag_did_open_lost_window= false;
 
 	private ArrayList<Ghost> ghostsToRemove; // Used to signal to the program which ghosts to remove (die)
-
-    
-   
     
 
     // Constructor
@@ -112,6 +109,8 @@ public class PacBoard extends JPanel{
         this.ghostBase = map1.getGhostBasePosition();
         pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this);
         addKeyListener(pacman);
+        
+        
         foods = new ArrayList<>(); // Regular foods (pac points)
         pufoods = new ArrayList<>(); // Power Up foods (bombs, special fruit)
         ghosts = new ArrayList<>();
@@ -162,8 +161,10 @@ public class PacBoard extends JPanel{
         // Add Teleports
         teleports.add(new TeleportTunnel(1, 9, 25, 9, moveType.LEFT));
         teleports.add(new TeleportTunnel(25, 9, 1, 9, moveType.RIGHT));
+        
+        
         // Add all timers to an arraylist in SysData.
-        // This is done so that all timers can be stopped when the current game ends (to threading problems)
+        // This is done so that all timers can be stopped when the current game ends (to prevent threading problems)
         SysData.allTimers.add(pacman.getAnimTimer());
         SysData.allTimers.add(pacman.getMoveTimer());
         for(Ghost g : ghosts) {
@@ -218,7 +219,7 @@ public class PacBoard extends JPanel{
         pfoodImage = new Image[5];
         for(int ms=0 ;ms<5;ms++){
             try {
-                pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/"+ms+".png"));
+                    pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/"+ms+".png"));
             }catch(Exception e){}
         }
         
@@ -232,7 +233,7 @@ public class PacBoard extends JPanel{
         
         // Load images for pac points, game over, and victory
         try{
-            foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
+        	foodImage = ImageIO.read(this.getClass().getResource("/resources/images/food.png"));
             goImage = ImageIO.read(this.getClass().getResource("/resources/images/gameover.png"));
             vicImage = ImageIO.read(this.getClass().getResource("/resources/images/victory.png"));
             //pfoodImage = ImageIO.read(this.getClass().getResource("/images/pfood.png"));
@@ -253,7 +254,7 @@ public class PacBoard extends JPanel{
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Easy", md_backup, this));
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Medium", md_backup, this));
         putQuestionOnMap(QuestionFactory.generateQuestionByDifficutly("Hard", md_backup, this));
-
+        
         // Set score, player speed, and ghost speed for each level
         switch(level) {
     	case 1:
@@ -845,6 +846,12 @@ public class PacBoard extends JPanel{
 		if(questionIconPair == null) return;
         questionPoints.put((QuestionIcon)questionIconPair.get(0),(Question)questionIconPair.get(1));        
         questionIcons.add((QuestionIcon)questionIconPair.get(0));
+	}
+	
+	public Point getRandomCell() {
+		int randIndex = (int)(Math.random() * md_backup.getFoodPositions().size());
+		Point pointOfCell = md_backup.getFoodPositions().get(randIndex).position; 
+		return pointOfCell;
 	}
 	
 	//=================================== GETTER SETTERS ===================================
