@@ -27,7 +27,6 @@ public abstract class Ghost {
 
     private int ghostSpeed; // Speed of the ghost
     protected boolean isDead = false; // Is the ghost dead?
-    protected boolean isInBase; // Is the ghost inside the base?
     
     // Images of the ghost
     Image ghostImg;
@@ -36,8 +35,7 @@ public abstract class Ghost {
     
     public Point pixelPosition; // The actual position of the ghost
     public Point logicalPosition; // The graphical position of the ghost (28 * pixelPosition)
-
-	public int ghostType; // Type (Red, Pink, Cyan)
+    public int ghostType; // Type (Red, Pink, Cyan)
 
     // Sprite of the ghost for every direction (up, down, left, right)
     Image[] ghostR;
@@ -47,9 +45,6 @@ public abstract class Ghost {
 
     // Decides the delay between the ghost's movements
     int ghostNormalDelay;
-    
-    // Number of frames per animation cycle.
-    private int framesInCycle;
 
     // Calculates the ghost's path to the base
     BFSFinder baseReturner;
@@ -58,7 +53,7 @@ public abstract class Ghost {
 
     // Constructor
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public Ghost (int x, int y,PacBoard pb,int ghostDelay, int ghostType, int gameMode) {
+    public Ghost (int x, int y,PacBoard pb,int ghostDelay, int ghostType) {
     	this.ghostType = ghostType;
     	
         logicalPosition = new Point(x,y);
@@ -70,26 +65,14 @@ public abstract class Ghost {
 
         ghostNormalDelay = ghostDelay;
 
-        loadImages(gameMode);
+        loadImages();
         
         this.ghostSpeed = 1;
-        
-        // Set the number of frames in the enemy's walk cycle
-        switch(gameMode) {
-        case 0:
-        	framesInCycle = 2;
-        case 1:
-        	framesInCycle = 3;
-        case 2:
-        	framesInCycle = 4;
-    	default:
-    		framesInCycle = 2;
-        }
         
         //animation timer
         animAL = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                activeImage = (activeImage + 1) % framesInCycle;
+                activeImage = (activeImage + 1) % 2;
             }
         };
         animTimer = new Timer(200,animAL);
@@ -179,7 +162,7 @@ public abstract class Ghost {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 	//load Images from Resource
-    public abstract void loadImages(int gameMode);
+    public abstract void loadImages();
 
     //get Move Based on AI
     public abstract moveType getMoveAI();
@@ -244,14 +227,6 @@ public abstract class Ghost {
 
 	public void setGhostNormalDelay(int ghostNormalDelay) {
 		this.ghostNormalDelay = ghostNormalDelay;
-	}
-	
-    public boolean isInBase() {
-		return isInBase;
-	}
-
-	public void setInBase(boolean isInBase) {
-		this.isInBase = isInBase;
 	}
 
     

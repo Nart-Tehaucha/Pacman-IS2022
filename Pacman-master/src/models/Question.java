@@ -11,20 +11,16 @@ public class Question {
 	private String difficulty;
 	private ArrayList<Answer> answers;
 	private int correct_ans;
-	private int numOfPeopleAnswered;
-	private int answeredCorrectly;
 
 	// -------------------------------Constructors-------------------------------
 
-	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans,int numOfPeopleAnswered, int answeredCorrectly ) {
+	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans) {
 		super();
 		this.questionID = questionID;
 		this.content = content;
 		this.difficulty = difficulty;
 		this.answers = answers;
 		this.correct_ans = correct_ans;
-		this.numOfPeopleAnswered = numOfPeopleAnswered;
-		this.answeredCorrectly = answeredCorrectly;
 	}
 	
 	public Question(String content, String difficulty, ArrayList<Answer> answers, int correct_ans) {
@@ -76,22 +72,6 @@ public class Question {
 	public void setCorrect_ans(int correct_ans) {
 		this.correct_ans = correct_ans;
 	}
-	
-	public int getNumOfPeopleAnswered() {
-		return numOfPeopleAnswered;
-	}
-
-	public void setNumOfPeopleAnswered(int numOfPeopleAnswered) {
-		this.numOfPeopleAnswered = numOfPeopleAnswered;
-	}
-	public int getAnsweredCorrectly() {
-		return answeredCorrectly;
-	}
-
-	public void setAnsweredCorrectly(int answeredCorrectly) {
-		this.answeredCorrectly = answeredCorrectly;
-	}
-	
 
 	// -------------------------------Methods------------------------------------
 
@@ -103,8 +83,5 @@ public class Question {
 		}
 		return false;
 	}
-
-
-
 
 }

@@ -89,7 +89,7 @@ public class LoginScreen{
     			String path = new File(SysData.correctedPath + "/Pacman-master/src/media/success.mp3").getAbsolutePath();
     			MediaPlayer sound = new MediaPlayer(new Media(new File(path).toURI().toString()));
     			sound.play();
-    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminMenu.fxml"));
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
 				LoadScreen(loader, "Admin");
 				return;
     		}
@@ -162,7 +162,7 @@ public class LoginScreen{
 	}
 
 	@FXML
-	public void LoadScreen(FXMLLoader loader, String username) {
+	void LoadScreen(FXMLLoader loader, String username) {
 		try {
 
 			AnchorPane pane = loader.load();

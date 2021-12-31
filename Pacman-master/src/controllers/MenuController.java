@@ -68,13 +68,10 @@ public class MenuController {
     // start the game
     @FXML
     void start(ActionEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/NewGame.fxml"));
-		LoadScreen(loader);
-    	
-//		stage = (Stage) MainPanel.getScene().getWindow();
-//		username =SysData.getThisUser();
-//		new PacWindow(username);
-//		stage.close();
+		stage = (Stage) MainPanel.getScene().getWindow();
+		username =SysData.getThisUser();
+		new PacWindow(username);
+		stage.close();
     }
     
     // go to instructions screen

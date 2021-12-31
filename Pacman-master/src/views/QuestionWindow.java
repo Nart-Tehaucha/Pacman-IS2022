@@ -16,7 +16,6 @@ import javax.swing.JRadioButton;
 import javax.swing.Timer;
 
 import controllers.PacBoard;
-import controllers.SysData;
 import models.Answer;
 import models.Question;
 
@@ -101,7 +100,6 @@ public class QuestionWindow extends JFrame implements ActionListener {
             }
         }; 
         delayTimer = new Timer (1000, delayClose);
-        delayTimer.setRepeats(false);
         
         // Action listener for button presses
         button.addActionListener(new ActionListener() {
@@ -111,21 +109,13 @@ public class QuestionWindow extends JFrame implements ActionListener {
             	for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
             		JRadioButton button = (JRadioButton) buttons.nextElement();
 
-                	// If selected answer is correct, color it in green and add points
-                	// If not, color it in red, color the correct answer in blue, and take away points
                     if (button.isSelected()) {
                     	if(pb.checkAnswer(q, button.getText())) {
                     		button.setBackground(new Color(0,255,0));
-                    		q.setNumOfPeopleAnswered(q.getNumOfPeopleAnswered()+1);
-                    		q.setAnsweredCorrectly(q.getAnsweredCorrectly()+1);
-                    		SysData.editQuestionInJSON(q);
                 		} else {
                 			button.setBackground(new Color(255,0,0));
-                    		q.setNumOfPeopleAnswered(q.getNumOfPeopleAnswered()+1);
-                    		SysData.editQuestionInJSON(q);
                 		}
                     }
-                    else if(pb.checkAnswer(q, button.getText())) {button.setBackground(new Color(150,150,255));}
                 }
             	delayTimer.start();
             }
