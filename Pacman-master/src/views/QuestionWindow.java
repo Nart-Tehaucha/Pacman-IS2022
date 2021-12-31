@@ -113,13 +113,8 @@ public class QuestionWindow extends JFrame implements ActionListener {
                     if (button.isSelected()) {
                     	if(pb.checkAnswer(q, button.getText())) {
                     		button.setBackground(new Color(0,255,0));
-                    		q.setNumOfPeopleAnswered(q.getNumOfPeopleAnswered()+1);
-                    		q.setAnsweredCorrectly(q.getAnsweredCorrectly()+1);
-                    		SysData.editQuestionInJSON(q);
                 		} else {
                 			button.setBackground(new Color(255,0,0));
-                    		q.setNumOfPeopleAnswered(q.getNumOfPeopleAnswered()+1);
-                    		SysData.editQuestionInJSON(q);
                 		}
                     }
                 }

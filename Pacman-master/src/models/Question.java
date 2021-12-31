@@ -16,7 +16,7 @@ public class Question {
 
 	// -------------------------------Constructors-------------------------------
 
-	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans,int numOfPeopleAnswered, int answeredCorrectly ) {
+	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans) {
 		super();
 		this.questionID = questionID;
 		this.content = content;
