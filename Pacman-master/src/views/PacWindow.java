@@ -104,11 +104,7 @@ public class PacWindow extends JFrame {
     // Second constructor, gets MapData as an argument
     public PacWindow(int level, int score, int pacLives, String userName){
     	this.username = userName;
-<<<<<<< HEAD
         setTitle("IS 2022 Pacman Game"); // Title
-=======
-        setTitle("IS 2022 getPacman() Game"); // Title
->>>>>>> refs/remotes/origin/Maven-Branch
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and lbScore
@@ -225,11 +221,7 @@ public class PacWindow extends JFrame {
         
     // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){
-<<<<<<< HEAD
         setTitle("IS 2022 Pacman Game"); // Title
-=======
-        setTitle("IS 2022 getPacman() Game"); // Title
->>>>>>> refs/remotes/origin/Maven-Branch
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
@@ -482,13 +474,9 @@ public class PacWindow extends JFrame {
         mapd.setMap(map);
     }
 
-<<<<<<< HEAD
-
 
     // =============================== GETTERS SETTERS ===============================
-    
-=======
->>>>>>> refs/remotes/origin/Maven-Branch
+
     public PacBoard getPacBoard() {
     	return this.pb;
     }

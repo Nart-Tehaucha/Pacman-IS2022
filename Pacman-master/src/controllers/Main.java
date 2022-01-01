@@ -7,12 +7,8 @@ public class Main {
 	// Main class, opens the main screen
     public static void main(String[] args) throws Exception {
     	JFXLauncher.main(args);
-<<<<<<< HEAD
 //    	SysData.setGameMode(2);
 //    	SysData.setPacMode(1);
 //    	new PacWindow("Test");
-=======
-    	//new PacWindow("Zombie");
->>>>>>> refs/remotes/origin/Maven-Branch
     }
 }
