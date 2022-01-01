@@ -7,6 +7,8 @@ public class Main {
 	// Main class, opens the main screen
     public static void main(String[] args) throws Exception {
     	JFXLauncher.main(args);
-    	//new PacWindow("Zombie");
+//    	SysData.setGameMode(0);
+//    	SysData.setPacMode(0);
+//    	new PacWindow("Test");
     }
 }
