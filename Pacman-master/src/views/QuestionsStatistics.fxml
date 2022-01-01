@@ -9,7 +9,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StatsController">
    <children>
       <BarChart fx:id="stats" barGap="1.0" categoryGap="1.0" layoutX="14.0" layoutY="72.0" legendSide="TOP" prefHeight="433.0" prefWidth="643.0" styleClass="labelFont" stylesheets="@styleSheet.css">
@@ -20,9 +19,9 @@
           <NumberAxis fx:id="Percentage" side="LEFT" styleClass="label" stylesheets="@styleSheet.css" tickLabelFill="WHITE" tickLabelRotation="-18.4" upperBound="90.0" />
         </yAxis>
       </BarChart>
-      <Label layoutX="307.0" layoutY="520.0" text="Question's Id" textFill="#989898" />
+      <Label layoutX="322.0" layoutY="505.0" text="Question's Id" textFill="#fffcfc" />
       <Label layoutX="259.0" layoutY="11.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="Questions Statistics" textFill="WHITE" />
-      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="25.0" layoutY="22.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/1200px-Go-home.svg.png" />
          </image>
@@ -30,6 +29,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Label layoutX="-18.0" layoutY="166.0" rotate="-90.0" text="Percentage" textFill="#989898" />
+      <Label layoutX="-141.0" layoutY="279.0" rotate="-90.0" text="Percentage Of Correct Answers Out Of All Answers" textFill="WHITE" />
    </children>
 </AnchorPane>

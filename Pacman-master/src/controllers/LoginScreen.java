@@ -162,7 +162,7 @@ public class LoginScreen{
 	}
 
 	@FXML
-	public void LoadScreen(FXMLLoader loader, String username) {
+	void LoadScreen(FXMLLoader loader, String username) {
 		try {
 
 			AnchorPane pane = loader.load();

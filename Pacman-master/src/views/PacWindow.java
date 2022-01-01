@@ -1,24 +1,6 @@
 package views;
 
 import controllers.*;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import models.*;
 
 import javax.swing.*;
@@ -47,7 +29,7 @@ public class PacWindow extends JFrame {
 	
 	// ============================== Constructors =============================
 	
-	// Default Constructor. Initializes the game screen. Default game mode and character.
+	// Default Constructor. Initializes the game screen.
     public PacWindow(String username){
         
     	//Assign user name field
@@ -122,7 +104,11 @@ public class PacWindow extends JFrame {
     // Second constructor, gets MapData as an argument
     public PacWindow(int level, int score, int pacLives, String userName){
     	this.username = userName;
+<<<<<<< HEAD
         setTitle("IS 2022 Pacman Game"); // Title
+=======
+        setTitle("IS 2022 getPacman() Game"); // Title
+>>>>>>> refs/remotes/origin/Maven-Branch
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and lbScore
@@ -218,10 +204,32 @@ public class PacWindow extends JFrame {
         
         
     }
+
+
+    	public void windowAfterWinning() {
+//        	pb.pause();
+//        	int result = JOptionPane.showConfirmDialog(null,
+//              "You won!\n	Would you like to play again ?", "You won! ",
+//              JOptionPane.YES_NO_OPTION);
+//        	if (result == JOptionPane.YES_OPTION)
+//        		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        	else if (result == JOptionPane.NO_OPTION) {
+//        		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//        		pb.resume();
+//        }
+    		
+
+
+//            }
+        }
         
     // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){
+<<<<<<< HEAD
         setTitle("IS 2022 Pacman Game"); // Title
+=======
+        setTitle("IS 2022 getPacman() Game"); // Title
+>>>>>>> refs/remotes/origin/Maven-Branch
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
         // Setup the game window and scoreboard
@@ -474,10 +482,13 @@ public class PacWindow extends JFrame {
         mapd.setMap(map);
     }
 
+<<<<<<< HEAD
 
 
     // =============================== GETTERS SETTERS ===============================
     
+=======
+>>>>>>> refs/remotes/origin/Maven-Branch
     public PacBoard getPacBoard() {
     	return this.pb;
     }

@@ -39,7 +39,7 @@ public class InstructionsController {
 			mv.setVisible(true);
 			File temp = new File("");
 			String abPath = temp.getAbsolutePath();
-			String path = new File(SysData.correctedPath + "/Pacman-master/src/media/demo.mp4").getAbsolutePath();
+			String path = new File(abPath + "/Pacman-master/src/media/demo.mp4").getAbsolutePath();
 			MediaPlayer mp = new MediaPlayer(new Media(new File(path).toURI().toString()));
 			mv = new MediaView(mp);
 			Reflection r = new Reflection();
