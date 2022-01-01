@@ -85,8 +85,13 @@ public class SysData {
 				String difficulty = (String) jsonQObjt.get("level");
 				int numOfAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_answers"));
 				int numOfCorrectAnswers = Math.toIntExact((Long) jsonQObjt.get("num_of_correct_answers"));
+				int numOfPplAnswered1 = Math.toIntExact((Long) jsonQObjt.get("ppl_answered_1"));
+				int numOfPplAnswered2 = Math.toIntExact((Long) jsonQObjt.get("ppl_answered_2"));
+				int numOfPplAnswered3 = Math.toIntExact((Long) jsonQObjt.get("ppl_answered_3"));
+				int numOfPplAnswered4 = Math.toIntExact((Long) jsonQObjt.get("ppl_answered_4"));
 				
-				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans, numOfAnswers, numOfCorrectAnswers);
+				Question q = new Question(questionID, context, difficulty, arrlista, correct_ans, numOfAnswers, numOfCorrectAnswers,
+						numOfPplAnswered1, numOfPplAnswered2, numOfPplAnswered3, numOfPplAnswered4);
 				arrlistq.add(q);
 			}
 		}catch (Exception e) {
@@ -125,6 +130,10 @@ public class SysData {
             question.put("level", q.getDifficulty());
             question.put("num_of_answers", q.getNumOfPeopleAnswered());
             question.put("num_of_correct_answers", q.getAnsweredCorrectly());
+            question.put("ppl_answered_1",q.getAnsweredQuesNum1());
+            question.put("ppl_answered_2", q.getAnsweredQuesNum2());
+            question.put("ppl_answered_3", q.getAnsweredQuesNum3());
+            question.put("ppl_answered_4", q.getAnsweredQuesNum4());
 
             jsonArray.add(question);
             
@@ -227,6 +236,10 @@ public class SysData {
 	  	            	jo.put("correct_ans", newQuestion.getCorrect_ans());
 	  	            	jo.put("num_of_answers", newQuestion.getNumOfPeopleAnswered());
 	  	            	jo.put("num_of_correct_answers", newQuestion.getAnsweredCorrectly());
+	  	            	jo.put("ppl_answered_1", newQuestion.getAnsweredQuesNum1());
+	  	            	jo.put("ppl_answered_2", newQuestion.getAnsweredQuesNum2());
+	  	            	jo.put("ppl_answered_3", newQuestion.getAnsweredQuesNum3());
+	  	            	jo.put("ppl_answered_4", newQuestion.getAnsweredQuesNum4());
      	        	}
      	        }
      	        try (FileWriter file = new FileWriter(correctedPath + "/questionsJSON.json")) { //store data

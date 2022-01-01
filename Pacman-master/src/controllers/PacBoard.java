@@ -861,13 +861,37 @@ public class PacBoard extends JPanel{
 	// Checks if answer is correct, if yes, returns true and adds to score.
 	public boolean checkAnswer(Question q, String ans) {
 		boolean correct = false;
+		Answer chosenAnswer = null;
+		int quesNum = 0;
 		for(Answer a : q.getAnswers()) {
 			if(a.getContent().equals(ans)) {
+				chosenAnswer = a;
 				if(a.getAnswerID() == q.getCorrect_ans()) {
 					correct = true;
 				}
 			}
 		}
+		for(int i=0; i<q.getAnswers().size(); i++) {
+			if(q.getAnswers().get(i) == chosenAnswer) {
+				quesNum = i+1;
+			}
+		}
+		switch(quesNum) {
+		  case 1:
+		    q.setAnsweredQuesNum1(q.getAnsweredQuesNum1()+1);
+		    break;
+		  case 2:
+			  q.setAnsweredQuesNum2(q.getAnsweredQuesNum2()+1);
+		    break;
+		  case 3:
+			  q.setAnsweredQuesNum3(q.getAnsweredQuesNum3()+1);
+		    break;
+		  case 4:
+			  q.setAnsweredQuesNum4(q.getAnsweredQuesNum4()+1);
+		    break;
+		}
+	    SysData.editQuestionInJSON(q);
+
 		scoreAnswer(q.getDifficulty(), correct);
 		return correct;
 	}

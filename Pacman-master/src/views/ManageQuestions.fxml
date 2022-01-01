@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -27,6 +29,9 @@
             <TableColumn fx:id="quesAnswers" prefWidth="194.66665649414062" text="Answers" />
             <TableColumn fx:id="quesCorrectAns" prefWidth="79.33331298828125" text="Correct" />
         </columns>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </TableView>
       <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -36,7 +41,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Button fx:id="Edit" layoutX="262.0" layoutY="383.0" mnemonicParsing="false" onAction="#editQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Edit">
+      <Button fx:id="Edit" layoutX="262.0" layoutY="413.0" mnemonicParsing="false" onAction="#editQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Edit">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
@@ -47,7 +52,7 @@
          </cursor>
       </Button>
       <Label layoutX="259.0" layoutY="60.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose a question:" />
-      <Button fx:id="Delete" layoutX="371.0" layoutY="383.0" mnemonicParsing="false" onAction="#deleteQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Delete">
+      <Button fx:id="Delete" layoutX="371.0" layoutY="413.0" mnemonicParsing="false" onAction="#deleteQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Delete">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
@@ -57,8 +62,8 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="229.0" layoutY="446.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Would you like to add a new question?" />
-      <Button fx:id="Add" layoutX="308.0" layoutY="474.0" mnemonicParsing="false" onAction="#addAQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Add">
+      <Label layoutX="229.0" layoutY="473.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Would you like to add a new question?" />
+      <Button fx:id="Add" layoutX="308.0" layoutY="501.0" mnemonicParsing="false" onAction="#addAQuestion" prefHeight="40.0" prefWidth="75.0" stylesheets="@styleSheet.css" text="Add">
          <styleClass>
             <String fx:value="labelFont" />
             <String fx:value="saveButton" />
@@ -74,6 +79,20 @@
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="-0.27" contrast="1.0" hue="-1.0" saturation="-0.06" />
+         </effect>
+      </Button>
+      <Button fx:id="seeAnswers" layoutX="269.0" layoutY="366.0" mnemonicParsing="false" onAction="#goToAnswersDistribution" styleClass="chocie-box" stylesheets="@styleSheet.css" text="Show Question Distribution">
+         <effect>
+            <InnerShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </Button>
    </children>

@@ -13,10 +13,15 @@ public class Question {
 	private int correct_ans;
 	private int numOfPeopleAnswered;
 	private int answeredCorrectly;
+	private int answeredQuesNum1;
+	private int answeredQuesNum2;
+	private int answeredQuesNum3;
+	private int answeredQuesNum4;
 
 	// -------------------------------Constructors-------------------------------
 
-	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans,int numOfPeopleAnswered, int answeredCorrectly ) {
+	public Question(int questionID, String content, String difficulty, ArrayList<Answer> answers, int correct_ans,int numOfPeopleAnswered, int answeredCorrectly,
+			int counterOfAnswer1, int counterOfAnswer2, int counterOfAnswer3, int counterOfAnswer4) {
 		super();
 		this.questionID = questionID;
 		this.content = content;
@@ -25,6 +30,10 @@ public class Question {
 		this.correct_ans = correct_ans;
 		this.numOfPeopleAnswered = numOfPeopleAnswered;
 		this.answeredCorrectly = answeredCorrectly;
+		this.answeredQuesNum1 = counterOfAnswer1;
+		this.answeredQuesNum2 = counterOfAnswer2;
+		this.answeredQuesNum3 = counterOfAnswer3;
+		this.answeredQuesNum4 = counterOfAnswer4;
 	}
 	
 	public Question(String content, String difficulty, ArrayList<Answer> answers, int correct_ans) {
@@ -91,7 +100,38 @@ public class Question {
 	public void setAnsweredCorrectly(int answeredCorrectly) {
 		this.answeredCorrectly = answeredCorrectly;
 	}
-	
+
+	public int getAnsweredQuesNum1() {
+		return answeredQuesNum1;
+	}
+
+	public void setAnsweredQuesNum1(int answeredQuesNum1) {
+		this.answeredQuesNum1 = answeredQuesNum1;
+	}
+
+	public int getAnsweredQuesNum2() {
+		return answeredQuesNum2;
+	}
+
+	public void setAnsweredQuesNum2(int answeredQuesNum2) {
+		this.answeredQuesNum2 = answeredQuesNum2;
+	}
+
+	public int getAnsweredQuesNum3() {
+		return answeredQuesNum3;
+	}
+
+	public void setAnsweredQuesNum3(int answeredQuesNum3) {
+		this.answeredQuesNum3 = answeredQuesNum3;
+	}
+
+	public int getAnsweredQuesNum4() {
+		return answeredQuesNum4;
+	}
+
+	public void setAnsweredQuesNum4(int answeredQuesNum4) {
+		this.answeredQuesNum4 = answeredQuesNum4;
+	}
 
 	// -------------------------------Methods------------------------------------
 
@@ -103,6 +143,7 @@ public class Question {
 		}
 		return false;
 	}
+
 
 
 

@@ -64,6 +64,30 @@ public class QuestionsController {
 	    static int chosenQuesId;
 	    @FXML
 	    private Button statsBtn;
+	    
+	    @FXML
+	    private Button seeAnswers;
+
+	    @FXML
+	    void goToAnswersDistribution(ActionEvent event) {
+	    	try {
+		    	if(questionsTable.getSelectionModel().getSelectedItem() != null) {
+			       	chosenQuesId = questionsTable.getSelectionModel().getSelectedItem().getQuestionID();
+			       	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/DistributionOfAnswers.fxml"));
+					LoadScreen(loader);
+					return;
+	       		}
+		    	else {
+		    		showAlert(AlertType.WARNING, "Oops", "It looks like no question has been chosen", null);
+	       			return;
+		    	}
+		    	
+	    	}
+			catch(Exception e) {
+       			showAlert(AlertType.WARNING, "Oops", "It looks like no question has been chosen", null);
+       			return;
+	    	}
+	    }
 
 	    
 	    ObservableList<Question> allQuestions = FXCollections.observableArrayList(SysData.readQuestionsJSON());
