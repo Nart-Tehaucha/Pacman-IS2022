@@ -88,27 +88,9 @@ public class PieChartController {
 	        }
 	      });
     	}
-    		    //super.layoutChartChildren(pc, top, left, contentWidth, contentHeight);
 		  
     }
-//        ObservableList<PieChart.Data> pieChartData =
-//                FXCollections.observableArrayList(
-//                new PieChart.Data("Grapefruit", 13),
-//                new PieChart.Data("Oranges", 25),
-//                new PieChart.Data("Plums", 10),
-//                new PieChart.Data("Pears", 22),
-//                new PieChart.Data("Apples", 30));
-//        pie = new PieChart(pieChartData);
-//        pie.setTitle("Imported Fruits");
-//
-//        pieChartData.forEach(data ->
-//                data.nameProperty().bind(
-//                        Bindings.concat(
-//                                data.getName(), " ", data.pieValueProperty(), " Tons"
-//                        )
-//                )
-//        );
-//   }
+
     
     // load another fxml document
     @FXML
