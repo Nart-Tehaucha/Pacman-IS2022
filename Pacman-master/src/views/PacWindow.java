@@ -36,6 +36,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // Main window of the game screen.
 public class PacWindow extends JFrame {
@@ -43,6 +45,16 @@ public class PacWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private PacBoard pb;
 	private String username;
+	private int second_passed = 0;
+	private Timer myTimer = new Timer();
+	private JLabel lbTime;
+	
+	TimerTask task = new TimerTask() {
+		public void run() {
+			second_passed++;
+			lbTime.setText("    Time : " + String.valueOf(second_passed));
+		}
+	};
 	
 	
 	// ============================== Constructors =============================
@@ -52,6 +64,12 @@ public class PacWindow extends JFrame {
         
     	//Assign user name field
     	this.username = username;
+    	
+    	//set up a timer that will count the time of the player's game
+    	this.second_passed = 0;
+    	startTimer();
+    	
+    	
         setTitle("IS 2022 Pacman Game"); // Title of the game
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -78,6 +96,9 @@ public class PacWindow extends JFrame {
         JLabel lbLives = new JLabel("    Lives : 3");
         lbLives.setForeground(new Color(255, 243, 36));
         
+        lbTime = new JLabel("    Time : " + second_passed);
+        lbTime.setForeground(new Color(255, 243, 36));
+        
         JLabel lbUsername = new JLabel("Hello, " + username + "!");
         lbUsername.setForeground(new Color(255, 243, 36));
 
@@ -94,8 +115,10 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(scoreboard);
+        bottomBar.add(lbTime);
         bottomBar.add(level);
         bottomBar.add(lbLives);
+       
         topBar.add(lbUsername);
         this.getContentPane().add(pb);
         
@@ -120,8 +143,11 @@ public class PacWindow extends JFrame {
     }
     
     // Second constructor, gets MapData as an argument
-    public PacWindow(int level, int score, int pacLives, String userName){
+    public PacWindow(int level, int score, int pacLives, String userName, int numOfSecondPassed){
     	this.username = userName;
+    	this.second_passed = numOfSecondPassed;
+    	startTimer();
+    	
         setTitle("IS 2022 Pacman Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -147,6 +173,9 @@ public class PacWindow extends JFrame {
         if(score > 200) score = 200;
         JLabel lbScore = new JLabel("    Score : " + score);
         lbScore.setForeground(new Color(255, 243, 36));
+        
+        lbTime = new JLabel("    Time : " + second_passed);
+        lbTime.setForeground(new Color(255, 243, 36));
         
         JLabel lbLevel = new JLabel();
         lbLevel.setForeground(new Color(255, 243, 36));
@@ -193,6 +222,7 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(lbScore);
+        bottomBar.add(lbTime);
         bottomBar.add(lbLevel);
         bottomBar.add(lbLives);
         this.getContentPane().add(pb);
@@ -220,7 +250,10 @@ public class PacWindow extends JFrame {
     }
         
     // Third constructor, gets MapData as an argument
-    public PacWindow(MapData md){
+    public PacWindow(MapData md, int numOfSecondPassed){
+    	this.second_passed = numOfSecondPassed;
+    	startTimer();
+    	
         setTitle("IS 2022 Pacman Game"); // Title
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -251,6 +284,9 @@ public class PacWindow extends JFrame {
         JLabel scoreboard = new JLabel("    Score : 0");
         scoreboard.setForeground(new Color(255, 243, 36));
         
+        lbTime = new JLabel("    Time : " + second_passed);
+        lbTime.setForeground(new Color(255, 243, 36));
+        
         JLabel level = new JLabel("    Level : 1");
         level.setForeground(new Color(255, 243, 36));
         
@@ -265,8 +301,9 @@ public class PacWindow extends JFrame {
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.getPacman());
 
-        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);bottomBar.add(lbTime);
         bottomBar.add(scoreboard);
+        bottomBar.add(lbTime);
         bottomBar.add(level);
         bottomBar.add(lbLives);
         this.getContentPane().add(pb);
@@ -474,8 +511,24 @@ public class PacWindow extends JFrame {
         mapd.setMap(map);
     }
 
-
-
+    // ===============================  TIMER METHODS ===============================
+    
+    public void setTimeLabele() {
+    	
+    }
+    
+    public void startTimer() {
+		
+		myTimer.scheduleAtFixedRate(task,1000,1000);
+	}
+	
+	public void stopTimer() {
+		myTimer.cancel();
+	}
+    
+	public int getSecondPassed() {
+		return second_passed;
+	}
     // =============================== GETTERS SETTERS ===============================
     
     public PacBoard getPacBoard() {
