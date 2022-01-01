@@ -31,8 +31,6 @@ public class SysData {
 
 	private static String thisUser;
 	
-	public static ArrayList<Pacman> allPacs = new ArrayList<Pacman>();
-	
 	private static int gameMode;
 	// gameMode 0 - Normal Mode
 	// gameMode 1 - Zombie Mode
