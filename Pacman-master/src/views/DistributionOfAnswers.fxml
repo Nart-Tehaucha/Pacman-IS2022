@@ -22,7 +22,7 @@
             <ColorAdjust brightness="1.0" />
          </effect>
       </ImageView>
-      <Label layoutX="274.0" layoutY="14.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="Question Distribution" textFill="WHITE" />
+      <Label layoutX="274.0" layoutY="14.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="Answers Distribution" textFill="WHITE" />
       <Label fx:id="question" layoutX="59.0" layoutY="37.0" prefHeight="62.0" prefWidth="617.0" styleClass="labelFont" stylesheets="@styleSheet.css" textFill="#fffffff7" />
       <Label fx:id="noAnswers" layoutX="263.0" layoutY="217.0" prefHeight="20.0" prefWidth="242.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="No answers have been submitted yet" textFill="RED" visible="false" />
    </children>
