@@ -110,7 +110,7 @@ public class QuestionWindow extends JFrame implements ActionListener {
             	
             	for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
             		JRadioButton button = (JRadioButton) buttons.nextElement();
-
+            		int correctAnsIndex = q.getCorrect_ans() - 1;
                 	// If selected answer is correct, color it in green and add points
                 	// If not, color it in red, color the correct answer in blue, and take away points
                     if (button.isSelected()) {
@@ -125,7 +125,7 @@ public class QuestionWindow extends JFrame implements ActionListener {
                     		SysData.editQuestionInJSON(q);
                 		}
                     }
-                    else if(pb.checkAnswer(q, button.getText())) {button.setBackground(new Color(150,150,255));}
+                    else if(button.getText().equals(q.getAnswers().get(correctAnsIndex).getContent())) {button.setBackground(new Color(150,150,255));}
                 }
             	delayTimer.start();
             }

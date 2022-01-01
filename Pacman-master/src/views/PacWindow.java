@@ -162,8 +162,6 @@ public class PacWindow extends JFrame {
         	break;
         case 2: 
         	map = getMapFromResource("/resources/maps/map2_c.txt");
-        	map.getTeleports().add(new TeleportTunnel(1,14,25,14,moveType.LEFT));
-            map.getTeleports().add(new TeleportTunnel(25,14,1,14,moveType.RIGHT));
         	lbLevel.setText("    Level : 2");
         	break;
         case 3: 

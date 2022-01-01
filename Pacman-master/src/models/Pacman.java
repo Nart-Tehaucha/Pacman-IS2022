@@ -181,7 +181,7 @@ public class Pacman implements KeyListener{
 
                 //update logical position
                 if((pixelPosition.x % 28 == 0) && (pixelPosition.y % 28 == 0)){
-                    if(!isStuck) {
+                	if(!isStuck) {
                         switch (activeMove) {
                             case RIGHT:
                                 logicalPosition.x++;

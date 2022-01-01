@@ -94,9 +94,6 @@ public class PacBoard extends JPanel{
 	// gameMode 2 - Corona Mode
 	// gameMode 3 - Christmas Mode
 
-    
-   
-    
 
     // Constructor
     public PacBoard(int gameMode, JLabel scoreboard, int level, int score, int pacLives, MapData map1, PacWindow pw){
@@ -382,6 +379,7 @@ public class PacBoard extends JPanel{
                 questionIcontToEat = question;
         }
         if(questionIcontToEat!=null) {
+        	if(score >= scoreToNextLevel) return; // If question was eaten after the level ended, don't do anything.
         	questionPopup(questionIcontToEat);
         	putQuestionOnMap(QuestionFactory.generateQuestionIcon(questionIcontToEat, md_backup, this));
         	respawnFood(questionIcontToEat.position);
@@ -474,9 +472,18 @@ public class PacBoard extends JPanel{
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
             if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
-                pacman.setLogicalPosition(tp.getTo());
-                pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
-                pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
+//                System.out.println("INIT L: (" + pacman.getLogicalPosition().x + "," + pacman.getLogicalPosition().y + ")");
+//                System.out.println("INIT P: (" + pacman.getPixelPosition().x + "," + pacman.getPixelPosition().y + ")");
+            	try {
+                	pacman.setLogicalPosition(tp.getTo());
+                    pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
+                    pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
+                }
+            	catch(Exception e) {
+            		e.printStackTrace();
+            	}
+//            	System.out.println("POST L: (" + pacman.getLogicalPosition().x + "," + pacman.getLogicalPosition().y + ")");
+//                System.out.println("POST P: (" + pacman.getPixelPosition().x + "," + pacman.getPixelPosition().y + ")");
             }
         }
     }
@@ -527,6 +534,7 @@ public class PacBoard extends JPanel{
     public void scoreAnswer(String difficulty, boolean correct) {
     	//easy question
     	if(difficulty.equalsIgnoreCase("Easy")) {
+
     		//Right answer
     		if(correct) {
     		  	scoreToAdd = 1;
