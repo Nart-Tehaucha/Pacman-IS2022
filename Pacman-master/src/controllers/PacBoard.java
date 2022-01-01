@@ -2,6 +2,8 @@ package controllers;
 
 
 import views.*;
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -11,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import controllers.newGameController;
@@ -744,8 +747,26 @@ public class PacBoard extends JPanel{
         
         if(isGameOver){
         	if(flag_did_open_lost_window == false) {
+        		
+        		//shahar
+        		System.out.println("This is the timer in seconds:" + windowParent.getSecondPassed());
+        		Long l = new Long(windowParent.getSecondPassed());
+        		System.out.println("this is long:" + l.toString());
+        		Double time_in_double = Double.valueOf(windowParent.getSecondPassed());
+        		System.out.println("this is time in double:" + time_in_double); 
+        		long millis = ((windowParent.getSecondPassed()));
+        		System.out.println("this is milis:"+ millis);
+        		long seconds = millis; // Maybe no need to divide if the input is in seconds
+        		System.out.println("this is seconds:" + seconds);
+        		LocalTime timeOfDay = LocalTime.ofSecondOfDay(seconds);
+        		System.out.println("this is time of the day:" + timeOfDay.toString());
+        		String time = timeOfDay.toString();
+        		System.out.println("time in"
+        				+ " string:" + time);
+        		
+        		
         		try {
-        			SysData.addToTopTen(this.username, this.score, 0.0);
+        			SysData.addToTopTen(this.username, this.score, time_in_double);
         			stop();
         			windowParent.dispose();
 					LoserAnnouncment.loserWindow(username);
@@ -761,7 +782,10 @@ public class PacBoard extends JPanel{
         if(isWin){
         	if(flag_did_open_victoy_window == false) {
         		try {
-        			SysData.addToTopTen(this.username, this.score, 0.0);
+        	        //stop timer at window parent
+        	        windowParent.stopTimer();
+        	        int secondPastInPacParent = windowParent.getSecondPassed();
+        			SysData.addToTopTen(this.username, this.score, secondPastInPacParent);
         			stop();
         			windowParent.dispose();
 					WinnerAnnouncment.winnerWindow(username);
@@ -845,8 +869,11 @@ public class PacBoard extends JPanel{
     	stop();
     	
         if(score > 200) score = 200;
+        //stop timer at window parent
+        windowParent.stopTimer();
+        int secondPastInPacParent = windowParent.getSecondPassed();
         windowParent.dispose();
-        new PacWindow(level+1, score, pacLives,username);
+        new PacWindow(level+1, score, pacLives,username,secondPastInPacParent);
         
     }
     
@@ -919,7 +946,10 @@ public class PacBoard extends JPanel{
     	
     	windowParent.dispose();
     	if(score > 200) score = 200;
-    	new PacWindow(level, score, pacLives, userName);
+    	 //stop timer at window parent
+        windowParent.stopTimer();
+        int secondPastInPacParent = windowParent.getSecondPassed();
+    	new PacWindow(level, score, pacLives, userName,secondPastInPacParent);
     	
     }
 
