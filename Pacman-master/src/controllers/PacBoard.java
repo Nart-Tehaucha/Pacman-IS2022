@@ -499,7 +499,6 @@ public class PacBoard extends JPanel{
         }
         newGhost.setInBase(true);
 		ghosts.add(newGhost);
-		
 	}
 
 	// Method for adding score
@@ -845,15 +844,26 @@ public class PacBoard extends JPanel{
     
     // Pauses the game
     public void pause() {
+    	// Stop all movement and animation timers for Pacman and the ghosts.
     	pacman.getMoveTimer().stop();
         pacman.getAnimTimer().stop();
         for(Ghost g : ghosts){
             g.moveTimer.stop();
             g.animTimer.stop();
         }
+        
+        // Delete all Ghost respawn timers that already done their job
+        ArrayList<Timer> timersToRemove = new ArrayList<>();
+        
         for(Timer t : ghostRespawnTimers) {
+        	if(!t.isRunning() && SysData.allTimers.contains(t)) {
+        		timersToRemove.add(t);
+        	}
         	t.stop();
         }
+        
+        SysData.allTimers.removeAll(timersToRemove);
+        ghostRespawnTimers.removeAll(timersToRemove);
     }
     
     // Stops the game (stops all the timers in the program)
