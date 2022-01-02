@@ -303,7 +303,7 @@ public class PacBoard extends JPanel{
     		pacman.setGameSpeed(7);
     		for (Ghost g1 : ghosts) {	
     			g1.setGhostSpeed(4);
-    		}
+    			    		}
     		if(gameMode == 1) NumOfExtraEnemies = 3;
     		scoreToNextLevel = 200;
     		break;
