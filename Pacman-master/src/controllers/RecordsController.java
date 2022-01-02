@@ -22,7 +22,7 @@ import models.RecordWinner;
 public class RecordsController {
 	
 		// screen's components
-	   @FXML
+	   	@FXML
 	    private AnchorPane MainPanel;
 
 	    @FXML
@@ -45,6 +45,7 @@ public class RecordsController {
 
 	    @FXML
 	    private TableColumn<RecordWinner, Boolean> trophy;
+	    
 	    @FXML
 	    private Button allTheRecords;
 
@@ -83,7 +84,6 @@ public class RecordsController {
 			catch(Exception e) {
 				allRecords.setVisible(true);
 			}
-	    	
 	    }
 		
 	    @FXML
@@ -109,16 +109,11 @@ public class RecordsController {
 				e.printStackTrace();
 			}
 	    }
-	    
-	  
-	    
-	    
+	      
 	    ObservableList<RecordWinner> tableList = FXCollections.observableArrayList();
-
 	    
 	    private ArrayList<RecordWinner> TopTenWinnersAL = new ArrayList<RecordWinner>();
 	    
-	 
 		@FXML
 		public void initialize() {
 			try {

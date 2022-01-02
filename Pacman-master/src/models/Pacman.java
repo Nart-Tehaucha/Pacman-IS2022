@@ -30,9 +30,11 @@ public class Pacman implements KeyListener{
 	private Timer animTimer; // Timer for the animation of Pacman
 	private ActionListener animAL;
 	private Image[] pac; // Images for normal pacman
+	private Image[] mpac;// Images for Ms. pacman
+	private Image[] xmasPac;// Images for Christmas pacman
 	private Image[] pacStrong; // Images for when pacman is holding a bomb
+	private Image[] xmasPacStrong; // Images for when Christmas pacman is holding a bomb
 	private Image[] pacMasked; // Image for when pacman is wearing a covid mask (gameMode = 2)
-	private Image[] pacMaskedStrong; // Iamge for when pacman is wearing a mask and holding a bomb (gameMode = 2)
 	private int activeImage = 0;
 	private int addFactor = 1;
 	private Point pixelPosition; // The actual position of Pacman
@@ -57,9 +59,11 @@ public class Pacman implements KeyListener{
         parentBoard = pb;
 
         pac = new Image[5];
+        mpac = new Image[5];
+        xmasPac = new Image[5];
         pacStrong = new Image[5];
+        xmasPacStrong = new Image[5];
         pacMasked = new Image[1];
-        pacMaskedStrong = new Image[1];
 
         activeMove = moveType.NONE;
         todoMove = moveType.NONE;
@@ -67,96 +71,37 @@ public class Pacman implements KeyListener{
 
         // Load Pacman's sprites
         try {
-        	// Load Pacman sprites if pacMode is 0
-        	if(pacMode == 0) {
-        		switch(gameMode) {
-        		case 0:
-                    pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac0.png"));
-                    pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
-                    pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
-                    pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
-                    pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
-                    
-                    pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong0.png"));
-                    pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong1.png"));
-                    pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
-                    pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
-                    pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
-                    break;
-        		case 3:
-        			pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac0.png"));
-        			pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac1.png"));
-        			pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac2.png"));
-        			pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac3.png"));
-        			pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac4.png"));
-                    
-        			pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong0.png"));
-        			pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong1.png"));
-        			pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong2.png"));
-        			pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong3.png"));
-        			pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong4.png"));
-                    break;
-                default:
-                    pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac0.png"));
-                    pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
-                    pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
-                    pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
-                    pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
-                    
-                    pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong0.png"));
-                    pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong1.png"));
-                    pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
-                    pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
-                    pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
-        		}
-        		pacMasked[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacMasked.png"));
-        		pacMaskedStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacMaskedStrong.png"));
-        	}
-        	// Load Ms.Pacman sprites if pacMode is 1
-        	else {
-        		switch(gameMode) {
-        		case 0:
-                    pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac0.png"));
-                    pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac1.png"));
-                    pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac2.png"));
-                    pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac3.png"));
-                    pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac4.png"));
-                    
-                    pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong0.png"));
-                    pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong1.png"));
-                    pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong2.png"));
-                    pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong3.png"));
-                    pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong4.png"));
-                    break;
-        		case 3:
-        			pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpac0.png"));
-        			pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpac1.png"));
-        			pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpac2.png"));
-        			pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpac3.png"));
-        			pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpac4.png"));
-                    
-        			pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpacStrong0.png"));
-        			pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpacStrong1.png"));
-        			pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpacStrong2.png"));
-        			pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpacStrong3.png"));
-        			pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/mpacStrong4.png"));
-                    break;
-                default:
-                    pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac0.png"));
-                    pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac1.png"));
-                    pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac2.png"));
-                    pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac3.png"));
-                    pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpac4.png"));
-                    
-                    pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong0.png"));
-                    pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong1.png"));
-                    pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong2.png"));
-                    pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong3.png"));
-                    pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacStrong4.png"));
-        		}
-            	pacMasked[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacMask.png"));
-        		pacMaskedStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacMaskStrong.png"));
-        	}
+            pac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac0.png"));
+            pac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac1.png"));
+            pac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac2.png"));
+            pac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"));
+            pac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pac4.png"));
+            
+            mpac[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac0.png"));
+            mpac[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac1.png"));
+            mpac[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac2.png"));
+            mpac[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac3.png"));
+            mpac[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/mpac4.png"));
+            
+            xmasPac[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac0.png"));
+            xmasPac[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac1.png"));
+            xmasPac[2] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac2.png"));
+            xmasPac[3] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac3.png"));
+            xmasPac[4] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pac4.png"));
+            
+            pacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong0.png"));
+            pacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong1.png"));
+            pacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong2.png"));
+            pacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong3.png"));
+            pacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/pac/pacStrong4.png"));
+            
+            xmasPacStrong[0] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong0.png"));
+            xmasPacStrong[1] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong1.png"));
+            xmasPacStrong[2] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong2.png"));
+            xmasPacStrong[3] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong3.png"));
+            xmasPacStrong[4] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_pac/pacStrong4.png"));
+            
+        	pacMasked[0] = ImageIO.read(this.getClass().getResource("/resources/images/ms_pac/mpacMask.png"));
             
         }catch(IOException e){
             System.err.println("Cannot Read Images !");
@@ -181,7 +126,7 @@ public class Pacman implements KeyListener{
 
                 //update logical position
                 if((pixelPosition.x % 28 == 0) && (pixelPosition.y % 28 == 0)){
-                	if(!isStuck) {
+                    if(!isStuck) {
                         switch (activeMove) {
                             case RIGHT:
                                 logicalPosition.x++;
@@ -309,12 +254,24 @@ public class Pacman implements KeyListener{
     }
 
     public Image getPacmanImage(){
-        	if(isStrong) {
-        		if(isMasked) return pacMaskedStrong[0]; // Sprites when pacman eats a bomb and wears a mask
-        		else return pacStrong[activeImage]; // Sprites when pacman eats a bomb
-        	}
-        	else if(isMasked) return pacMasked[0]; // Sprites when pacman wears a mask
-        	else return pac[activeImage]; // Sprites when pacman is normal
+    	switch(gameMode) {
+    	case 0:
+        	if(isStrong) return pacStrong[activeImage]; //after pacman eats a bomb
+        	else if(pacMode == 1) return mpac[activeImage];
+        	else return pac[activeImage];
+    	case 2:
+        	if(isStrong) return pacStrong[activeImage]; //after pacman eats a bomb
+        	else if(isMasked) return pacMasked[0];
+        	else if(pacMode == 1) return mpac[activeImage];
+        	else return pac[activeImage]; 
+    	case 3:
+        	if(isStrong) return xmasPacStrong[activeImage]; //after pacman eats a bomb
+        	else return xmasPac[activeImage];
+        default:
+        	if(isStrong) return pacStrong[activeImage]; //after pacman eats a bomb
+        	else if(pacMode == 1) return mpac[activeImage];
+        	else return pac[activeImage];
+    	}
     }
 
     @Override
@@ -507,5 +464,12 @@ public class Pacman implements KeyListener{
 
 	public void setMasked(boolean isMasked) {
 		this.isMasked = isMasked;
+	}
+		public Image[] getMpac() {
+		return mpac;
+	}
+
+	public void setMpac(Image[] mpac) {
+		this.mpac = mpac;
 	}
 }

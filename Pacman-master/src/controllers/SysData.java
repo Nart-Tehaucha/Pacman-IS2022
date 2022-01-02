@@ -1,8 +1,6 @@
 package controllers;
 
 import models.*;
-import views.QuestionWindow;
-
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +28,6 @@ public class SysData {
 	public static ArrayList<Question> allQuestions = readQuestionsJSON();
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
-	public static ArrayList<QuestionWindow> allOpenQuestionWindows = new ArrayList<QuestionWindow>();
 
 	private static String thisUser;
 	

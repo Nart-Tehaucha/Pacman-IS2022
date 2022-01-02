@@ -30,10 +30,10 @@ public class JSONtest {
         answers.add(a2);
         answers.add(a3);
         answers.add(a4);
-        questions.add(new Question(1, "TT", "Easy", answers, 2,0,0,0,0,0,0));
-        questions.add(new Question(2, "asdf", "Hard", answers, 3,0,0,0,0,0,0));
-        questions.add(new Question(3, "123", "Easy", answers, 4,0,0,0,0,0,0));
-        questions.add(new Question(4, "test", "Hard", answers, 1,0,0,0,0,0,0));
+        questions.add(new Question(1, "TT", "Easy", answers, 2));
+        questions.add(new Question(2, "asdf", "Hard", answers, 3));
+        questions.add(new Question(3, "123", "Easy", answers, 4));
+        questions.add(new Question(4, "test", "Hard", answers, 1));
     }
 	
 	@Test

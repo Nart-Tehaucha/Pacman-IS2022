@@ -1,10 +1,8 @@
 package views;
 
 import controllers.*;
-import javafx.scene.input.MouseEvent;
 import models.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -16,12 +14,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Scanner;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -31,9 +25,81 @@ public class PacWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private PacBoard pb;
 	private String username;
-	private boolean isPaused;
+	
 	
 	// ============================== Constructors =============================
+	
+	// Default Constructor. Initializes the game screen.
+    public PacWindow(String username){
+        
+    	//Assign user name field
+    	this.username = username;
+        setTitle("IS 2022 Pacman Game"); // Title of the game
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // Setup the game window and scoreboard
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setBackground(Color.black);
+
+        //setSize(794,918);
+        setSize(794,646);
+        setLocationRelativeTo(null);
+        
+        JPanel topBar = new JPanel();
+        topBar.setBackground(Color.black);
+        
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(Color.black);
+        
+        JLabel scoreboard = new JLabel("    Score : 0");
+        scoreboard.setForeground(new Color(255, 243, 36));
+        
+        JLabel level = new JLabel("    Level : 1");
+        level.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbLives = new JLabel("    Lives : 3");
+        lbLives.setForeground(new Color(255, 243, 36));
+        
+        JLabel lbUsername = new JLabel("Hello, " + username + "!");
+        lbUsername.setForeground(new Color(255, 243, 36));
+
+        // Load the default map layout
+        MapData map1 = getMapFromResource("/resources/maps/map1_c.txt");
+        adjustMap(map1);
+
+        // Create a new game object.
+        pb = new PacBoard(SysData.getGameMode(), scoreboard,1,0,3,map1,this);
+
+        pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
+        addKeyListener(pb.getPacman());
+
+        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
+        this.getContentPane().add(topBar,BorderLayout.NORTH);
+        bottomBar.add(scoreboard);
+        bottomBar.add(level);
+        bottomBar.add(lbLives);
+        topBar.add(lbUsername);
+        this.getContentPane().add(pb);
+        
+        setVisible(true);
+        
+        // Event listner for when the player tries to close the game
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+            	pb.pause();
+            	int result = JOptionPane.showConfirmDialog(null,
+                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
+                  JOptionPane.YES_NO_OPTION);
+            	if (result == JOptionPane.YES_OPTION)
+            		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            	else if (result == JOptionPane.NO_OPTION) {
+            		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            		pb.resume();
+            	}
+            }
+        });
+    }
     
     // Second constructor, gets MapData as an argument
     public PacWindow(int level, int score, int pacLives, String userName){
@@ -45,6 +111,8 @@ public class PacWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(Color.black);
 
+        //setSize(794,884);
+        //setSize(794,918);--upd
         setSize(794,646);
         setLocationRelativeTo(null);
         
@@ -102,85 +170,13 @@ public class PacWindow extends JFrame {
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.getPacman());
         
-        // Button for pausing / unpausing the game
-        JLabel btnPause = new JLabel();
-        
-        Image[] btnImage = new Image[2];
-        try {
-			btnImage[0] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPlaySmall.png"));
-			btnImage[1] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPauseSmall.png"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
-
-        ImageIcon btnPlayIcon = new ImageIcon(btnImage[0]);
-        ImageIcon btnPauseIcon = new ImageIcon(btnImage[1]);
-        btnPause.setIcon(btnPauseIcon);
-        
-        MouseListener ml = new MouseListener(){
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-            	
-            	if(!isPaused) {
-            		pb.pause();
-            		isPaused = true;
-            		btnPause.setIcon(btnPlayIcon);
-            	}
-            	else {
-            		pb.resume();
-            		isPaused = false;
-            		btnPause.setIcon(btnPauseIcon);
-            	}
-			}
-
-			@Override
-			public void mousePressed(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-        };
-        
-        btnPause.addMouseListener(ml);
+     
         
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(lbScore);
         bottomBar.add(lbLevel);
         bottomBar.add(lbLives);
-        bottomBar.add(btnPause);
-
-    	try {
-	        for(int i=0; i<pacLives;i++) {
-	        	JLabel liveIcon = new JLabel();
-					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"))));
-	        	bottomBar.add(liveIcon);
-	        	
-	        }
-        } catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
         this.getContentPane().add(pb);
         setVisible(true);
         
@@ -199,7 +195,29 @@ public class PacWindow extends JFrame {
             	}
             }
         });
+        
+
+        
+        
     }
+
+
+    	public void windowAfterWinning() {
+//        	pb.pause();
+//        	int result = JOptionPane.showConfirmDialog(null,
+//              "You won!\n	Would you like to play again ?", "You won! ",
+//              JOptionPane.YES_NO_OPTION);
+//        	if (result == JOptionPane.YES_OPTION)
+//        		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        	else if (result == JOptionPane.NO_OPTION) {
+//        		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//        		pb.resume();
+//        }
+    		
+
+
+//            }
+        }
         
     // Third constructor, gets MapData as an argument
     public PacWindow(MapData md){
@@ -247,84 +265,10 @@ public class PacWindow extends JFrame {
         pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
         addKeyListener(pb.getPacman());
 
-        // Button for pausing / unpausing the game
-        JLabel btnPause = new JLabel();
-        
-        Image[] btnImage = new Image[2];
-        try {
-			btnImage[0] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPlaySmall.png"));
-			btnImage[1] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPauseSmall.png"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
-
-        ImageIcon btnPlayIcon = new ImageIcon(btnImage[0]);
-        ImageIcon btnPauseIcon = new ImageIcon(btnImage[1]);
-        btnPause.setIcon(btnPauseIcon);
-        
-        MouseListener ml = new MouseListener(){
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-            	
-            	if(!isPaused) {
-            		pb.pause();
-            		isPaused = true;
-            		btnPause.setIcon(btnPlayIcon);
-            	}
-            	else {
-            		pb.resume();
-            		isPaused = false;
-            		btnPause.setIcon(btnPauseIcon);
-            	}
-			}
-
-			@Override
-			public void mousePressed(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-        };
-        
-        btnPause.addMouseListener(ml);
-        
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(scoreboard);
         bottomBar.add(level);
         bottomBar.add(lbLives);
-        bottomBar.add(btnPause);
-
-    	try {
-	        for(int i=0; i<3;i++) {
-	        	JLabel liveIcon = new JLabel();
-					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"))));
-	        	bottomBar.add(liveIcon);
-	        	
-	        }
-        } catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
         this.getContentPane().add(pb);
         setVisible(true);
         
@@ -531,9 +475,8 @@ public class PacWindow extends JFrame {
     }
 
 
-
     // =============================== GETTERS SETTERS ===============================
-    
+
     public PacBoard getPacBoard() {
     	return this.pb;
     }
