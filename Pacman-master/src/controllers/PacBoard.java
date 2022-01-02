@@ -61,7 +61,7 @@ public class PacBoard extends JPanel{
     private boolean isGameOver = false;
     private boolean isWin = false;
     private boolean isPacDead = false; // Is Pacman dead right now?
-
+	private boolean isMuted = false; // Is the game muted?
 
 	private boolean drawScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after eating Fruit)
     private boolean drawQuestionScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after answering questions)
@@ -1042,11 +1042,11 @@ public class PacBoard extends JPanel{
 			}
 		}
 		
-		private void startMainGameMusic() {
-			mainMusic.start();
+		public void startMainGameMusic() {
+			if(!isMuted) mainMusic.start();
 		}
 
-		private void stopMainGameMusic() {
+		public void stopMainGameMusic() {
 			mainMusic.stop();
 		}
 		
@@ -1276,6 +1276,14 @@ public class PacBoard extends JPanel{
 
 	public void setPacDead(boolean isPacDead) {
 		this.isPacDead = isPacDead;
+	}
+	
+	public boolean isMuted() {
+		return isMuted;
+	}
+
+	public void setMuted(boolean isMuted) {
+		this.isMuted = isMuted;
 	}
 	
     

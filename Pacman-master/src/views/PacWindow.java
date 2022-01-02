@@ -32,10 +32,10 @@ public class PacWindow extends JFrame {
 	private PacBoard pb;
 	private String username;
 	private boolean isPaused;
+	private boolean isMuted;
 	
 	// ============================== Constructors =============================
     
-    // Second constructor, gets MapData as an argument
     public PacWindow(int level, int score, int pacLives, String userName){
     	this.username = userName;
         setTitle("IS 2022 Pacman Game"); // Title
@@ -161,117 +161,38 @@ public class PacWindow extends JFrame {
         
         btnPause.addMouseListener(ml);
         
-        this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
-        this.getContentPane().add(topBar,BorderLayout.NORTH);
-        bottomBar.add(lbScore);
-        bottomBar.add(lbLevel);
-        bottomBar.add(btnPause);
-
-    	try {
-	        for(int i=0; i<pacLives;i++) {
-	        	JLabel liveIcon = new JLabel();
-					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/lev.png"))));
-	        	bottomBar.add(liveIcon);
-	        	
-	        }
-        } catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        this.getContentPane().add(pb);
-        setVisible(true);
+        // Button for muting / unmuting the game
+        JLabel btnMute = new JLabel();
         
-        // Event listner for when the player tries to close the game
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-            	pb.pause();
-            	int result = JOptionPane.showConfirmDialog(null,
-                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
-                  JOptionPane.YES_NO_OPTION);
-            	if (result == JOptionPane.YES_OPTION)
-            		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            	else if (result == JOptionPane.NO_OPTION) {
-            		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            		pb.resume();
-            	}
-            }
-        });
-    }
-        
-    // Third constructor, gets MapData as an argument
-    public PacWindow(MapData md){
-        setTitle("IS 2022 Pacman Game"); // Title
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
-        // Setup the game window and scoreboard
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.black);
-
-        //setSize(794,884);
-        //setSize(794,918);
-        setSize(794,646);
-        setLocationRelativeTo(null);
-        
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-              int result = JOptionPane.showConfirmDialog(null,
-                  "All your progress will be lost!\nAre you sure you want to Exit ?", "Before You Exit: ",
-                  JOptionPane.YES_NO_OPTION);
-              if (result == JOptionPane.YES_OPTION)
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-              else if (result == JOptionPane.NO_OPTION)
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            }
-          });
-        
-        JPanel bottomBar = new JPanel();
-        bottomBar.setBackground(Color.black);
-        
-        JLabel scoreboard = new JLabel("    Score : 0");
-        scoreboard.setForeground(new Color(255, 243, 36));
-        
-        JLabel level = new JLabel("    Level : 1");
-        level.setForeground(new Color(255, 243, 36));
-
-        //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
-        
-        // Load the custom map layout
-        adjustMap(md);
-        PacBoard pb = new PacBoard(SysData.getGameMode(), scoreboard,1,0,3,md,this);
-        pb.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10),new LineBorder(Color.BLUE)));
-        addKeyListener(pb.getPacman());
-
-        // Button for pausing / unpausing the game
-        JLabel btnPause = new JLabel();
-        
-        Image[] btnImage = new Image[2];
+        Image[] btnImage2 = new Image[2];
         try {
-			btnImage[0] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPlaySmall.png"));
-			btnImage[1] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPauseSmall.png"));
+			btnImage2[0] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/unmute.png"));
+			btnImage2[1] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/mute.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         
-
-        ImageIcon btnPlayIcon = new ImageIcon(btnImage[0]);
-        ImageIcon btnPauseIcon = new ImageIcon(btnImage[1]);
-        btnPause.setIcon(btnPauseIcon);
+        ImageIcon btnMuteIcon = new ImageIcon(btnImage2[0]);
+        ImageIcon btnUnmuteIcon = new ImageIcon(btnImage2[1]);
+        btnMute.setIcon(btnMuteIcon);
         
-        MouseListener ml = new MouseListener(){
+        MouseListener ml2 = new MouseListener(){
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				// TODO Auto-generated method stub
             	
-            	if(!isPaused) {
-            		pb.pause();
-            		isPaused = true;
-            		btnPause.setIcon(btnPlayIcon);
+            	if(!isMuted) {
+            		isMuted = true;
+            		pb.setMuted(true);
+            		pb.stopMainGameMusic();
+            		btnMute.setIcon(btnUnmuteIcon);
             	}
             	else {
-            		pb.resume();
-            		isPaused = false;
-            		btnPause.setIcon(btnPauseIcon);
+            		isMuted = false;
+            		pb.setMuted(false);
+            		pb.startMainGameMusic();
+            		btnMute.setIcon(btnMuteIcon);
             	}
 			}
 
@@ -300,17 +221,17 @@ public class PacWindow extends JFrame {
 			}
         };
         
-        btnPause.addMouseListener(ml);
+        btnMute.addMouseListener(ml2);
         
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
-        bottomBar.add(scoreboard);
-        bottomBar.add(level);
-        bottomBar.add(btnPause);
+        this.getContentPane().add(topBar,BorderLayout.NORTH);
+        bottomBar.add(lbScore);
+        bottomBar.add(lbLevel);
 
     	try {
-	        for(int i=0; i<3;i++) {
+	        for(int i=0; i<pacLives;i++) {
 	        	JLabel liveIcon = new JLabel();
-					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"))));
+					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/lev.png"))));
 	        	bottomBar.add(liveIcon);
 	        	
 	        }
@@ -318,6 +239,9 @@ public class PacWindow extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+    	
+        bottomBar.add(btnPause);
+        bottomBar.add(btnMute);
         this.getContentPane().add(pb);
         setVisible(true);
         
@@ -337,7 +261,6 @@ public class PacWindow extends JFrame {
             }
         });
     }
-
     
     // ============================== Methods =============================
     
