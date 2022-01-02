@@ -97,7 +97,7 @@ public class PacBoard extends JPanel{
 	// gameMode 2 - Corona Mode
 	// gameMode 3 - Christmas Mode
 
-    
+    private LoopPlayer mainMusic;
    
     
 
@@ -119,7 +119,14 @@ public class PacBoard extends JPanel{
         m_x = map1.getX();
         m_y = map1.getY();
         this.map = map1.getMap();
-
+        
+        //init music
+        initMainGameMusic();
+        //start music
+        startMainGameMusic();
+//        LoopPlayer test = new LoopPlayer("mainNormal.wav");
+//        test.start();
+//        
         this.isCustom = map1.isCustom();
         this.ghostBase = map1.getGhostBasePosition();
         pacman = new Pacman(map1.getPacmanPosition().x,map1.getPacmanPosition().y,this , SysData.getPacMode());
@@ -326,6 +333,7 @@ public class PacBoard extends JPanel{
             {
             	// If the player is wearing a mask, kill the virus and remove mask (Only in game mode 2)
             	if(gameMode == 2 && pacman.isMasked()) {
+            		SoundPlayer.play("pacman_eatghost.wav");
             		pacman.setMasked(false);
             		g.moveTimer.stop();
             		g.animTimer.stop();
@@ -344,6 +352,7 @@ public class PacBoard extends JPanel{
 			        break;
             	}
             	else if(!g.isDead()) {
+            		SoundPlayer.play("pac6.wav");
             		isPacDead = true;
                 	if(pacLives > 1) {
                 		// Remove 1 life
@@ -352,6 +361,7 @@ public class PacBoard extends JPanel{
                 		restart(level, score, pacLives, username);
                 	}
                 	else {
+                		SoundPlayer.play("pac6.wav");
                 		// Game Over
                         pause();
                         isGameOver = true;	
@@ -370,10 +380,12 @@ public class PacBoard extends JPanel{
         for(Food f : foods){
             if(pacman.getLogicalPosition().x == f.position.x && pacman.getLogicalPosition().y == f.position.y)
                 foodToEat = f;
+            
         }
         
         // Eat food
         if(foodToEat!=null) {
+        	SoundPlayer.play("pacman_eat.wav");
             foods.remove(foodToEat);
             respawnFood(foodToEat.position);
             this.addScore(1);
@@ -406,6 +418,7 @@ public class PacBoard extends JPanel{
             switch(puFoodToEat.getType()) {
                 // Eat Bomb
             	case 0:
+            		SoundPlayer.play("pacman_eatfruit.wav");
                     pufoods.remove(puFoodToEat);
                     respawnBomb(puFoodToEat.getPosition());
                     pacman.setStrong(true);
@@ -416,6 +429,7 @@ public class PacBoard extends JPanel{
                 	if(gameMode == 2) {
                 		pacman.setMasked(true);
                 	}
+                	SoundPlayer.play("pacman_eatfruit.wav");
                     pufoods.remove(puFoodToEat);
                     if(score != 200) {
                     	scoreToAdd = 1;
@@ -428,6 +442,7 @@ public class PacBoard extends JPanel{
         
         // Kill ghosts
         if(pacman.getIsStrong() &&pacman.isEnterPressed()) {	
+        	SoundPlayer.play("pacman_eatghost.wav");
 	    	for (Ghost g : ghosts) {	
 	        	for(int i=-3 ;i<=3; i++) {	
 	        		for(int j=-3; j<=3; j++) {	
@@ -754,6 +769,8 @@ public class PacBoard extends JPanel{
         if(isGameOver){
         	if(flag_did_open_lost_window == false) {
         		try {
+        			stopMainGameMusic();
+        			SoundPlayer.play("Lose_Sound.wav");
         			SysData.addToTopTen(this.username, this.score, 0.0);
         			stop();
         			windowParent.dispose();
@@ -772,7 +789,9 @@ public class PacBoard extends JPanel{
         		try {
         			SysData.addToTopTen(this.username, this.score, 0.0);
         			stop();
+        			stopMainGameMusic();
         			windowParent.dispose();
+        			SoundPlayer.play("SoundWin.wav");
 					WinnerAnnouncment.winnerWindow(username);
 				} catch (HeadlessException | IOException e) {
 					// TODO Auto-generated catch block
@@ -856,6 +875,7 @@ public class PacBoard extends JPanel{
         if(score > 200) score = 200;
         disposeAllOpenQuestionWindows();
         windowParent.dispose();
+        stopMainGameMusic();
         new PacWindow(level+1, score, pacLives,username);
         
     }
@@ -929,6 +949,7 @@ public class PacBoard extends JPanel{
     	disposeAllOpenQuestionWindows();
     	windowParent.dispose();
     	if(score > 200) score = 200;
+    	stopMainGameMusic();
     	new PacWindow(level, score, pacLives, userName);
     	
     }
@@ -971,6 +992,36 @@ public class PacBoard extends JPanel{
 		return pointOfCell;
 	}
 	
+	
+	//=================================== SOUNDS FUNCTIONS ===================================
+		private void initMainGameMusic() {
+			System.out.println("this is game mode: " + gameMode);
+			switch(gameMode) {
+			case 0:          //- Normal Mode
+				mainMusic = new LoopPlayer("mainNoraml.wav");
+				break;
+			case 1:         //- Zombie Mode
+				mainMusic = new LoopPlayer("mainZombie.wav");
+				break;
+			case 2:        //- Corona Mode
+				mainMusic = new LoopPlayer("mainCorona.wav");
+				break;
+			case 3:       //- Christmas Mode
+				mainMusic = new LoopPlayer("mainChristmas.wav");
+				break;
+			}
+			System.out.println("this is main music:" + mainMusic.toString());
+		}
+		
+		private void startMainGameMusic() {
+			System.out.println(mainMusic.toString());
+			mainMusic.start();
+		}
+
+		private void stopMainGameMusic() {
+			mainMusic.stop();
+		}
+		
 	//=================================== GETTER SETTERS ===================================
 	public int[][] getMap() {
 		return map;

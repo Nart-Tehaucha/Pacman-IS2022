@@ -10,5 +10,7 @@ public class Main {
 //    	SysData.setGameMode(0);
 //    	SysData.setPacMode(0);
 //    	new PacWindow("Test");
+
+  
     }
 }
