@@ -166,8 +166,8 @@ public class PacWindow extends JFrame {
         
         Image[] btnImage2 = new Image[2];
         try {
-			btnImage2[0] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPlaySmall.png"));
-			btnImage2[1] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/btnPauseSmall.png"));
+			btnImage2[0] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/unmute.png"));
+			btnImage2[1] = ImageIO.read(this.getClass().getResource("/resources/images/btnIcons/mute.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
