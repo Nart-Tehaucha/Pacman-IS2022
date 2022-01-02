@@ -30,10 +30,10 @@ public class JSONtest {
         answers.add(a2);
         answers.add(a3);
         answers.add(a4);
-        questions.add(new Question(1, "TT", "Easy", answers, 2));
-        questions.add(new Question(2, "asdf", "Hard", answers, 3));
-        questions.add(new Question(3, "123", "Easy", answers, 4));
-        questions.add(new Question(4, "test", "Hard", answers, 1));
+        questions.add(new Question(1, "TT", "Easy", answers, 2,0,0,0,0,0,0));
+        questions.add(new Question(2, "asdf", "Hard", answers, 3,0,0,0,0,0,0));
+        questions.add(new Question(3, "123", "Easy", answers, 4,0,0,0,0,0,0));
+        questions.add(new Question(4, "test", "Hard", answers, 1,0,0,0,0,0,0));
     }
 	
 	@Test
@@ -57,14 +57,14 @@ public class JSONtest {
 	
 	@Test
 	public void testNumOfGhost() {
-		PacWindow pw = new PacWindow(1, 0, 3, "Test"); 
+		PacWindow pw = new PacWindow(1,0,3,"Test"); 
 		PacBoard pb = pw.getPacBoard();
 		assertEquals(pb.getGhosts().size(), 3); 
 	}
 	
 	@Test
 	public void isScoreIncreased() {
-		PacWindow pw = new PacWindow(1, 0, 3, "Test"); 
+		PacWindow pw = new PacWindow(1,0,3,"Test");
 		PacBoard pb = pw.getPacBoard();
 		int scoreBefore = pb.getScore();
 		pb.addScore(1);

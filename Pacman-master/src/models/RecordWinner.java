@@ -10,10 +10,10 @@ public class RecordWinner implements Serializable, Comparable{
 	
 	private String userName;
     private int points;
-	private double time;
+	private String time;
 	private boolean did_Earn_Trophy; //yes or no
 	
-	public RecordWinner(String userName, int pinots, double time, boolean did_Earn_Trophy) {
+	public RecordWinner(String userName, int pinots, String time, boolean did_Earn_Trophy) {
 		super();
 		this.userName = userName;
 		this.points = pinots;
@@ -50,11 +50,11 @@ public class RecordWinner implements Serializable, Comparable{
 		this.points = points;
 	}
 
-	public double getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(double time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
@@ -73,9 +73,9 @@ public class RecordWinner implements Serializable, Comparable{
 		if (this.points < rw.getPoints())
 			return 1;
 		else {
-			if (this.time < rw.getTime())
+			if (Integer.valueOf(this.time) < Integer.valueOf(rw.getTime()))
 				return -1;
-			if (this.time < rw.getTime())
+			if (Integer.valueOf(this.time) > Integer.valueOf(rw.getTime()))
 				return 1;
 			return 0;
 			}

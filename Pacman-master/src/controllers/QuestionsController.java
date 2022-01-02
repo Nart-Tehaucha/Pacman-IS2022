@@ -176,6 +176,7 @@ public class QuestionsController {
 			return;
 	    }
 	    
+	    // go to the statistics
 	    @FXML
 	    void goToStats(ActionEvent event) {
 	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuestionsStatistics.fxml"));
