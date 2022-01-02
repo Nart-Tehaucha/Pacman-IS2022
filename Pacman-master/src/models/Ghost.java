@@ -27,6 +27,7 @@ public abstract class Ghost {
 
     private int ghostSpeed; // Speed of the ghost
     protected boolean isDead = false; // Is the ghost dead?
+    protected boolean isInBase; // Is the ghost inside the base?
     
     // Images of the ghost
     Image ghostImg;
@@ -35,7 +36,8 @@ public abstract class Ghost {
     
     public Point pixelPosition; // The actual position of the ghost
     public Point logicalPosition; // The graphical position of the ghost (28 * pixelPosition)
-    public int ghostType; // Type (Red, Pink, Cyan)
+
+	public int ghostType; // Type (Red, Pink, Cyan)
 
     // Sprite of the ghost for every direction (up, down, left, right)
     Image[] ghostR;
@@ -242,6 +244,14 @@ public abstract class Ghost {
 
 	public void setGhostNormalDelay(int ghostNormalDelay) {
 		this.ghostNormalDelay = ghostNormalDelay;
+	}
+	
+    public boolean isInBase() {
+		return isInBase;
+	}
+
+	public void setInBase(boolean isInBase) {
+		this.isInBase = isInBase;
 	}
 
     
