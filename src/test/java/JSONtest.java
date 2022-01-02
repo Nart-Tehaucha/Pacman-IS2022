@@ -49,7 +49,7 @@ public class JSONtest {
 	// test whether the score is initialized to 0 
 	@Test 
 	public void testScoreInit() { 
-		PacWindow pw = new PacWindow("Test"); 
+		PacWindow pw = new PacWindow(1, 0, 3, "Test"); 
 		PacBoard pb = pw.getPacBoard();
 		int score = pb.getScore(); 
 		assertEquals(score, 0); 
@@ -57,14 +57,14 @@ public class JSONtest {
 	
 	@Test
 	public void testNumOfGhost() {
-		PacWindow pw = new PacWindow("Test"); 
+		PacWindow pw = new PacWindow(1, 0, 3, "Test"); 
 		PacBoard pb = pw.getPacBoard();
 		assertEquals(pb.getGhosts().size(), 3); 
 	}
 	
 	@Test
 	public void isScoreIncreased() {
-		PacWindow pw = new PacWindow("Test"); 
+		PacWindow pw = new PacWindow(1, 0, 3, "Test"); 
 		PacBoard pb = pw.getPacBoard();
 		int scoreBefore = pb.getScore();
 		pb.addScore(1);
