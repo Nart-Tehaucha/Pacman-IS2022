@@ -10,7 +10,7 @@ public class Delete2 {
 		public void run() {
 			second_passed++;
 			if(second_passed == 10) {
-				stop();
+				//stop();
 			}
 			System.out.println("second passed:" + second_passed);
 		}

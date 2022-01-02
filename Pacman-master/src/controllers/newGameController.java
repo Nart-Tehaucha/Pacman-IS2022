@@ -111,7 +111,7 @@ public class newGameController {
 		  if(pacModeSelected && gameModeSelected) {
 			stage = (Stage) MainPanel.getScene().getWindow();
 			username =SysData.getThisUser();
-			new PacWindow(username);
+			new PacWindow(1, 0, 3, username);
 			stage.close();
 		  }
 		  else {
