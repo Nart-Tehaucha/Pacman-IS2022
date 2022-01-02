@@ -107,10 +107,14 @@ public class PlayersController implements Serializable{
 
     @FXML
     void goToPageBefore(MouseEvent event) {
+    	if(SysData.getThisUser().equals("admin")) {
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminMenu.fxml"));
+			LoadScreen(loader);
+			return;
+    	}
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginScreen.fxml"));
 		LoadScreen(loader);
 		return;
- 
     }
 
     @FXML

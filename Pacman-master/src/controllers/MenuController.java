@@ -41,6 +41,7 @@ public class MenuController {
 	@FXML
     private Button StartPlayBtn;
     
+	private Stage stage;
 
 	private String username;
 

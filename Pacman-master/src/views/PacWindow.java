@@ -65,8 +65,6 @@ public class PacWindow extends JFrame {
         JLabel lbLevel = new JLabel();
         lbLevel.setForeground(new Color(255, 243, 36));
         
-        JLabel lbLives = new JLabel("    Lives : " + pacLives);
-        lbLives.setForeground(new Color(255, 243, 36));
         MapData map;
         switch(level) {
         case 1: 
@@ -167,13 +165,12 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(topBar,BorderLayout.NORTH);
         bottomBar.add(lbScore);
         bottomBar.add(lbLevel);
-        bottomBar.add(lbLives);
         bottomBar.add(btnPause);
 
     	try {
 	        for(int i=0; i<pacLives;i++) {
 	        	JLabel liveIcon = new JLabel();
-					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/pac/pac3.png"))));
+					liveIcon.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("/resources/images/lev.png"))));
 	        	bottomBar.add(liveIcon);
 	        	
 	        }
@@ -235,9 +232,6 @@ public class PacWindow extends JFrame {
         
         JLabel level = new JLabel("    Level : 1");
         level.setForeground(new Color(255, 243, 36));
-        
-        JLabel lbLives = new JLabel("    Lives : 3");
-        lbLives.setForeground(new Color(255, 243, 36));
 
         //int[][] mapLoaded = loadMap(27,29,"/maps/map1.txt");
         
@@ -311,7 +305,6 @@ public class PacWindow extends JFrame {
         this.getContentPane().add(bottomBar,BorderLayout.SOUTH);
         bottomBar.add(scoreboard);
         bottomBar.add(level);
-        bottomBar.add(lbLives);
         bottomBar.add(btnPause);
 
     	try {

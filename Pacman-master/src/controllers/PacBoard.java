@@ -250,6 +250,10 @@ public class PacBoard extends JPanel{
                 if(gameMode == 2 && ms > 0) {
                 	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/food/mask.png"));
                 }
+                else if(gameMode == 1) {
+                	if(ms > 0) pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/medkit.png"));
+                	else pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/ak47.png"));
+                }
                 else if(gameMode == 3) {
                 	pfoodImage[ms] = ImageIO.read(this.getClass().getResource("/resources/images/xmas_food/"+ms+".png"));
                 }
