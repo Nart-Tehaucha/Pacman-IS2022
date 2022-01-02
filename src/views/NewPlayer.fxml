@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" style="-fx-background-size: cover;" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlayersController">
+   <children>
+      <Label layoutX="166.0" layoutY="111.0" prefHeight="20.0" prefWidth="172.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose your Nickname:">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="166.0" layoutY="161.0" prefHeight="20.0" prefWidth="184.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Choose your Password:">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="162.0" layoutY="213.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Re-enter your password:">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <TextField fx:id="nickname" layoutX="368.0" layoutY="109.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <Button fx:id="saveButton" layoutX="508.0" layoutY="444.0" mnemonicParsing="false" onAction="#saveData" prefHeight="29.0" prefWidth="97.0" stylesheets="@styleSheet.css" text="SAVE">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+         <styleClass>
+            <String fx:value="saveButton" />
+            <String fx:value="lavenderHover" />
+            <String fx:value="labelFont" />
+         </styleClass>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label layoutX="183.0" layoutY="32.0" prefHeight="36.0" prefWidth="333.0" style="-fx-font-size: 25px;" styleClass="title" stylesheets="@styleSheet.css" text="New Player In The House!" textFill="#191818">
+         <font>
+            <Font name="System Italic" size="38.0" />
+         </font>
+         <effect>
+            <Glow level="0.6">
+               <input>
+                  <Blend />
+               </input>
+            </Glow>
+         </effect>
+      </Label>
+      <PasswordField fx:id="password" layoutX="368.0" layoutY="158.0" onKeyTyped="#passwordStrength" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <PasswordField fx:id="password2" layoutX="368.0" layoutY="208.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <ImageView fx:id="goBack" fitHeight="36.0" fitWidth="31.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/back.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <ColorAdjust brightness="1.0" />
+         </effect>
+      </ImageView>
+      <Text fx:id="passwordMeter" layoutX="430.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+   </children>
+</AnchorPane>

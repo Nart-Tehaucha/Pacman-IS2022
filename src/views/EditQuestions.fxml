@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditQuestionsController">
+   <children>
+      <TextField fx:id="content" layoutX="336.0" layoutY="115.0" prefHeight="25.0" prefWidth="170.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <Label layoutX="315.0" layoutY="72.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Re-write the question:" />
+      <Label layoutX="260.0" layoutY="118.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Content:" />
+      <TextField fx:id="ans1" layoutX="217.0" layoutY="332.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <Label layoutX="125.0" layoutY="335.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Answer 1:" />
+      <TextField fx:id="ans2" layoutX="464.0" layoutY="332.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <TextField fx:id="ans3" layoutX="219.0" layoutY="379.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <TextField fx:id="ans4" layoutX="464.0" layoutY="379.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <Label layoutX="389.0" layoutY="335.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Answer 2:" />
+      <Label layoutX="125.0" layoutY="382.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Answer 3:" />
+      <Label layoutX="389.0" layoutY="382.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Answer 4:" />
+      <Label layoutX="314.0" layoutY="22.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="Questions Editor" textFill="WHITE" />
+      <Label layoutX="269.0" layoutY="444.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="The correct one is:" />
+      <ChoiceBox fx:id="correct" layoutX="395.0" layoutY="439.0" prefHeight="25.0" prefWidth="51.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <Button fx:id="submit" layoutX="569.0" layoutY="494.0" mnemonicParsing="false" onAction="#submitChange" stylesheets="@styleSheet.css" text="Submit">
+         <styleClass>
+            <String fx:value="saveButton" />
+            <String fx:value="labelFont" />
+         </styleClass>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label layoutX="260.0" layoutY="159.0" styleClass="labelFont" stylesheets="@styleSheet.css" text="Difficulty:" />
+      <ChoiceBox fx:id="difficulty" layoutX="363.0" layoutY="154.0" prefHeight="29.0" prefWidth="77.0" styleClass="chocie-box" stylesheets="@styleSheet.css" />
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/1200px-Go-home.svg.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+   </children>
+</AnchorPane>

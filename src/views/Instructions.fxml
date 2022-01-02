@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane fx:id="MainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" style="-fx-background-image: null; -fx-background-color: black;" stylesheets="@styleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InstructionsController">
+   <children>
+      <ImageView fitHeight="149.0" fitWidth="293.0" layoutX="235.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/getReady.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="90.0" layoutY="175.0" text="Try to eat as many pac-dots as you can, each one gives you 1 point to your score." textFill="WHITE" />
+      <Label layoutX="90.0" layoutY="218.0" text="You can move your pacman using- " textFill="WHITE" />
+      <ImageView fitHeight="39.0" fitWidth="62.0" layoutX="350.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/keyboard.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="90.0" layoutY="262.0" text="Avoid meeting with the ghosts, you will lose 1 life." textFill="WHITE" />
+      <Label layoutX="90.0" layoutY="297.0" prefHeight="20.0" prefWidth="540.0" text="There are 4 bombs located in the edges of the screen," textFill="WHITE" />
+      <Circle fill="#e8ff1f" layoutX="76.0" layoutY="185.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#e8ff1f" layoutX="76.0" layoutY="228.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#e8ff1f" layoutX="76.0" layoutY="272.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#e8ff1f" layoutX="76.0" layoutY="307.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="188.0" layoutY="313.0" />
+      <Label layoutX="139.0" layoutY="323.0" text="you can carry them and blow up the ghosts using 'ENTER', " textFill="WHITE" />
+      <Label layoutX="290.0" layoutY="350.0" text="just ensure that the ghost is 3 steps away." textFill="WHITE" />
+      <Circle fill="#e8ff1f" layoutX="75.0" layoutY="386.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="90.0" layoutY="376.0" text="Eating a fruit will make you gain 20 points!" textFill="WHITE" />
+      <Circle fill="#e8ff1f" layoutX="75.0" layoutY="425.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="90.0" layoutY="415.0" text="Every 50 points you score, you reach a new level. There are 4 levels in total. " textFill="WHITE" />
+      <Circle fill="#e8ff1f" layoutX="76.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="90.0" layoutY="136.0" text="You start the game with 3 lives and score = 0, your goal is to reach score = 200." textFill="WHITE" />
+      <Label layoutX="580.0" layoutY="515.0" prefHeight="26.0" prefWidth="139.0" styleClass="labelHeader" stylesheets="@styleSheet.css" text="Good Puck!" textFill="WHITE" />
+      <Circle fill="#e8ff1f" layoutX="75.0" layoutY="459.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="90.0" layoutY="449.0" textFill="WHITE" />
+      <Label layoutX="92.0" layoutY="449.0" text="There are 3 questions scattered, once you eat one you must answer it." textFill="WHITE" />
+      <Label layoutX="96.0" layoutY="49.0" textFill="WHITE" />
+      <Label layoutX="96.0" layoutY="478.0" text="Answering correctly: easy-&gt; +1, medium-&gt; +2, hard-&gt; +3 " textFill="WHITE" />
+      <Label layoutX="94.0" layoutY="501.0" text="Answering wrongly: easy-&gt; -10, medium-&gt; -20, hard-&gt; -30" textFill="WHITE" />
+      <ImageView fx:id="goBack" fitHeight="38.0" fitWidth="50.0" layoutX="15.0" layoutY="12.0" onMouseClicked="#goToPageBefore" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/1200px-Go-home.svg.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <MediaView fx:id="mv" fitHeight="200.0" fitWidth="200.0" layoutX="113.0" layoutY="162.0" />
+      <Button fx:id="showButton" layoutX="610.0" layoutY="18.0" mnemonicParsing="false" onAction="#videoPlayer" style="-fx-background-color: transparent;" styleClass="labelFont" stylesheets="@styleSheet.css" text="Demo" textFill="WHITE" underline="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <tooltip>
+            <Tooltip text="Double click for the video to open" />
+         </tooltip>
+      </Button>
+   </children>
+</AnchorPane>

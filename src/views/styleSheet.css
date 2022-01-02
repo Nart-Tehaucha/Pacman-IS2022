@@ -1,0 +1,206 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+*{  saveButtonColor: #699674;
+	removeButtonColor: #e63900;
+	creamColor: #fff3e6;
+	lightgreyColor: #e4e4e7;
+	greyColor: #afafb6;
+	lightGreen: #e6ffe6;
+	lightBlue: #ccebff;
+	tableBack:  #d6f5d6;
+	tableTextColor:  #1e7b1e;
+	lavender:  #d9b3ff;
+	redRemove:  #ff3333;
+	titleRes:  #990000;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #8b4513;
+    -fx-fill: #8b4513;
+}
+
+.chart-pie-label { /*this is what you need for labels*/
+    -fx-fill: white;
+    -fx-font-size: 1em;
+} 
+.chart-legend {
+   -fx-background-color:  white;
+   -fx-stroke: #daa520;
+}
+
+#anchorP{
+	-fx-background-image: url('./images/bg.jpg'); 
+	-fx-background-size: cover;
+}	
+
+#MainPanel{
+	-fx-background-image: url('./images/bg.jpg');
+	-fx-background-size: cover;
+}
+
+.logOutButton:hover{
+	-fx-background-color: lavender;
+		-fx-opacity:0.7;
+}
+.lavenderHover:hover{
+	-fx-background-color:  #b3f0ff;
+	-fx-opacity:0.7;
+}
+.menuButton:hover{
+	-fx-background-color:lightGreen;
+	-fx-opacity:0.7;
+	-fx-background-radius: 0 30 30 0;
+	-fx-font-style: italic;
+}
+.menuColor{
+	-fx-background-color:#d7d7db;
+	-fx-opacity:0.7;
+	-fx-font-weight: bold;
+	-fx-background-radius: 0 30 30 0;
+	-fx-font-style: italic;
+}
+.menuColordark{
+	-fx-background-color:#94949e;
+	-fx-font-weight: bold;
+	-fx-background-radius: 0 30 30 0;
+	-fx-font-style: italic;
+}
+.saveButton{
+-fx-background-color: #FFD700,
+        linear-gradient(#DAA520, #FAFAD2);
+	-fx-background-radius: 10px;
+	-fx-padding: 10px;
+	-fx-graphic-text-gap: 10px;
+	-fx-font-family: 'American Typewriter';
+	-fx-font-size: 18px;
+	
+  }
+
+
+.label{
+	-fx-font-size: 14px;
+	-fx-font-style: italic;
+	-fx-font-weight: bold;
+}
+.labelFont{
+	-fx-font-size: 14px;
+	-fx-font-style: italic;
+	-fx-text-fill:  #ffffff;
+	-fx-font-weight: bold;
+}
+.labelHeader{
+	-fx-font-size: 20px;
+	-fx-font-style: italic;
+	-fx-font-weight: bold;
+}
+.labelWelcome{
+	-fx-font-size: 27px;
+	-fx-font-style: italic;
+	-fx-font-weight: bold;
+}
+.items{
+	-fx-background-color: saveButtonColor;
+	-fx-text-fill:lightGreen;
+	
+}
+.title{
+		-fx-font-size: 17px;
+		-fx-font-weight: bold;
+		-fx-font-style: italic;
+		-fx-text-fill:#FFD700;
+		
+}
+.chocie-box{
+	-fx-background-color: #d0d0e1;
+	-fx-background-radius: 30 30 30 30;
+	-fx-opacity:0.5;
+	
+	
+}
+.Removechocie-box{
+	-fx-background-color: Transparent;
+	-fx-background-radius: 30 30 30 30;
+}
+.Savechocie-box{
+	-fx-background-color: lightGreen;
+	-fx-background-radius: 30 30 30 30;
+	-fx-opacity:0.6;
+}
+.checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+/*.table-view{
+   -fx-background-color: tableBack;
+   -fx-background-radius: 30;
+   -fx-text-fil:tableTextColor;
+}*/
+/* not mine
+.table-view .column-header,
+.table-view .column-header .filler
+.table-view .column-header-background .filler {   
+    -fx-background-color: derive;
+    -fx-stroke: transparent;
+    -fx-size:50;
+    -fx-alignment: CENTER ;    
+    -fx-text-alignment: center;
+
+}*/
+/*.table-row-cell:filled:hover {
+
+    -fx-size:50;
+    -fx-alignment: CENTER;
+    -fx-text-alignment: center;
+
+
+}
+.table-view:row-selection {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-fixed-cell-size: 50;
+    -fx-alignment: CENTER;
+    -fx-text-alignment: center;
+
+}
+
+.table-view .table-column{
+    -fx-text-alignment: center;
+    -fx-alignment: CENTER 
+
+}*/
+/* Default row background is green */
+.table-row-cell {
+    -fx-background-color: #FDF5E6;
+	-fx-fill:  #000000 ;
+-fx-opacity:0.7;
+}
+
+/* Text in the rows will be white */
+.table-row-cell .text {
+       -fx-fill: #000000 ;
+	   /*#F5F5F5 ;*/
+	   -fx-font-weight:bold;
+}
+
+/*
+Pseudo class 'up' will change the row background
+ color to green when activated 
+ */
+.table-row-cell:up 
+{
+    -fx-background-color: #000000; 
+}
+
+/*
+Pseudo class 'down' will change the row background 
+color to red when activated
+*/
+.table-row-cell:down {
+    -fx-background-color: #000000;
+}
+
+	
