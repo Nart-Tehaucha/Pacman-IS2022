@@ -4,12 +4,13 @@ package controllers;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 // This class loops sounds or stops sounds from looping.
 public class LoopPlayer {
 
-    Clip clip;
-    AudioInputStream inputStream;
+    private Clip clip;
+	private AudioInputStream inputStream;
 
     // Loads the sound that will be played
     public LoopPlayer(String soundname){
@@ -26,6 +27,20 @@ public class LoopPlayer {
     // Loops the sound
     public void start(){
         try {
+        	double gain;
+        	
+        	// Get the gain control from clip
+        	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        	// set the gain (between 0.0 and 1.0
+        	if(SysData.getGameMode() == 0) {
+        		gain = 0.05;  
+        	}
+        	else {
+        		gain = 0.1; 
+        	}
+        	float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+        	gainControl.setValue(dB);
+        	
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -39,4 +54,13 @@ public class LoopPlayer {
             System.err.println(e.getMessage());
         }
     }
+    
+
+    public Clip getClip() {
+		return clip;
+	}
+
+	public void setClip(Clip clip) {
+		this.clip = clip;
+	}
 }

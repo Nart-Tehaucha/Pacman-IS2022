@@ -3,6 +3,7 @@ package controllers;
 
 import views.*;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 
 
@@ -84,6 +85,7 @@ public class PacBoard extends JPanel{
 
     private boolean flag_did_open_victoy_window= false;
     private boolean flag_did_open_lost_window= false;
+    private LoopPlayer mainMusic;
 
 	private ArrayList<Ghost> ghostsToRemove; // Used to signal to the program which ghosts to remove (die)
 	
@@ -291,7 +293,7 @@ public class PacBoard extends JPanel{
     		pacman.setGameSpeed(7);
     		for (Ghost g1 : ghosts) {	
     			g1.setGhostSpeed(4);
-    		}
+    			    		}
     		if(gameMode == 1) NumOfExtraEnemies = 3;
     		scoreToNextLevel = 200;
     		break;
@@ -803,6 +805,11 @@ public class PacBoard extends JPanel{
     
     // Pauses the game
     public void pause() {
+    	
+    	// Stop background music
+    	stopMainGameMusic();
+    	
+    	// Stop all movement and animation timers for Pacman and the ghosts.
     	pacman.getMoveTimer().stop();
         pacman.getAnimTimer().stop();
         for(Ghost g : ghosts){
@@ -835,6 +842,9 @@ public class PacBoard extends JPanel{
     
     // Resumes the game
     public void resume() {
+    	// Resume background music 
+    	startMainGameMusic();
+    	
     	pacman.getMoveTimer().start();
         pacman.getAnimTimer().start();
         for(Ghost g : ghosts){
@@ -909,6 +919,41 @@ public class PacBoard extends JPanel{
 		return pointOfCell;
 	}
 	
+
+	
+	//=================================== SOUNDS FUNCTIONS ===================================
+		private void initMainGameMusic() {
+			switch(gameMode) {
+			case 0:          //- Normal Mode
+				mainMusic = new LoopPlayer("mainNoraml.wav");
+				
+	        	// Get the gain control from clip
+	        	FloatControl gainControl = (FloatControl) mainMusic.getClip().getControl(FloatControl.Type.MASTER_GAIN);
+	        	// set the gain (between 0.0 and 1.0
+	        	double gain = 0.2;    
+	        	float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+	        	gainControl.setValue(dB);
+				break;
+				case 1:         //- Zombie Mode
+					mainMusic = new LoopPlayer("mainZombie.wav");
+					break;
+				case 2:        //- Corona Mode
+					mainMusic = new LoopPlayer("mainCorona.wav");
+					break;
+				case 3:       //- Christmas Mode
+					mainMusic = new LoopPlayer("mainChristmas.wav");
+					break;
+			}
+		}
+		
+		private void startMainGameMusic() {
+			mainMusic.start();
+		}
+
+		private void stopMainGameMusic() {
+			mainMusic.stop();
+		}
+		
 	//=================================== GETTER SETTERS ===================================
 	public int[][] getMap() {
 		return map;
