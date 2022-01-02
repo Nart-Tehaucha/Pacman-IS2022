@@ -1021,7 +1021,7 @@ public class PacBoard extends JPanel{
 		private void initMainGameMusic() {
 			switch(gameMode) {
 			case 0:          //- Normal Mode
-				mainMusic = new LoopPlayer("/resources/sounds/mainNoraml.wav");
+				mainMusic = new LoopPlayer("mainNoraml.wav");
 				
 	        	// Get the gain control from clip
 	        	FloatControl gainControl = (FloatControl) mainMusic.getClip().getControl(FloatControl.Type.MASTER_GAIN);
@@ -1031,13 +1031,13 @@ public class PacBoard extends JPanel{
 	        	gainControl.setValue(dB);
 				break;
 				case 1:         //- Zombie Mode
-					mainMusic = new LoopPlayer("/resources/sounds/mainZombie.wav");
+					mainMusic = new LoopPlayer("mainZombie.wav");
 					break;
 				case 2:        //- Corona Mode
-					mainMusic = new LoopPlayer("/resources/sounds/mainCorona.wav");
+					mainMusic = new LoopPlayer("mainCorona.wav");
 					break;
 				case 3:       //- Christmas Mode
-					mainMusic = new LoopPlayer("/resources/sounds/mainChristmas.wav");
+					mainMusic = new LoopPlayer("mainChristmas.wav");
 					break;
 			}
 		}

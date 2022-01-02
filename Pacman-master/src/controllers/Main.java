@@ -1,5 +1,6 @@
 package controllers;
 
+import views.PacWindow;
 
 public class Main {
 	 
@@ -7,7 +8,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
     	JFXLauncher.main(args);
-
+//    	SysData.setGameMode(0);
+//    	SysData.setPacMode(0);
+//    	new PacWindow(1,0,3,"test");
 
     }
 }

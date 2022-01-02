@@ -1,6 +1,10 @@
 package controllers;
 
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.InputStream;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -9,15 +13,18 @@ import javax.sound.sampled.FloatControl;
 // This class loops sounds or stops sounds from looping.
 public class LoopPlayer {
 
-    private Clip clip;
-	private AudioInputStream inputStream;
+	Clip clip; // audio clip
+    AudioInputStream inputStream; // stream of the audio clip
 
-    // Loads the sound that will be played
     public LoopPlayer(String soundname){
-        try {
+        try { // fetch the audio clip used in the game
+        	//read audio data from whatever source
+        	InputStream audioSrc = getClass().getResourceAsStream("/resources/sounds/" + soundname);
+        	//add buffer for mark/reset support
+        	InputStream bufferedIn = new BufferedInputStream(audioSrc);
+        	
             clip = AudioSystem.getClip();
-            inputStream = AudioSystem.getAudioInputStream(
-                    Main.class.getResourceAsStream("/resources/sounds/" + soundname));
+            inputStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip.open(inputStream);
         } catch (Exception e) {
             System.err.println(e.getMessage());
