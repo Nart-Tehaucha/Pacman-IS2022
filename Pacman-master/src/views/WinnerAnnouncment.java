@@ -63,7 +63,7 @@ public class WinnerAnnouncment  extends JFrame {
 			        b1.addActionListener(new ActionListener() { 
 			        	  public void actionPerformed(ActionEvent e) { 
 			        	    frame.dispose();
-			        	    new PacWindow(userName);
+			        	    new PacWindow(1, 0, 3, userName);
 			        	  } 
 			        	} );
 			        

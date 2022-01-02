@@ -3,6 +3,7 @@ package controllers;
 
 import views.*;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 
 
@@ -882,6 +883,10 @@ public class PacBoard extends JPanel{
     
     // Pauses the game
     public void pause() {
+    	
+    	// Stop background music
+    	stopMainGameMusic();
+    	
     	// Stop all movement and animation timers for Pacman and the ghosts.
     	pacman.getMoveTimer().stop();
         pacman.getAnimTimer().stop();
@@ -928,6 +933,9 @@ public class PacBoard extends JPanel{
     
     // Resumes the game
     public void resume() {
+    	// Resume background music 
+    	startMainGameMusic();
+    	
     	pacman.getMoveTimer().start();
         pacman.getAnimTimer().start();
         for(Ghost g : ghosts){
@@ -995,26 +1003,30 @@ public class PacBoard extends JPanel{
 	
 	//=================================== SOUNDS FUNCTIONS ===================================
 		private void initMainGameMusic() {
-			System.out.println("this is game mode: " + gameMode);
 			switch(gameMode) {
 			case 0:          //- Normal Mode
 				mainMusic = new LoopPlayer("mainNoraml.wav");
+				
+	        	// Get the gain control from clip
+	        	FloatControl gainControl = (FloatControl) mainMusic.getClip().getControl(FloatControl.Type.MASTER_GAIN);
+	        	// set the gain (between 0.0 and 1.0
+	        	double gain = 0.2;    
+	        	float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+	        	gainControl.setValue(dB);
 				break;
-			case 1:         //- Zombie Mode
-				mainMusic = new LoopPlayer("mainZombie.wav");
-				break;
-			case 2:        //- Corona Mode
-				mainMusic = new LoopPlayer("mainCorona.wav");
-				break;
-			case 3:       //- Christmas Mode
-				mainMusic = new LoopPlayer("mainChristmas.wav");
-				break;
+				case 1:         //- Zombie Mode
+					mainMusic = new LoopPlayer("mainZombie.wav");
+					break;
+				case 2:        //- Corona Mode
+					mainMusic = new LoopPlayer("mainCorona.wav");
+					break;
+				case 3:       //- Christmas Mode
+					mainMusic = new LoopPlayer("mainChristmas.wav");
+					break;
 			}
-			System.out.println("this is main music:" + mainMusic.toString());
 		}
 		
 		private void startMainGameMusic() {
-			System.out.println(mainMusic.toString());
 			mainMusic.start();
 		}
 
