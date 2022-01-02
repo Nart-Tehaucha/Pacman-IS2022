@@ -35,7 +35,6 @@ public class QuestionWindow extends JFrame implements ActionListener {
 	
 	public QuestionWindow(PacWindow pw, Question q, PacBoard pb) {
 		this.pb = pb;
-		
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
 		this.setSize(500,300);
@@ -97,9 +96,9 @@ public class QuestionWindow extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
             	delayTimer.stop();
             	pb.resume();
-            	dispose();
+            	pb.disposeAllOpenQuestionWindows();
             }
-        }; 
+        };
         delayTimer = new Timer (1000, delayClose);
         delayTimer.setRepeats(false);
         
