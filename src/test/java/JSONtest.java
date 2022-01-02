@@ -49,11 +49,7 @@ public class JSONtest {
 	// test whether the score is initialized to 0 
 	@Test 
 	public void testScoreInit() { 
-<<<<<<< HEAD
 		PacWindow pw = new PacWindow(1,0,3,"Test"); 
-=======
-		PacWindow pw = new PacWindow(1, 0, 3, "Test"); 
->>>>>>> refs/remotes/origin/Maven-Branch
 		PacBoard pb = pw.getPacBoard();
 		int score = pb.getScore(); 
 		assertEquals(score, 0); 
