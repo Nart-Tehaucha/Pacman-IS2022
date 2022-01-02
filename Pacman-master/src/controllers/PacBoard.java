@@ -56,7 +56,10 @@ public class PacBoard extends JPanel{
     private boolean isCustom = false; // Is it a custom made map?
     private boolean isGameOver = false;
     private boolean isWin = false;
-    private boolean drawScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after eating Fruit)
+    private boolean isPacDead = false; // Is Pacman dead right now?
+
+
+	private boolean drawScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after eating Fruit)
     private boolean drawQuestionScore = false; // Used to signal to the program when to draw score (score that shows up below the pacman after answering questions)
     private boolean clearScore = false; // Resets the score that is to be given to the player
     private int scoreToAdd = 0; // Score to be given to the player
@@ -341,6 +344,7 @@ public class PacBoard extends JPanel{
 			        break;
             	}
             	else if(!g.isDead()) {
+            		isPacDead = true;
                 	if(pacLives > 1) {
                 		// Remove 1 life
                 		pause();
@@ -475,7 +479,16 @@ public class PacBoard extends JPanel{
         //Check Teleport
         for(TeleportTunnel tp : teleports) {
             if (pacman.getLogicalPosition().x == tp.getFrom().x && pacman.getLogicalPosition().y == tp.getFrom().y && pacman.getActiveMove() == tp.getReqMove()) {
-                pacman.setLogicalPosition(tp.getTo());
+            	// Fix for a teleport bug
+            	if(tp.getFrom().equals(tp.getTo())) {
+            		if(tp.getFrom().x == 1)
+            			tp.setTo(new Point(25,9));
+            		else if(tp.getFrom().x == 25) {
+            			tp.setTo(new Point(1,9));
+            		}
+            	}
+            	// Teleport player to other side
+            	pacman.setLogicalPosition(tp.getTo());
                 pacman.getPixelPosition().x = pacman.getLogicalPosition().x * 28;
                 pacman.getPixelPosition().y = pacman.getLogicalPosition().y * 28;
             }
@@ -697,11 +710,13 @@ public class PacBoard extends JPanel{
         	
         // Clear the little score below pacman after 1 second
         if(clearScore){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        	if(!isPacDead) {
+	            try {
+	                Thread.sleep(1000);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+        	}
             drawScore = false;
             drawQuestionScore = false;
             clearScore =false;
@@ -830,7 +845,7 @@ public class PacBoard extends JPanel{
         Question q = questionPoints.get(qi);
         
         // Load the question window
-    	new QuestionWindow(windowParent, q, this);
+    	SysData.allOpenQuestionWindows.add(new QuestionWindow(windowParent, q, this));
     }
     
     // Restarts the game.
@@ -839,6 +854,7 @@ public class PacBoard extends JPanel{
     	stop();
     	
         if(score > 200) score = 200;
+        disposeAllOpenQuestionWindows();
         windowParent.dispose();
         new PacWindow(level+1, score, pacLives,username);
         
@@ -910,13 +926,23 @@ public class PacBoard extends JPanel{
     	mflag = true;
     	
     	stop();
-    	
+    	disposeAllOpenQuestionWindows();
     	windowParent.dispose();
     	if(score > 200) score = 200;
     	new PacWindow(level, score, pacLives, userName);
     	
     }
 
+    public void disposeAllOpenQuestionWindows() {
+    	ArrayList<QuestionWindow> aux = (ArrayList<QuestionWindow>) SysData.allOpenQuestionWindows.clone();
+        for(QuestionWindow qw : aux) {
+        	if(qw != null) {
+        		SysData.allOpenQuestionWindows.remove(qw);
+        		qw.dispose();
+        	}
+        }
+        aux = null;
+    }
 
 	// Checks if answer is correct, if yes, returns true and adds to score.
 	public boolean checkAnswer(Question q, String ans) {
@@ -1164,6 +1190,15 @@ public class PacBoard extends JPanel{
 	public void setGhostToRemove(ArrayList<Ghost> ghostToRemove) {
 		this.ghostsToRemove = ghostsToRemove;
 	}
+	
+	public boolean isPacDead() {
+		return isPacDead;
+	}
+
+	public void setPacDead(boolean isPacDead) {
+		this.isPacDead = isPacDead;
+	}
+	
     
 
 }
