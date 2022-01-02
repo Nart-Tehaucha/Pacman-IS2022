@@ -2,6 +2,7 @@ package controllers;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 // This class handles all the sounds in the game, loading them and playing them.
 public class SoundPlayer {
@@ -29,6 +30,12 @@ public class SoundPlayer {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                     Main.class.getResourceAsStream("/resources/sounds/" + name));
             clip.open(inputStream);
+        	// Get the gain control from clip
+        	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        	// set the gain (between 0.0 and 1.0
+        	double gain = 0.1;    
+        	float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
+        	gainControl.setValue(dB);
             clip.start();
         } catch (Exception e) {
             System.err.println(e.getMessage());
