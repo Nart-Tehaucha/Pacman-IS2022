@@ -29,7 +29,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Button fx:id="myRecords" layoutX="251.0" layoutY="88.0" mnemonicParsing="false" onAction="#showMyRecords" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: Transparent;" stylesheets="@styleSheet.css" text="My Records" textFill="WHITE" underline="true">
+      <Button fx:id="myRecords" layoutX="251.0" layoutY="88.0" mnemonicParsing="false" onAction="#showMyRecords" prefHeight="29.0" prefWidth="115.0" style="-fx-background-color: Transparent;" stylesheets="@styleSheet.css" text="My Records" textFill="WHITE" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -38,7 +38,7 @@
             <String fx:value="lavenderHover" />
          </styleClass>
       </Button>
-      <Button fx:id="allTheRecords" layoutX="379.0" layoutY="88.0" mnemonicParsing="false" onAction="#showAllRecords" style="-fx-background-color: Transparent;" stylesheets="@styleSheet.css" text="All Records" textFill="#fffdfd" underline="true">
+      <Button fx:id="allTheRecords" layoutX="379.0" layoutY="88.0" mnemonicParsing="false" onAction="#showAllRecords" prefHeight="29.0" prefWidth="123.0" style="-fx-background-color: Transparent;" stylesheets="@styleSheet.css" text="All Records" textFill="#fffdfd" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

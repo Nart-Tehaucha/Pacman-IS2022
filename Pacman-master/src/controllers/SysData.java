@@ -1,6 +1,8 @@
 package controllers;
 
 import models.*;
+import views.QuestionWindow;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -28,7 +31,9 @@ public class SysData {
 	public static ArrayList<Question> allQuestions = readQuestionsJSON();
 	private static ArrayList<RecordWinner> oldTopTenWinnersAL = new ArrayList<RecordWinner>();
 	public static ArrayList<Timer> allTimers = new ArrayList<Timer>();
-
+	public static ArrayList<QuestionWindow> allOpenQuestionWindows = new ArrayList<QuestionWindow>();
+	private boolean hasGameStarted = true;
+	private Instant startTime;
 	private static String thisUser;
 	
 	private static int gameMode;
@@ -310,7 +315,7 @@ public class SysData {
 	    }
 	 
 	 @SuppressWarnings("unchecked")
-	public static void addToTopTen (String username, int score, double time) {
+	public static void addToTopTen (String username, int score, String time) {
 		 
 			boolean did_earn_trophy;
 			if (score > 200) {
@@ -391,5 +396,25 @@ public class SysData {
 
 		public static void setPacMode(int pacMode) {
 			SysData.pacMode = pacMode;
+		}
+
+
+		public boolean isHasGameStarted() {
+			return hasGameStarted;
+		}
+
+
+		public void setHasGameStarted(boolean hasGameStarted) {
+			this.hasGameStarted = hasGameStarted;
+		}
+
+
+		public Instant getStartTime() {
+			return startTime;
+		}
+
+
+		public void setStartTime(Instant startTime) {
+			this.startTime = startTime;
 		}
 }
