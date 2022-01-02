@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // The Cyan Ghost moves in a direction until it hits a wall, and chooses a new direction
 public class CyanGhost extends Ghost {
 
+	private BFSFinder bfs;
 	// Constructor
     public CyanGhost(int x, int y,PacBoard pb, int gameMode){
     	// (x,y) position, PacBoard, ghost speed, and GhostType
@@ -105,7 +106,13 @@ public class CyanGhost extends Ghost {
     public moveType getMoveAI(){
         if(isDead) {
             return baseReturner.getMove(logicalPosition.x,logicalPosition.y, parentBoard.getGhostBase().x,parentBoard.getGhostBase().y);
-        }else {
+        } 
+        else if(isInBase) {
+            if(bfs==null)
+                bfs = new BFSFinder(parentBoard);
+        	return bfs.getMove(logicalPosition.x,logicalPosition.y,parentBoard.getPacman().getLogicalPosition().x,parentBoard.getPacman().getLogicalPosition().y);
+        }
+        else {
             if (lastCMove == null || isStuck) {
                 ArrayList<moveType> pm = getPossibleMoves();
                 int i = ThreadLocalRandom.current().nextInt(pm.size());
