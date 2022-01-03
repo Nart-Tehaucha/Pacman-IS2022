@@ -44,7 +44,7 @@ public class SoundPlayer {
         	// Get the gain control from clip
         	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         	// set the gain (between 0.0 and 1.0
-        	double gain = 0.1;    
+        	double gain = 0.05;    
         	float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
         	gainControl.setValue(dB);
             clip.start();

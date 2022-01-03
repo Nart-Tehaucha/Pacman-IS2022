@@ -13,14 +13,13 @@ import javax.sound.sampled.FloatControl;
 // This class loops sounds or stops sounds from looping.
 public class LoopPlayer {
 
-	Clip clip; // audio clip
-    AudioInputStream inputStream; // stream of the audio clip
+	Clip clip;
+    AudioInputStream inputStream; 
 
     public LoopPlayer(String soundname){
-        try { // fetch the audio clip used in the game
-        	//read audio data from whatever source
+        try { 
+        	// Read the .wav file and load it.
         	InputStream audioSrc = getClass().getResourceAsStream("/resources/sounds/" + soundname);
-        	//add buffer for mark/reset support
         	InputStream bufferedIn = new BufferedInputStream(audioSrc);
         	
             clip = AudioSystem.getClip();
@@ -34,20 +33,21 @@ public class LoopPlayer {
     // Loops the sound
     public void start(){
         try {
+        	// Control the volume of music:
         	double gain;
-        	
         	// Get the gain control from clip
         	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         	// set the gain (between 0.0 and 1.0
         	if(SysData.getGameMode() == 0) {
-        		gain = 0.05;  
+        		gain = 0.1;  
         	}
         	else {
-        		gain = 0.1; 
+        		gain = 0.2; 
         	}
         	float dB = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
         	gainControl.setValue(dB);
         	
+        	// Play and loop the music
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             System.err.println(e.getMessage());
