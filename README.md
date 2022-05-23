@@ -1,6 +1,6 @@
-# Pacman-IS2022
+## Pacman-IS2022
 
-# Project Description:
+### Project Description:
 PacMan game created with Java - Software Development course @ University of Haifa.
 First place winner!
 
