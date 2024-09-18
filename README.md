@@ -17,3 +17,6 @@ Nart
 Kim
 Shahar
 Tal
+
+## Screenshots
+<img width="800" alt="pacman" src="https://github.com/user-attachments/assets/1f09db60-15a8-4c8a-a246-a76b1a56ac08">
